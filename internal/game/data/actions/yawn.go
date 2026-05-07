@@ -40,7 +40,7 @@ var SleepyModifier = game.Modifier{
 					}
 
 					transactions = append(transactions, modifiers.RemoveModifierSource(sleepyModifierID, parent)...)
-					transactions = append(transactions, modifiers.ApplySleep(game.ActionConfig{}, context, parent)...)
+					transactions = append(transactions, modifiers.ApplySleep(game.ActionConfig{}, g, parent)...)
 
 					return transactions
 				},

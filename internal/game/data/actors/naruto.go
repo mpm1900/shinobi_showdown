@@ -45,6 +45,7 @@ var Naruto = game.ActorDef{
 		actions.SummonGamabunta.ID,
 		actions.Rasenshuriken.ID,
 		actions.VacuumBlast.ID,
+		actions.Tailwind.ID,
 	}, GlobalActions...),
 }
 
@@ -107,7 +108,7 @@ var narutoTransform = game.Modifier{
 	ID:          narutoTransformID,
 	GroupID:     &narutoTransformID,
 	Icon:        "naruto_transform",
-	Name:        "Kurama Chakra Transformation",
+	Name:        "Kurama Transformation",
 	Description: "On switch in: Transform if it's the second time.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,

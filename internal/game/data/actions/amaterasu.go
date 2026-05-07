@@ -33,7 +33,7 @@ func MakeAmaterasu() game.Action {
 			transactions := []game.GameTransaction{}
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ApplyBurn(config, context, target)...)
+				transactions = append(transactions, modifiers.ApplyBurn(config, g, target)...)
 			}
 
 			return transactions
