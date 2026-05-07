@@ -38,6 +38,7 @@ import {
   GiGlowingHands,
   GiMultipleTargets,
   GiStonePile,
+  GiHood,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -259,6 +260,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   sandstorm: GiSandstorm,
   seal_up: TbTagPlus,
   seeded: PiPlantBold,
+  shinobi_cloak: GiHood,
   shinobi_vest: ({ className, ...props }) => (
     <GiKevlarVest className={cn('text-blue-400', className)} {...props} />
   ),
