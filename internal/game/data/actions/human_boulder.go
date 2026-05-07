@@ -1,0 +1,31 @@
+package actions
+
+import (
+	"shinobi_showdown/internal/game"
+
+	"github.com/google/uuid"
+)
+
+var HumanBoulder = MakeHumanBoulder()
+
+func MakeHumanBoulder() game.Action {
+	ID := uuid.MustParse("05b5376a-5c76-4f72-bc2c-c148ad068e40")
+	config := game.ActionConfig{
+		Name:        "Human Boulder",
+		Description: "Damage is based of the user's Defense rather than Attack.",
+		Accuracy:    game.Ptr(100),
+		Power:       game.Ptr(70),
+		Stat:        game.Ptr(game.StatDefense),
+		Nature:      game.Ptr(game.NsEarth),
+		TargetCount: game.Ptr(1),
+		Cost:        game.Ptr(0),
+		Jutsu:       game.Taijutsu,
+		CritChance:  game.Ptr(getCriticalStage(0)),
+		CritMod:     1.5,
+	}
+
+	return makeAttack(AttackConfig{
+		ID:     ID,
+		Config: config,
+	})
+}

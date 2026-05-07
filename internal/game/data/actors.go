@@ -1,0 +1,63 @@
+package data
+
+import (
+	"shinobi_showdown/internal/game"
+	"shinobi_showdown/internal/game/data/actors"
+
+	"github.com/google/uuid"
+)
+
+var ACTORS map[uuid.UUID]game.ActorDef = map[uuid.UUID]game.ActorDef{
+	actors.Madara.ActorID:     actors.Madara,
+	actors.Itachi.ActorID:     actors.Itachi,
+	actors.Sasuke.ActorID:     actors.Sasuke,
+	actors.SasukeEMS.ActorID:  actors.SasukeEMS,
+	actors.Shisui.ActorID:     actors.Shisui,
+	actors.Kisame.ActorID:     actors.Kisame,
+	actors.Kakuzu.ActorID:     actors.Kakuzu,
+	actors.Hidan.ActorID:      actors.Hidan,
+	actors.Deidara.ActorID:    actors.Deidara,
+	actors.Hashirama.ActorID:  actors.Hashirama,
+	actors.Tobirama.ActorID:   actors.Tobirama,
+	actors.Naruto.ActorID:     actors.Naruto,
+	actors.NarutoSage.ActorID: actors.NarutoSage,
+	actors.Minato.ActorID:     actors.Minato,
+	actors.Nagato.ActorID:     actors.Nagato,
+	actors.PainAnimal.ActorID: actors.PainAnimal,
+	actors.PainAsura.ActorID:  actors.PainAsura,
+	actors.PainDeva.ActorID:   actors.PainDeva,
+	actors.PainHuman.ActorID:  actors.PainHuman,
+	actors.PainNaraka.ActorID: actors.PainNaraka,
+	actors.PainPreta.ActorID:  actors.PainPreta,
+	actors.Jiraiya.ActorID:    actors.Jiraiya,
+	actors.Tsunade.ActorID:    actors.Tsunade,
+	actors.Orochimaru.ActorID: actors.Orochimaru,
+	actors.Yamato.ActorID:     actors.Yamato,
+	actors.Raikage4.ActorID:   actors.Raikage4,
+	actors.Raikage3.ActorID:   actors.Raikage3,
+	actors.Guy.ActorID:        actors.Guy,
+	actors.RockLee.ActorID:    actors.RockLee,
+	actors.Sakura.ActorID:     actors.Sakura,
+	actors.Kakashi.ActorID:    actors.Kakashi,
+	actors.Asuma.ActorID:      actors.Asuma,
+	actors.Hiruzen.ActorID:    actors.Hiruzen,
+	actors.Shikamaru.ActorID:  actors.Shikamaru,
+	actors.Kabuto.ActorID:     actors.Kabuto,
+	actors.Choji.ActorID:      actors.Choji,
+	actors.Kimimaro.ActorID:   actors.Kimimaro,
+	actors.Onoki.ActorID:      actors.Onoki,
+	actors.Mu.ActorID:         actors.Mu,
+	actors.KillerBee.ActorID:  actors.KillerBee,
+	// actors.Kinkaku.ActorID:    actors.Kinkaku,
+	// actors.Ginkaku.ActorID:    actors.Ginkaku,
+	actors.Gaara.ActorID:  actors.Gaara,
+	actors.Haku.ActorID:   actors.Haku,
+	actors.Zabuza.ActorID: actors.Zabuza,
+	actors.Shino.ActorID:  actors.Shino,
+	actors.Obito.ActorID:  actors.Obito,
+	actors.Tobi.ActorID:   actors.Tobi,
+	actors.Sasori.ActorID: actors.Sasori,
+	actors.Konan.ActorID:  actors.Konan,
+	actors.Zetsu.ActorID:  actors.Zetsu,
+	actors.Fuguki.ActorID: actors.Fuguki,
+}

@@ -1,0 +1,54 @@
+
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="100"
+   height="100"
+   id="svg2211"
+   sodipodi:version="0.32"
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="Village Symbol Kumogakure.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <sodipodi:namedview
+     inkscape:window-height="930"
+     inkscape:window-width="1280"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="7.17"
+     inkscape:cx="64.053685"
+     inkscape:cy="46.08069"
+     inkscape:window-x="-4"
+     inkscape:window-y="0"
+     inkscape:current-layer="svg2211"
+     inkscape:object-paths="false"
+     inkscape:object-nodes="true"
+     inkscape:window-maximized="0" />
+  <defs
+     id="defs2214" />
+  <path
+     sodipodi:type="arc"
+     style="fill:none;stroke:#ffffff;stroke-width:4.43992424;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+     id="path2396"
+     sodipodi:cx="-173.0625"
+     sodipodi:cy="61.3125"
+     sodipodi:rx="12.1875"
+     sodipodi:ry="5.4375"
+     d="m -160.875,61.3125 a 12.1875,5.4375 0 1 1 -24.375,0 12.1875,5.4375 0 1 1 24.375,0 z"
+     transform="matrix(1.2916642,0,0,1.2814034,242.13684,-43.742382)" />
+  <path
+     id="path3188"
+     style="fill:none;stroke:#ffffff;stroke-width:5.71206713;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+     d="m 88.071546,28.172246 c -5.007967,0 -31.252267,0 -36.260234,0 -5.007967,0 -9.072423,3.987414 -9.072423,8.900478 0,4.913062 3.214023,8.900469 8.299126,8.921489 1.918182,0.02101 3.412376,1.968619 3.412376,4.368349 0,2.399732 -1.494194,4.347339 -3.335241,4.347339 -7.293,-0.09331 -14.585209,-0.238487 -21.87765,-0.366892 -5.007967,-1e-6 -9.072423,3.987413 -9.072423,8.900477 0,4.913062 4.064456,8.900477 9.072423,8.900477 l 36.815327,0 c 5.007967,0 9.072423,-3.987415 9.072423,-8.900477 0,-4.913064 -3.344847,-8.539115 -8.407806,-8.536315 -1.896037,0.0027 -3.390231,-1.94488 -3.390231,-4.344612 0,-2.39973 1.494194,-4.347337 3.33524,-4.347337 l 21.409093,-0.04202 c 5.007967,0 9.072422,-3.987416 9.072422,-8.900478 0,-4.913064 -4.064455,-8.900478 -9.072422,-8.900478 z"
+     sodipodi:nodetypes="ccscsccsccscscccc" />
+</svg>

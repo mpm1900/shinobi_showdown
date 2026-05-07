@@ -1,0 +1,159 @@
+package actions
+
+import (
+	"math/rand/v2"
+	"shinobi_showdown/internal/game"
+	"shinobi_showdown/internal/game/data/modifiers"
+
+	"github.com/google/uuid"
+)
+
+type AttackConfig struct {
+	ID              uuid.UUID
+	Config          game.ActionConfig
+	MapContext      func(game.Game, game.Context) game.Context
+	TargetPredicate func(game.Game, game.Actor, game.Context) bool
+	Priority        *int
+	BeforeAttack    func(game.Game, game.Context) []game.GameTransaction
+	OnSuccess       func(game.Game, game.Context, game.Context) []game.GameTransaction
+	AfterAttack     func(game.Game, game.Context) []game.GameTransaction
+}
+
+func makeAttack(config AttackConfig) game.Action {
+	action := game.Action{
+		ID:              config.ID,
+		Config:          config.Config,
+		TargetType:      game.TargetPositionID,
+		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
+		ContextValidate: game.PositionsLengthFilter(*config.Config.TargetCount),
+		Cost:            modifiers.UseStaminaCost(*config.Config.Cost),
+		MapContext:      config.MapContext,
+		ActionMutation: game.ActionMutation{
+			Priority: game.ActionPriorityDefault,
+			Filter: game.ComposeGF(
+				game.SourceIsAlive,
+				game.SourceIsActionOffCooldown,
+			),
+			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
+				transactions := []game.GameTransaction{}
+
+				if config.BeforeAttack != nil {
+					transactions = append(transactions, config.BeforeAttack(g, context)...)
+				}
+
+				action_config, _ := game.GetActiveActionConfig(g, config.Config)
+				crit_result := game.MakeCriticalCheck(action_config)
+				dmg_config := game.NewDamageConfig(crit_result.Ratio, game.RandomDamageFactor())
+				if config.OnSuccess != nil {
+					dmg_config.OnSuccess = config.OnSuccess
+				}
+				damages := game.NewDamage(action_config, dmg_config)
+				transactions = append(
+					transactions,
+					game.MakeDamageTransactions(context, damages)...,
+				)
+
+				if config.AfterAttack != nil {
+					transactions = append(transactions, config.AfterAttack(g, context)...)
+				}
+
+				return transactions
+			},
+		},
+	}
+
+	if config.TargetPredicate != nil {
+		action.TargetPredicate = config.TargetPredicate
+	}
+
+	if config.Priority != nil {
+		action.Priority = *config.Priority
+	}
+
+	return action
+}
+
+func applySummon(context game.Context, def game.ActorDef, actions []game.Action) []game.GameTransaction {
+	transactions := []game.GameTransaction{}
+
+	mut := game.GameMutation{
+		Delta: func(mp, mg game.Game, mc game.Context) game.Game {
+			mg.UpdateActor(*mc.SourceActorID, func(a game.Actor) game.Actor {
+				summon := game.MakeActor(
+					def,
+					a.PlayerID,
+					a.Experience,
+					nil,
+					nil,
+					append(actions, game.CancelSummon),
+					game.FocusNone,
+					map[game.ActorStat]int{},
+				)
+				a.SetSummonFromActor(&summon, false)
+				return a
+			})
+			mg.UpdatePlayer(*mc.SourcePlayerID, func(p game.Player) game.Player {
+				p.UsedSummon = true
+				return p
+			})
+			return mg
+		},
+	}
+
+	transactions = append(
+		transactions,
+		game.MakeTransaction(mut, context),
+	)
+
+	return transactions
+}
+
+func checkPlayerHasModifier(g game.Game, context game.Context, modifierID uuid.UUID) bool {
+	for _, tx := range g.GetModifiers() {
+		if tx.Context.SourcePlayerID == nil {
+			continue
+		}
+
+		if *tx.Context.SourcePlayerID == *context.SourcePlayerID && tx.Mutation.ID == modifierID {
+			return true
+		}
+
+	}
+
+	return false
+}
+
+var criticalStages = map[int]float64{
+	0: 4.167,
+	1: 12.5,
+	2: 50.0,
+	3: 100.0,
+}
+
+func getCriticalStage(stage int) int {
+	stage = max(0, stage)
+	stage = min(stage, len(criticalStages)-1)
+	return game.Round(criticalStages[stage])
+}
+
+func MakeRepeats(config game.DamageConfig, min int, max int, g game.Game, context game.Context) game.DamageConfig {
+	source, ok := g.GetSource(context)
+	if !ok {
+		return config
+	}
+
+	resolved := source.Resolve(g)
+	min_offset := resolved.RepeatsMinOffset
+	max_offset := resolved.RepeatsMaxOffset
+	offset := min + min_offset
+	rand_max := max + max_offset - offset
+	if rand_max <= 0 {
+		config.Repeat = (offset) > 1
+		config.RepeatMax = (offset)
+		return config
+	}
+
+	config.Repeat = true
+	config.RepeatMax = rand.IntN(rand_max) + (offset)
+	return config
+}
