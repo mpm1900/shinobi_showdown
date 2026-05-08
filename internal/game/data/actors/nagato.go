@@ -35,6 +35,9 @@ var Nagato = game.ActorDef{
 	}),
 	Abilities: []game.Modifier{
 		modifiers.BurdenOfPain,
+		modifiers.VoiceOfPain,
+		modifiers.ChainsOfPain,
+		modifiers.JudgementOfPain,
 		modifiers.SpeedBoost,
 		modifiers.Raincaller,
 	},
@@ -45,4 +48,10 @@ var Nagato = game.ActorDef{
 		actions.MindTransfer.ID,
 		actions.CollidingWave.ID,
 	}, GlobalActions...),
+	Immunities: map[uuid.UUID]struct{}{
+		modifiers.BurdenOfPain.ID:    {},
+		modifiers.ChainsOfPain.ID:    {},
+		modifiers.JudgementOfPain.ID: {},
+		modifiers.VoiceOfPain.ID:     {},
+	},
 }

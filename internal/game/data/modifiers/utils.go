@@ -131,6 +131,42 @@ func ApplyStatus(config game.ActionConfig, g game.Game, actor game.Actor, modifi
 func ApplyStatusBypass(config game.ActionConfig, g game.Game, actor game.Actor, modifier game.Modifier, mutation game.GameMutation) []game.GameTransaction {
 	return applyStatus(false, config, g, actor, modifier, mutation)
 }
+func ClearStatus(g game.Game, actor game.Actor) []game.GameTransaction {
+	transactions := []game.GameTransaction{}
+
+	rmod_mut := mutations.RemoveModifierWhere(func(t game.Transaction[game.Modifier]) bool {
+		targets := g.GetTargets(t.Context)
+		remove := false
+		for _, t := range targets {
+			if t.ID == actor.ID {
+				remove = true
+				break
+			}
+		}
+
+		return remove && t.Mutation.Status
+	})
+	rmod_tx := game.MakeTransaction(rmod_mut, game.MakeContextForActor(actor))
+	transactions = append(transactions, rmod_tx)
+
+	rmut_mut := game.GameMutation{
+		Delta: func(p, g game.Game, context game.Context) game.Game {
+			g.UpdateActor(*context.SourceActorID, func(a game.Actor) game.Actor {
+				a.Statused = false
+				a.Burned = false
+				a.Sleeping = false
+				a.Poisoned = false
+				a.Paralyzed = false
+				return a
+			})
+			return g
+		},
+	}
+	rmut_tx := game.MakeTransaction(rmut_mut, game.MakeContextForActor(actor))
+	transactions = append(transactions, rmut_tx)
+
+	return transactions
+}
 
 func ApplyBurn(config game.ActionConfig, g game.Game, actor game.Actor) []game.GameTransaction {
 	_, ok := actor.Natures[game.NsFire]

@@ -41,5 +41,6 @@ var Tsunade = game.ActorDef{
 		actions.HeavyPunch.ID,
 		actions.SageMode.ID,
 		actions.TeamHeal.ID,
+		actions.OneHundredHealingsStatus.ID,
 	}, GlobalActions...),
 }

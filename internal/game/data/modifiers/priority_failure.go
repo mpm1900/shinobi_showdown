@@ -12,7 +12,7 @@ var PriorityFailure = game.Modifier{
 	GroupID:     &priorityFailureID,
 	Icon:        "priority_failure",
 	Name:        "Priority Failure",
-	Description: "Priority actions are disabled.",
+	Description: "Priority attacks are disabled.",
 	Show:        true,
 	Duration:    0,
 	ActorMutations: []game.ActorMutation{
@@ -23,7 +23,7 @@ var PriorityFailure = game.Modifier{
 			func(g game.Game, a game.Actor, c game.Context) game.Actor {
 				for i, action := range a.Actions {
 					if !action.Meta.Switch {
-						if action.Priority > game.ActionPriorityDefault {
+						if action.Priority > game.ActionPriorityDefault && action.Config.Power != nil {
 							a.Actions[i].Disabled = true
 						}
 					}
