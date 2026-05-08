@@ -182,7 +182,7 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 
 func GetAccuracy(game Game, source ResolvedActor, target ResolvedActor, ignoreModifiers bool) float64 {
 	ratio := float64(source.Stats[StatAccuracy]) / float64(target.Stats[StatEvasion])
-	fmt.Printf("ACC = %d / %d = %f \n", source.Stats[StatAccuracy], target.Stats[StatEvasion], ratio)
+	fmt.Printf("acc ratio = %d / %d = %f \n", source.Stats[StatAccuracy], target.Stats[StatEvasion], ratio)
 	return ratio
 }
 
@@ -229,8 +229,9 @@ func MakeAccuracyCheck(g *Game, action ActionConfig, source ResolvedActor, targe
 		}
 	}
 
-	accuracy := Round(base_accuracy * float64(*action.Accuracy))
+	accuracy := Round(base_accuracy * (float64(*action.Accuracy + source.ActionAccuracyOffset)))
 	roll := MakeActionRoll()
+	fmt.Printf("acc = %d, roll = %d\n", accuracy, roll)
 	return ChanceResult{
 		Chance:  accuracy,
 		Roll:    roll,

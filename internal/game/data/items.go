@@ -28,4 +28,5 @@ var ITEMS map[uuid.UUID]game.Modifier = map[uuid.UUID]game.Modifier{
 	modifiers.EyeScope.ID:             modifiers.EyeScope,
 	modifiers.ShinobiCloak.ID:         modifiers.ShinobiCloak,
 	modifiers.TrainingWeights.ID:      modifiers.TrainingWeights,
+	modifiers.FlashPowder.ID:          modifiers.FlashPowder,
 }

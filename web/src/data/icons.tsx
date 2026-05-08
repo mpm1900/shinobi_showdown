@@ -40,6 +40,7 @@ import {
   GiStonePile,
   GiHood,
   GiSkiBoot,
+  GiLaserBurst,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -221,6 +222,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   ),
   eye_scope: BiSolidBinoculars,
   fast_thinking: GrFastForward,
+  flash_powder: GiLaserBurst,
   flooded: FaHouseFloodWater,
   focused: GiLookAt,
   gedo_shard: GiTopaz,

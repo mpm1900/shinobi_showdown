@@ -199,6 +199,7 @@ type ActorState struct {
 	CooldownOffset       int     `json:"-"`
 	RepeatsMinOffset     int     `json:"-"`
 	RepeatsMaxOffset     int     `json:"-"`
+	ActionAccuracyOffset int     `json:"-"`
 	Immortal             bool    `json:"immortal"`
 	// [ActionLocked]
 	// - action locked units must use their last used action
@@ -409,6 +410,7 @@ func MakeActor(
 			CooldownOffset:       0,
 			RepeatsMinOffset:     0,
 			RepeatsMaxOffset:     0,
+			ActionAccuracyOffset: 0,
 			Immortal:             false,
 			Seen:                 false,
 			StaminaDamage:        0,
