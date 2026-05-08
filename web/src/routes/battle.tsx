@@ -38,8 +38,6 @@ function RouteComponent() {
       ? (game.active_transaction?.context ?? null)
       : null
 
-  console.log(game)
-
   return (
     <ClientOnly>
       <PromptController />

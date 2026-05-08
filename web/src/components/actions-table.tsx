@@ -24,6 +24,8 @@ import { StatBadge } from './stat-badge'
 import { Checkbox } from './ui/checkbox'
 import { Button } from './ui/button'
 import { cn } from '#/lib/utils'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from './ui/hover-card'
+import { ActionCard } from './action-card'
 
 const helper = createColumnHelper<Action>()
 const columns = [
@@ -39,7 +41,7 @@ const columns = [
           (row.original.locked ||
             !row.getCanSelect() ||
             (table.options.meta as any).total ==
-            table.getSelectedRowModel().rows.length)
+              table.getSelectedRowModel().rows.length)
         }
       />
     ),
@@ -143,13 +145,11 @@ function ActionsTable({
   data,
   rowSelection,
   onRowSelectionChange,
-  subRow,
 }: {
   total: number
   data: Action[]
   rowSelection: RowSelectionState
   onRowSelectionChange: (rowSelection: RowSelectionState) => void
-  subRow?: (props: { row: Row<Action> }) => ReactNode
 }) {
   const [sorting, setSorting] = useState([{ id: 'config_name', desc: false }])
 
@@ -183,26 +183,33 @@ function ActionsTable({
   })
 
   const renderRow = (row: Row<Action>) => (
-    <Fragment key={row.id}>
-      <TableRow
-        className={cn(row.getIsPinned() && 'bg-muted/50', 'cursor-default')}
-        onClick={() => row.toggleSelected()}
+    <HoverCard key={row.id}>
+      <HoverCardTrigger asChild>
+        <TableRow
+          className={cn(row.getIsPinned() && 'bg-muted/50', 'cursor-default')}
+          onClick={() => row.toggleSelected()}
+        >
+          {row.getVisibleCells().map((cell) => (
+            <TableCell
+              key={cell.id}
+              className={
+                cell.column.id === 'description' ? 'w-full max-w-0' : ''
+              }
+            >
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            </TableCell>
+          ))}
+        </TableRow>
+      </HoverCardTrigger>
+      <HoverCardContent
+        side="right"
+        collisionPadding={16}
+        sideOffset={8}
+        className="p-0 border-0 bg-transparent"
       >
-        {row.getVisibleCells().map((cell) => (
-          <TableCell
-            key={cell.id}
-            className={cell.column.id === 'description' ? 'w-full max-w-0' : ''}
-          >
-            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-          </TableCell>
-        ))}
-      </TableRow>
-      {subRow && row.getCanSelect() && row.getIsSelected() && (
-        <tr>
-          <td colSpan={row.getAllCells().length}>{subRow({ row })}</td>
-        </tr>
-      )}
-    </Fragment>
+        <ActionCard action={row.original} />
+      </HoverCardContent>
+    </HoverCard>
   )
 
   return (
