@@ -34,7 +34,7 @@ var Madara = game.ActorDef{
 		game.NsYinYang,
 	}),
 	Abilities: []game.Modifier{
-		modifiers.Guts,
+		modifiers.WillOfFire,
 	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{

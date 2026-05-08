@@ -31,6 +31,7 @@ var RockLee = game.ActorDef{
 		game.NsTai,
 	}),
 	Abilities: []game.Modifier{
+		modifiers.Guts,
 		modifiers.PurePower,
 	},
 	ActionCount: 4,

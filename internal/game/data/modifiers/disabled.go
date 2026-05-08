@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-var disabledID = uuid.MustParse("2da97c8a-85d1-41f6-baaf-29ac7967b12d")
+var disabledID = uuid.MustParse("cea0796c-df52-466f-8474-9dc06ec9db6f")
 
 func Disabled(actionID uuid.UUID) game.Modifier {
 	return game.Modifier{

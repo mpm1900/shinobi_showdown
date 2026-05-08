@@ -34,6 +34,7 @@ var Guy = game.ActorDef{
 		game.NsYang,
 	}),
 	Abilities: []game.Modifier{
+		modifiers.Guts,
 		modifiers.Rage,
 	},
 	ActionCount: 4,
