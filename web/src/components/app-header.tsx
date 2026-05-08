@@ -47,6 +47,7 @@ function AppHeader() {
   const status = useStore(socketStore, (s) => s.status)
   const client = useStore(clientsStore, (c) => c.me)
   const game_status = useStore(gameStore, (g) => g.status)
+  const game_phase = useStore(gameStore, (g) => g.turn.phase)
   const actions = useStore(gameStore, (g) => g.actions)
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
@@ -78,7 +79,7 @@ function AppHeader() {
           />
         )}
         <Tabs value={activeTab}>
-          <TabsList className='ring-0'>
+          <TabsList className="ring-0">
             <TabsTrigger value="team-builder" asChild>
               <Link to="/team-builder">
                 <TbHexagonNumber1Filled />
@@ -104,18 +105,20 @@ function AppHeader() {
 
         {client && (
           <div className="flex gap-2">
-            <Button
-              disabled={actions.length == 0 || game_status === 'running'}
-              onClick={() => {
-                sendContextMessage({
-                  type: 'run-game-actions',
-                  client_ID: client.ID,
-                  context: NULL_CONTEXT,
-                })
-              }}
-            >
-              Run
-            </Button>
+            {game_phase !== 'init' && (
+              <Button
+                disabled={game_status === 'running'}
+                onClick={() => {
+                  sendContextMessage({
+                    type: 'run-game-actions',
+                    client_ID: client.ID,
+                    context: NULL_CONTEXT,
+                  })
+                }}
+              >
+                Run
+              </Button>
+            )}
           </div>
         )}
         <div className="flex items-center">

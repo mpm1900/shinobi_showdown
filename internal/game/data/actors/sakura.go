@@ -15,13 +15,13 @@ var Sakura = game.ActorDef{
 	Affiliations: []string{game.AffKonoha},
 
 	Stats: map[game.ActorStat]int{
-		game.StatHP:            71,
+		game.StatHP:            95,
 		game.StatStamina:       100,
-		game.StatAttack:        121,
-		game.StatDefense:       106,
-		game.StatChakraAttack:  60,
-		game.StatChakraDefense: 80,
-		game.StatSpeed:         70,
+		game.StatAttack:        120,
+		game.StatDefense:       65,
+		game.StatChakraAttack:  95,
+		game.StatChakraDefense: 75,
+		game.StatSpeed:         60,
 		game.StatEvasion:       100,
 		game.StatAccuracy:      100,
 	},
@@ -33,6 +33,7 @@ var Sakura = game.ActorDef{
 	}),
 	Abilities: []game.Modifier{
 		modifiers.HealingTactics,
+		modifiers.FastThinking,
 	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
@@ -47,5 +48,6 @@ var Sakura = game.ActorDef{
 		actions.MudWall.ID,
 		actions.WaterWall.ID,
 		actions.TradeOffer.ID,
+		actions.InstilFear.ID,
 	}, GlobalActions...),
 }

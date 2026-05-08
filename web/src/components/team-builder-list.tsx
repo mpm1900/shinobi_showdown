@@ -1,7 +1,11 @@
 import type { TeamBuilderForm } from '#/hooks/use-team-builder-form'
+import { getEffectiveness, NATURES } from '#/lib/game/nature'
 import { makeConfigFromDef } from '#/lib/game/team'
 import { ActorCombobox } from './actor-combobox'
 import { formatDistanceToNow } from 'date-fns'
+import { NatureBadge } from './nature-badge'
+
+const typeNatures = NATURES.filter((n) => n !== 'tai' && n !== 'pure')
 
 function TeamBuilderList({
   form,
@@ -22,7 +26,7 @@ function TeamBuilderList({
           })}
         >
           {({ selected, active }) => (
-            <div className="flex flex-col gap-1 min-w-xs">
+            <div className="flex flex-col gap-1">
               <div className="flex items-center justify-between">
                 <div>Team: {selected.length}/6</div>
                 {created_at && (
@@ -60,6 +64,51 @@ function TeamBuilderList({
               )}
               <div className="text-xs text-muted-foreground text-center">
                 {id}
+              </div>
+              <div className="grid grid-cols-8 gap-1 pt-4">
+                <div />
+                {typeNatures.map((n) => (
+                  <div key={n} className="grid grid-cols-1 place-items-center">
+                    <NatureBadge nature={n} />
+                  </div>
+                ))}
+                {typeNatures.map((a) => (
+                  <>
+                    <div
+                      key={a}
+                      className="grid grid-cols-1 place-items-center"
+                    >
+                      <NatureBadge nature={a} />
+                    </div>
+                    {typeNatures.map((b) => {
+                      const eff = getEffectiveness(a, [b])
+                      return (
+                        <div
+                          key={a + b}
+                          className="grid grid-cols-1 place-items-center"
+                        >
+                          <>
+                            {eff === 2 && (
+                              <div className="rounded-full size-3 bg-green-600" />
+                            )}
+                            {eff === 1.25 && (
+                              <div className="rounded-full size-2 bg-green-300" />
+                            )}
+                            {eff === 1 && a !== b && (
+                              <div className="rounded-full size-2 bg-stone-600" />
+                            )}
+                            {eff === 0.8 && (
+                              <div className="rounded-full size-2 bg-red-300" />
+                            )}
+                            {eff === 0.5 && (
+                              <div className="rounded-full size-3 bg-red-400" />
+                            )}
+                          </>
+                        </div>
+                      )
+                    })}
+                  </>
+                ))}
               </div>
             </div>
           )}

@@ -24,6 +24,17 @@ type NatureSet =
   | 'particle'
   | 'jashin'
 
+const NATURES: Array<Nature> = [
+  'tai',
+  'pure',
+  'fire',
+  'wind',
+  'lightning',
+  'earth',
+  'water',
+  'yang',
+  'yin',
+]
 type NatureEffectiveness = Record<Nature, Partial<Record<Nature, number>>>
 const natureEffectiveness: NatureEffectiveness = {
   fire: {
@@ -183,4 +194,5 @@ export {
   getWeakness,
   getResistance,
   getEffectiveness,
+  NATURES,
 }
