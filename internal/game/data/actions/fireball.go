@@ -39,21 +39,5 @@ func MakeFireball() game.Action {
 
 			return transactions
 		},
-		/*
-			OnFailure: func(g game.Game, context, _ game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
-
-				source, ok := g.GetSource(context)
-				if !ok {
-					return transactions
-				}
-
-				ctx := game.MakeContextForActor(source)
-				mut := game.RatioDamage(0.25)
-				tx := game.MakeTransaction(mut, ctx)
-				transactions = append(transactions, tx)
-
-				return transactions
-				},*/
 	})
 }
