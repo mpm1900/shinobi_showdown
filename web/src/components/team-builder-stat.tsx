@@ -65,7 +65,7 @@ const STAT_NAMES: ActorStats<string> = {
   chakra_defense: 'Chakra Defense',
 }
 
-function TeamBuilderStatGuage({ baseStat }: { baseStat: number }) {
+function TeamBuilderStatGuage({ baseStat, greyscale = false }: { baseStat: number, greyscale?: boolean }) {
   const widthPercent =
     (Math.max(0, baseStat) * MAX_BAR_WIDTH_PERCENT) / MAX_COLOR_STAT
   const barColor = getStatBarColor(baseStat)
@@ -76,7 +76,8 @@ function TeamBuilderStatGuage({ baseStat }: { baseStat: number }) {
         className="absolute top-0 left-0 rounded-md h-6"
         style={{
           width: `${widthPercent}%`,
-          backgroundColor: barColor,
+          opacity: greyscale ? 0.2 : 1,
+          backgroundColor: greyscale ? 'var(--accent-foreground)' : barColor,
         }}
       />
     </div>
@@ -142,7 +143,7 @@ function TeamBuilderStat({
         {base.stats[stat]}
       </td>
       <td>
-        <TeamBuilderStatGuage baseStat={base.stats[stat]} />
+        <TeamBuilderStatGuage baseStat={base.stats[stat]} greyscale={stat === 'stamina'} />
       </td>
       <td className="px-2 w-12">
         <Input

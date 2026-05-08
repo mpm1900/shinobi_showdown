@@ -43,6 +43,7 @@ import {
   GiLaserBurst,
   GiPunch,
   GiBlackball,
+  GiWildfires,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -224,6 +225,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   ),
   eye_scope: BiSolidBinoculars,
   fast_thinking: GrFastForward,
+  flamable: GiWildfires,
   flash_powder: GiLaserBurst,
   flooded: FaHouseFloodWater,
   focused: GiLookAt,
