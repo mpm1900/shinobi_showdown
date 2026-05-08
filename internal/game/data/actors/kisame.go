@@ -47,6 +47,7 @@ var Kisame = game.ActorDef{
 		actions.SharkBomb.ID,
 		actions.GreatWaterfall.ID,
 		actions.WaterSlicer.ID,
+		actions.WaterPrison.ID,
 	}, GlobalActions...),
 }
 

@@ -8,22 +8,22 @@ import (
 	"github.com/google/uuid"
 )
 
-var Taunt = MakeTaunt()
+var WaterPrison = MakeWaterPrison()
 
-func MakeTaunt() game.Action {
+func MakeWaterPrison() game.Action {
 	config := game.ActionConfig{
-		Name:        "Taunt",
-		Nature:      game.Ptr(game.NsTai),
+		Name:        "Water Prison",
+		Nature:      game.Ptr(game.NsWater),
 		Jutsu:       game.Ninjutsu,
-		Description: "Forces target to use only attacking moves.",
+		Description: "Traps target in a water prison that damages the user for 1/8th HP for 3 turns.",
 		TargetCount: game.Ptr(1),
 	}
 	return game.Action{
-		ID:              uuid.MustParse("c62f29ad-2f3e-5e5e-b045-bb0ed58837bc"),
+		ID:              uuid.MustParse("41893bef-2aad-4de6-82f6-a4f0391916d5"),
 		Config:          config,
 		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.TargetLengthFilter(*config.TargetCount),
+		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
 			Filter: game.ComposeGF(
@@ -35,7 +35,7 @@ func MakeTaunt() game.Action {
 				targets := g.GetTargets(context)
 				for _, target := range targets {
 					context.ParentActorID = &target.ID
-					mutation := mutations.AddModifiers(false, modifiers.Taunted)
+					mutation := mutations.AddModifiers(true, modifiers.WaterPrison)
 					transaction := game.MakeTransaction(mutation, context)
 					transactions = append(transactions, transaction)
 				}

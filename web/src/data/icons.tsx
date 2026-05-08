@@ -42,6 +42,7 @@ import {
   GiSkiBoot,
   GiLaserBurst,
   GiPunch,
+  GiBlackball,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -302,6 +303,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   ),
   unburden: FaWeightHanging,
   water_absorb: GiWaterRecycling,
+  water_prison: GiBlackball,
   will_of_fire: GiFireBowl,
 }
 
