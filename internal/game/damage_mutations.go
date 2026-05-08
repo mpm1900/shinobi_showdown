@@ -469,3 +469,28 @@ func NewHeal(action ActionConfig, ratio float64) GameMutation {
 		},
 	}
 }
+
+func SetHpSourceToTargets() GameMutation {
+	return GameMutation{
+		Delta: func(p, g Game, context Context) Game {
+			s, ok := g.GetSource(context)
+			if !ok {
+				return g
+			}
+
+			source := s.Resolve(g)
+			source_hp := source.Stats[StatHP] - source.Damage
+			for _, target := range resolveTargets(g, context) {
+				target_hp := target.Stats[StatHP] - target.Damage
+				diff := source_hp - target_hp
+				if diff > 0 {
+					ApplyHealRaw(&g, target.ID, diff)
+				} else {
+					ApplyDamage(&g, &source.ID, target, diff*-1)
+				}
+			}
+
+			return g
+		},
+	}
+}

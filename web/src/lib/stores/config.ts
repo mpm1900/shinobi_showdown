@@ -8,13 +8,13 @@ const ActorConfigSchema = z
     focus: z.enum(actorFocuses),
     item_ID: z.string().nullable(),
     aux_stats: z.object({
-      hp: z.number().min(0, 'negative').max(31, 'too big'),
-      attack: z.number().min(0, 'negative').max(31, 'too big'),
-      stamina: z.number().min(0, 'negative').max(31, 'too big'),
-      defense: z.number().min(0, 'negative').max(31, 'too big'),
-      speed: z.number().min(0, 'negative').max(31, 'too big'),
-      chakra_attack: z.number().min(0, 'negative').max(31, 'too big'),
-      chakra_defense: z.number().min(0, 'negative').max(31, 'too big'),
+      hp: z.number().min(0, 'negative').max(32, 'too big'),
+      attack: z.number().min(0, 'negative').max(32, 'too big'),
+      stamina: z.number().min(0, 'negative').max(32, 'too big'),
+      defense: z.number().min(0, 'negative').max(32, 'too big'),
+      speed: z.number().min(0, 'negative').max(32, 'too big'),
+      chakra_attack: z.number().min(0, 'negative').max(32, 'too big'),
+      chakra_defense: z.number().min(0, 'negative').max(32, 'too big'),
     }),
   })
   .superRefine((config, ctx) => {

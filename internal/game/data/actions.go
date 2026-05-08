@@ -87,6 +87,7 @@ var ACTIONS map[uuid.UUID]game.Action = map[uuid.UUID]game.Action{
 	actions.SelfDestruct.ID:  actions.SelfDestruct,
 	actions.C1Bird.ID:        actions.C1Bird,
 	actions.PaperBomb.ID:     actions.PaperBomb,
+	actions.C4Karura.ID:      actions.C4Karura,
 
 	actions.FlyingSwallow.ID:      actions.FlyingSwallow,
 	actions.GiantRasengan.ID:      actions.GiantRasengan,
@@ -108,6 +109,7 @@ var ACTIONS map[uuid.UUID]game.Action = map[uuid.UUID]game.Action{
 	actions.ThirtyTwoPalms.ID:      actions.ThirtyTwoPalms,
 	actions.RetreatingStrike.ID:    actions.RetreatingStrike,
 	actions.FlyingLotus.ID:         actions.FlyingLotus,
+	actions.DesperateStrike.ID:     actions.DesperateStrike,
 
 	actions.StoneBullet.ID:     actions.StoneBullet,
 	actions.IronSkin.ID:        actions.IronSkin,

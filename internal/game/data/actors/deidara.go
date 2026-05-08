@@ -36,6 +36,7 @@ var Deidara = game.ActorDef{
 		actions.Expansion.ID,
 		actions.C0UltimateArt.ID,
 		actions.C1Bird.ID,
+		actions.C4Karura.ID,
 		actions.Yawn.ID,
 		actions.Earthquake.ID,
 	}, GlobalActions...),

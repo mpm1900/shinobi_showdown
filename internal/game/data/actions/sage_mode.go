@@ -24,7 +24,7 @@ func MakeSageMode() game.Action {
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{
-			Priority: game.ActionPrioritySlow,
+			Priority: game.ActionPrioritySlow3,
 			Filter:   game.SourceIsAlive,
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}

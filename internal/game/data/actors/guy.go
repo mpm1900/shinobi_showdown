@@ -45,5 +45,6 @@ var Guy = game.ActorDef{
 		actions.Hirudora.ID,
 		actions.WhirlwindKick.ID,
 		actions.HeavyPunch.ID,
+		actions.DesperateStrike.ID,
 	}, GlobalActions...),
 }

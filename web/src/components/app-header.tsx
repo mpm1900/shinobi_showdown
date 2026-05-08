@@ -53,7 +53,7 @@ function AppHeader() {
   })
   const activeTab = getActiveTable(pathname)
   return (
-    <header className="flex justify-between p-2">
+    <header className="fixed flex justify-between p-1 z-20 bg-stone-950 border-b border-stone-800 ring ring-black w-full">
       <div className="flex items-center gap-2">
         <Link to="/" className="pl-2">
           <GiSharpShuriken />
@@ -78,7 +78,7 @@ function AppHeader() {
           />
         )}
         <Tabs value={activeTab}>
-          <TabsList>
+          <TabsList className='ring-0'>
             <TabsTrigger value="team-builder" asChild>
               <Link to="/team-builder">
                 <TbHexagonNumber1Filled />

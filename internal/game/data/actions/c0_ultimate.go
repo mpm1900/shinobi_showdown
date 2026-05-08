@@ -13,13 +13,13 @@ func MakeC0UltimateArt() game.Action {
 
 	config := game.ActionConfig{
 		Name:        "C0: Ultimate Art",
-		Description: "Hits all other active shinobi.",
+		Description: "Hits all other active shinobi. User dies.",
 		Nature:      game.Ptr(game.NsExplosion),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(250),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(0),
-		Cost:        game.Ptr(30),
+		Cost:        game.Ptr(80),
 		Jutsu:       game.Ninjutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),
 		CritMod:     1.5,

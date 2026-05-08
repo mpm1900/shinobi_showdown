@@ -56,8 +56,8 @@ function App() {
       <PromptController />
       <main className="min-w-0 overflow-x-hidden flex-1 flex flex-col">
         <AppHeader />
-        <div className="flex min-w-0 flex-1">
-          <div className="min-w-0 space-y-2 flex-1 overflow-auto m-10 my-6">
+        <div className="flex min-w-0 flex-1 mt-14 p-4">
+          <div className="min-w-0 space-y-2 flex-1 overflow-auto">
             <CardTitle>Pre-Game Lobby</CardTitle>
             <CardDescription>Select 4-shinobi your line-up</CardDescription>
             <div className="flex gap-2 mb-4">

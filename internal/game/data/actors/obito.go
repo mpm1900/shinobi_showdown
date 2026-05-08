@@ -31,7 +31,7 @@ var Obito = game.ActorDef{
 	Natures: game.MapNatures([]game.NatureSet{
 		game.NsYin,
 	}),
-	Abilities:   []game.Modifier{
+	Abilities: []game.Modifier{
 		modifiers.Focused,
 		modifiers.NatureSpecialist,
 	},
@@ -45,5 +45,6 @@ var Obito = game.ActorDef{
 		actions.PatternBreak.ID,
 		actions.KusariChains.ID,
 		actions.SwordsStance.ID,
+		actions.DesperateStrike.ID,
 	}, GlobalActionsExcept(actions.BodyReplacement.ID)...),
 }

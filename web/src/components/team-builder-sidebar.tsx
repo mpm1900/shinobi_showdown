@@ -112,7 +112,7 @@ function TeamBuilderSidebar({
                       className="justify-between group"
                       onClick={() => loadSavedTeam(team)}
                     >
-                      <div>
+                      <div className='cursor-pointer'>
                         <span>{team.team_config.name}</span>
                         <Button
                           size="icon-xs"
