@@ -38,6 +38,8 @@ function RouteComponent() {
       ? (game.active_transaction?.context ?? null)
       : null
 
+  console.log(game)
+
   return (
     <ClientOnly>
       <PromptController />
@@ -68,7 +70,7 @@ function RouteComponent() {
               <BattleWeather />
             </div>
           </div>
-          {game.status !== 'init' && (
+          {game.turn.phase !== 'init' && (
             <div className="flex-1 grid place-items-center overflow-hidden relative">
               {actor && <BattleActions actor={actor} />}
               {game.status === 'running' &&
