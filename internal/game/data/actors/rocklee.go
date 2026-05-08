@@ -43,5 +43,6 @@ var RockLee = game.ActorDef{
 		actions.Asakujaku.ID,
 		actions.Hirudora.ID,
 		actions.DesperateStrike.ID,
+		actions.FocusPunch.ID,
 	}, GlobalActions...),
 }

@@ -46,3 +46,25 @@ func RedirectSingleTargetEnemyActions(source game.Actor) game.GameMutation {
 		},
 	}
 }
+
+func QueueAction(actionID uuid.UUID, context game.Context) game.GameMutation {
+	return game.GameMutation{
+		Delta: func(p game.Game, g game.Game, context game.Context) game.Game {
+			if context.SourceActorID == nil {
+				return g
+			}
+
+			g.QueuedActions[*context.SourceActorID] = game.MakeTransaction(actionID, context)
+			return g
+		},
+	}
+}
+
+func PushExtraAction(action game.Action, context game.Context) game.GameMutation {
+	return game.GameMutation{
+		Delta: func(p, g game.Game, context game.Context) game.Game {
+			g.PushAction(game.MakeTransaction(action, context))
+			return g
+		},
+	}
+}

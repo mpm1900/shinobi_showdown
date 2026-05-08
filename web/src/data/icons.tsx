@@ -41,6 +41,7 @@ import {
   GiHood,
   GiSkiBoot,
   GiLaserBurst,
+  GiPunch,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -225,6 +226,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   flash_powder: GiLaserBurst,
   flooded: FaHouseFloodWater,
   focused: GiLookAt,
+  focusing: GiPunch,
   gedo_shard: GiTopaz,
   granite_ring: ({ className, ...props }) => (
     <FaRing className={cn('text-taupe-500', className)} {...props} />

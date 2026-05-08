@@ -57,6 +57,7 @@ func MakeYawn() game.Action {
 		Nature:      game.Ptr(game.NsYang),
 		Jutsu:       game.Senjutsu,
 		Description: "Applies sleepy to the target. (Target will fall asleep at the end of the next turn.)",
+		TargetCount: game.Ptr(1),
 	}
 
 	return game.Action{
@@ -64,7 +65,7 @@ func MakeYawn() game.Action {
 		Config:          config,
 		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.PositionsLengthFilter(1),
+		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
 			Filter: game.ComposeGF(
