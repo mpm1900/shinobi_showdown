@@ -39,6 +39,7 @@ import {
   GiMultipleTargets,
   GiStonePile,
   GiHood,
+  GiSkiBoot,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -215,6 +216,9 @@ const MODIFIER_ICONS: Record<string, IconType> = {
       {...props}
     />
   ),
+  electrified_speed: ({ className, ...props }) => (
+    <BsSpeedometer className={cn('text-yellow-300', className)} {...props} />
+  ),
   eye_scope: BiSolidBinoculars,
   fast_thinking: GrFastForward,
   flooded: FaHouseFloodWater,
@@ -288,6 +292,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   tailwind: PiWindFill,
   target_tracking: GiMultipleTargets,
   taunted: Anger,
+  training_weights: GiSkiBoot,
   folding_war_fan: ({ className, ...props }) => (
     <GiHandheldFan className={cn('text-emerald-500', className)} {...props} />
   ),

@@ -44,5 +44,6 @@ var Zetsu = game.ActorDef{
 		actions.Redirect.ID,
 		actions.Graft.ID,
 		actions.FlowerBomb.ID,
+		actions.TradeOffer.ID,
 	}, GlobalActions...),
 }

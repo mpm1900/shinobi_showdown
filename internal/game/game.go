@@ -603,6 +603,10 @@ func (g *Game) SortActions() {
 			return b.Mutation.Priority - a.Mutation.Priority
 		}
 
+		if a.Mutation.Config.SubPriority != b.Mutation.Config.SubPriority {
+			return b.Mutation.Config.SubPriority - a.Mutation.Config.SubPriority
+		}
+
 		a_source, ok := g.GetActorByID(*a.Context.SourceActorID)
 		if !ok {
 			return 1

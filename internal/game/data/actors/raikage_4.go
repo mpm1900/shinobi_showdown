@@ -3,6 +3,7 @@ package actors
 import (
 	"shinobi_showdown/internal/game"
 	"shinobi_showdown/internal/game/data/actions"
+	"shinobi_showdown/internal/game/data/modifiers"
 
 	"github.com/google/uuid"
 )
@@ -15,13 +16,13 @@ var Raikage4 = game.ActorDef{
 	Restricted:   true,
 
 	Stats: map[game.ActorStat]int{
-		game.StatHP:            100,
+		game.StatHP:            110,
 		game.StatStamina:       100,
-		game.StatAttack:        130,
-		game.StatDefense:       115,
-		game.StatChakraAttack:  75,
+		game.StatAttack:        145,
+		game.StatDefense:       130,
+		game.StatChakraAttack:  85,
 		game.StatChakraDefense: 85,
-		game.StatSpeed:         145,
+		game.StatSpeed:         105,
 		game.StatEvasion:       100,
 		game.StatAccuracy:      100,
 	},
@@ -31,7 +32,9 @@ var Raikage4 = game.ActorDef{
 		game.NsLightning,
 		game.NsWater,
 	}),
-	Abilities:   []game.Modifier{},
+	Abilities: []game.Modifier{
+		modifiers.LightningMode,
+	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
 		actions.DragonStance.ID,

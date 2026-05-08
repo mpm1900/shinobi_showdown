@@ -43,6 +43,7 @@ func makeAttack(config AttackConfig) game.Action {
 
 				action_config, _ := game.GetActiveActionConfig(g, config.Config)
 				crit_result := game.MakeCriticalCheck(action_config)
+				crit_result.Ratio = crit_result.Ratio
 				dmg_config := game.NewDamageConfig(crit_result.Ratio, game.RandomDamageFactor())
 				if config.OnSuccess != nil {
 					dmg_config.OnSuccess = config.OnSuccess

@@ -47,5 +47,6 @@ var Minato = game.ActorDef{
 		actions.BodyFlicker.ID,
 		actions.WindSlash.ID,
 		actions.PowerBoost.ID,
+		actions.TradeOffer.ID,
 	}, GlobalActions...),
 }

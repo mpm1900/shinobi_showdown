@@ -33,7 +33,7 @@ var NarutoSage = game.ActorDef{
 		game.NsPure,
 		game.NsWind,
 	}),
-	Abilities:   []game.Modifier{
+	Abilities: []game.Modifier{
 		modifiers.PriorityFailure,
 	},
 	ActionCount: 4,
@@ -46,5 +46,6 @@ var NarutoSage = game.ActorDef{
 		actions.SummonGamabunta.ID,
 		actions.Rasenshuriken.ID,
 		actions.VacuumBlast.ID,
+		actions.TradeOffer.ID,
 	}, GlobalActions...),
 }

@@ -40,5 +40,6 @@ var Hidan = game.ActorDef{
 		actions.BloodPrice.ID,
 		actions.Curse.ID,
 		actions.PerishSong.ID,
+		actions.TradeOffer.ID,
 	}, GlobalActions...),
 }

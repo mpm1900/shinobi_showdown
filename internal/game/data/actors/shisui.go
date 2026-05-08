@@ -48,5 +48,6 @@ var Shisui = game.ActorDef{
 		actions.Firestorm.ID,
 		actions.BodyFlicker.ID,
 		actions.Recover.ID,
+		actions.TradeOffer.ID,
 	}, GlobalActions...),
 }

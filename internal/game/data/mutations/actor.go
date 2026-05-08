@@ -145,6 +145,35 @@ var RemoveItem = game.GameMutation{
 		return g
 	},
 }
+var ExchangeItems = game.GameMutation{
+	Delta: func(p, g game.Game, context game.Context) game.Game {
+		source, ok := g.GetSource(context)
+		if !ok {
+			return g
+		}
+
+		targets := g.GetTargets(context)
+		if len(targets) == 0 {
+			return g
+		}
+
+		var item = game.Modifier{}
+		for _, target := range targets {
+			g.UpdateActor(target.ID, func(a game.Actor) game.Actor {
+				item = *a.Item
+				a.Item = source.Item
+				return a
+			})
+		}
+
+		g.UpdateActor(source.ID, func(a game.Actor) game.Actor {
+			a.Item = &item
+			return a
+		})
+
+		return g
+	},
+}
 
 func Transform(def game.ActorDef) game.GameMutation {
 	return game.GameMutation{

@@ -32,7 +32,7 @@ var Tobi = game.ActorDef{
 		game.NsFire,
 		game.NsYin,
 	}),
-	Abilities:   []game.Modifier{
+	Abilities: []game.Modifier{
 		modifiers.MoldBreaker,
 	},
 	ActionCount: 4,
@@ -44,5 +44,6 @@ var Tobi = game.ActorDef{
 		actions.GreatFireball.ID,
 		actions.Flash.ID,
 		actions.RetreatingStrike.ID,
+		actions.TradeOffer.ID,
 	}, GlobalActionsExcept(actions.BodyReplacement.ID)...),
 }

@@ -49,6 +49,7 @@ type ActionConfig struct {
 	LogSuccess     *string     `json:"-"`
 	LogFailure     *string     `json:"-"`
 	IgnoreRedirect bool        `json:"-"`
+	SubPriority    int         `json:"-"`
 }
 
 type ActionTargetType string
