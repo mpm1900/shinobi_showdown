@@ -16,6 +16,7 @@ type AttackConfig struct {
 	Priority        *int
 	BeforeAttack    func(game.Game, game.Context) []game.GameTransaction
 	OnSuccess       func(game.Game, game.Context, game.Context) []game.GameTransaction
+	OnFailure       func(game.Game, game.Context, game.Context) []game.GameTransaction
 	AfterAttack     func(game.Game, game.Context) []game.GameTransaction
 }
 
@@ -46,6 +47,9 @@ func makeAttack(config AttackConfig) game.Action {
 				dmg_config := game.NewDamageConfig(crit_result.Ratio, game.RandomDamageFactor())
 				if config.OnSuccess != nil {
 					dmg_config.OnSuccess = config.OnSuccess
+				}
+				if config.OnFailure != nil {
+					dmg_config.OnFailure = config.OnFailure
 				}
 				damages := game.NewDamage(action_config, dmg_config)
 				transactions = append(
