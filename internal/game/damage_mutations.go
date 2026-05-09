@@ -252,7 +252,7 @@ func (e *damageHandler) resolveTargetHit(g *Game, targetIndex int, target Resolv
 		e.totals[targetIndex] += applied
 	}
 
-	e.logNatureEffectiveness(g, target)
+	e.handleNatureEffectiveness(g, target)
 
 	return false
 }
@@ -304,18 +304,24 @@ func (e *damageHandler) queueRepeatHit(target ResolvedActor, damage int) {
 
 	e.repeatTransactions = append(e.repeatTransactions, repeatTx)
 }
-func (e *damageHandler) logNatureEffectiveness(g *Game, target ResolvedActor) {
+func (e *damageHandler) handleNatureEffectiveness(g *Game, target ResolvedActor) {
 	var natures []Nature
 	if e.action.Nature != nil {
 		natures = NATURES[*e.action.Nature]
 	}
 
 	natureResult := ResolveNatures(natures, e.source.NatureDamage, target.NatureResistance, target.Natures)
-	if natureResult.Average >= 2 {
-		g.PushLog(MakeGameLog("Super effective!", NewContext(), 1))
+	if natureResult.Average >= NATURE_WEAKNESS_FULL {
+		tctx := MakeContextForActor(target.Actor)
+		tctx.SourceActorID = e.context.SourceActorID
+		g.PushLog(MakeGameLog("Super effective!", tctx, 1))
+		g.On(OnWeakness, &tctx)
 	}
-	if natureResult.Result <= 0.5 {
-		g.PushLog(MakeGameLog("Not very effective!", NewContext(), 1))
+	if natureResult.Result <= NATURE_RESISTANCE_FULL {
+		tctx := MakeContextForActor(target.Actor)
+		tctx.SourceActorID = e.context.SourceActorID
+		g.PushLog(MakeGameLog("Not very effective!", tctx, 1))
+		g.On(OnResistance, &tctx)
 	}
 }
 func (e *damageHandler) buildSideEffects() {

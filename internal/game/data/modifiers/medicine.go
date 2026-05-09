@@ -7,23 +7,13 @@ import (
 	"github.com/google/uuid"
 )
 
-var sobpID = uuid.MustParse("096e2442-b231-53da-9892-91b0dea908b9")
-var SealOfBodyProtectionTrigger = game.Trigger{
+var medicineID = uuid.MustParse("13778cd8-4ad6-45a1-b769-c605ee0b82af")
+
+var medicineTrigger = game.Trigger{
 	ID:         uuid.New(),
-	ModifierID: sobpID,
-	On:         game.OnModifierAdd,
-	Check: game.ComposeTF(
-		game.Match__TargetActor_SourceActor,
-		game.Modifier__IsOneOf(
-			AttackDownID,
-			DefenseDownID,
-			ChakraAttackDownID,
-			ChakraDefenseDownID,
-			SpeedDownID,
-			AccuracyDownID,
-			EvasionDownID,
-		),
-	),
+	ModifierID: medicineID,
+	On:         game.OnStatusAdd,
+	Check:      game.Match__TargetActor_SourceActor,
 	ActionMutation: game.ActionMutation{
 		Priority: game.ActionPriorityDefault,
 		Filter:   game.TrueGameFilter,
@@ -34,12 +24,11 @@ var SealOfBodyProtectionTrigger = game.Trigger{
 				return transactions
 			}
 
-			removeDebuff := mutations.RemoveModifierTxByID(*context.ModifierID)
 			targets := g.GetTargets(context)
 			for _, target := range targets {
 				consumeCtx := game.MakeContextForActor(target)
 				transactions = append(transactions, game.MakeTransaction(mutations.ConsumeItem, consumeCtx))
-				transactions = append(transactions, game.MakeTransaction(removeDebuff, context))
+				transactions = append(transactions, ClearStatus(g, target)...)
 			}
 
 			return transactions
@@ -47,18 +36,18 @@ var SealOfBodyProtectionTrigger = game.Trigger{
 	},
 }
 
-var SealOfBodyProtection = game.Modifier{
-	ID:          sobpID,
-	GroupID:     &sobpID,
-	Icon:        "seal_up",
-	Name:        "Seal of Body Protection",
-	Description: "On stat drop: remove it and break this seal.",
+var Medicine = game.Modifier{
+	ID:          medicineID,
+	GroupID:     &medicineID,
+	Icon:        "medicine",
+	Name:        "Medicine",
+	Description: "On status: heal the status, then consume this item.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,
 	ActorMutations: []game.ActorMutation{
-		game.NewNoopSource(&sobpID),
+		game.NewNoopSource(&medicineID),
 	},
 	Triggers: []game.Trigger{
-		SealOfBodyProtectionTrigger,
+		medicineTrigger,
 	},
 }

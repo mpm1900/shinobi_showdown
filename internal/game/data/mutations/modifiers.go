@@ -122,7 +122,12 @@ func AddModifiers(checkWarded bool, modifiers ...game.Modifier) game.GameMutatio
 				}
 
 				g.Modifiers = append(g.Modifiers, mod_tx)
-				g.On(game.OnModifierAdd, &mod_tx.Context)
+				if modifier.Status {
+					g.On(game.OnStatusAdd, &mod_tx.Context)
+				} else {
+					g.On(game.OnModifierAdd, &mod_tx.Context)
+				}
+
 			}
 
 			return g

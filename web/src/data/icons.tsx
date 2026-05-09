@@ -45,6 +45,7 @@ import {
   GiBlackball,
   GiWildfires,
   GiAura,
+  GiMedicines,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -243,6 +244,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   inner_focus: TbScanEye,
   intimidate: GiBeastEye,
   insomnia: BsMoonFill,
+  medicine: GiMedicines,
   naruto_transform: PiSpiralFill,
   kcm_transformed: PiSpiralFill,
   nature_specialist: GiEcology,

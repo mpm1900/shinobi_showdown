@@ -15,6 +15,7 @@ const authSchema = z.object({
   form: z.enum(['login', 'signup']),
   email: z.email(),
   password: z.string().min(4),
+  secret: z.string(),
 })
 
 export const Route = createFileRoute('/login')({
@@ -33,8 +34,9 @@ function RouteComponent() {
   const form = useForm({
     defaultValues: {
       form: 'login',
-      email: 'k@k.com',
+      email: '',
       password: '',
+      secret: '',
     },
     validators: {
       onChange: authSchema,
@@ -74,7 +76,7 @@ function RouteComponent() {
                   >
                     <TabsList className="flex flex-row gap-2 self-center">
                       <TabsTrigger value="login">Log In</TabsTrigger>
-                      <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                      {/*<TabsTrigger value="signup">Sign Up</TabsTrigger>*/}
                     </TabsList>
                     <TabsContent value="signup">
                       <FieldSet className="w-full max-w-xs">
@@ -138,7 +140,7 @@ function RouteComponent() {
                                 <FieldLabel htmlFor="email">Email</FieldLabel>
                                 <Input
                                   id="email"
-                                  type="text"
+                                  type="email"
                                   placeholder="m@m.com"
                                   value={field.state.value}
                                   onChange={(e) =>
@@ -158,6 +160,22 @@ function RouteComponent() {
                                   id="password"
                                   type="password"
                                   placeholder="••••••••"
+                                  value={field.state.value}
+                                  onChange={(e) =>
+                                    field.handleChange(e.target.value)
+                                  }
+                                />
+                              </Field>
+                            )}
+                          </form.Field>
+                          <form.Field name="email">
+                            {(field) => (
+                              <Field>
+                                <FieldLabel htmlFor="secret">Secret</FieldLabel>
+                                <Input
+                                  id="secret"
+                                  type="secret"
+                                  placeholder=""
                                   value={field.state.value}
                                   onChange={(e) =>
                                     field.handleChange(e.target.value)
@@ -188,7 +206,7 @@ function RouteComponent() {
             )}
           </form.Field>
           <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-            Copyright © 2026 mpm1900. All rights reserved.
+            Copyright © 2026 snaxm games. All rights reserved.
           </div>
         </form>
       </div>

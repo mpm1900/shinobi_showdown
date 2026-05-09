@@ -40,7 +40,7 @@ var Onigiri game.Modifier = game.Modifier{
 	GroupID:     &onigiriID,
 	Icon:        "onigiri",
 	Name:        "Onigiri",
-	Description: "HP < 50%: heal 1/4th HP.",
+	Description: "HP < 50%: heal 1/4th HP, then consume this item.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,
 	ActorMutations: []game.ActorMutation{
