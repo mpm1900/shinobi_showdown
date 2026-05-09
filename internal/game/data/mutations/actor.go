@@ -188,6 +188,9 @@ func Transform(def game.ActorDef) game.GameMutation {
 				return a
 			})
 
+			tctx := game.MakeContextForActor(source)
+			g.On(game.OnActorTransform, &tctx)
+
 			return g
 		},
 	}

@@ -369,6 +369,10 @@ func (g Game) HasWeather(weather GameWeather, context Context) bool {
 	state, _ := g.GetState(context)
 	return state.Weather == weather
 }
+func (g Game) HasTerrain(terrain GameTerrain, context Context) bool {
+	state, _ := g.GetState(context)
+	return state.Terrain == terrain
+}
 func (g Game) WithActor(actor Actor) Game {
 	next := g
 	next.Actors = append([]Actor{}, g.Actors...)

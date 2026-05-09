@@ -119,16 +119,16 @@ func FlamableTerrain() game.Modifier {
 	return mod
 }
 
-var rockyTerrain = uuid.MustParse("24aa5833-2579-4926-ae43-7bc1e891a210")
+var rockyTerrainID = uuid.MustParse("24aa5833-2579-4926-ae43-7bc1e891a210")
 
 func RockyTerrain() game.Modifier {
-	mod := SetTerrain(rockyTerrain, game.GameTerrainRocky)
+	mod := SetTerrain(rockyTerrainID, game.GameTerrainRocky)
 	mod.Name = "Rocky Terrain"
 	mod.Icon = "rocky_terrain"
 	mod.Description = "Non-earth, gounded shinobi have decreased accuracy."
 	mod.ActorMutations = []game.ActorMutation{
 		game.MakeActorMutation(
-			&rockyTerrain,
+			&rockyTerrainID,
 			game.MutPriorityPreStagedStats,
 			game.ComposeAF(game.ActiveFilter, game.GameHasTerrain(game.GameTerrainRocky)),
 			func(g game.Game, actor game.Actor, context game.Context) game.Actor {
@@ -142,6 +142,56 @@ func RockyTerrain() game.Modifier {
 				return actor
 			},
 		),
+	}
+	return mod
+}
+
+var chakraTerrainID = uuid.MustParse("37041a49-3f69-481c-a807-357085fa91ef")
+
+func ChakraTerrain() game.Modifier {
+	mod := SetTerrain(chakraTerrainID, game.GameTerrainChakra)
+	mod.Name = "Chakra Terrain"
+	mod.Icon = "chakra_terrain"
+	mod.Description = "On turn end: all shinobi heal 1/16th HP."
+	mod.ActorMutations = []game.ActorMutation{
+		game.MakeActorMutation(
+			&chakraTerrainID,
+			game.MutPriorityPreStagedStats,
+			game.ComposeAF(game.ActiveFilter, game.GameHasTerrain(game.GameTerrainChakra)),
+			func(g game.Game, actor game.Actor, context game.Context) game.Actor {
+				state, _ := g.GetState(context)
+				if state.Terrain != game.GameTerrainChakra {
+					return actor
+				}
+
+				return actor
+			},
+		),
+	}
+	mod.Triggers = []game.Trigger{
+		{
+			ID:         uuid.New(),
+			ModifierID: chakraTerrainID,
+			On:         game.OnTurnEnd,
+			Check: func(p, g game.Game, context game.Context, tx game.Transaction[game.Modifier]) bool {
+				return g.HasTerrain(game.GameTerrainChakra, context)
+			},
+			ActionMutation: game.ActionMutation{
+				Priority: game.ActionPriorityDefault,
+				Filter:   game.HasWeather(game.GameWeatherSandstorm),
+				Delta: func(p game.Game, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+					mut := game.RatioHeal(0.0625)
+					mut_ctx := context
+					mut_ctx.TargetActorIDs = []uuid.UUID{}
+					for _, target := range g.GetActiveActors() {
+						mut_ctx.TargetActorIDs = append(mut_ctx.TargetActorIDs, target.ID)
+					}
+					return []game.Transaction[game.GameMutation]{
+						game.MakeTransaction(mut, mut_ctx),
+					}
+				},
+			},
+		},
 	}
 	return mod
 }

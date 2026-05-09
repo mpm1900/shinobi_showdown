@@ -3,6 +3,7 @@ package actors
 import (
 	"shinobi_showdown/internal/game"
 	"shinobi_showdown/internal/game/data/actions"
+	"shinobi_showdown/internal/game/data/modifiers"
 	"shinobi_showdown/internal/game/data/mutations"
 
 	"github.com/google/uuid"
@@ -74,6 +75,9 @@ var KCMNaurto = game.ActorDef{
 		game.NsPure,
 		game.NsWind,
 	}),
+	Abilities: []game.Modifier{
+		kcmTransformed,
+	},
 }
 
 var narutoTransformID = uuid.MustParse("d9be7d8f-55cf-4877-ace6-85f97f05a4f2")
@@ -118,5 +122,35 @@ var narutoTransform = game.Modifier{
 	},
 	Triggers: []game.Trigger{
 		narutoTransformTrigger,
+	},
+}
+
+var kcmTransformedID = uuid.MustParse("072bf59b-00dc-44ed-8f8b-a1486155c02d")
+
+var kcmTransformed = game.Modifier{
+	ID:          kcmTransformedID,
+	GroupID:     &kcmTransformedID,
+	Icon:        "kcm_transformed",
+	Name:        "Kurama Transformation",
+	Description: "On transform: Apply Chakra Terrain.",
+	Show:        true,
+	Duration:    game.ModifierDurationInf,
+	ActorMutations: []game.ActorMutation{
+		game.NewNoopSource(&kcmTransformedID),
+	},
+	Triggers: []game.Trigger{
+		{
+			ID:         uuid.New(),
+			ModifierID: kcmTransformedID,
+			On:         game.OnActorTransform,
+			Check:      game.Match__SourceActor_SourceActor,
+			ActionMutation: game.ActionMutation{
+				Priority: game.ActionPriorityDefault,
+				Filter:   game.TrueGameFilter,
+				Delta: func(p game.Game, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+					return modifiers.ApplyTerrain(g, context, game.GameTerrainChakra, modifiers.ChakraTerrain())
+				},
+			},
+		},
 	},
 }

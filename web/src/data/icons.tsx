@@ -44,6 +44,7 @@ import {
   GiPunch,
   GiBlackball,
   GiWildfires,
+  GiAura,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -159,6 +160,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   burned: ({ className, ...props }) => (
     <GiFlamer className={cn('text-orange-400', className)} {...props} />
   ),
+  chakra_terrain: GiAura,
   coerced: GiComa,
   conductive_bracers: ({ className, ...props }) => (
     <GiLinkedRings className={cn('text-yellow-400', className)} {...props} />
@@ -242,6 +244,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   intimidate: GiBeastEye,
   insomnia: BsMoonFill,
   naruto_transform: PiSpiralFill,
+  kcm_transformed: PiSpiralFill,
   nature_specialist: GiEcology,
   neutralizing_chakra: TbCancel,
   mold_breaker: TbCancel,
