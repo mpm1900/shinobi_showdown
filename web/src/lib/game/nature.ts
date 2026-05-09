@@ -64,7 +64,9 @@ const natureEffectiveness: NatureEffectiveness = {
     earth: 0.5,
     water: 0.8,
   },
-  tai: {},
+  tai: {
+    tai: 0.8,
+  },
   yang: {
     yang: 1.25,
     yin: 0.8,

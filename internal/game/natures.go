@@ -15,6 +15,7 @@ const (
 	NatureWater     Nature = "water"
 	NatureYin       Nature = "yin"
 	NatureYang      Nature = "yang"
+	NatureTai       Nature = "tai"
 )
 
 type NatureSet string
@@ -45,8 +46,7 @@ const (
 )
 
 var NATURES = map[NatureSet][]Nature{
-	NsTai:       {},
-	NsPure:      {},
+	NsTai:       {NatureTai},
 	NsFire:      {NatureFire},
 	NsWind:      {NatureWind},
 	NsLightning: {NatureLightning},
@@ -54,6 +54,7 @@ var NATURES = map[NatureSet][]Nature{
 	NsWater:     {NatureWater},
 	NsYin:       {NatureYin},
 	NsYang:      {NatureYang},
+	NsPure:      {},
 
 	NsScorch:    {NatureFire, NatureWind},
 	NsLava:      {NatureFire, NatureEarth},
@@ -105,6 +106,9 @@ var NATURE_EFFECTIVENESS = map[Nature]NatureSetValue{
 	NatureYang: {
 		NatureYang: 1.25,
 		NatureYin:  0.8,
+	},
+	NatureTai: {
+		NatureTai: 0.8,
 	},
 }
 
