@@ -206,7 +206,7 @@ func ResolveNatures(
 
 	result := 0.0
 	if mult != 0 && avg_effectiveness != 0 {
-		result = max(0, mult+avg_effectiveness-1.0)
+		result = max(0, mult*avg_effectiveness)
 	}
 
 	return NatureResult{

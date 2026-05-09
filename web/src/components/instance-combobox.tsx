@@ -28,6 +28,7 @@ function InstanceCombobox({
 }) {
   const query = useQuery(instancesQuery)
   const instanceItems = query.data ?? []
+  console.log(instanceItems)
   const hasSelectedValue =
     !!value && instanceItems.some((instance) => instance.ID === value)
   const items = [
@@ -49,6 +50,7 @@ function InstanceCombobox({
         } else {
           onValueChange(v)
         }
+        query.refetch()
       }}
     >
       <ComboboxTrigger
@@ -72,11 +74,12 @@ function InstanceCombobox({
             <ComboboxItem
               key={item.ID}
               value={item.ID}
+              disabled={Object.keys(item.clients ?? {}).length >= 2}
               className={cn({
                 "[&_[data-slot='combobox-item-indicator']]:hidden": !value,
               })}
             >
-              {item.ID === CREATE_INSTANCE_VALUE ? 'Create Instance' : item.ID}
+              {item.ID === CREATE_INSTANCE_VALUE ? 'Create Instance' : `${item.ID} (${Object.keys(item.clients ?? {}).length})`}
             </ComboboxItem>
           )}
         </ComboboxList>
