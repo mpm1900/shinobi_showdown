@@ -38,33 +38,40 @@ const NATURES: Array<Nature> = [
 type NatureEffectiveness = Record<Nature, Partial<Record<Nature, number>>>
 const natureEffectiveness: NatureEffectiveness = {
   fire: {
+    fire: 0.8,
     wind: 2,
     water: 0.5,
   },
   wind: {
     fire: 0.5,
+    wind: 0.8,
     lightning: 2,
   },
   lightning: {
     wind: 0.5,
+    lightning: 0.8,
     earth: 2,
+    water: 1.25,
   },
   earth: {
+    fire: 1.25,
     lightning: 0.5,
+    earth: 0.8,
     water: 2,
   },
   water: {
     fire: 2,
     earth: 0.5,
+    water: 0.8,
   },
   tai: {},
   yang: {
-    yin: 1.25,
-    yang: 0.8,
-  },
-  yin: {
     yang: 1.25,
     yin: 0.8,
+  },
+  yin: {
+    yin: 1.25,
+    yang: 0.8,
   },
   pure: {},
 }

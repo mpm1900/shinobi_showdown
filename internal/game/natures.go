@@ -73,32 +73,38 @@ type NatureSetValue = map[Nature]float64
 
 var NATURE_EFFECTIVENESS = map[Nature]NatureSetValue{
 	NatureFire: {
+		NatureFire:  0.8,
 		NatureWind:  2,
 		NatureWater: 0.5,
 	},
 	NatureWind: {
 		NatureFire:      0.5,
+		NatureWind:      0.8,
 		NatureLightning: 2,
 	},
 	NatureLightning: {
-		NatureWind:  0.5,
-		NatureEarth: 2,
+		NatureWind:      0.5,
+		NatureLightning: 0.8,
+		NatureEarth:     2,
 	},
 	NatureEarth: {
+		NatureFire:      1.25,
 		NatureLightning: 0.5,
+		NatureEarth:     0.8,
 		NatureWater:     2,
 	},
 	NatureWater: {
 		NatureFire:  2,
 		NatureEarth: 0.5,
+		NatureWater: 0.8,
 	},
 	NatureYin: {
-		NatureYang: 1.25,
-		NatureYin: 0.8,
+		NatureYin:  1.25,
+		NatureYang: 0.8,
 	},
 	NatureYang: {
-		NatureYin: 1.25,
-		NatureYang: 0.8,
+		NatureYang: 1.25,
+		NatureYin:  0.8,
 	},
 }
 
