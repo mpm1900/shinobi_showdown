@@ -92,17 +92,17 @@ function TeamBuilderStat({
   onConfigChange,
 }: {
   total: number
-  base: ActorDef
+  base: ActorDef | undefined
   stat: ActorBaseStat
   focus?: ActorFocus
-  config: ActorConfig
+  config: ActorConfig | undefined
   onConfigChange: (config: ActorConfig) => void
 }) {
-  const focus = config.focus ?? 'none'
+  const focus = config?.focus ?? 'none'
   const detail = ACTOR_FOCUS_DETAILS[focus]
   const up = detail.up === stat
   const down = detail.down === stat
-  const aux = (config.aux_stats as any)[stat] ?? 0
+  const aux = (config?.aux_stats as any)?.[stat] ?? 0
   const [localAux, setLocalAux] = useState(aux)
 
   useEffect(() => {
@@ -110,6 +110,7 @@ function TeamBuilderStat({
   }, [aux])
 
   const debouncedConfigChange = useDebouncedCallback((value: number) => {
+    if (!config) return
     onConfigChange({
       ...config,
       aux_stats: {
@@ -140,10 +141,10 @@ function TeamBuilderStat({
         {down && ' ( - )'}
       </td>
       <td className="w-8 text-right p-2 py-1 whitespace-nowrap font-black">
-        {base.stats[stat]}
+        {base?.stats[stat]}
       </td>
       <td>
-        <TeamBuilderStatGuage baseStat={base.stats[stat]} greyscale={stat === 'stamina'} />
+        <TeamBuilderStatGuage baseStat={base?.stats[stat] ?? 0} greyscale={stat === 'stamina'} />
       </td>
       <td className="px-2 w-12">
         <Input

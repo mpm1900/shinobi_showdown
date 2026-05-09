@@ -10,7 +10,7 @@ function TeamBuilderStats({
   onConfigChange,
 }: {
   config: ActorConfig
-  def: ActorDef
+  def: ActorDef | undefined
   total: number
   onConfigChange: (config: ActorConfig) => void
 }) {

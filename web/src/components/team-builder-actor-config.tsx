@@ -14,7 +14,7 @@ function TeamBuilderActorConfig({
   def,
   form,
 }: {
-  def: ActorDef
+  def: ActorDef | undefined
   form: TeamBuilderForm
 }) {
   return (
@@ -39,12 +39,12 @@ function TeamBuilderActorConfig({
       {({ actor, selected_index, total, items }) => (
         <div>
           <div className="flex my-2">
-            <img src={def.sprite_url} className="object-cover size-16" />
+            {def && <img src={def.sprite_url} className="object-cover size-16" />}
             <div className="flex flex-col px-2">
               <div className="flex gap-6 justify-between overflow-hidden truncate">
-                <div className="flex-1">{def.name}</div>
+                <div className="flex-1">{def?.name}</div>
                 <div className="flex items-start">
-                  {keys(def.natures)
+                  {keys(def?.natures ?? [])
                     .sort((a, b) => natureIndexes[a] - natureIndexes[b])
                     .map((nature) => (
                       <NatureBadge
@@ -56,7 +56,7 @@ function TeamBuilderActorConfig({
                 </div>
               </div>
               <div className="text-xs text-muted-foreground">
-                {def.restricted && <span className='text-amber-300'>Restricted</span>}
+                {def?.restricted && <span className='text-amber-300'>Restricted</span>}
               </div>
             </div>
           </div>
@@ -65,21 +65,21 @@ function TeamBuilderActorConfig({
               <TeamBuilderActorAttributes
                 def={def}
                 otherItemIDs={items}
-                focus={actor.config?.focus ?? 'none'}
+                focus={actor?.config?.focus ?? 'none'}
                 onFocusChange={(focus) => {
                   form.setFieldValue(
                     `actors[${selected_index}].config.focus`,
                     focus
                   )
                 }}
-                abilityID={actor.config?.ability_ID}
+                abilityID={actor?.config?.ability_ID}
                 onAbilityIDChange={(ability_ID) => {
                   form.setFieldValue(
                     `actors[${selected_index}].config.ability_ID`,
                     ability_ID
                   )
                 }}
-                itemID={actor.config?.item_ID}
+                itemID={actor?.config?.item_ID}
                 onItemIDChange={(item_ID) => {
                   form.setFieldValue(
                     `actors[${selected_index}].config.item_ID`,
@@ -88,13 +88,13 @@ function TeamBuilderActorConfig({
                 }}
               />
               <NastureSetDetails
-                natures={keys(def.natures)}
+                natures={keys(def?.natures ?? [])}
               />
             </div>
 
             <TeamBuilderStats
               total={total}
-              config={actor.config}
+              config={actor?.config}
               def={def}
               onConfigChange={(config) => {
                 form.setFieldValue(`actors[${selected_index}].config`, config)

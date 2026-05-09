@@ -15,7 +15,7 @@ function TeamBuilderActorAttributes({
   itemID,
   onItemIDChange,
 }: {
-  def: ActorDef
+  def: ActorDef | undefined
   otherItemIDs: string[]
   focus: ActorFocus
   onFocusChange: (f: ActorFocus) => void
@@ -28,7 +28,7 @@ function TeamBuilderActorAttributes({
     <div className="space-y-2">
       <FocusSelect value={focus ?? 'none'} onValueChange={onFocusChange} />
       <AbilitySelect
-        options={def.abilities}
+        options={def?.abilities ?? []}
         value={abilityID ?? null}
         onValueChange={onAbilityIDChange}
       />
@@ -36,7 +36,7 @@ function TeamBuilderActorAttributes({
       <Field>
         <FieldLabel>Default Modifiers:</FieldLabel>
         <FieldContent className='flex items-start'>
-          {def.default_modifiers?.map(mod => (
+          {def?.default_modifiers?.map(mod => (
             <Modifier key={mod.ID} count={0} modifier={mod} />
           )) ?? <span className='text-xs'>None</span>}
         </FieldContent>

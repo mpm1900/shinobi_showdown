@@ -133,9 +133,16 @@ function checkActorStat(actor: Actor, key: ActorBaseStat) {
   return stat === pre ? 0 : stat > pre ? 1 : -1
 }
 
-function getTotalBaseStats(actor: ActorDef) {
+function getTotalBaseStats(actor?: ActorDef) {
   const stats: ActorDef['stats'] = {
-    ...actor.stats,
+    stamina: 0,
+    hp: 0,
+    attack: 0,
+    defense: 0,
+    chakra_attack: 0,
+    chakra_defense: 0,
+    speed: 0,
+    ...(actor?.stats ?? {}),
     accuracy: 0,
     evasion: 0,
   }

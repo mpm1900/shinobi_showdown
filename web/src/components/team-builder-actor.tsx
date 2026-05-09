@@ -13,18 +13,7 @@ function TeamBuilderActor({ form }: { form: TeamBuilderForm }) {
       })}
     >
       {({ actor }) => {
-        if (!actor) {
-          return (
-            <div className="flex-1 text-sm text-muted-foreground">
-              Select a shinobi portrait to edit config
-            </div>
-          )
-        }
-
-        const def = actors.data?.find((a) => a.actor_ID === actor.actor_ID)
-
-        if (!def) return null
-
+        const def = actors.data?.find((a) => a.actor_ID === actor?.actor_ID)
         return (
           <div className="flex-1 flex flex-col gap-2 overflow-auto">
             <TeamBuilderActorConfig form={form} def={def} />

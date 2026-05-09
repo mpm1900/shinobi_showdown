@@ -4,6 +4,7 @@ import { makeConfigFromDef } from '#/lib/game/team'
 import { ActorCombobox } from './actor-combobox'
 import { formatDistanceToNow } from 'date-fns'
 import { NatureBadge } from './nature-badge'
+import { Fragment } from 'react/jsx-runtime'
 
 const typeNatures = NATURES.filter((n) => n !== 'tai' && n !== 'pure')
 
@@ -73,9 +74,8 @@ function TeamBuilderList({
                   </div>
                 ))}
                 {typeNatures.map((a) => (
-                  <>
+                  <Fragment key={a}>
                     <div
-                      key={a}
                       className="grid grid-cols-1 place-items-center"
                     >
                       <NatureBadge nature={a} />
@@ -84,7 +84,7 @@ function TeamBuilderList({
                       const eff = getEffectiveness(a, [b])
                       return (
                         <div
-                          key={a + b}
+                          key={b}
                           className="grid grid-cols-1 place-items-center"
                         >
                           <>
@@ -107,7 +107,7 @@ function TeamBuilderList({
                         </div>
                       )
                     })}
-                  </>
+                  </Fragment>
                 ))}
               </div>
             </div>

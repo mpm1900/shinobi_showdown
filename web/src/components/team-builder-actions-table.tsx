@@ -9,7 +9,7 @@ function TeamBuilderActionsTable({
   def,
   form,
 }: {
-  def: ActorDef
+  def: ActorDef | undefined
   form: TeamBuilderForm
 }) {
   const actions = useSuspenseQuery(actionsQuery)
@@ -23,8 +23,8 @@ function TeamBuilderActionsTable({
     >
       {({ selected_index, actors }) => (
         <ActionsTable
-          total={def.action_count}
-          data={actions.data.filter((a) => def.action_IDs.includes(a.ID))}
+          total={def?.action_count ?? 0}
+          data={actions.data.filter((a) => def?.action_IDs.includes(a.ID))}
           rowSelection={Object.fromEntries(
             actors[selected_index]?.config.action_IDs?.map((id) => [
               id,
