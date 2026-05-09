@@ -568,10 +568,10 @@ func (a Actor) GetFocusModifier(stat ActorStat) float64 {
 	}
 
 	if delta.Up == stat {
-		return 1.1
+		return FOCUS_UP_COEF
 	}
 	if delta.Down == stat {
-		return 0.9
+		return FOCUS_DOWN_COEF
 	}
 
 	return 1.0
@@ -594,7 +594,7 @@ func (a Actor) GetModifiers() []Modifier {
 }
 
 func MapBaseStat(stat, level int, focus float64, ev int) int {
-	base := float64((stat * 2) + 32)
+	base := float64((stat * 2) + BASE_IV)
 	ratio := float64((base+(float64(ev*2)))*float64(level)) / 100
 	return Round((ratio + 5) * focus)
 }

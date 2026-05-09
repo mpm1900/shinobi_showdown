@@ -21,7 +21,7 @@ func MakeMajesticFlame() game.Action {
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(1),
 		Cost:        game.Ptr(120),
-		Cooldown:    game.Ptr(2),
+		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),
 		CritMod:     1.5,

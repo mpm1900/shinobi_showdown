@@ -25,11 +25,6 @@ const (
 	OnTurnEnd        TriggerOn = "on-turn-end"
 )
 
-var TRIGGERS []TriggerOn = []TriggerOn{
-	OnDamageReceive,
-	OnTurnEnd,
-}
-
 type Trigger struct {
 	ActionMutation
 	ID         uuid.UUID                                             `json:"ID"`

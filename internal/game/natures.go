@@ -74,41 +74,41 @@ type NatureSetValue = map[Nature]float64
 
 var NATURE_EFFECTIVENESS = map[Nature]NatureSetValue{
 	NatureFire: {
-		NatureFire:  0.8,
-		NatureWind:  2,
-		NatureWater: 0.5,
+		NatureFire:  NATURE_RESISTANCE_PARTIAL,
+		NatureWind:  NATURE_WEAKNESS_FULL,
+		NatureWater: NATURE_RESISTANCE_FULL,
 	},
 	NatureWind: {
-		NatureFire:      0.5,
-		NatureWind:      0.8,
-		NatureLightning: 2,
+		NatureFire:      NATURE_RESISTANCE_FULL,
+		NatureWind:      NATURE_RESISTANCE_PARTIAL,
+		NatureLightning: NATURE_WEAKNESS_FULL,
 	},
 	NatureLightning: {
-		NatureWind:      0.5,
-		NatureLightning: 0.8,
-		NatureEarth:     2,
+		NatureWind:      NATURE_RESISTANCE_FULL,
+		NatureLightning: NATURE_RESISTANCE_PARTIAL,
+		NatureEarth:     NATURE_WEAKNESS_FULL,
 	},
 	NatureEarth: {
-		NatureFire:      1.25,
-		NatureLightning: 0.5,
-		NatureEarth:     0.8,
-		NatureWater:     2,
+		NatureFire:      NATURE_WEAKNESS_PARTIAL,
+		NatureLightning: NATURE_RESISTANCE_FULL,
+		NatureEarth:     NATURE_RESISTANCE_PARTIAL,
+		NatureWater:     NATURE_WEAKNESS_FULL,
 	},
 	NatureWater: {
-		NatureFire:  2,
-		NatureEarth: 0.5,
-		NatureWater: 0.8,
+		NatureFire:  NATURE_WEAKNESS_FULL,
+		NatureEarth: NATURE_RESISTANCE_FULL,
+		NatureWater: NATURE_RESISTANCE_PARTIAL,
 	},
 	NatureYin: {
-		NatureYin:  1.25,
-		NatureYang: 0.8,
+		NatureYin:  NATURE_WEAKNESS_PARTIAL,
+		NatureYang: NATURE_RESISTANCE_PARTIAL,
 	},
 	NatureYang: {
-		NatureYang: 1.25,
-		NatureYin:  0.8,
+		NatureYang: NATURE_WEAKNESS_PARTIAL,
+		NatureYin:  NATURE_RESISTANCE_PARTIAL,
 	},
 	NatureTai: {
-		NatureTai: 0.8,
+		NatureTai: NATURE_RESISTANCE_PARTIAL,
 	},
 }
 

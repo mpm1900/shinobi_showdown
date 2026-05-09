@@ -33,9 +33,9 @@ func NewPlayer(ID uuid.UUID, capacity int, user User) Player {
 	return Player{
 		ID:                ID,
 		User:              user,
-		PositionsCapacity: 2,
+		PositionsCapacity: BATTLE_POSITIONS_SIZE,
 		Positions:         positions,
-		TeamCapacity:      6,
+		TeamCapacity:      BATTLE_TEAM_CAPACITY,
 		UsedSummon:        false,
 	}
 }

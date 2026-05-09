@@ -114,7 +114,7 @@ func setTeam(instance *Instance, request Request) int {
 		actor := game.MakeActor(
 			def,
 			request.ClientID,
-			/* 24 13824 */ 1000000,
+			game.LV_100_XP,
 			hydrated.Ability,
 			hydrated.Item,
 			hydrated.Actions,

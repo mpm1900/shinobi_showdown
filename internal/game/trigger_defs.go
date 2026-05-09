@@ -19,7 +19,7 @@ func RunTriggerTx(on TriggerOn, context Context) GameTransaction {
 var END_OF_TURN_TRIGGER Trigger = Trigger{
 	ID:    uuid.MustParse("f63aefeb-02cf-4dbd-93f9-8f1908f99d4f"),
 	On:    OnTurnEnd,
-	Check: func(p, g Game, context Context, tx Transaction[Modifier]) bool { return true },
+	Check: Match__True,
 	ActionMutation: ActionMutation{
 		Delta: func(parent Game, input Game, context Context) []Transaction[GameMutation] {
 			var transactions []Transaction[GameMutation]
@@ -29,7 +29,7 @@ var END_OF_TURN_TRIGGER Trigger = Trigger{
 					for i := range g.Actors {
 						if t > 0 {
 							g.Actors[i].DecrementCooldowns()
-							g.Actors[i].RecoverStamina(g, 0.08)
+							g.Actors[i].RecoverStamina(g, STAMINA_RECOVERY)
 							if g.Actors[i].Poisoned {
 								g.Actors[i].PoisonedCounter++
 							}

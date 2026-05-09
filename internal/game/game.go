@@ -577,7 +577,7 @@ func (g *Game) EnableActors(playerID uuid.UUID, ids []uuid.UUID) {
 	}
 
 	g.UpdatePlayer(playerID, func(p Player) Player {
-		p.Ready = len(ids) == 4
+		p.Ready = len(ids) == BATTLE_TEAM_SIZE
 		return p
 	})
 }
@@ -818,7 +818,7 @@ func (g Game) ToJSON(playerID *uuid.UUID) GameJSON {
 		Actions:            g.Actions,
 		Prompt:             prompt,
 		Triggers:           g.Triggers,
-		Log:                getLastN(g.Log, 30),
+		Log:                getLastN(g.Log, CLIENT_LOG_SIZE),
 		QueuedActions:      g.QueuedActions,
 	}
 }
