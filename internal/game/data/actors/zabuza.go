@@ -32,7 +32,6 @@ var Zabuza = game.ActorDef{
 	Abilities:   []game.Modifier{},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
-		actions.Chidori.ID,
 		actions.DragonStance.ID,
 		actions.CollidingWave.ID,
 		actions.WhirlwindKick.ID,

@@ -31,7 +31,6 @@ var Guy = game.ActorDef{
 	NatureResistance: game.NewNatureSetValues(),
 	Natures: game.MapNatures([]game.NatureSet{
 		game.NsTai,
-		game.NsYang,
 	}),
 	Abilities: []game.Modifier{
 		modifiers.Guts,

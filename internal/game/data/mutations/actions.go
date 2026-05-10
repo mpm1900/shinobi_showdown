@@ -47,6 +47,20 @@ func RedirectSingleTargetEnemyActions(source game.Actor) game.GameMutation {
 	}
 }
 
+func BoostActionPriority(target game.Actor) game.GameMutation {
+	return game.GameMutation{
+		Delta: func(p, g game.Game, context game.Context) game.Game {
+			for i, a := range g.Actions {
+				if a.Context.SourceActorID != nil && *a.Context.SourceActorID == target.ID {
+					g.Actions[i].Mutation.Priority = game.ActionPriorityP5
+				}
+			}
+
+			return g
+		},
+	}
+}
+
 func QueueAction(actionID uuid.UUID, context game.Context) game.GameMutation {
 	return game.GameMutation{
 		Delta: func(p game.Game, g game.Game, context game.Context) game.Game {

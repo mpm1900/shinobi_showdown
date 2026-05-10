@@ -12,7 +12,7 @@ var Command = MakeCommand()
 func MakeCommand() game.Action {
 	config := game.ActionConfig{
 		Name:        "Command",
-		Nature:      game.Ptr(game.NsYang),
+		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Taijutsu,
 		Description: "Ally uses their last used action again.",
 	}
