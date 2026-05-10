@@ -123,6 +123,44 @@ func ActiveTransactionFilter(game Game, actor Actor, context Context) bool {
 
 	return (context_source || context_target) && (actor_source || actor_target)
 }
+func ActiveTargetFilter(game Game, actor Actor, context Context) bool {
+	if game.ActiveTransaction == nil {
+		return false
+	}
+
+	atx_ctx := game.ActiveTransaction.Context
+	if atx_ctx.SourceActorID == nil || context.SourceActorID == nil {
+		return false
+	}
+	context_target := false
+	actor_target := false
+
+	targets := game.GetTargets(atx_ctx)
+	for _, t := range targets {
+		if t.ID == *context.SourceActorID {
+			context_target = true
+		}
+		if t.ID == actor.ID {
+			actor_target = t.ID == *context.SourceActorID
+		}
+	}
+
+	return context_target && actor_target
+}
+func ActiveTargetTeamSourceFilter(game Game, actor Actor, context Context) bool {
+	if game.ActiveTransaction == nil {
+		return false
+	}
+
+	ctx := game.ActiveTransaction.Context
+	if ctx.SourcePlayerID == nil || context.SourcePlayerID == nil {
+		return false
+	}
+
+	actor_player := *ctx.SourcePlayerID == actor.PlayerID
+	context_player := *ctx.SourcePlayerID == *context.SourcePlayerID
+	return actor_player || context_player
+}
 func TeamFilter(game Game, actor Actor, context Context) bool {
 	if context.SourcePlayerID == nil {
 		return false

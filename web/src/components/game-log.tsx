@@ -4,13 +4,9 @@ import { gameStore } from '#/lib/stores/game'
 import { useStore } from '@tanstack/react-store'
 import { clientsStore } from '#/lib/stores/clients'
 import { cn } from '#/lib/utils'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from './ui/accordion'
 import { ScrollArea } from './ui/scroll-area'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
+import { GameChat } from './game-chat'
 
 function GameLogItem({
   item,
@@ -68,36 +64,39 @@ function GameLogList() {
   }, [lastLogID])
 
   return (
-    <ul>
-      {log.map((item, index) => (
-        <li
-          key={item.ID}
-          ref={index === log.length - 1 ? endRef : undefined}
-          className="text-muted-foreground"
-        >
-          <GameLogItem item={item} clientID={clientID} />
-        </li>
-      ))}
-    </ul>
+    <ScrollArea className="h-40">
+      <ul>
+        {log.map((item, index) => (
+          <li
+            key={item.ID}
+            ref={index === log.length - 1 ? endRef : undefined}
+            className="text-muted-foreground"
+          >
+            <GameLogItem item={item} clientID={clientID} />
+          </li>
+        ))}
+      </ul>
+    </ScrollArea>
   )
 }
 
 function GameLog() {
   return (
-    <Accordion
-      defaultValue={['log']}
-      type="multiple"
-      className="bg-stone-950/80 px-3 rounded-sm border border-stone-300/30 ring-1 ring-black min-w-96 mt-4"
-    >
-      <AccordionItem value="log">
-        <AccordionTrigger>Log</AccordionTrigger>
-        <AccordionContent>
-          <ScrollArea className="h-40">
-            <GameLogList />
-          </ScrollArea>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+    <div className="bg-stone-950/80 text-sm py-2 px-3 rounded-sm border border-stone-300/30 ring-1 ring-black min-w-96 mt-4">
+      <Tabs defaultValue="log">
+        <TabsList>
+          <TabsTrigger value="log">Log</TabsTrigger>
+          <TabsTrigger value="chat">Chat</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="log">
+          <GameLogList />
+        </TabsContent>
+        <TabsContent value="chat">
+          <GameChat />
+        </TabsContent>
+      </Tabs>
+    </div>
   )
 }
 

@@ -15,6 +15,7 @@ type SocketRequestType =
   | 'resolve-prompt'
   | 'validate-context'
   | 'get-targets'
+  | 'send-chat'
 
 type SocketRequest = {
   type: SocketRequestType
@@ -25,12 +26,26 @@ type SocketRequest = {
   team_config?: TeamConfig
 }
 
+type ChatMessage = {
+  client_ID: string
+  text: string
+  timestamp: string
+  username: string
+}
+
 type SocketResponse = {
-  type: 'game' | 'clients' | 'join-success' | 'validate-context' | 'target-IDs'
+  type:
+    | 'game'
+    | 'clients'
+    | 'join-success'
+    | 'validate-context'
+    | 'target-IDs'
+    | 'new-chat'
   state: Game | null
   clients: Array<Client> | null
   context: Context | null
   valid: boolean | null
+  chat_message: ChatMessage | null
 }
 
 type SocketMessageSubscriber = (

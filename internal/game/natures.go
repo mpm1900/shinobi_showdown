@@ -141,6 +141,7 @@ func NewNatureSetValues() map[Nature]float64 {
 		NatureWater:     1.00,
 		NatureYin:       1.00,
 		NatureYang:      1.00,
+		NatureTai:       1.00,
 	}
 }
 
@@ -194,14 +195,22 @@ func ResolveNatures(
 
 	mult := 1.0
 	for _, nature := range input {
-		res := resistances[nature]
+		res, ok := resistances[nature]
+		if !ok {
+			res = 1.0
+		}
 
 		if res == 0 {
 			mult = 0
 			break
 		}
 
-		mult = mult * damages[nature] / res
+		dmg, ok := damages[nature]
+		if !ok {
+			dmg = 1.0
+		}
+
+		mult = mult * dmg / res
 	}
 
 	result := 0.0

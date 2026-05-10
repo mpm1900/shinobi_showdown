@@ -246,6 +246,14 @@ func Reducer(instance *Instance, request Request) int {
 		instance.RunGameActions()
 		return state
 
+	case SendChat:
+		if request.ChatMessage == nil {
+			return none
+		}
+
+		instance.BroadcastChatMessage(*request.ChatMessage)
+		return none
+
 	default:
 		return none
 	}

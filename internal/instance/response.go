@@ -1,6 +1,7 @@
 package instance
 
 import (
+	"shinobi_showdown/internal/chat"
 	"shinobi_showdown/internal/game"
 
 	"github.com/google/uuid"
@@ -14,14 +15,17 @@ const (
 	ResponseTypeJoinSuccess     = "join-success"
 	ResponseTypeValidateContext = "validate-context"
 	ResponseTypeTargetIDs       = "target-IDs"
+
+	ResponseTypeNewChat = "new-chat"
 )
 
 type Response struct {
-	Type    ResponseType   `json:"type"`
-	State   *game.GameJSON `json:"state"`
-	Clients []*Client      `json:"clients"`
-	Valid   *bool          `json:"valid"`
-	Context *game.Context  `json:"context"`
+	Type        ResponseType   `json:"type"`
+	State       *game.GameJSON `json:"state"`
+	Clients     []*Client      `json:"clients"`
+	Valid       *bool          `json:"valid"`
+	Context     *game.Context  `json:"context"`
+	ChatMessage *chat.Message  `json:"chat_message"`
 }
 
 func NewGameMessage(client *Client, state *game.Game) Response {
@@ -33,17 +37,28 @@ func NewGameMessage(client *Client, state *game.Game) Response {
 	}
 
 	return Response{
-		Type:    ResponseTypeGame,
-		State:   &json,
-		Clients: nil,
+		Type:        ResponseTypeGame,
+		State:       &json,
+		Clients:     nil,
+		ChatMessage: nil,
 	}
 }
 
 func NewClientsMessage(clients []*Client) Response {
 	return Response{
-		Type:    ResponseTypeClients,
-		State:   nil,
-		Clients: clients,
+		Type:        ResponseTypeClients,
+		State:       nil,
+		Clients:     clients,
+		ChatMessage: nil,
+	}
+}
+
+func NewChatMessage(message chat.Message) Response {
+	return Response{
+		Type:        ResponseTypeNewChat,
+		State:       nil,
+		Clients:     nil,
+		ChatMessage: &message,
 	}
 }
 

@@ -1,6 +1,7 @@
 package instance
 
 import (
+	"shinobi_showdown/internal/chat"
 	"shinobi_showdown/internal/db"
 	"shinobi_showdown/internal/game"
 	"shinobi_showdown/internal/game/data"
@@ -23,6 +24,8 @@ const (
 
 	GetTargets      RequestType = "get-targets"
 	ValidateContext RequestType = "validate-context"
+
+	SendChat RequestType = "send-chat"
 )
 
 type Request struct {
@@ -32,6 +35,7 @@ type Request struct {
 	Context     game.Context    `json:"context"`
 	ActorConfig *db.ActorConfig `json:"actor_config"`
 	TeamConfig  *db.TeamConfig  `json:"team_config"`
+	ChatMessage *chat.Message   `json:"chat_message"`
 }
 
 type HydratedActorConfig struct {

@@ -3,6 +3,7 @@ package instance
 import (
 	"context"
 	"maps"
+	"shinobi_showdown/internal/chat"
 	"shinobi_showdown/internal/game"
 	"shinobi_showdown/internal/game/data"
 	"slices"
@@ -100,6 +101,12 @@ func (i *Instance) BroadcastClients() {
 	clients := slices.Collect(maps.Values(i.Clients))
 	for _, client := range i.Clients {
 		client.TryWriteResponse(NewClientsMessage(clients))
+	}
+}
+
+func (i *Instance) BroadcastChatMessage(message chat.Message) {
+	for _, client := range i.Clients {
+		client.TryWriteResponse(NewChatMessage(message))
 	}
 }
 

@@ -54,6 +54,7 @@ import {
   PiPlantBold,
   PiWindFill,
   PiSpiralFill,
+  PiBrain,
 } from 'react-icons/pi'
 import type { IconType } from 'react-icons/lib'
 import { MdFileUploadOff } from 'react-icons/md'
@@ -78,8 +79,8 @@ import {
 import { ImSleepy2 } from 'react-icons/im'
 import { SiComma, SiRazorpay } from 'react-icons/si'
 import { LuRefreshCwOff } from 'react-icons/lu'
-import { BiSolidBinoculars } from "react-icons/bi";
-import { RiFileCopyFill } from "react-icons/ri";
+import { BiSolidBinoculars } from 'react-icons/bi'
+import { RiFileCopyFill } from 'react-icons/ri'
 
 const Aburame: IconType = (props) => (
   <img src="/icons/aburame.svg" alt="aburame" {...(props as any)} />
@@ -249,6 +250,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   kcm_transformed: PiSpiralFill,
   nature_specialist: GiEcology,
   neutralizing_chakra: TbCancel,
+  mind_link: PiBrain,
   mold_breaker: TbCancel,
   onigiri: PiOnigiriFill,
   onyx_magatama: ({ className, ...props }) => (
