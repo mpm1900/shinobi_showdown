@@ -1,5 +1,5 @@
-import { InputGroup } from 'node_modules/@base-ui/react/esm/autocomplete/index.parts'
 import {
+  InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,

@@ -43,5 +43,6 @@ var Asuma = game.ActorDef{
 		actions.HeavyPunch.ID,
 		actions.VacuumBlast.ID,
 		actions.WindSlash.ID,
+		actions.DrainPunch.ID,
 	}, GlobalActions...),
 }

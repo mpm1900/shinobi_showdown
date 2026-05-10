@@ -117,6 +117,7 @@ var ACTIONS map[uuid.UUID]game.Action = map[uuid.UUID]game.Action{
 	actions.ReverseLotus.ID:        actions.ReverseLotus,
 	actions.DesperateStrike.ID:     actions.DesperateStrike,
 	actions.FocusPunch.ID:          actions.FocusPunch,
+	actions.DrainPunch.ID:          actions.DrainPunch,
 
 	actions.StoneBullet.ID:     actions.StoneBullet,
 	actions.IronSkin.ID:        actions.IronSkin,
