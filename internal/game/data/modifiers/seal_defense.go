@@ -7,11 +7,11 @@ import (
 	"github.com/google/uuid"
 )
 
-var sealOfImmortalityID = uuid.MustParse("90fb1491-6da8-5828-9fad-45b9c06fff98")
-var SealOfImmortalityTrigger = game.Trigger{
+var sodefID = uuid.MustParse("94d8c719-b6df-4b73-9bb9-f3843cc2b9f7")
+var sealOfDefenseTrigger = game.Trigger{
 	ID:         uuid.New(),
-	ModifierID: sealOfImmortalityID,
-	On:         game.OnImmortalSave,
+	ModifierID: sodefID,
+	On:         game.OnDamageReceive,
 	Check:      game.ComposeTF(game.Match__SourceActor_SourceActor),
 	ActionMutation: game.ActionMutation{
 		Priority: game.MutPriorityDefault,
@@ -32,25 +32,27 @@ var SealOfImmortalityTrigger = game.Trigger{
 	},
 }
 
-var SealOfImmortality = game.Modifier{
-	ID:          sealOfImmortalityID,
-	GroupID:     &sealOfImmortalityID,
+var SealOfDefense = game.Modifier{
+	ID:          sodefID,
+	GroupID:     &sodefID,
 	Icon:        "seal_up",
-	Name:        "Seal of Immortality",
-	Description: "Full HP only: survive lethal damage once.",
+	Name:        "Seal of Defense",
+	Description: "Holder takes half damage. On damaged: break this seal.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,
 	ActorMutations: []game.ActorMutation{
 		game.MakeActorMutation(
-			&sealOfImmortalityID,
+			&sodefID,
 			game.MutPriorityDefault,
-			game.ComposeAF(game.SourceFilter, game.ActiveFilter, game.FullHealthFilter),
+			game.ComposeAF(game.SourceFilter, game.ActiveFilter),
 			func(g game.Game, a game.Actor, ctx game.Context) game.Actor {
-				a.Immortal = true
+				a.DamageReduction[game.ChakraAttack] *= 0.5
+				a.DamageReduction[game.Attack] *= 0.5
 				return a
-			}),
+			},
+		),
 	},
 	Triggers: []game.Trigger{
-		SealOfImmortalityTrigger,
+		sealOfDefenseTrigger,
 	},
 }
