@@ -19,7 +19,7 @@ var PriorityFailure = game.Modifier{
 		game.MakeActorMutation(
 			&priorityFailureID,
 			game.MutPriorityDefault,
-			game.ComposeAF(game.ActiveFilter, game.OtherTeamFilter),
+			game.ComposeAF(game.ActiveFilter),
 			func(g game.Game, a game.Actor, c game.Context) game.Actor {
 				for i, action := range a.Actions {
 					if !action.Meta.Switch {

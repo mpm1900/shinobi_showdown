@@ -29,3 +29,14 @@ func MakeHumanBoulder() game.Action {
 		Config: config,
 	})
 }
+
+// proxies
+var SandCoffin = MakeSandCoffin()
+
+func MakeSandCoffin() game.Action {
+	action := MakeHumanBoulder()
+	action.ID = uuid.MustParse("a351e716-8dc8-4c05-99a2-d0ec4ea87065")
+	action.Config.Name = "Sand Coffin"
+	action.Config.Power = game.Ptr(55)
+	return action
+}

@@ -24,7 +24,7 @@ function AbilitySelect({
     <Field>
       <FieldLabel>Ability</FieldLabel>
       <FieldContent>
-        <Select value={value ?? ''} onValueChange={onValueChange}>
+        <Select value={value ?? ''} onValueChange={onValueChange} disabled={options.length == 0}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select an Ability " />
           </SelectTrigger>
