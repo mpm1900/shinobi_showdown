@@ -17,13 +17,13 @@ var Guy = game.ActorDef{
 	},
 
 	Stats: map[game.ActorStat]int{
-		game.StatHP:            87,
-		game.StatStamina:       80,
-		game.StatAttack:        145,
-		game.StatDefense:       92,
-		game.StatChakraAttack:  55,
-		game.StatChakraDefense: 86,
-		game.StatSpeed:         115,
+		game.StatHP:            110,
+		game.StatStamina:       100,
+		game.StatAttack:        130,
+		game.StatDefense:       80,
+		game.StatChakraAttack:  50,
+		game.StatChakraDefense: 90,
+		game.StatSpeed:         100,
 		game.StatEvasion:       100,
 		game.StatAccuracy:      100,
 	},
@@ -47,5 +47,6 @@ var Guy = game.ActorDef{
 		actions.WhirlwindKick.ID,
 		actions.HeavyPunch.ID,
 		actions.DesperateStrike.ID,
+		actions.NightGuy.ID,
 	}, GlobalActions...),
 }

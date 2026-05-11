@@ -208,7 +208,7 @@ var SageModeID = uuid.MustParse("764b5ee9-9136-5994-b598-40c3881e79dc")
 var SageMode = MakeStatMultAll(game.StatSpeed, "Sage Mode", &SageModeID, -1, game.MutPriorityPostSet)
 
 var HiddenMistID = uuid.MustParse("2d007fb7-270b-492c-b114-f752f9c7a17a")
-var HiddenMist = MakeStatDeltaOtherTeam(game.StatAccuracy, "Hidden Mist", &HiddenMistID, -2)
+var HiddenMist = MakeStatDeltaAll(game.StatAccuracy, "Hidden Mist", &HiddenMistID, -2)
 
 // HAZE
 var hazeID = uuid.MustParse("1f9dc965-2621-5e04-aa5e-6484bcf9a723")

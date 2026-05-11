@@ -12,6 +12,7 @@ type AttackConfig struct {
 	ID              uuid.UUID
 	Config          game.ActionConfig
 	MapContext      func(game.Game, game.Context) game.Context
+	MapConfig       func(game.Game, game.Context, game.ActionConfig) game.ActionConfig
 	TargetPredicate func(game.Game, game.Actor, game.Context) bool
 	Priority        *int
 	BeforeAttack    func(game.Game, game.Context) []game.GameTransaction
@@ -43,6 +44,9 @@ func makeAttack(config AttackConfig) game.Action {
 				}
 
 				action_config, _ := game.GetActiveActionConfig(g, config.Config)
+				if config.MapConfig != nil {
+					action_config = config.MapConfig(g, context, action_config)
+				}
 				crit_result := game.MakeCriticalCheck(action_config)
 				dmg_config := game.NewDamageConfig(crit_result.Ratio, game.RandomDamageFactor())
 				if config.OnSuccess != nil {
