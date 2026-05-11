@@ -76,8 +76,8 @@ const TargetButton = memo(function TargetButton({
             ...context,
             target_position_IDs: includes
               ? (context.target_position_IDs?.filter(
-                  (id) => id !== actor.position_ID
-                ) ?? null)
+                (id) => id !== actor.position_ID
+              ) ?? null)
               : [...(context.target_position_IDs ?? []), actor.position_ID],
           })
         }
@@ -89,7 +89,7 @@ const TargetButton = memo(function TargetButton({
           !includes && 'text-shadow-[1px_1px_0px_#000000]'
         )}
       >
-        <div className="truncate">{actor.name}</div>
+        <div className="truncate font-bold">{actor.name}</div>
         {action?.config.power && (
           <div className="text-xs">
             x<span className="font-black">{effectiveness?.toFixed(2)}</span>
@@ -100,14 +100,16 @@ const TargetButton = memo(function TargetButton({
       <div className="relative w-full">
         <MiniHealthBar actor={actor} className="left-0 right-0" />
       </div>
-      <div className="absolute z-0 opacity-30 -left-4 -top-3">
-        {actor.affiliations
-          ?.filter((_, i) => i == 0)
-          .map((a) => {
-            const C = SHINOBI_ICONS[a]
-            return C ? <C key={a} className="w-12" /> : null
-          })}
-      </div>
+      <img
+        src={actor.sprite_url}
+        draggable={false}
+        className={cn('absolute left-0 bottom-0 opacity-40')}
+        style={{
+          imageRendering: 'pixelated',
+        }}
+        width={64}
+        height={64}
+      />
     </Button>
   )
 })
