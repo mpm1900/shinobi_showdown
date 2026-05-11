@@ -230,8 +230,9 @@ type ActorState struct {
 	/**
 	 * Metadata fields used for tracking and filters
 	 */
-	LastUsedActionTX   *Transaction[Action] `json:"last_used_action_tx"`
+	LastUsedActionTX   *Transaction[Action] `json:"-"`
 	LastReceivedDamage map[uuid.UUID]int    `json:"-"`
+	HitCount           int                  `json:"-"`
 }
 
 type Summon struct {

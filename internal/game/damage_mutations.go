@@ -242,7 +242,7 @@ func (e *damageHandler) resolveTargetHit(g *Game, targetIndex int, target Resolv
 
 	for _, damage := range damages {
 		if e.config.Repeat {
-			e.queueRepeatHit(target, damage)
+			e.queueRepeatHit(g, target, damage)
 		} else {
 			e.applySingleHit(g, target, damage)
 		}
@@ -264,6 +264,10 @@ func (e *damageHandler) applySingleHit(g *Game, target ResolvedActor, damage int
 		for _, target := range targets {
 			ctx := MakeContextForActor(target).WithSource(*e.context.SourceActorID).WithPlayer(*e.context.SourcePlayerID)
 			g.On(OnDamageReceive, &ctx)
+			g.UpdateActor(target.ID, func(a Actor) Actor {
+				a.HitCount++
+				return a
+			})
 
 			if e.action.Stat != nil {
 				stat := *e.action.Stat
@@ -279,7 +283,7 @@ func (e *damageHandler) applySingleHit(g *Game, target ResolvedActor, damage int
 		g.On(OnCritical, &e.context)
 	}
 }
-func (e *damageHandler) queueRepeatHit(target ResolvedActor, damage int) {
+func (e *damageHandler) queueRepeatHit(g *Game, target ResolvedActor, damage int) {
 	targetContext := e.context
 	targetContext.TargetActorIDs = []uuid.UUID{target.ID}
 	targetContext.TargetPositionIDs = []uuid.UUID{}
@@ -290,6 +294,11 @@ func (e *damageHandler) queueRepeatHit(target ResolvedActor, damage int) {
 	logMux := AddLogs(log)
 	logMux.Filter = TargetsAreOneAlive
 	logTx := MakeTransaction(logMux, e.context)
+
+	g.UpdateActor(target.ID, func(a Actor) Actor {
+		a.HitCount++
+		return a
+	})
 
 	if e.config.Critical > 1.0 {
 		critlog := MakeGameLog(fmt.Sprintf("Critical Hit! (x%f)", e.config.Critical), NewContext(), 1)
@@ -325,7 +334,7 @@ func (e *damageHandler) handleNatureEffectiveness(g *Game, target ResolvedActor)
 	}
 }
 func (e *damageHandler) buildSideEffects() {
-	if e.total <= 0 || e.context.SourceActorID == nil {
+	if e.total == 0 || e.context.SourceActorID == nil {
 		return
 	}
 
