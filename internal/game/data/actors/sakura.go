@@ -49,5 +49,6 @@ var Sakura = game.ActorDef{
 		actions.WaterWall.ID,
 		actions.TradeOffer.ID,
 		actions.InstilFear.ID,
+		actions.HealthSplit.ID,
 	}, GlobalActions...),
 }

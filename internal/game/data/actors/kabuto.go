@@ -31,7 +31,7 @@ var Kabuto = game.ActorDef{
 		game.NsYin,
 		game.NsYang,
 	}),
-	Abilities:   []game.Modifier{
+	Abilities: []game.Modifier{
 		modifiers.AllyGuard,
 	},
 	ActionCount: 4,
@@ -46,5 +46,6 @@ var Kabuto = game.ActorDef{
 		actions.Barrier.ID,
 		actions.MudWall.ID,
 		actions.WaterWall.ID,
+		actions.HealthSplit.ID,
 	}, GlobalActions...),
 }

@@ -41,5 +41,6 @@ var Yamato = game.ActorDef{
 		actions.SummonAlly.ID,
 		actions.Yawn.ID,
 		actions.Taunt.ID,
+		actions.HealthSplit.ID,
 	}, GlobalActions...),
 }

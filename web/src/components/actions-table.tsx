@@ -41,7 +41,7 @@ const columns = [
           (row.original.locked ||
             !row.getCanSelect() ||
             (table.options.meta as any).total ==
-              table.getSelectedRowModel().rows.length)
+            table.getSelectedRowModel().rows.length)
         }
       />
     ),
@@ -113,23 +113,11 @@ const columns = [
         variant="ghost"
         onClick={() => column.toggleSorting()}
       >
-        Accuracy
+        Acc
       </Button>
     ),
     cell: ({ row }) =>
       row.original.config.accuracy ? `${row.original.config.accuracy}%` : '-',
-  }),
-  helper.accessor('config.cooldown', {
-    header: ({ column }) => (
-      <Button
-        className="-ml-4"
-        variant="ghost"
-        onClick={() => column.toggleSorting()}
-      >
-        C/D
-      </Button>
-    ),
-    cell: ({ row }) => row.original.config.cooldown || '-',
   }),
   helper.accessor('config.description', {
     id: 'description',

@@ -32,6 +32,21 @@ func getDefenseStat(a ActorStat) ActorStat {
 	return StatDefense
 }
 
+func SetDamage(damage int) GameMutation {
+	return GameMutation{
+		Delta: func(p Game, g Game, context Context) Game {
+			targets := g.GetTargets(context)
+			for _, t := range targets {
+				g.UpdateActor(t.ID, func(a Actor) Actor {
+					a.Damage = damage
+					return a
+				})
+			}
+			return g
+		},
+	}
+}
+
 // returns if target is still alive after
 func ApplyDamageWith(g *Game, source_ID *uuid.UUID, target ResolvedActor, damage int, updater func(Actor) Actor) bool {
 	alive := target.Alive
