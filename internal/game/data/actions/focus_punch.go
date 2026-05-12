@@ -64,7 +64,7 @@ var focusPunchConfig = game.ActionConfig{
 	Name:        "Focus Punch",
 	Nature:      game.Ptr(game.NsTai),
 	Jutsu:       game.Taijutsu,
-	Description: "User tightens focus their focus. If not damaged this turn, unleashes a powerful attack.",
+	Description: "User tightens their focus. If not damaged this turn, they unleash a powerful attack.",
 	TargetCount: game.Ptr(1),
 	Accuracy:    game.Ptr(100),
 	Power:       game.Ptr(150),

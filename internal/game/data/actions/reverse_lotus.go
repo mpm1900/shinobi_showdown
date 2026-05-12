@@ -13,7 +13,7 @@ func MakeReverseLotus() game.Action {
 
 	config := game.ActionConfig{
 		Name:        "Reverse Lotus",
-		Description: "If this attack fails or misses, the user loses 1/2th HP.",
+		Description: "If this attack fails or misses, the user loses half of their HP.",
 		Nature:      game.Ptr(game.NsTai),
 		Accuracy:    game.Ptr(50),
 		Power:       game.Ptr(110),

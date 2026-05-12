@@ -64,7 +64,7 @@ var SourceBonded game.Modifier = game.Modifier{
 	ID:          sourceBondedID,
 	GroupID:     &sourceBondedID,
 	Name:        "Bonded",
-	Description: "When a bonded shinbi dies, so does the other.",
+	Description: "When a bonded shinobi dies, so does the other.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,
 	ActorMutations: []game.ActorMutation{
@@ -146,7 +146,7 @@ var TargetBonded game.Modifier = game.Modifier{
 	ID:          targetBondedID,
 	GroupID:     &targetBondedID,
 	Name:        "Bonded",
-	Description: "When a bonded shinbi dies, so does the other.",
+	Description: "When a bonded shinobi dies, so does the other.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,
 	ActorMutations: []game.ActorMutation{

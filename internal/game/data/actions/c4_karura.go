@@ -44,7 +44,7 @@ var c4KaruraModifier = game.Modifier{
 	ID:          c4KaruraModifierID,
 	GroupID:     &c4KaruraModifierID,
 	Name:        "C4: Karura",
-	Description: "On turn end: each enemy shinobi loses 1/2th HP.",
+	Description: "On turn end: each enemy shinobi loses half of their HP.",
 	Icon:        "c4_karura",
 	Show:        false,
 	Duration:    3,
@@ -65,7 +65,7 @@ func MakeC4Karura() game.Action {
 		Nature:      game.Ptr(game.NsExplosion),
 		Jutsu:       game.Ninjutsu,
 		Cost:        game.Ptr(80),
-		Description: "In 2 turns, each enemy shinobi loses 1/2th HP. This effect is nullified if the user dies or switches out.",
+		Description: "In 2 turns, each enemy shinobi loses half of their HP. This effect is nullified if the user dies or switches out.",
 	}
 	return game.Action{
 		ID:              c4KaruraID,

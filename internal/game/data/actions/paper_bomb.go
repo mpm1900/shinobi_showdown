@@ -12,7 +12,7 @@ func MakePaperBomb() game.Action {
 	ID := uuid.MustParse("414f82a3-63e8-45b5-a398-7c8d15519552")
 	config := game.ActionConfig{
 		Name:        "Paper Bomb",
-		Description: "Damage is based of the user's Chakra Defense rather than Chakra Attack.",
+		Description: "Damage is based on the user's Chakra Defense rather than Chakra Attack.",
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(70),
 		Stat:        game.Ptr(game.StatChakraDefense),

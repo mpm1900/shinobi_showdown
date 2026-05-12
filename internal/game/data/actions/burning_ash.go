@@ -16,7 +16,7 @@ func MakeBurningAsh() game.Action {
 		Name:        "Burning Ash",
 		Nature:      game.Ptr(game.NsFire),
 		Jutsu:       game.Ninjutsu,
-		Description: "Sets Flamable Terrain.",
+		Description: "Sets Flammable Terrain.",
 		Cost:        game.Ptr(10),
 		Power:       game.Ptr(20),
 		Accuracy:    game.Ptr(100),

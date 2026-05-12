@@ -15,7 +15,7 @@ func MakeNoEscape() game.Action {
 		Name:        "No Escape",
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Genjutsu,
-		Description: "Target can not escape.",
+		Description: "Target cannot escape.",
 	}
 
 	return game.Action{

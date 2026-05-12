@@ -15,7 +15,7 @@ func MakeChilliPill() game.Action {
 		Name:        "Chilli Pill",
 		Nature:      game.Ptr(game.NsYang),
 		Jutsu:       game.Fuinjutsu,
-		Description: "User pays 1/2th HP to raise Attack to +6.",
+		Description: "User pays half of their HP to raise Attack to +6.",
 	}
 
 	return game.Action{

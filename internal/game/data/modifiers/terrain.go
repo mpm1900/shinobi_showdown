@@ -97,7 +97,7 @@ var flamableTerrainID = uuid.MustParse("3cb62ea5-6657-464c-84b8-684721b6bfdb")
 
 func FlamableTerrain() game.Modifier {
 	mod := SetTerrain(flamableTerrainID, game.GameTerrainFlamable)
-	mod.Name = "Flamable Terrain"
+	mod.Name = "Flammable Terrain"
 	mod.Icon = "flamable"
 	mod.Description = ""
 	mod.ActorMutations = []game.ActorMutation{
@@ -125,7 +125,7 @@ func RockyTerrain() game.Modifier {
 	mod := SetTerrain(rockyTerrainID, game.GameTerrainRocky)
 	mod.Name = "Rocky Terrain"
 	mod.Icon = "rocky_terrain"
-	mod.Description = "Non-earth, gounded shinobi have decreased accuracy."
+	mod.Description = "Non-earth, grounded shinobi have decreased accuracy."
 	mod.ActorMutations = []game.ActorMutation{
 		game.MakeActorMutation(
 			&rockyTerrainID,

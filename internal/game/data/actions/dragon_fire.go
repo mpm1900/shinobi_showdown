@@ -14,7 +14,7 @@ func MakeDragonFire() game.Action {
 
 	config := game.ActionConfig{
 		Name:        "Dragon Fire",
-		Description: "25% chance to burn target. In Flamable Terrain, hits all enemies.",
+		Description: "25% chance to burn target. In Flammable Terrain, hits all enemies.",
 		Nature:      game.Ptr(game.NsFire),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(80),

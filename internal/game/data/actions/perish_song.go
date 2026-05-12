@@ -10,7 +10,7 @@ import (
 var perishDuration = 4
 
 var pdmID = uuid.New()
-var PerishDealthModifier game.Modifier = game.Modifier{
+var PerishDeathModifier game.Modifier = game.Modifier{
 	ID:             pdmID,
 	GroupID:        &pdmID,
 	Name:           "Perish",
@@ -85,7 +85,7 @@ func MakePerishSong() game.Action {
 
 				for _, target := range g.GetTargets(context) {
 					mut_ctx := game.MakeContextForActor(target)
-					mut := mutations.AddModifiers(true, PerishDealthModifier, PerishInfoModifier)
+					mut := mutations.AddModifiers(true, PerishDeathModifier, PerishInfoModifier)
 					tx := game.MakeTransaction(mut, mut_ctx)
 					transactions = append(transactions, tx)
 				}

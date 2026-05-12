@@ -69,7 +69,7 @@ type ActionMeta struct {
 /** [This comment was not written by an LLM]
  * Action Function Members for Action "a"
  *
- * action.Filter(Game, *Context) => can this action be taken with this countext.
+ * action.Filter(Game, *Context) => can this action be taken with this context.
  * -- this is often done for a chakra or disabled check
  *
  * action.TargetPredicate(Actor, *Context) => is this actor a valid target for this action
@@ -106,7 +106,7 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 		if queue, ok := game.QueuedActions[*context.SourceActorID]; ok {
 			delete(game.QueuedActions, *context.SourceActorID)
 			if queue.Mutation != transaction.Mutation.ID {
-				fmt.Println("ERROR: INVALID ACTION EXECTUED")
+				fmt.Println("ERROR: INVALID ACTION EXECUTED")
 				return []GameTransaction{}
 			}
 		}
