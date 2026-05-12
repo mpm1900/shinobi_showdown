@@ -58,7 +58,7 @@ import {
   PiBrain,
 } from 'react-icons/pi'
 import type { IconType } from 'react-icons/lib'
-import { MdFileUploadOff } from 'react-icons/md'
+import { MdFileUploadOff, MdOutlineSyncProblem } from 'react-icons/md'
 import { GrFastForward } from 'react-icons/gr'
 import { TbTagPlus } from 'react-icons/tb'
 import { HiScale } from 'react-icons/hi2'
@@ -303,6 +303,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
     />
   ),
   status_reflection: GiShieldReflect,
+  status_sync: MdOutlineSyncProblem,
   stunned: GiStarSwirl,
   switch_locked: LuRefreshCwOff,
   tailwind: PiWindFill,
