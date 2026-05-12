@@ -48,5 +48,6 @@ var Guy = game.ActorDef{
 		actions.HeavyPunch.ID,
 		actions.DesperateStrike.ID,
 		actions.NightGuy.ID,
+		actions.WillOfTheFallen.ID,
 	}, GlobalActions...),
 }
