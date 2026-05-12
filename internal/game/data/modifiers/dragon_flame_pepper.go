@@ -12,7 +12,7 @@ var DragonFlamePepper game.Modifier = game.Modifier{
 	GroupID:     &dragonFlamePepperID,
 	Icon:        "dragon_flame_pepper",
 	Name:        "Dragon-Flame Pepper",
-	Description: "Fire attacks deal 10% more damage.",
+	Description: "Fire attacks deal 1.2x damage.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,
 	ActorMutations: []game.ActorMutation{
@@ -21,7 +21,7 @@ var DragonFlamePepper game.Modifier = game.Modifier{
 			game.MutPriorityDefault,
 			game.ComposeAF(game.SourceFilter, game.ActiveFilter),
 			func(g game.Game, actor game.Actor, context game.Context) game.Actor {
-				actor.NatureDamage[game.NatureFire] += 0.1
+				actor.NatureDamage[game.NatureFire] += 0.2
 				return actor
 			},
 		),

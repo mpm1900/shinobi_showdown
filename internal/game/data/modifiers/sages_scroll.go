@@ -12,7 +12,7 @@ var SagesScroll game.Modifier = game.Modifier{
 	GroupID:     &sagesScrollID,
 	Icon:        "sages_scroll",
 	Name:        "Sage's Scroll",
-	Description: "Yang attacks deal 10% more damage.",
+	Description: "Yang attacks deal 1.2x damage.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,
 	ActorMutations: []game.ActorMutation{
@@ -21,7 +21,7 @@ var SagesScroll game.Modifier = game.Modifier{
 			game.MutPriorityDefault,
 			game.ComposeAF(game.SourceFilter, game.ActiveFilter),
 			func(g game.Game, actor game.Actor, context game.Context) game.Actor {
-				actor.NatureDamage[game.NatureYang] += 0.1
+				actor.NatureDamage[game.NatureYang] += 0.2
 				return actor
 			},
 		),

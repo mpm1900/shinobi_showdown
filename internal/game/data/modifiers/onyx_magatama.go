@@ -12,7 +12,7 @@ var OnyxMagatama game.Modifier = game.Modifier{
 	GroupID:     &onyxMagatamaID,
 	Icon:        "onyx_magatama",
 	Name:        "Onyx Magatama",
-	Description: "Yin attacks deal 10% more damage.",
+	Description: "Yin attacks deal 1.2x damage.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,
 	ActorMutations: []game.ActorMutation{
@@ -21,7 +21,7 @@ var OnyxMagatama game.Modifier = game.Modifier{
 			game.MutPriorityDefault,
 			game.ComposeAF(game.SourceFilter, game.ActiveFilter),
 			func(g game.Game, actor game.Actor, context game.Context) game.Actor {
-				actor.NatureDamage[game.NatureYin] += 0.1
+				actor.NatureDamage[game.NatureYin] += 0.2
 				return actor
 			},
 		),

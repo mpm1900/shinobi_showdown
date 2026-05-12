@@ -12,7 +12,7 @@ var FoldingWarFan game.Modifier = game.Modifier{
 	GroupID:     &foldingWarFanID,
 	Icon:        "folding_war_fan",
 	Name:        "Folding War-Fan",
-	Description: "Wind attacks deal 10% more damage.",
+	Description: "Wind attacks deal 1.2x damage.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,
 	ActorMutations: []game.ActorMutation{
@@ -21,7 +21,7 @@ var FoldingWarFan game.Modifier = game.Modifier{
 			game.MutPriorityDefault,
 			game.ComposeAF(game.SourceFilter, game.ActiveFilter),
 			func(g game.Game, actor game.Actor, context game.Context) game.Actor {
-				actor.NatureDamage[game.NatureWind] += 0.1
+				actor.NatureDamage[game.NatureWind] += 0.2
 				return actor
 			},
 		),

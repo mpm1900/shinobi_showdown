@@ -12,7 +12,7 @@ var CoralFragment game.Modifier = game.Modifier{
 	GroupID:     &coralFragmentID,
 	Icon:        "coral_fragment",
 	Name:        "Coral Fragment",
-	Description: "Water attacks deal 10% more damage.",
+	Description: "Water attacks deal 1.2x damage.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,
 	ActorMutations: []game.ActorMutation{
@@ -21,7 +21,7 @@ var CoralFragment game.Modifier = game.Modifier{
 			game.MutPriorityDefault,
 			game.ComposeAF(game.SourceFilter, game.ActiveFilter),
 			func(g game.Game, actor game.Actor, context game.Context) game.Actor {
-				actor.NatureDamage[game.NatureWater] += 0.1
+				actor.NatureDamage[game.NatureWater] += 0.2
 				return actor
 			},
 		),

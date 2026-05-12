@@ -12,7 +12,7 @@ var ConductiveBracers game.Modifier = game.Modifier{
 	GroupID:     &conductiveBracersID,
 	Icon:        "conductive_bracers",
 	Name:        "Conductive Bracers",
-	Description: "Lightning attacks deal 10% more damage.",
+	Description: "Lightning attacks deal 1.2x damage.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,
 	ActorMutations: []game.ActorMutation{
@@ -21,7 +21,7 @@ var ConductiveBracers game.Modifier = game.Modifier{
 			game.MutPriorityDefault,
 			game.ComposeAF(game.SourceFilter, game.ActiveFilter),
 			func(g game.Game, actor game.Actor, context game.Context) game.Actor {
-				actor.NatureDamage[game.NatureLightning] += 0.1
+				actor.NatureDamage[game.NatureLightning] += 0.2
 				return actor
 			},
 		),
