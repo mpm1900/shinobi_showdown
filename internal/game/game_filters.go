@@ -178,6 +178,14 @@ func ComposeTF(filters ...TriggerFilter) TriggerFilter {
 		return true
 	}
 }
+func Match__SourceIsNotStatused(p, g Game, context Context, tx Transaction[Modifier]) bool {
+	source, ok := g.GetSource(tx.Context)
+	if !ok {
+		return false
+	}
+
+	return !source.Statused
+}
 func Match__True(p, g Game, context Context, tx Transaction[Modifier]) bool {
 	return true
 }
