@@ -43,6 +43,7 @@ var Minato = game.ActorDef{
 		actions.SageMode.ID,
 		actions.WhirlwindKick.ID,
 		actions.FlyingRaijinStrike.ID,
+		actions.FlyingRaijinAssist.ID,
 		actions.SummonAlly.ID,
 		actions.BodyFlicker.ID,
 		actions.WindSlash.ID,

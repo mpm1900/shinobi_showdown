@@ -34,6 +34,7 @@ var Shisui = game.ActorDef{
 	}),
 	Abilities: []game.Modifier{
 		modifiers.Guts,
+		modifiers.StatusSync,
 	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{

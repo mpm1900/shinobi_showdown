@@ -8,7 +8,7 @@ import (
 )
 
 var statusReflectionID = uuid.MustParse("6e1f834f-96a1-4f85-b04f-02d293592ad3")
-var StatusReflectionTrigger game.Trigger = game.Trigger{
+var StatusReflectionTrigger = game.Trigger{
 	ID:         uuid.New(),
 	ModifierID: statusReflectionID,
 	On:         game.OnModifierAdd,
@@ -64,11 +64,11 @@ var StatusReflectionTrigger game.Trigger = game.Trigger{
 	},
 }
 
-var StatusReflection game.Modifier = game.Modifier{
+var StatusReflection = game.Modifier{
 	ID:          statusReflectionID,
 	GroupID:     &statusReflectionID,
 	Icon:        "status_reflection",
-	Name:        "Status Reflection",
+	Name:        "Debuff Reflection",
 	Description: "On stat drop: reflect the effect back at the source.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,

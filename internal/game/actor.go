@@ -152,9 +152,8 @@ type ActorDef struct {
 type ActorStateType string
 
 const (
-	ActorStateFlying      ActorStateType = "flying"
-	ActorStateGrounded    ActorStateType = "grounded"
-	ActorStateIncorporeal ActorStateType = "incorporeal"
+	ActorStateFlying   ActorStateType = "flying"
+	ActorStateGrounded ActorStateType = "grounded"
 )
 
 type ActorStance string
@@ -387,6 +386,7 @@ func MakeActor(
 		Item:       item,
 		Ability:    ability,
 		ActorState: ActorState{
+			State:                ActorStateGrounded,
 			ActiveTurns:          0,
 			Alive:                true,
 			Damage:               0,
@@ -803,10 +803,18 @@ func (r ResolvedActor) CanAct(game *Game, context Context) bool {
 				return a
 			})
 			game.FilterModifiers(func(modifier Transaction[Modifier]) bool {
+				if modifier.Mutation.Status {
+					for _, t := range game.GetTargets(modifier.Context) {
+						if t.ID == r.ID {
+							return false
+						}
+					}
+					return true
+				}
 				if modifier.Context.SourceActorID == nil {
 					return true
 				}
-				return *modifier.Context.SourceActorID != r.ID || modifier.Mutation.Status == false
+				return *modifier.Context.SourceActorID != r.ID
 			})
 			log := NewLogContext("$source$ woke up.", context)
 			game.PushLog(log)

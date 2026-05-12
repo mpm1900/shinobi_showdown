@@ -41,7 +41,7 @@ func MakeApplyPoison() game.Action {
 				for _, target := range targets {
 					transactions = append(
 						transactions,
-						modifiers.ApplyPoison(config, g, target)...,
+						modifiers.ApplyPoison(config, g, target, context)...,
 					)
 				}
 

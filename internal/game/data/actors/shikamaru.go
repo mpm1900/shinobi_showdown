@@ -46,5 +46,6 @@ var Shikamaru = game.ActorDef{
 		actions.WaterWall.ID,
 		actions.Yawn.ID,
 		actions.TradeOffer.ID,
+		actions.PowerBoost.ID,
 	}, GlobalActions...),
 }

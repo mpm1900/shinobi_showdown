@@ -13,7 +13,7 @@ var ActionBoost = MakeActionBoost()
 func MakeActionBoost() game.Action {
 	config := game.ActionConfig{
 		Name:        "Action Boost",
-		Nature:      game.Ptr(game.NsPure),
+		Nature:      game.Ptr(game.NsTai),
 		Jutsu:       game.Ninjutsu,
 		Description: "Target acts after this action.",
 	}
@@ -42,4 +42,14 @@ func MakeActionBoost() game.Action {
 			},
 		},
 	}
+}
+
+// proxies
+var FlyingRaijinAssist = MakeFlyingRaijinAssist()
+
+func MakeFlyingRaijinAssist() game.Action {
+	action := MakeActionBoost()
+	action.ID = uuid.MustParse("57bcb90e-df7b-4bfd-92f2-2d40847afedb")
+	action.Config.Name = "Flying Raijin: Assist"
+	return action
 }

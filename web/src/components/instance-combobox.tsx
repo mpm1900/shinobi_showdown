@@ -28,7 +28,6 @@ function InstanceCombobox({
 }) {
   const query = useQuery(instancesQuery)
   const instanceItems = query.data ?? []
-  console.log(instanceItems)
   const hasSelectedValue =
     !!value && instanceItems.some((instance) => instance.ID === value)
   const items = [

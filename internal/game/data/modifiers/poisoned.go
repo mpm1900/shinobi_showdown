@@ -21,15 +21,16 @@ var PoisonedTrigger game.Trigger = game.Trigger{
 	ActionMutation: game.ActionMutation{
 		Priority: game.ActionPriorityDefault,
 		Filter:   game.TrueGameFilter,
-		Delta: func(p game.Game, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
-			source, ok := g.GetSource(context)
-			if !ok {
-				return []game.GameTransaction{}
+		Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
+			transactions := []game.GameTransaction{}
+			targets := g.GetTargets(context)
+
+			for _, target := range targets {
+				mut := game.RatioDamage(0.0625 * float64(target.PoisonedCounter-1))
+				transactions = append(transactions, game.MakeTransaction(mut, context))
 			}
-			mut := game.RatioDamage(0.0625 * float64(source.PoisonedCounter-1))
-			return []game.Transaction[game.GameMutation]{
-				game.MakeTransaction(mut, context),
-			}
+
+			return transactions
 		},
 	},
 }

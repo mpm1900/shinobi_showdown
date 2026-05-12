@@ -30,21 +30,22 @@ func AddStatus(checkWarded bool, modifiers ...game.Modifier) game.GameMutation {
 	mut := AddModifiers(checkWarded, modifiers...)
 	baseDelta := mut.Delta
 	mut.Delta = func(p, g game.Game, context game.Context) game.Game {
-		source, ok := g.GetSource(context)
-		if !ok {
-			return g
+		targets := g.GetTargets(context)
+
+		for _, target := range targets {
+			if CheckGameJutsuImmunity(&g, target) {
+				continue
+			}
+
+			resolved := target.Resolve(g)
+			if resolved.Statused {
+				continue
+			}
+
+			g = baseDelta(p, g, context)
 		}
 
-		if CheckGameJutsuImmunity(&g, source) {
-			return g
-		}
-
-		resolved := source.Resolve(g)
-		if resolved.Statused {
-			return g
-		}
-
-		return baseDelta(p, g, context)
+		return g
 	}
 	return mut
 }
@@ -99,21 +100,22 @@ func AddModifiers(checkWarded bool, modifiers ...game.Modifier) game.GameMutatio
 					if resolved.Safeguarded && context.SourcePlayerID != nil && resolved.PlayerID != *context.SourcePlayerID {
 						mod_tx.Context.FilterOutTarget(actor)
 
-						context.SourceActorID = &actor.ID
-						g.PushLog(game.MakeGameLog("$source$ was safeguarded.", context.WithSource(actor.ID), 1))
+						log_ctx := game.MakeContextForActor(resolved.Actor)
+						g.PushLog(game.MakeGameLog("$source$ was safeguarded.", log_ctx, 1))
 						continue
 					}
 					if checkWarded && resolved.Warded {
 						mod_tx.Context.FilterOutTarget(actor)
 
-						context.SourceActorID = &actor.ID
-						g.PushLog(game.MakeGameLog("$source$ was warded.", context.WithSource(actor.ID), 1))
+						log_ctx := game.MakeContextForActor(resolved.Actor)
+						g.PushLog(game.MakeGameLog("$source$ was warded.", log_ctx, 1))
 						continue
 					}
 
 					hasApplicableTarget = true
 					if hasCandidate {
-						g.PushLog(game.MakeGameLog(fmt.Sprintf("$source$ gained %s.", modifier.Name), context.WithSource(actor.ID), 1))
+						log_ctx := game.MakeContextForActor(resolved.Actor)
+						g.PushLog(game.MakeGameLog(fmt.Sprintf("$source$ gained %s.", modifier.Name), log_ctx, 1))
 					}
 				}
 

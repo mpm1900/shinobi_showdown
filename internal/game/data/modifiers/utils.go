@@ -5,6 +5,7 @@ import (
 	"math/rand/v2"
 	"shinobi_showdown/internal/game"
 	"shinobi_showdown/internal/game/data/mutations"
+	"slices"
 
 	"github.com/google/uuid"
 )
@@ -15,12 +16,18 @@ func RemoveModifierSource(id uuid.UUID, actor game.Actor) []game.GameTransaction
 	ctx := game.MakeContextForActor(actor)
 	ctx.ModifierID = &id
 	mod := mutations.RemoveModifierWhere(func(t game.Transaction[game.Modifier]) bool {
-		if t.Context.SourceActorID == nil {
+		if !((t.Mutation.ID == id) || (t.Mutation.GroupID != nil && *t.Mutation.GroupID == id)) {
 			return false
 		}
 
-		return actor.ID == *t.Context.SourceActorID &&
-			(t.Mutation.ID == id || (t.Mutation.GroupID != nil && *t.Mutation.GroupID == id))
+		if slices.Contains(t.Context.TargetActorIDs, actor.ID) {
+			return true
+		}
+		if actor.PositionID != nil && slices.Contains(t.Context.TargetPositionIDs, *actor.PositionID) {
+			return true
+		}
+
+		return false
 	})
 	mod_tx := game.MakeTransaction(mod, ctx)
 	transactions = append(transactions, mod_tx)
@@ -84,7 +91,7 @@ func ChanceModifier(config game.ActionConfig, g game.Game, context game.Context,
 	return ApplyModifier(config, context, actor, modifier)
 }
 
-func applyStatus(checkWarded bool, config game.ActionConfig, g game.Game, actor game.Actor, modifier game.Modifier, mutation game.GameMutation) []game.GameTransaction {
+func applyStatus(checkWarded bool, config game.ActionConfig, g game.Game, actor game.Actor, modifier game.Modifier, mutation game.GameMutation, actionCtx game.Context) []game.GameTransaction {
 	transactions := []game.GameTransaction{}
 
 	resolved := actor.Resolve(g)
@@ -114,7 +121,11 @@ func applyStatus(checkWarded bool, config game.ActionConfig, g game.Game, actor 
 		return transactions
 	}
 
-	ctx := game.MakeContextForActor(actor)
+	ctx := game.NewContext()
+	ctx.ActionID = actionCtx.ActionID
+	ctx.SourcePlayerID = actionCtx.SourcePlayerID
+	ctx.SourceActorID = actionCtx.SourceActorID
+	ctx.TargetActorIDs = []uuid.UUID{actor.ID}
 	ctx.ParentActorID = nil // do not remove on switch
 
 	mod := mutations.AddStatus(checkWarded, modifier)
@@ -125,11 +136,11 @@ func applyStatus(checkWarded bool, config game.ActionConfig, g game.Game, actor 
 
 	return transactions
 }
-func ApplyStatus(config game.ActionConfig, g game.Game, actor game.Actor, modifier game.Modifier, mutation game.GameMutation) []game.GameTransaction {
-	return applyStatus(true, config, g, actor, modifier, mutation)
+func ApplyStatus(config game.ActionConfig, g game.Game, actor game.Actor, modifier game.Modifier, mutation game.GameMutation, actionCtx game.Context) []game.GameTransaction {
+	return applyStatus(true, config, g, actor, modifier, mutation, actionCtx)
 }
-func ApplyStatusBypass(config game.ActionConfig, g game.Game, actor game.Actor, modifier game.Modifier, mutation game.GameMutation) []game.GameTransaction {
-	return applyStatus(false, config, g, actor, modifier, mutation)
+func ApplyStatusBypass(config game.ActionConfig, g game.Game, actor game.Actor, modifier game.Modifier, mutation game.GameMutation, actionCtx game.Context) []game.GameTransaction {
+	return applyStatus(false, config, g, actor, modifier, mutation, actionCtx)
 }
 func ClearStatus(g game.Game, actor game.Actor) []game.GameTransaction {
 	transactions := []game.GameTransaction{}
@@ -168,14 +179,14 @@ func ClearStatus(g game.Game, actor game.Actor) []game.GameTransaction {
 	return transactions
 }
 
-func ApplyBurn(config game.ActionConfig, g game.Game, actor game.Actor) []game.GameTransaction {
+func ApplyBurn(config game.ActionConfig, g game.Game, actor game.Actor, actionCtx game.Context) []game.GameTransaction {
 	_, ok := actor.Natures[game.NsFire]
 	if ok {
 		// fire nature immune to burn
 		return []game.GameTransaction{}
 	}
 
-	return ApplyStatus(config, g, actor, Burned, mutations.Burn)
+	return ApplyStatus(config, g, actor, Burned, mutations.Burn, actionCtx)
 }
 func ChanceBurn(config game.ActionConfig, g game.Game, context game.Context, actor game.Actor, chance int) []game.GameTransaction {
 	source, ok := g.GetSource(context)
@@ -187,16 +198,16 @@ func ChanceBurn(config game.ActionConfig, g game.Game, context game.Context, act
 		return []game.GameTransaction{}
 	}
 
-	return ApplyBurn(config, g, actor)
+	return ApplyBurn(config, g, actor, context)
 }
 
-func ApplyParalysis(config game.ActionConfig, g game.Game, actor game.Actor) []game.GameTransaction {
+func ApplyParalysis(config game.ActionConfig, g game.Game, actor game.Actor, actionCtx game.Context) []game.GameTransaction {
 	_, ok := actor.Natures[game.NsLightning]
 	if ok {
 		// lightning nature immune to paralysis
 		return []game.GameTransaction{}
 	}
-	return ApplyStatus(config, g, actor, Paralysis, mutations.Paralyze)
+	return ApplyStatus(config, g, actor, Paralysis, mutations.Paralyze, actionCtx)
 }
 func ChanceParalysis(config game.ActionConfig, g game.Game, context game.Context, actor game.Actor, chance int) []game.GameTransaction {
 	source, ok := g.GetSource(context)
@@ -208,11 +219,11 @@ func ChanceParalysis(config game.ActionConfig, g game.Game, context game.Context
 		return []game.GameTransaction{}
 	}
 
-	return ApplyParalysis(config, g, actor)
+	return ApplyParalysis(config, g, actor, context)
 }
 
-func ApplySleep(config game.ActionConfig, g game.Game, actor game.Actor) []game.GameTransaction {
-	return ApplyStatus(config, g, actor, Sleeping, mutations.Sleep)
+func ApplySleep(config game.ActionConfig, g game.Game, actor game.Actor, actionCtx game.Context) []game.GameTransaction {
+	return ApplyStatus(config, g, actor, Sleeping, mutations.Sleep, actionCtx)
 }
 func ChanceSleep(config game.ActionConfig, g game.Game, context game.Context, actor game.Actor, chance int) []game.GameTransaction {
 	source, ok := g.GetSource(context)
@@ -224,11 +235,11 @@ func ChanceSleep(config game.ActionConfig, g game.Game, context game.Context, ac
 		return []game.GameTransaction{}
 	}
 
-	return ApplySleep(config, g, actor)
+	return ApplySleep(config, g, actor, context)
 }
 
-func ApplyPoison(config game.ActionConfig, g game.Game, actor game.Actor) []game.GameTransaction {
-	return ApplyStatus(config, g, actor, Poisoned, mutations.Poison)
+func ApplyPoison(config game.ActionConfig, g game.Game, actor game.Actor, actionCtx game.Context) []game.GameTransaction {
+	return ApplyStatus(config, g, actor, Poisoned, mutations.Poison, actionCtx)
 }
 func ChancePoison(config game.ActionConfig, g game.Game, context game.Context, actor game.Actor, chance int) []game.GameTransaction {
 	source, ok := g.GetSource(context)
@@ -240,7 +251,7 @@ func ChancePoison(config game.ActionConfig, g game.Game, context game.Context, a
 		return []game.GameTransaction{}
 	}
 
-	return ApplyPoison(config, g, actor)
+	return ApplyPoison(config, g, actor, context)
 }
 
 func ApplyImmunity(modifier_id uuid.UUID, immunity_id uuid.UUID) game.ActorMutation {

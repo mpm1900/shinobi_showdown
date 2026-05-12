@@ -79,10 +79,13 @@ func TargetableFilter(game Game, actor Actor, context Context) bool {
 		AliveFilter,
 		ActiveFilter,
 		func(game Game, actor Actor, context Context) bool {
-			resolved := actor.Resolve(game)
-			if resolved.State == ActorStateIncorporeal {
-				return false
-			}
+			/*
+				resolved := actor.Resolve(game)
+
+				if resolved.State == ActorStateIncorporeal {
+					return false
+				}
+			*/
 			return true
 		},
 	)(game, actor, context)
@@ -201,6 +204,11 @@ func GameHasTerrain(terrain GameTerrain) func(Game, Actor, Context) bool {
 	return func(g Game, a Actor, ctx Context) bool {
 		state, _ := g.GetState(ctx)
 		return state.Terrain == terrain
+	}
+}
+func HasState(state ActorStateType) func(Game, Actor, Context) bool {
+	return func(g Game, a Actor, ctx Context) bool {
+		return a.State == state
 	}
 }
 

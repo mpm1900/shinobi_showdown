@@ -15,13 +15,13 @@ var Orochimaru = game.ActorDef{
 	Affiliations: []string{game.AffAkatsuki, game.AffOto},
 
 	Stats: map[game.ActorStat]int{
-		game.StatHP:            92,
+		game.StatHP:            100,
 		game.StatStamina:       100,
-		game.StatAttack:        105,
-		game.StatDefense:       90,
-		game.StatChakraAttack:  125,
+		game.StatAttack:        95,
+		game.StatDefense:       92,
+		game.StatChakraAttack:  119,
 		game.StatChakraDefense: 90,
-		game.StatSpeed:         98,
+		game.StatSpeed:         94,
 		game.StatEvasion:       100,
 		game.StatAccuracy:      100,
 	},
@@ -40,7 +40,6 @@ var Orochimaru = game.ActorDef{
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
 		actions.Recover.ID,
-		actions.Chidori.ID,
 		actions.DragonStance.ID,
 		actions.WhirlwindKick.ID,
 		actions.MindTransfer.ID,
@@ -48,5 +47,7 @@ var Orochimaru = game.ActorDef{
 		actions.SnakeStrike.ID,
 		actions.MudWall.ID,
 		actions.WaterWall.ID,
+		actions.Devistation.ID,
+		actions.VacuumBlast.ID,
 	}, GlobalActions...),
 }

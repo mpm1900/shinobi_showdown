@@ -23,7 +23,7 @@ var Paralysis game.Modifier = game.Modifier{
 		game.MakeActorMutation(
 			&paralysisID,
 			game.MutPriorityPostStagedStats,
-			game.ComposeAF(game.SourceFilter, game.ActiveFilter),
+			game.ComposeAF(game.TargetFilter, game.ActiveFilter),
 			func(g game.Game, actor game.Actor, context game.Context) game.Actor {
 				keys := maps.Keys(actor.AppliedModifiers)
 				if slices.Contains(slices.Collect(keys), Guts.ID) {

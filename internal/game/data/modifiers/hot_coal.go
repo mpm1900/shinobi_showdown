@@ -22,7 +22,7 @@ var HotCoalTrigger = game.Trigger{
 				return transactions
 			}
 
-			transactions = append(transactions, ApplyBurn(game.ActionConfig{}, g, source)...)
+			transactions = append(transactions, ApplyBurn(game.ActionConfig{}, g, source, game.NewContext())...)
 			return transactions
 		},
 	},

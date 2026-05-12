@@ -121,6 +121,7 @@ var ACTIONS map[uuid.UUID]game.Action = map[uuid.UUID]game.Action{
 	actions.NightGuy.ID:            actions.NightGuy,
 	actions.RaigoFist.ID:           actions.RaigoFist,
 	actions.WillOfTheFallen.ID:     actions.WillOfTheFallen,
+	actions.FlyingRaijinAssist.ID:  actions.FlyingRaijinAssist,
 
 	actions.StoneBullet.ID:     actions.StoneBullet,
 	actions.IronSkin.ID:        actions.IronSkin,
@@ -166,6 +167,7 @@ var ACTIONS map[uuid.UUID]game.Action = map[uuid.UUID]game.Action{
 	actions.WindSlash.ID:      actions.WindSlash,
 	actions.Hirudora.ID:       actions.Hirudora,
 	actions.ShikigamiDance.ID: actions.ShikigamiDance,
+	actions.Devistation.ID:    actions.Devistation,
 
 	actions.KebariSenbon.ID: actions.KebariSenbon,
 	actions.HealthSplit.ID:  actions.HealthSplit,
