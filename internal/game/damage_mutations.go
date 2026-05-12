@@ -275,20 +275,21 @@ func (e *damageHandler) applySingleHit(g *Game, target ResolvedActor, damage int
 	ApplyDamage(g, &e.source.ID, target, damage)
 
 	if damage > 0 && e.context.SourceActorID != nil {
-		targets := g.GetTargets(e.context)
-		for _, target := range targets {
-			ctx := MakeContextForActor(target).WithSource(*e.context.SourceActorID).WithPlayer(*e.context.SourcePlayerID)
-			g.On(OnDamageReceive, &ctx)
-			g.UpdateActor(target.ID, func(a Actor) Actor {
-				a.HitCount++
-				return a
-			})
+		ctx := MakeContextForActor(target.Actor).WithSource(*e.context.SourceActorID)
+		if e.context.SourcePlayerID != nil {
+			ctx = ctx.WithPlayer(*e.context.SourcePlayerID)
+		}
 
-			if e.action.Stat != nil {
-				stat := *e.action.Stat
-				if stat == StatAttack || stat == StatDefense {
-					g.On(OnDamagePhysical, &ctx)
-				}
+		g.On(OnDamageReceive, &ctx)
+		g.UpdateActor(target.ID, func(a Actor) Actor {
+			a.HitCount++
+			return a
+		})
+
+		if e.action.Stat != nil {
+			stat := *e.action.Stat
+			if stat == StatAttack || stat == StatDefense {
+				g.On(OnDamagePhysical, &ctx)
 			}
 		}
 	}

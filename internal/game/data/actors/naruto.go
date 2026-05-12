@@ -17,7 +17,7 @@ var Naruto = game.ActorDef{
 	Affiliations: []string{game.AffKonoha},
 
 	Stats: map[game.ActorStat]int{
-		game.StatHP:            100,
+		game.StatHP:            110,
 		game.StatStamina:       130,
 		game.StatAttack:        60,
 		game.StatDefense:       80,
@@ -60,10 +60,10 @@ var KCMNaurto = game.ActorDef{
 	Affiliations: []string{game.AffKonoha},
 
 	Stats: map[game.ActorStat]int{
-		game.StatHP:            100,
+		game.StatHP:            110,
 		game.StatStamina:       130,
 		game.StatAttack:        116,
-		game.StatDefense:       97,
+		game.StatDefense:       107,
 		game.StatChakraAttack:  150,
 		game.StatChakraDefense: 97,
 		game.StatSpeed:         100,
