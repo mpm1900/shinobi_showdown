@@ -2,7 +2,6 @@ package actors
 
 import (
 	"shinobi_showdown/internal/game"
-	"shinobi_showdown/internal/game/data/actions"
 	"shinobi_showdown/internal/game/data/modifiers"
 
 	"github.com/google/uuid"
@@ -35,18 +34,5 @@ var Kabuto = game.ActorDef{
 		modifiers.AllyGuard,
 	},
 	ActionCount: 4,
-	ActionIDs: append([]uuid.UUID{
-		actions.Haze.ID,
-		actions.SageMode.ID,
-		actions.Tailwind.ID,
-		actions.Redirect.ID,
-		actions.TempleOfNirvana.ID,
-		actions.PerishSong.ID,
-		actions.ThirtyTwoPalms.ID,
-		actions.Flash.ID,
-		actions.Barrier.ID,
-		actions.MudWall.ID,
-		actions.WaterWall.ID,
-		actions.HealthSplit.ID,
-	}, GlobalActions...),
+	ActionIDs:   []uuid.UUID{},
 }

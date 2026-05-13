@@ -15,6 +15,7 @@ func MakeAtomicDismantlingCharge() game.Action {
 	config := game.ActionConfig{
 		Name:        "Atomic Dismantling",
 		Description: "Charges up, boosts chakra attack. Then attacks the next turn.",
+		LogSuccess:  game.Ptr("$source$ is charging up."),
 		Nature:      game.Ptr(game.NsParticle),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(130),
@@ -56,10 +57,10 @@ func MakeAtomicDismantling() game.Action {
 	ID := uuid.MustParse("d716d826-eb56-4022-a6aa-709091b5a4f0")
 	config := game.ActionConfig{
 		Name:        "Atomic Dismantling",
-		Description: "Deals more damage proportional to remaining HP.",
+		Description: "Charges up, boosts chakra attack. Then attacks the next turn.",
 		Nature:      game.Ptr(game.NsParticle),
 		Accuracy:    game.Ptr(100),
-		Power:       game.Ptr(150),
+		Power:       game.Ptr(130),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(1),
 		Cost:        game.Ptr(0),
