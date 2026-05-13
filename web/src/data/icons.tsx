@@ -47,6 +47,7 @@ import {
   GiAura,
   GiMedicines,
   GiHotSpices,
+  GiCurlyWing,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -234,6 +235,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   flamable: GiWildfires,
   flash_powder: GiLaserBurst,
   flooded: FaHouseFloodWater,
+  flying: GiCurlyWing,
   focused: GiLookAt,
   focusing: GiPunch,
   gedo_shard: GiTopaz,

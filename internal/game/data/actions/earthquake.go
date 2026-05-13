@@ -14,7 +14,7 @@ func MakeEarthquake() game.Action {
 
 	config := game.ActionConfig{
 		Name:        "Earthquake",
-		Description: "Hits all other active shinobi. Applies Rocky terrain.",
+		Description: "Hits all other grounded shinobi. Applies Rocky terrain.",
 		Nature:      game.Ptr(game.NsEarth),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(100),
@@ -32,7 +32,7 @@ func MakeEarthquake() game.Action {
 		Config:          config,
 		TargetPredicate: game.NoneFilter,
 		MapContext: func(g game.Game, context game.Context) game.Context {
-			other_actors := g.GetActorsFilters(context, game.ComposeAF(game.ActiveFilter, game.OtherFilter, game.HasState(game.ActorStateGrounded)))
+			other_actors := g.GetActorsFilters(context, game.ComposeAF(game.ActiveFilter, game.OtherFilter, game.RHasState(game.ActorStateGrounded)))
 			for _, t := range other_actors {
 				context.TargetPositionIDs = append(context.TargetPositionIDs, *t.PositionID)
 			}

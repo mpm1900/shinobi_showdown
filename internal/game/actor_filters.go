@@ -230,3 +230,9 @@ func RIsProtectedFilter(protected bool) func(Game, Actor, Context) bool {
 		return resolved.Protected == protected
 	}
 }
+func RHasState(state ActorStateType) func(Game, Actor, Context) bool {
+	return func(g Game, a Actor, ctx Context) bool {
+		resolved := a.Resolve(g)
+		return resolved.State == state
+	}
+}
