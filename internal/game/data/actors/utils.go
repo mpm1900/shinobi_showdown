@@ -9,7 +9,7 @@ import (
 
 var GlobalActions = []uuid.UUID{
 	actions.ApplyPoison.ID,
-	actions.BodyReplacement.ID,
+	actions.Substitution.ID,
 	actions.LightningKunai.ID,
 	actions.Fireball.ID,
 	actions.GalePalm.ID,

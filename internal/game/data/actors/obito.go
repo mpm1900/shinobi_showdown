@@ -46,5 +46,5 @@ var Obito = game.ActorDef{
 		actions.KusariChains.ID,
 		actions.SwordsStance.ID,
 		actions.DesperateStrike.ID,
-	}, GlobalActionsExcept(actions.BodyReplacement.ID)...),
+	}, GlobalActionsExcept(actions.Substitution.ID)...),
 }

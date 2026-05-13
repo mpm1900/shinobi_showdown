@@ -2,75 +2,62 @@ package actions
 
 import (
 	"shinobi_showdown/internal/game"
+	"shinobi_showdown/internal/game/data/modifiers"
+	"shinobi_showdown/internal/game/data/mutations"
 
 	"github.com/google/uuid"
 )
 
-var ShadowClone = MakeShadowClone()
+var Substitution = MakeSubstitution()
 
-func MakeShadowClone() game.Action {
+func MakeSubstitution() game.Action {
 	config := game.ActionConfig{
-		Name:        "Shadow Clone",
+		Name:        "Body Replacement",
 		Nature:      game.Ptr(game.NsYin),
+		Cooldown:    game.Ptr(1),
 		Jutsu:       game.Ninjutsu,
-		Description: "Summons a shadow clone to take damage. Pay 1/4th of Max HP.",
+		Description: "Protects the user from actions this turn. +4 priority, 1 turn cooldown.",
 	}
-
 	return game.Action{
-		ID:              uuid.MustParse("e2a1768a-fb9a-5891-a703-a20cf8bcbd6e"),
+		ID:              uuid.MustParse("d3765608-4b30-5c4c-b5a9-f4132f0bbb7c"),
 		Config:          config,
 		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{
-			Priority: game.ActionPriorityDefault,
-			Filter:   game.ComposeGF(game.SourceIsAlive, game.SourceHasHpRatio(0.25)),
-			Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+			Priority: game.ActionPriorityProtect,
+			Filter: game.ComposeGF(
+				game.SourceIsAlive,
+				game.SourceIsActionOffCooldown,
+			),
+			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
-				s, ok := g.GetSource(context)
-				if !ok {
-					return transactions
-				}
-				source := s.Resolve(g)
-				damage := game.RatioDamage(0.25)
-				damage_context := game.MakeContextForActor(s)
 
-				mut := game.GameMutation{
-					Delta: func(mp, mg game.Game, mc game.Context) game.Game {
-						mg.UpdateActor(*mc.SourceActorID, func(a game.Actor) game.Actor {
-							hp := game.Round(float64(source.Stats[game.StatHP]) * 0.25)
-							summon := game.MakeActor(
-								game.ActorDef{
-									ActorID:   uuid.New(),
-									SpriteURL: "/sprites/sub_64.png",
-									Name:      source.Name,
-									Stats: map[game.ActorStat]int{
-										game.StatHP: hp,
-									},
-								},
-								a.PlayerID,
-								a.Experience,
-								nil,
-								nil,
-								[]game.Action{},
-								game.FocusNone,
-								map[game.ActorStat]int{},
-							)
-							a.SetSummonFromActor(&summon, true)
-							return a
-						})
-						return mg
-					},
-				}
-
-				transactions = append(
-					transactions,
-					game.MakeTransaction(damage, damage_context),
-					game.MakeTransaction(mut, context),
-				)
+				mutation := mutations.AddModifiers(false, modifiers.Protected)
+				transaction := game.MakeTransaction(mutation, context)
+				transactions = append(transactions, transaction)
 
 				return transactions
 			},
 		},
 	}
+}
+
+// proxies
+var Kamui = MakeKamui()
+
+func MakeKamui() game.Action {
+	action := MakeSubstitution()
+	action.ID = uuid.MustParse("04669c33-cb56-480a-9c94-187b2acab8e1")
+	action.Config.Name = "Kamui"
+	return action
+}
+
+var NegateJutsu = MakeNegateJutsu()
+
+func MakeNegateJutsu() game.Action {
+	action := MakeSubstitution()
+	action.ID = uuid.MustParse("923b1582-fd96-4f97-9957-1cdd9169600f")
+	action.Config.Name = "Negate Jutsu"
+	return action
 }

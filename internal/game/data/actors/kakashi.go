@@ -57,5 +57,5 @@ var Kakashi = game.ActorDef{
 		actions.MudWall.ID,
 		actions.WaterWall.ID,
 		actions.TradeOffer.ID,
-	}, GlobalActionsExcept(actions.BodyReplacement.ID)...),
+	}, GlobalActionsExcept(actions.Substitution.ID)...),
 }

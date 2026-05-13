@@ -46,5 +46,5 @@ var Tobi = game.ActorDef{
 		actions.RetreatingStrike.ID,
 		actions.TradeOffer.ID,
 		actions.DesperateStrike.ID,
-	}, GlobalActionsExcept(actions.BodyReplacement.ID)...),
+	}, GlobalActionsExcept(actions.Substitution.ID)...),
 }

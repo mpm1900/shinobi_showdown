@@ -38,7 +38,7 @@ var Hashirama = game.ActorDef{
 	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
-		actions.BodyReplacement.ID,
+		actions.Substitution.ID,
 		actions.Tailwind.ID,
 		actions.LeechSeed.ID,
 		actions.Haze.ID,
