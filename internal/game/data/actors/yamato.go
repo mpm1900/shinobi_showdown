@@ -36,11 +36,15 @@ var Yamato = game.ActorDef{
 	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
+		actions.Recover.ID,
 		actions.WhirlwindKick.ID,
 		actions.GreatTreeSpear.ID,
 		actions.SummonAlly.ID,
 		actions.Yawn.ID,
 		actions.Taunt.ID,
 		actions.HealthSplit.ID,
+		actions.GreatWaterfall.ID,
+		actions.MudWall.ID,
+		actions.WaterWall.ID,
 	}, GlobalActions...),
 }

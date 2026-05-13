@@ -40,6 +40,7 @@ var Orochimaru = game.ActorDef{
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
 		actions.Recover.ID,
+		actions.SageMode.ID,
 		actions.DragonStance.ID,
 		actions.WhirlwindKick.ID,
 		actions.MindTransfer.ID,

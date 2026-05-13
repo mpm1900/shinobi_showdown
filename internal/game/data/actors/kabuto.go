@@ -37,6 +37,7 @@ var Kabuto = game.ActorDef{
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
 		actions.Haze.ID,
+		actions.SageMode.ID,
 		actions.Tailwind.ID,
 		actions.Redirect.ID,
 		actions.TempleOfNirvana.ID,
