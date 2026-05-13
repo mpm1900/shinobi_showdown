@@ -175,9 +175,9 @@ func ResolveNatures(
 	input []Nature,
 	damages map[Nature]float64,
 	resistances map[Nature]float64,
-	natures_map map[NatureSet][]Nature,
+	target_map map[NatureSet][]Nature,
 ) NatureResult {
-	natures := CollectNatures(natures_map)
+	natures := CollectNatures(target_map)
 	base_effectiveness := 1.0
 
 	if len(input) > 0 {

@@ -48,6 +48,7 @@ import {
   GiMedicines,
   GiHotSpices,
   GiCurlyWing,
+  GiRaspberry,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -160,6 +161,9 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   ashen: GiDustCloud,
   attack_double: ({ className, ...props }) => (
     <GiArmorPunch className={cn('text-orange-300', className)} {...props} />
+  ),
+  fire_berry: ({ className, ...props }) => (
+    <GiRaspberry className={cn('text-red-500', className)} {...props} />
   ),
   burned: ({ className, ...props }) => (
     <GiFlamer className={cn('text-orange-400', className)} {...props} />
