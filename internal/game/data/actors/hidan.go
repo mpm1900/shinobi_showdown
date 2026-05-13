@@ -15,11 +15,11 @@ var Hidan = game.ActorDef{
 	Affiliations: []string{game.AffAkatsuki, game.AffYuga},
 
 	Stats: map[game.ActorStat]int{
-		game.StatHP:            205,
+		game.StatHP:            200,
 		game.StatStamina:       100,
 		game.StatAttack:        70,
 		game.StatDefense:       84,
-		game.StatChakraAttack:  30,
+		game.StatChakraAttack:  35,
 		game.StatChakraDefense: 71,
 		game.StatSpeed:         70,
 		game.StatEvasion:       100,

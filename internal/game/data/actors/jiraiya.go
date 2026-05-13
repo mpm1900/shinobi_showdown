@@ -46,5 +46,6 @@ var Jiraiya = game.ActorDef{
 		actions.KebariSenbon.ID,
 		actions.Yawn.ID,
 		actions.Earthquake.ID,
+		actions.DarkSwamp.ID,
 	}, GlobalActions...),
 }

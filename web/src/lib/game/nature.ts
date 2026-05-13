@@ -97,7 +97,7 @@ const natureSetMap: Record<NatureSet, Array<Nature>> = {
   storm: ['lightning', 'water'],
   wood: ['earth', 'water'],
   yinyang: ['yin', 'yang'],
-  particle: ['fire', 'earth', 'lightning'],
+  particle: ['fire', 'earth', 'wind'],
   jashin: [],
 }
 

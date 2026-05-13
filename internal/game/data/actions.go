@@ -132,6 +132,7 @@ var ACTIONS map[uuid.UUID]game.Action = map[uuid.UUID]game.Action{
 	actions.EarthDomePrison.ID: actions.EarthDomePrison,
 	actions.MudWall.ID:         actions.MudWall,
 	actions.Earthquake.ID:      actions.Earthquake,
+	actions.DarkSwamp.ID:       actions.DarkSwamp,
 
 	// FIRE ATTACKS
 	actions.BurningAsh.ID:            actions.BurningAsh,
@@ -176,5 +177,6 @@ var ACTIONS map[uuid.UUID]game.Action = map[uuid.UUID]game.Action{
 	actions.SnakeStrike.ID:    actions.SnakeStrike,
 	actions.SharinganGlare.ID: actions.SharinganGlare,
 
-	actions.AtomicDismantling.ID: actions.AtomicDismantling,
+	actions.AtomicDismantling.ID:       actions.AtomicDismantling,
+	actions.AtomicDismantlingCharge.ID: actions.AtomicDismantlingCharge,
 }
