@@ -34,4 +34,8 @@ var ITEMS map[uuid.UUID]game.Modifier = map[uuid.UUID]game.Modifier{
 	modifiers.Medicine.ID:             modifiers.Medicine,
 	modifiers.HotCoal.ID:              modifiers.HotCoal,
 	modifiers.FireChakraBerry.ID:      modifiers.FireChakraBerry,
+	modifiers.WindChakraBerry.ID:      modifiers.WindChakraBerry,
+	modifiers.LightningChakraBerry.ID: modifiers.LightningChakraBerry,
+	modifiers.EarthChakraBerry.ID:     modifiers.EarthChakraBerry,
+	modifiers.WaterChakraBerry.ID:     modifiers.WaterChakraBerry,
 }

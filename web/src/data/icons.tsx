@@ -165,6 +165,18 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   fire_berry: ({ className, ...props }) => (
     <GiRaspberry className={cn('text-red-500', className)} {...props} />
   ),
+  wind_berry: ({ className, ...props }) => (
+    <GiRaspberry className={cn('text-emerald-500', className)} {...props} />
+  ),
+  lightning_berry: ({ className, ...props }) => (
+    <GiRaspberry className={cn('text-yellow-400', className)} {...props} />
+  ),
+  earth_berry: ({ className, ...props }) => (
+    <GiRaspberry className={cn('text-taupe-500', className)} {...props} />
+  ),
+  water_berry: ({ className, ...props }) => (
+    <GiRaspberry className={cn('text-blue-500', className)} {...props} />
+  ),
   burned: ({ className, ...props }) => (
     <GiFlamer className={cn('text-orange-400', className)} {...props} />
   ),
