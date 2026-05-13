@@ -31,7 +31,7 @@ var Sasori = game.ActorDef{
 	NatureResistance: game.NewNatureSetValues(),
 	Natures: game.MapNatures([]game.NatureSet{
 		game.NsWind,
-		game.NsMagnet,
+		game.NsEarth,
 	}),
 	Abilities: []game.Modifier{
 		modifiers.PoisonInfused,
@@ -41,5 +41,9 @@ var Sasori = game.ActorDef{
 		actions.DragonStance.ID,
 		actions.WhirlwindKick.ID,
 		actions.SnakeStrike.ID,
+		actions.Flash.ID,
+		actions.Taunt.ID,
+		actions.RetreatingStrike.ID,
+		actions.PuppetAssault.ID,
 	}, GlobalActions...),
 }
