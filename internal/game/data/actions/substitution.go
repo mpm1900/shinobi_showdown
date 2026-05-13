@@ -12,7 +12,7 @@ var Substitution = MakeSubstitution()
 
 func MakeSubstitution() game.Action {
 	config := game.ActionConfig{
-		Name:        "Body Replacement",
+		Name:        "Substitution",
 		Nature:      game.Ptr(game.NsYin),
 		Cooldown:    game.Ptr(1),
 		Jutsu:       game.Ninjutsu,

@@ -75,7 +75,7 @@ function InstanceCombobox({
               value={item.ID}
               disabled={Object.keys(item.clients ?? {}).length >= 2}
               className={cn({
-                "[&_[data-slot='combobox-item-indicator']]:hidden": !value,
+                "[slot='combobox-item-indicator']:hidden": !value,
               })}
             >
               {item.ID === CREATE_INSTANCE_VALUE ? 'Create Instance' : `${item.ID} (${Object.keys(item.clients ?? {}).length})`}

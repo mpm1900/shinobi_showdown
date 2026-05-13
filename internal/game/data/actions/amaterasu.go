@@ -19,7 +19,7 @@ func MakeAmaterasu() game.Action {
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(1),
 		Power:       game.Ptr(20),
-		Accuracy:    game.Ptr(100),
+		Accuracy:    game.Ptr(90),
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Genjutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),

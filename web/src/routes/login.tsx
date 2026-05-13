@@ -2,7 +2,7 @@ import { Card, CardContent } from '#/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs'
 import { cn } from '#/lib/utils'
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { GiNinjaHead, GiSharpShuriken } from 'react-icons/gi'
+import { GiSharpShuriken } from 'react-icons/gi'
 import { useForm } from '@tanstack/react-form'
 import z from 'zod'
 import { Field, FieldGroup, FieldLabel, FieldSet } from '#/components/ui/field'
@@ -168,7 +168,7 @@ function RouteComponent() {
                               </Field>
                             )}
                           </form.Field>
-                          <form.Field name="email">
+                          <form.Field name="secret">
                             {(field) => (
                               <Field>
                                 <FieldLabel htmlFor="secret">Secret</FieldLabel>

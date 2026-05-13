@@ -1,4 +1,3 @@
-import { SHINOBI_ICONS } from '#/data/icons'
 import type { Action } from '#/lib/game/action'
 import { type Actor } from '#/lib/game/actor'
 import type { Context } from '#/lib/game/context'

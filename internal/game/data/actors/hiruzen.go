@@ -3,6 +3,7 @@ package actors
 import (
 	"shinobi_showdown/internal/game"
 	"shinobi_showdown/internal/game/data/actions"
+	"shinobi_showdown/internal/game/data/modifiers"
 
 	"github.com/google/uuid"
 )
@@ -30,7 +31,9 @@ var Hiruzen = game.ActorDef{
 		game.NsFire,
 		game.NsEarth,
 	}),
-	Abilities:   []game.Modifier{},
+	Abilities: []game.Modifier{
+		modifiers.WillOfFire,
+	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
 		actions.Haze.ID,
@@ -42,6 +45,7 @@ var Hiruzen = game.ActorDef{
 		actions.Firestorm.ID,
 		actions.VacuumBlast.ID,
 		actions.Earthquake.ID,
+		actions.DarkSwamp.ID,
 		actions.TradeOffer.ID,
 	}, GlobalActions...),
 }
