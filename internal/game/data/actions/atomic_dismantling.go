@@ -44,8 +44,8 @@ func MakeAtomicDismantlingCharge() game.Action {
 				transaction := game.MakeTransaction(mutation, context)
 				transactions = append(transactions, transaction)
 
-				recharge := mutations.QueueAction(AtomicDismantling.ID, context)
-				transactions = append(transactions, game.MakeTransaction(recharge, context))
+				attack := mutations.QueueAction(AtomicDismantling.ID, context)
+				transactions = append(transactions, game.MakeTransaction(attack, context))
 
 				return transactions
 			},

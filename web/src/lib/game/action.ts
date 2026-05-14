@@ -14,6 +14,8 @@ type Action = {
     stat?: ActorNatureStat
     power?: number
     description: string
+    log_success: string
+    log_failure: string
   }
   summon: boolean
   locked: boolean

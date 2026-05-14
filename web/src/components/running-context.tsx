@@ -1,17 +1,115 @@
+import type { Action } from '#/lib/game/action'
 import { getTargets, type Context } from '#/lib/game/context'
 import { clientsStore } from '#/lib/stores/clients'
 import { gameStore } from '#/lib/stores/game'
 import { cn } from '#/lib/utils'
 import { useStore } from '@tanstack/react-store'
 
+function DefaultAction({ action, context }: { action: Action, context: Context }) {
+  const game = useStore(gameStore, (g) => g)
+  const client_ID = useStore(clientsStore, (s) => s.me?.ID)
+  const source = game.actors.find((a) => a.ID === context.source_actor_ID)
+  const source_action = game.active_transaction?.mutation ?? source?.actions.find((a) => a.ID === context.action_ID)
+  const targets = getTargets(source_action?.target_type, game, context)
+  const has_targets =
+    targets.length > 0 && targets[0].ID !== context.source_actor_ID
+
+  if (!source) return null
+
+  const is_friendly_source = client_ID === source.player_ID
+  return <div className="px-5 pt-3 pb-3">
+    <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 leading-none">
+      <span
+        className={cn(
+          'text-3xl sm:text-4xl tracking-tight text-shadow-[1px_1px_0px_#000000] nanum-brush-script-regular',
+          {
+            'text-blue-300': is_friendly_source,
+            'text-rose-300': !is_friendly_source,
+          }
+        )}
+      >
+        {source.name}
+      </span>
+      <span className="pb-1 text-xs font-bold uppercase tracking-[0.2em] text-stone-300/90">
+        uses
+      </span>
+      <span className="text-5xl tracking-wide text-amber-200 text-shadow-[1px_1px_0px_#000000] nanum-brush-script-regular">
+        {action.config.name}
+      </span>
+    </div>
+
+    {has_targets && (
+      <div className="mt-3 h-px w-full bg-gradient-to-r from-transparent via-stone-100/35 to-transparent" />
+    )}
+
+    {has_targets && (
+      <div className="mt-2.5 flex flex-wrap items-center justify-center gap-2">
+        <span className="text-[10px] font-bold uppercase text-stone-300/60">
+          On
+        </span>
+        {targets.map((target) => (
+          <span
+            key={target.ID}
+            className="text-sm font-semibold text-stone-100 text-shadow-[1px_1px_0px_#000000]"
+          >
+            {target.name}
+          </span>
+        ))}
+      </div>
+    )}
+  </div>
+}
+
+function ActionText({ action, context }: { action: Action, context: Context }) {
+  const game = useStore(gameStore, (g) => g)
+  const client_ID = useStore(clientsStore, (s) => s.me?.ID)
+  const source = game.actors.find((a) => a.ID === context.source_actor_ID)
+
+  if (!source) return null
+
+  const is_friendly_source = client_ID === source.player_ID
+
+  if (action.config.log_success) {
+    const tokens = action.config.log_success.split(/(\$source\$|\$action\$)/g)
+    return (
+      <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 leading-none pt-4">
+        {tokens.map((token, idx) => {
+          if (!token) return null
+          if (token === '$source$')
+            return (
+              <span
+                className={cn(
+                  'text-3xl sm:text-4xl tracking-tight text-shadow-[1px_1px_0px_#000000] nanum-brush-script-regular',
+                  {
+                    'text-blue-300': is_friendly_source,
+                    'text-rose-300': !is_friendly_source,
+                  }
+                )}
+              >
+                {source.name}
+              </span>
+            )
+          if (token === '$action$')
+            return (
+              <span className="text-5xl tracking-wide text-amber-200 text-shadow-[1px_1px_0px_#000000] nanum-brush-script-regular">
+                {action.config.name}
+              </span>
+            )
+          return <span key={`text-${idx}`} className='text-3xl sm:text-4xl tracking-tight text-shadow-[1px_1px_0px_#000000] nanum-brush-script-regular'>{token}</span>
+        })}
+      </div>
+    )
+  }
+
+  return <DefaultAction action={action} context={context} />
+}
+
 function RunningContext({ context }: { context: Context }) {
   const game = useStore(gameStore, (g) => g)
   const client_ID = useStore(clientsStore, (s) => s.me?.ID)
   const source = game.actors.find((a) => a.ID === context.source_actor_ID)
-  const source_action = source?.actions.find((a) => a.ID === context.action_ID)
-  const targets = getTargets(source_action?.target_type, game, context)
-  const has_targets =
-    targets.length > 0 && targets[0].ID !== context.source_actor_ID
+  const active_action = game.active_transaction?.mutation
+  const source_action = active_action ?? source?.actions.find((a) => a.ID === context.action_ID)
 
   if (!source || !source_action) return null
 
@@ -42,47 +140,7 @@ function RunningContext({ context }: { context: Context }) {
             }
           )}
         >
-          <div className="px-5 pt-3 pb-3">
-            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 leading-none">
-              <span
-                className={cn(
-                  'text-3xl sm:text-4xl tracking-tight text-shadow-[1px_1px_0px_#000000] nanum-brush-script-regular',
-                  {
-                    'text-blue-300': is_friendly_source,
-                    'text-rose-300': !is_friendly_source,
-                  }
-                )}
-              >
-                {source.name}
-              </span>
-              <span className="pb-1 text-xs font-bold uppercase tracking-[0.2em] text-stone-300/90">
-                uses
-              </span>
-              <span className="text-5xl tracking-wide text-amber-200 text-shadow-[1px_1px_0px_#000000] nanum-brush-script-regular">
-                {source_action.config.name}
-              </span>
-            </div>
-
-            {has_targets && (
-              <div className="mt-3 h-px w-full bg-gradient-to-r from-transparent via-stone-100/35 to-transparent" />
-            )}
-
-            {has_targets && (
-              <div className="mt-2.5 flex flex-wrap items-center justify-center gap-2">
-                <span className="text-[10px] font-bold uppercase text-stone-300/60">
-                  On
-                </span>
-                {targets.map((target) => (
-                  <span
-                    key={target.ID}
-                    className="text-sm font-semibold text-stone-100 text-shadow-[1px_1px_0px_#000000]"
-                  >
-                    {target.name}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
+          <ActionText action={source_action} context={context} />
 
           <div className="h-1 w-full bg-[linear-gradient(90deg,theme(colors.transparent)_0%,theme(colors.amber.300)_50%,theme(colors.transparent)_100%)] opacity-60" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.1),transparent_60%)]" />

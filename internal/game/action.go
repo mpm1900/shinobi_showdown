@@ -46,7 +46,7 @@ type ActionConfig struct {
 	TargetCount    *int        `json:"-"`
 	Jutsu          ActionJutsu `json:"jutsu"`
 	Description    string      `json:"description"`
-	LogSuccess     *string     `json:"-"`
+	LogSuccess     *string     `json:"log_success"`
 	LogFailure     *string     `json:"-"`
 	IgnoreRedirect bool        `json:"-"`
 	SubPriority    int         `json:"-"`
