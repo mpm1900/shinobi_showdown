@@ -49,6 +49,7 @@ import {
   GiHotSpices,
   GiCurlyWing,
   GiRaspberry,
+  GiSabersChoc,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -196,6 +197,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   cmo_strength: ({ className, ...props }) => (
     <GiDoubled className={cn('text-orange-300', className)} {...props} />
   ),
+  defiant: GiSabersChoc,
   disabled: TbCancel,
   dynamic_entry: GiMissileSwarm,
   electrified: GiLightningDissipation,

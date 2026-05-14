@@ -9,14 +9,15 @@ import (
 var moldBreakerID = uuid.MustParse("334a4765-5b63-4164-8c1a-2aa070de7754")
 
 var MoldBreaker game.Modifier = game.Modifier{
-	ID:             moldBreakerID,
-	GroupID:        &moldBreakerID,
-	Name:           "Mold Breaker",
-	Icon:           "mold_breaker",
-	Description:    "Disabled abilities while targeted.",
-	Show:           true,
-	Duration:       game.ModifierDurationInf,
-	ActorMutations: []game.ActorMutation{},
+	ID:                moldBreakerID,
+	GroupID:           &moldBreakerID,
+	Name:              "Mold Breaker",
+	Icon:              "mold_breaker",
+	ParentDescription: "Disables abilities of targets",
+	Description:       "Disabled abilities while targeted.",
+	Show:              true,
+	Duration:          game.ModifierDurationInf,
+	ActorMutations:    []game.ActorMutation{},
 	Triggers: []game.Trigger{
 		{
 			ID:         uuid.New(),
