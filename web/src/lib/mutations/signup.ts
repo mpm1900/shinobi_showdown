@@ -12,6 +12,7 @@ import { getApiBaseUrl } from '#/lib/server/api-base'
 const requestSchema = z.object({
   email: z.string(),
   password: z.string(),
+  secret: z.string(),
 })
 
 const signup = createServerFn({ method: 'POST' })

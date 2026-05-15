@@ -46,3 +46,4 @@ env:
     PORT: "3005"
   secret:
     - POSTGRES_PASSWORD
+    - AUTH_SECRET

@@ -6,6 +6,7 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
+	"os"
 
 	"github.com/google/uuid"
 
@@ -17,6 +18,7 @@ type authBody struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
+	Secret   string `json:"secret"`
 }
 
 func readAuthBody(r *http.Request) (*authBody, error) {
@@ -40,6 +42,13 @@ func handleSignUp(ctx context.Context, queries *db.Queries) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := readAuthBody(r)
 		if err != nil {
+			logger.Error("Signup: failed to read request body", "err", err)
+			http.Error(w, "invalid request body", http.StatusBadRequest)
+			return
+		}
+
+		secret := os.Getenv("AUTH_SECRET")
+		if secret != body.Secret {
 			logger.Error("Signup: failed to read request body", "err", err)
 			http.Error(w, "invalid request body", http.StatusBadRequest)
 			return

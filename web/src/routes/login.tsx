@@ -76,7 +76,7 @@ function RouteComponent() {
                   >
                     <TabsList className="flex flex-row gap-2 self-center">
                       <TabsTrigger value="login">Log In</TabsTrigger>
-                      {/* <TabsTrigger value="signup">Sign Up</TabsTrigger>*/}
+                      <TabsTrigger value="signup">Sign Up</TabsTrigger>
                     </TabsList>
                     <TabsContent value="signup">
                       <FieldSet className="w-full max-w-xs">
@@ -88,60 +88,7 @@ function RouteComponent() {
                                 <Input
                                   id="email"
                                   type="text"
-                                  placeholder="m@m.com"
-                                  value={field.state.value}
-                                  onChange={(e) =>
-                                    field.handleChange(e.target.value)
-                                  }
-                                />
-                              </Field>
-                            )}
-                          </form.Field>
-                          <form.Field name="password">
-                            {(field) => (
-                              <Field>
-                                <FieldLabel htmlFor="password">
-                                  Password
-                                </FieldLabel>
-                                <Input
-                                  id="password"
-                                  type="password"
-                                  placeholder="••••••••"
-                                  value={field.state.value}
-                                  onChange={(e) =>
-                                    field.handleChange(e.target.value)
-                                  }
-                                />
-                              </Field>
-                            )}
-                          </form.Field>
-                          <form.Subscribe>
-                            {({ canSubmit }) => (
-                              <Field>
-                                <Button
-                                  type="submit"
-                                  disabled={!canSubmit}
-                                  onClick={() => form.handleSubmit()}
-                                >
-                                  Sign Up
-                                </Button>
-                              </Field>
-                            )}
-                          </form.Subscribe>
-                        </FieldGroup>
-                      </FieldSet>
-                    </TabsContent>
-                    <TabsContent value="login">
-                      <FieldSet className="w-full max-w-xs">
-                        <FieldGroup>
-                          <form.Field name="email">
-                            {(field) => (
-                              <Field>
-                                <FieldLabel htmlFor="email">Email</FieldLabel>
-                                <Input
-                                  id="email"
-                                  type="email"
-                                  placeholder="m@m.com"
+                                  placeholder="you@email.com"
                                   value={field.state.value}
                                   onChange={(e) =>
                                     field.handleChange(e.target.value)
@@ -176,6 +123,59 @@ function RouteComponent() {
                                   id="secret"
                                   type="secret"
                                   placeholder=""
+                                  value={field.state.value}
+                                  onChange={(e) =>
+                                    field.handleChange(e.target.value)
+                                  }
+                                />
+                              </Field>
+                            )}
+                          </form.Field>
+                          <form.Subscribe>
+                            {({ canSubmit }) => (
+                              <Field>
+                                <Button
+                                  type="submit"
+                                  disabled={!canSubmit}
+                                  onClick={() => form.handleSubmit()}
+                                >
+                                  Sign Up
+                                </Button>
+                              </Field>
+                            )}
+                          </form.Subscribe>
+                        </FieldGroup>
+                      </FieldSet>
+                    </TabsContent>
+                    <TabsContent value="login">
+                      <FieldSet className="w-full max-w-xs">
+                        <FieldGroup>
+                          <form.Field name="email">
+                            {(field) => (
+                              <Field>
+                                <FieldLabel htmlFor="email">Email</FieldLabel>
+                                <Input
+                                  id="email"
+                                  type="email"
+                                  placeholder="you@email.com"
+                                  value={field.state.value}
+                                  onChange={(e) =>
+                                    field.handleChange(e.target.value)
+                                  }
+                                />
+                              </Field>
+                            )}
+                          </form.Field>
+                          <form.Field name="password">
+                            {(field) => (
+                              <Field>
+                                <FieldLabel htmlFor="password">
+                                  Password
+                                </FieldLabel>
+                                <Input
+                                  id="password"
+                                  type="password"
+                                  placeholder="••••••••"
                                   value={field.state.value}
                                   onChange={(e) =>
                                     field.handleChange(e.target.value)
