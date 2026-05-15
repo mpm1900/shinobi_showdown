@@ -76,7 +76,7 @@ function RouteComponent() {
                   >
                     <TabsList className="flex flex-row gap-2 self-center">
                       <TabsTrigger value="login">Log In</TabsTrigger>
-                      <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                      {/* <TabsTrigger value="signup">Sign Up</TabsTrigger>*/}
                     </TabsList>
                     <TabsContent value="signup">
                       <FieldSet className="w-full max-w-xs">
