@@ -1,0 +1,48 @@
+service: shinobi-api
+image: snaxmm/shinobi-api
+
+proxy:
+  host: shinobi-showdown.duckdns.org
+  app_port: 3005
+  path_prefixes:
+    - /api
+    - /socket
+  strip_path_prefix: false
+
+servers:
+  web:
+    - 143.244.147.133
+
+registry:
+  username: snaxmm
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+  context: .
+  dockerfile: Dockerfile.api
+
+# Postgres on the same Docker network as the API. Hostname is <service>-<accessory> → shinobi-api-db.
+# First time: kamal accessory boot db -c config/deploy.api.yml
+accessories:
+  db:
+    image: postgres:16-alpine
+    host: 143.244.147.133
+    env:
+      clear:
+        POSTGRES_DB: shinobi
+        POSTGRES_USER: postgres
+      secret:
+        - POSTGRES_PASSWORD
+
+env:
+  clear:
+    POSTGRES_HOST: shinobi-api-db
+    POSTGRES_PORT: "5432"
+    POSTGRES_DB: shinobi
+    POSTGRES_USER: postgres
+    POSTGRES_SSLMODE: disable
+    PORT: "3005"
+  secret:
+    - POSTGRES_PASSWORD

@@ -1,0 +1,47 @@
+service: shinobi-web
+image: snaxmm/shinobi-web
+
+registry:
+  username: snaxmm
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+  context: web
+  dockerfile: web/Dockerfile
+  args:
+    VITE_BACKEND_URL: https://shinobi-showdown.duckdns.org
+
+servers:
+  web:
+    - 143.244.147.133
+
+proxy:
+  ssl: true
+  host: shinobi-showdown.duckdns.org
+  app_port: 3000
+
+env:
+  clear:
+    GO_ENV: production
+    HOST: 0.0.0.0
+    PORT: 3000
+    NITRO_HOST: 0.0.0.0
+    VITE_BACKEND_URL: https://shinobi-showdown.duckdns.org
+  secret:
+    - POSTGRES_PASSWORD
+
+accessories:
+  db:
+    image: postgres:17
+    host: 143.244.147.133
+    port: 5432
+    env:
+      clear:
+        POSTGRES_DB: shinobi
+        POSTGRES_USER: postgres
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
