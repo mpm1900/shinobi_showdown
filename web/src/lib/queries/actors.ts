@@ -1,9 +1,10 @@
 import { createServerFn } from '@tanstack/react-start'
 import type { ActorDef } from '../game/actor'
 import { queryOptions } from '@tanstack/react-query'
+import { getApiBaseUrl } from '#/lib/server/api-base'
 
 const getActors = createServerFn().handler(async () => {
-  const response = await fetch(`${process.env.API_URL}/api/actors`)
+  const response = await fetch(`${getApiBaseUrl()}/api/actors`)
   const data = await response.json()
   return data as Array<ActorDef>
 })

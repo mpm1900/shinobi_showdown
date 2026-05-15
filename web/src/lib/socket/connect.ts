@@ -18,6 +18,11 @@ function getSocketUrl(instanceID: string): string {
     return `${protocol}://${host}/socket/${instanceID}/connect`
   }
 
+  // Same host as the site (e.g. Traefik routes /socket on 443). Avoid hard-coded :3005 on HTTPS.
+  if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+    return `wss://${window.location.host}/socket/${instanceID}/connect`
+  }
+
   const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
   const hostname = window.location.hostname
   const port = '3005'

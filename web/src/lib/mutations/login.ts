@@ -7,6 +7,7 @@ import { createServerFn } from '@tanstack/react-start'
 import z from 'zod'
 import type { User } from '../queries/auth'
 import { setResponseCookie } from '#/utils/set-cookie'
+import { getApiBaseUrl } from '#/lib/server/api-base'
 
 const requestSchema = z.object({
   email: z.string(),
@@ -16,7 +17,7 @@ const requestSchema = z.object({
 const login = createServerFn({ method: 'POST' })
   .inputValidator(requestSchema)
   .handler(async ({ data }) => {
-    const response = await fetch(`${process.env.API_URL}/api/auth/login`, {
+    const response = await fetch(`${getApiBaseUrl()}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),

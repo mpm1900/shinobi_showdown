@@ -4,6 +4,7 @@ import { TeamSchema } from '../stores/config'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { getRequest } from '@tanstack/react-start/server'
 import type { Team } from '../queries/teams'
+import { getApiBaseUrl } from '#/lib/server/api-base'
 
 const upsertTeamSchema = z.object({
   id: z.string().nullable(),
@@ -16,7 +17,7 @@ const upsertTeam = createServerFn({ method: 'POST' })
     const request = getRequest()
     const cookies = request?.headers.get('cookie') || ''
 
-    const response = await fetch(`${process.env.API_URL}/api/teams/upsert`, {
+    const response = await fetch(`${getApiBaseUrl()}/api/teams/upsert`, {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {

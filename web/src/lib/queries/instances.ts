@@ -1,12 +1,13 @@
 import { queryOptions } from '@tanstack/react-query'
 import { createServerFn } from '@tanstack/react-start'
+import { getApiBaseUrl } from '#/lib/server/api-base'
 
 type Instance = {
   ID: string
 }
 
 const getInstances = createServerFn().handler(async () => {
-  const response = await fetch(`${process.env.API_URL}/api/instances`)
+  const response = await fetch(`${getApiBaseUrl()}/api/instances`)
   const data = await response.json()
   return data as Instance[]
 })

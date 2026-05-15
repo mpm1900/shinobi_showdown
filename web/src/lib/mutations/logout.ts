@@ -7,12 +7,13 @@ import { createServerFn } from '@tanstack/react-start'
 import { getRequest } from '@tanstack/react-start/server'
 import { useRouter } from '@tanstack/react-router'
 import { setResponseCookie } from '#/utils/set-cookie'
+import { getApiBaseUrl } from '#/lib/server/api-base'
 
 const logout = createServerFn({ method: 'POST' }).handler(async () => {
   const request = getRequest()
   const cookies = request?.headers.get('cookie') || ''
 
-  const response = await fetch(`${process.env.API_URL}/api/auth/logout`, {
+  const response = await fetch(`${getApiBaseUrl()}/api/auth/logout`, {
     method: 'POST',
     headers: {
       Cookie: cookies,

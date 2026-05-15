@@ -1,6 +1,7 @@
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import { createServerFn } from '@tanstack/react-start'
 import { getRequest } from '@tanstack/react-start/server'
+import { getApiBaseUrl } from '#/lib/server/api-base'
 
 export type User = {
   id: string
@@ -13,7 +14,7 @@ const getMe = createServerFn().handler(async () => {
   const request = getRequest()
   const cookies = request?.headers.get('cookie') || ''
 
-  const response = await fetch(`${process.env.API_URL}/api/auth/me`, {
+  const response = await fetch(`${getApiBaseUrl()}/api/auth/me`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
