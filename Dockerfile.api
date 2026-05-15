@@ -1,10 +1,8 @@
 # Build stage
-FROM golang:1.24-alpine AS builder
+# Using Debian-based image as it's often more stable under Mac-to-Linux emulation
+FROM golang:1.25 AS builder
 
 WORKDIR /app
-
-# Install build dependencies
-RUN apk add --no-cache gcc musl-dev
 
 # Copy go mod and sum files
 COPY go.mod go.sum ./
@@ -13,8 +11,10 @@ RUN go mod download
 # Copy source code
 COPY . .
 
-# Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -o main ./cmd/server/main.go
+# Build the application and install goose
+# Setting GOMAXPROCS=1 is critical to prevent SIGSEGV on M-series Macs building for amd64
+RUN GOMAXPROCS=1 CGO_ENABLED=0 GOOS=linux go build -o main ./cmd/server/main.go
+RUN go install github.com/pressly/goose/v3/cmd/goose@latest
 
 # Final stage
 FROM alpine:latest
@@ -24,8 +24,10 @@ WORKDIR /app
 # Install ca-certificates for HTTPS
 RUN apk --no-cache add ca-certificates
 
-# Copy the binary from the builder stage
+# Copy the binary and goose from the builder stage
 COPY --from=builder /app/main .
+COPY --from=builder /go/bin/goose /usr/local/bin/goose
+COPY database/migrations ./database/migrations
 
 # Expose the port the app runs on
 EXPOSE 3005

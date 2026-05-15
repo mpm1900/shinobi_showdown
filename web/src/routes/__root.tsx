@@ -25,7 +25,10 @@ interface RouterContext {
 import { meQuery } from '#/lib/queries/auth'
 
 export const Route = createRootRouteWithContext<RouterContext>()({
-  beforeLoad: async ({ context }) => {
+  beforeLoad: async ({ context, location }) => {
+    if (location.pathname === '/up') {
+      return { auth: { user: null } }
+    }
     const user = await context.queryClient.fetchQuery(meQuery)
     return {
       auth: {

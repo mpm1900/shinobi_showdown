@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/google/uuid"
@@ -89,7 +90,7 @@ func CreateSession(ctx context.Context, queries *db.Queries, userID uuid.UUID) (
 		Path:     "/",
 		Expires:  expiresAt,
 		HttpOnly: true,
-		Secure:   false,
+		Secure:   os.Getenv("GO_ENV") == "production",
 		SameSite: http.SameSiteStrictMode,
 	}, nil
 }

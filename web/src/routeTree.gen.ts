@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UpRouteImport } from './routes/up'
 import { Route as TeamBuilderRouteImport } from './routes/team-builder'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LobbyRouteImport } from './routes/lobby'
@@ -16,6 +17,11 @@ import { Route as DebugRouteImport } from './routes/debug'
 import { Route as BattleRouteImport } from './routes/battle'
 import { Route as IndexRouteImport } from './routes/index'
 
+const UpRoute = UpRouteImport.update({
+  id: '/up',
+  path: '/up',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeamBuilderRoute = TeamBuilderRouteImport.update({
   id: '/team-builder',
   path: '/team-builder',
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/lobby': typeof LobbyRoute
   '/login': typeof LoginRoute
   '/team-builder': typeof TeamBuilderRoute
+  '/up': typeof UpRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/lobby': typeof LobbyRoute
   '/login': typeof LoginRoute
   '/team-builder': typeof TeamBuilderRoute
+  '/up': typeof UpRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,12 +79,20 @@ export interface FileRoutesById {
   '/lobby': typeof LobbyRoute
   '/login': typeof LoginRoute
   '/team-builder': typeof TeamBuilderRoute
+  '/up': typeof UpRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/battle' | '/debug' | '/lobby' | '/login' | '/team-builder'
+  fullPaths:
+    | '/'
+    | '/battle'
+    | '/debug'
+    | '/lobby'
+    | '/login'
+    | '/team-builder'
+    | '/up'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/battle' | '/debug' | '/lobby' | '/login' | '/team-builder'
+  to: '/' | '/battle' | '/debug' | '/lobby' | '/login' | '/team-builder' | '/up'
   id:
     | '__root__'
     | '/'
@@ -85,6 +101,7 @@ export interface FileRouteTypes {
     | '/lobby'
     | '/login'
     | '/team-builder'
+    | '/up'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -94,10 +111,18 @@ export interface RootRouteChildren {
   LobbyRoute: typeof LobbyRoute
   LoginRoute: typeof LoginRoute
   TeamBuilderRoute: typeof TeamBuilderRoute
+  UpRoute: typeof UpRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/up': {
+      id: '/up'
+      path: '/up'
+      fullPath: '/up'
+      preLoaderRoute: typeof UpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/team-builder': {
       id: '/team-builder'
       path: '/team-builder'
@@ -150,6 +175,7 @@ const rootRouteChildren: RootRouteChildren = {
   LobbyRoute: LobbyRoute,
   LoginRoute: LoginRoute,
   TeamBuilderRoute: TeamBuilderRoute,
+  UpRoute: UpRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

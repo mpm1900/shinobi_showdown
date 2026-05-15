@@ -5,3 +5,5 @@ tmp/
 node_modules/
 dist/
 config/
+!config/deploy.api.yml
+.kamal/

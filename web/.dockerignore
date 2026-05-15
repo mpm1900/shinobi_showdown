@@ -1,0 +1,8 @@
+node_modules
+.output
+.next
+dist
+.env
+.git
+.vscode
+*.log

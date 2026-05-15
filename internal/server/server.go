@@ -25,6 +25,11 @@ func NewServer(ctx context.Context, queries *db.Queries) *Server {
 	mux := http.NewServeMux()
 	api := http.NewServeMux()
 
+	mux.HandleFunc("GET /up", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte("ok"))
+	})
+
 	api.HandleFunc("POST /auth/signup", handleSignUp(ctx, queries))
 	api.HandleFunc("POST /auth/login", handleLogin(ctx, queries))
 	api.HandleFunc("POST /auth/logout", auth.WithSession(handleLogout(ctx, queries), queries))
@@ -66,7 +71,11 @@ func NewServer(ctx context.Context, queries *db.Queries) *Server {
 
 func withCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
+		origin := os.Getenv("ALLOWED_ORIGIN")
+		if origin == "" {
+			origin = "*"
+		}
+		w.Header().Set("Access-Control-Allow-Origin", origin)
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, Cookie")
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
