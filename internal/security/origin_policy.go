@@ -46,6 +46,30 @@ func (p OriginPolicy) IsAllowed(origin string) bool {
 	return ok
 }
 
+func (p OriginPolicy) IsAllowedRequest(origin, requestHost string) bool {
+	normalizedOrigin, ok := normalizeOrigin(origin)
+	if !ok {
+		return false
+	}
+
+	if p.HasAllowedOrigins() {
+		_, ok := p.allowed[normalizedOrigin]
+		return ok
+	}
+
+	host := strings.ToLower(strings.TrimSpace(requestHost))
+	if host == "" {
+		return false
+	}
+
+	parsedOrigin, err := url.Parse(normalizedOrigin)
+	if err != nil {
+		return false
+	}
+
+	return strings.EqualFold(parsedOrigin.Host, host)
+}
+
 func (p OriginPolicy) HasAllowedOrigins() bool {
 	return len(p.allowed) > 0
 }

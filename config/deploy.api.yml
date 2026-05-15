@@ -44,6 +44,9 @@ env:
     POSTGRES_USER: postgres
     POSTGRES_SSLMODE: disable
     PORT: "3005"
+    ALLOWED_ORIGINS: https://shinobi-showdown.duckdns.org
+    SESSION_COOKIE_SECURE: "true"
+    SESSION_COOKIE_SAMESITE: "lax"
   secret:
     - POSTGRES_PASSWORD
     - AUTH_SECRET

@@ -81,7 +81,11 @@ func withCORS(next http.Handler) http.Handler {
 			return
 		}
 
-		if !originPolicy.HasAllowedOrigins() || !originPolicy.IsAllowed(origin) {
+		requestHost := strings.TrimSpace(r.Header.Get("X-Forwarded-Host"))
+		if requestHost == "" {
+			requestHost = r.Host
+		}
+		if !originPolicy.IsAllowedRequest(origin, requestHost) {
 			http.Error(w, "origin not allowed", http.StatusForbidden)
 			return
 		}

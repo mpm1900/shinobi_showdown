@@ -30,7 +30,12 @@ var upgrader = websocket.Upgrader{
 			return false
 		}
 
-		return wsOriginPolicy.HasAllowedOrigins() && wsOriginPolicy.IsAllowed(origin)
+		requestHost := r.Header.Get("X-Forwarded-Host")
+		if requestHost == "" {
+			requestHost = r.Host
+		}
+
+		return wsOriginPolicy.IsAllowedRequest(origin, requestHost)
 	},
 }
 
