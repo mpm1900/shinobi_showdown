@@ -152,7 +152,6 @@ const ActionControl = memo(function ActionControl({
                 this action does not require selection
               </span>
             )}
-            {loading && <Loader className="animate-spin" />}
           </div>
         ))}
 
