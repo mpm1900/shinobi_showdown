@@ -151,15 +151,7 @@ func handleLogout(ctx context.Context, queries *db.Queries) http.HandlerFunc {
 			queries.DeleteSession(ctx, sessionID)
 		}
 
-		http.SetCookie(w, &http.Cookie{
-			Name:     auth.COOKIE_NAME,
-			Value:    "",
-			Path:     "/",
-			MaxAge:   -1,
-			HttpOnly: true,
-			Secure:   false,
-			SameSite: http.SameSiteStrictMode,
-		})
+		http.SetCookie(w, auth.ClearSessionCookie())
 		w.WriteHeader(http.StatusOK)
 	}
 }

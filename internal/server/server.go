@@ -5,9 +5,11 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"strings"
 
 	"shinobi_showdown/internal/auth"
 	"shinobi_showdown/internal/db"
+	"shinobi_showdown/internal/security"
 )
 
 type Server struct {
@@ -70,18 +72,28 @@ func NewServer(ctx context.Context, queries *db.Queries) *Server {
 }
 
 func withCORS(next http.Handler) http.Handler {
+	originPolicy := security.NewOriginPolicyFromEnv()
+
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		origin := os.Getenv("ALLOWED_ORIGIN")
+		origin := strings.TrimSpace(r.Header.Get("Origin"))
 		if origin == "" {
-			origin = "*"
+			next.ServeHTTP(w, r)
+			return
 		}
+
+		if !originPolicy.HasAllowedOrigins() || !originPolicy.IsAllowed(origin) {
+			http.Error(w, "origin not allowed", http.StatusForbidden)
+			return
+		}
+
 		w.Header().Set("Access-Control-Allow-Origin", origin)
+		w.Header().Set("Vary", "Origin")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, Cookie")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 		if r.Method == "OPTIONS" {
-			w.WriteHeader(http.StatusOK)
+			w.WriteHeader(http.StatusNoContent)
 			return
 		}
 

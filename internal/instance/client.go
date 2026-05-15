@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"shinobi_showdown/internal/game"
+	"shinobi_showdown/internal/security"
 	"sync"
 	"time"
 
@@ -17,12 +18,19 @@ const PongWait = 60 * time.Second
 const PingPeriod = (PongWait * 9) / 10
 const MaxMessageSize = 128 * 1024
 
+var wsOriginPolicy = security.NewOriginPolicyFromEnv()
+
 var upgrader = websocket.Upgrader{
 	EnableCompression: true,
 	ReadBufferSize:    1024,
 	WriteBufferSize:   1024,
 	CheckOrigin: func(r *http.Request) bool {
-		return true // TODO
+		origin := r.Header.Get("Origin")
+		if origin == "" {
+			return false
+		}
+
+		return wsOriginPolicy.HasAllowedOrigins() && wsOriginPolicy.IsAllowed(origin)
 	},
 }
 

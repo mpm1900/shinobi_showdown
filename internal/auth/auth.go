@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -84,13 +86,52 @@ func CreateSession(ctx context.Context, queries *db.Queries, userID uuid.UUID) (
 		return nil, err
 	}
 
-	return &http.Cookie{
+	return makeSessionCookie(session.ID.String(), expiresAt), nil
+}
+
+func ClearSessionCookie() *http.Cookie {
+	cookie := makeSessionCookie("", time.Unix(0, 0))
+	cookie.MaxAge = -1
+	return cookie
+}
+
+func makeSessionCookie(value string, expiresAt time.Time) *http.Cookie {
+	cookie := &http.Cookie{
 		Name:     COOKIE_NAME,
-		Value:    session.ID.String(),
+		Value:    value,
 		Path:     "/",
 		Expires:  expiresAt,
 		HttpOnly: true,
-		Secure:   os.Getenv("GO_ENV") == "production",
-		SameSite: http.SameSiteStrictMode,
-	}, nil
+		Secure:   sessionCookieSecure(),
+		SameSite: sessionCookieSameSite(),
+	}
+
+	if domain := strings.TrimSpace(os.Getenv("SESSION_COOKIE_DOMAIN")); domain != "" {
+		cookie.Domain = domain
+	}
+
+	return cookie
+}
+
+func sessionCookieSecure() bool {
+	if value := strings.TrimSpace(os.Getenv("SESSION_COOKIE_SECURE")); value != "" {
+		secure, err := strconv.ParseBool(value)
+		if err == nil {
+			return secure
+		}
+	}
+
+	env := strings.ToLower(strings.TrimSpace(os.Getenv("GO_ENV")))
+	return env == "production" || env == "prod"
+}
+
+func sessionCookieSameSite() http.SameSite {
+	switch strings.ToLower(strings.TrimSpace(os.Getenv("SESSION_COOKIE_SAMESITE"))) {
+	case "strict":
+		return http.SameSiteStrictMode
+	case "none":
+		return http.SameSiteNoneMode
+	default:
+		return http.SameSiteLaxMode
+	}
 }
