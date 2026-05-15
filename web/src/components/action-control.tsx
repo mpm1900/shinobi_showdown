@@ -9,20 +9,7 @@ import type { Action, ActionTransaction } from '#/lib/game/action'
 import { setActionID } from '#/lib/stores/battle-context'
 import { useValidateContext } from '#/hooks/use-validate-context'
 import { useGetTargets } from '#/hooks/use-get-targets'
-import { ChevronRight } from 'lucide-react'
-import type { Actor } from '#/lib/game/actor'
-import type { Player } from '#/lib/game/player'
-
-function sortActors(
-  a: Actor | undefined,
-  b: Actor | undefined,
-  player: Player
-) {
-  const a_posi = player.positions.map((p) => p.actor_ID).indexOf(a?.ID ?? null)
-  const b_posi = player.positions.map((p) => p.actor_ID).indexOf(b?.ID ?? null)
-  return a_posi - b_posi
-}
-
+import { ChevronRight, Loader } from 'lucide-react'
 import { memo, useMemo } from 'react'
 
 const ActionControl = memo(function ActionControl({
@@ -38,7 +25,7 @@ const ActionControl = memo(function ActionControl({
   context: Context
   onContextChange: (context: Context) => void
 }) {
-  const { valid } = useValidateContext(context)
+  const { valid, loading } = useValidateContext(context)
 
   const client = useStore(clientsStore, (c) => c.me!)
   const { context: t_context } = useGetTargets(context)
@@ -155,16 +142,17 @@ const ActionControl = memo(function ActionControl({
                 })}
               </div>
             )}
-            {actors.length == 0 && valid === false && (
+            {actors.length == 0 && valid === false && loading === false && (
               <span className="text-muted-foreground text-sm mb-4">
                 no targets available
               </span>
             )}
-            {actors.length == 0 && valid === true && (
+            {actors.length == 0 && valid === true && loading === false && (
               <span className="text-muted-foreground/50 text-sm mb-4">
                 this action does not require selection
               </span>
             )}
+            {loading && <Loader className="animate-spin" />}
           </div>
         ))}
 
