@@ -127,7 +127,6 @@ function connect(instanceID: string, onOpen?: () => void) {
         socketStore.state.socket === socket &&
         socketStore.state.status === 'open'
       ) {
-        console.log('Connection stable, resetting reconnect count')
         socketStore.setState((s) => ({
           ...s,
           reconnectCount: 0,

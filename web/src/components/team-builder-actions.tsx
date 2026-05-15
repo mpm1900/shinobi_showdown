@@ -8,6 +8,7 @@ import { useUpsertTeam } from '#/lib/mutations/upsert-team'
 import type { TeamConfig } from '#/lib/stores/config'
 import { useQueryClient } from '@tanstack/react-query'
 import { teamsQuery } from '#/lib/queries/teams'
+import { useNavigate } from '@tanstack/react-router'
 
 function TeamBuilderActions({
   id,
@@ -19,6 +20,9 @@ function TeamBuilderActions({
   const client = useStore(clientsStore, (s) => s.me)
   const qc = useQueryClient()
   const upsertMutation = useUpsertTeam()
+  const nav = useNavigate({
+    from: '/team-builder',
+  })
   return (
     <div className="mb-4 flex items-center justify-end gap-6">
       <form.Subscribe>
@@ -48,8 +52,14 @@ function TeamBuilderActions({
                       config: values as TeamConfig,
                     },
                     {
-                      onSuccess: () => {
+                      onSuccess: (data) => {
                         qc.invalidateQueries(teamsQuery)
+                        nav({
+                          to: '/team-builder',
+                          search: {
+                            team_ID: data.id ?? undefined,
+                          },
+                        })
                       },
                     }
                   )
@@ -64,7 +74,7 @@ function TeamBuilderActions({
               <Button
                 disabled={!isValid || isSubmitting || isValidating || !client}
                 onClick={form.handleSubmit}
-                className='cursor-pointer'
+                className="cursor-pointer"
               >
                 Load
                 <ChevronRight />

@@ -39,6 +39,7 @@ export const Route = createFileRoute('/team-builder')({
 
 function RouteComponent() {
   const nav = Route.useNavigate()
+  const { team_ID } = Route.useSearch()
   const client = useStore(clientsStore, (s) => s.me)
   const form = useTeamBuilderForm({
     clientID: client?.ID ?? '',
@@ -50,6 +51,9 @@ function RouteComponent() {
   })
 
   const [team, setTeam] = useState<Team>()
+  if (team && team_ID) {
+    team.id = team_ID
+  }
   const qc = useQueryClient()
   const deleteMutation = useDeleteTeam()
 
