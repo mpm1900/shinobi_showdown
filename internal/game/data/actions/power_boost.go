@@ -13,7 +13,7 @@ var PowerBoost = MakePowerBoost()
 func MakePowerBoost() game.Action {
 	config := game.ActionConfig{
 		Name:        "Power Boost",
-		Nature:      game.Ptr(game.NsPure),
+		Nature:      game.Ptr(game.NsSage),
 		Jutsu:       game.Ninjutsu,
 		Description: "Powers up target's attacks this turn.",
 	}

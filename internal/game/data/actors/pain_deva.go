@@ -16,11 +16,11 @@ var PainDeva = game.ActorDef{
 	Stats: map[game.ActorStat]int{
 		game.StatHP:            65,
 		game.StatStamina:       100,
-		game.StatAttack:        115,
+		game.StatAttack:        110,
 		game.StatDefense:       80,
 		game.StatChakraAttack:  110,
 		game.StatChakraDefense: 70,
-		game.StatSpeed:         100,
+		game.StatSpeed:         95,
 		game.StatEvasion:       100,
 		game.StatAccuracy:      100,
 	},
@@ -44,6 +44,7 @@ var PainDeva = game.ActorDef{
 		actions.RetreatingStrike.ID,
 		actions.BlackNeedle.ID,
 		actions.WaterWall.ID,
+		actions.ChibakuTensei.ID,
 	}, GlobalActionsExcept(actions.Substitution.ID)...),
 	Immunities: map[uuid.UUID]struct{}{
 		modifiers.BurdenOfPain.ID:    {},

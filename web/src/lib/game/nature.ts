@@ -2,7 +2,7 @@ import { entries } from '../utils'
 
 type Nature =
   | 'tai'
-  | 'pure'
+  | 'sage'
   | 'fire'
   | 'wind'
   | 'lightning'
@@ -25,15 +25,15 @@ type NatureSet =
   | 'jashin'
 
 const NATURES: Array<Nature> = [
-  'tai',
-  'pure',
   'fire',
   'wind',
   'lightning',
   'earth',
   'water',
+  'tai',
   'yang',
   'yin',
+  'sage',
 ]
 type NatureEffectiveness = Record<Nature, Partial<Record<Nature, number>>>
 const natureEffectiveness: NatureEffectiveness = {
@@ -75,12 +75,12 @@ const natureEffectiveness: NatureEffectiveness = {
     yin: 1.25,
     yang: 0.8,
   },
-  pure: {},
+  sage: {},
 }
 
 const natureSetMap: Record<NatureSet, Array<Nature>> = {
   tai: ['tai'],
-  pure: ['pure'],
+  sage: ['sage'],
   fire: ['fire'],
   wind: ['wind'],
   lightning: ['lightning'],
@@ -103,7 +103,7 @@ const natureSetMap: Record<NatureSet, Array<Nature>> = {
 
 const natureNames: Partial<Record<NatureSet, string>> = {
   tai: '体',
-  pure: '纯',
+  sage: '仙',
   fire: '火',
   wind: '風',
   lightning: '雷',
@@ -140,7 +140,7 @@ const natureIndexes: Record<NatureSet, number> = {
   wood: 16,
   yinyang: 17,
   particle: 18,
-  pure: 19,
+  sage: 19,
   jashin: 20,
 }
 

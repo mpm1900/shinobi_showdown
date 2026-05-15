@@ -21,7 +21,7 @@ const (
 type NatureSet string
 
 const (
-	NsTai       NatureSet = "tai"
+	NsTai       NatureSet = NatureSet(NatureTai)
 	NsFire      NatureSet = NatureSet(NatureFire)
 	NsWind      NatureSet = NatureSet(NatureWind)
 	NsLightning NatureSet = NatureSet(NatureLightning)
@@ -41,7 +41,7 @@ const (
 	NsWood      NatureSet = "wood"
 	NsYinYang   NatureSet = "yinyang"
 	NsParticle  NatureSet = "particle"
-	NsPure      NatureSet = "pure"
+	NsSage      NatureSet = "sage"
 	NsJashin    NatureSet = "jashin"
 )
 
@@ -54,7 +54,7 @@ var NATURES = map[NatureSet][]Nature{
 	NsWater:     {NatureWater},
 	NsYin:       {NatureYin},
 	NsYang:      {NatureYang},
-	NsPure:      {},
+	NsSage:      {},
 
 	NsScorch:    {NatureFire, NatureWind},
 	NsLava:      {NatureFire, NatureEarth},

@@ -30,7 +30,7 @@ var Naruto = game.ActorDef{
 	NatureDamage:     game.NewNatureSetValues(),
 	NatureResistance: game.NewNatureSetValues(),
 	Natures: game.MapNatures([]game.NatureSet{
-		game.NsPure,
+		game.NsSage,
 		game.NsWind,
 	}),
 	Abilities: []game.Modifier{
@@ -73,7 +73,7 @@ var KCMNaurto = game.ActorDef{
 	NatureDamage:     game.NewNatureSetValues(),
 	NatureResistance: game.NewNatureSetValues(),
 	Natures: game.MapNatures([]game.NatureSet{
-		game.NsPure,
+		game.NsSage,
 		game.NsWind,
 	}),
 	Abilities: []game.Modifier{

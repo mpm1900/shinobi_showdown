@@ -35,7 +35,7 @@ var GamabuntaActions []game.Action = []game.Action{
 var SummonGamabunta = MakeSummonGamabunta()
 
 func MakeSummonGamabunta() game.Action {
-	nature := game.NsYang
+	nature := game.NsSage
 	config := game.ActionConfig{
 		Name:        "Summon Gamabunta",
 		Nature:      &nature,

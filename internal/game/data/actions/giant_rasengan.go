@@ -15,7 +15,7 @@ func MakeGiantRasengan() game.Action {
 	config := game.ActionConfig{
 		Name:        "Giant Rasengan",
 		Description: "Powerful chakra attack. Must recharge the next turn.",
-		Nature:      game.Ptr(game.NsPure),
+		Nature:      game.Ptr(game.NsSage),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(150),
 		Stat:        game.Ptr(game.StatChakraAttack),

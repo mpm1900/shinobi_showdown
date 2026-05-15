@@ -209,7 +209,7 @@ func MakeStruggle() Action {
 		Name:        "Struggle",
 		Description: "Deals 1/4th HP in recoil damage. Can be used when no other actions are available.",
 		TargetCount: Ptr(0),
-		Nature:      Ptr(NsPure),
+		Nature:      Ptr(NsTai),
 		Power:       Ptr(50),
 		Stat:        Ptr(StatAttack),
 		Jutsu:       Taijutsu,

@@ -6,7 +6,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { NatureBadge } from './nature-badge'
 import { Fragment } from 'react/jsx-runtime'
 
-const typeNatures = NATURES.filter((n) => n !== 'pure')
+const typeNatures = NATURES
 
 function TeamBuilderList({
   form,
@@ -66,7 +66,7 @@ function TeamBuilderList({
               <div className="text-xs text-muted-foreground text-center">
                 {id}
               </div>
-              <div className="grid grid-cols-9 gap-1 pt-4">
+              <div className="grid grid-cols-10 gap-1 pt-4">
                 <div />
                 {typeNatures.map((n) => (
                   <div key={n} className="grid grid-cols-1 place-items-center">
@@ -94,7 +94,7 @@ function TeamBuilderList({
                             {eff === 1.25 && (
                               <div className="rounded-full size-2 bg-green-300" />
                             )}
-                            {eff === 1 && a !== b && (
+                            {eff === 1 && (
                               <div className="rounded-full size-2 bg-stone-600" />
                             )}
                             {eff === 0.8 && (

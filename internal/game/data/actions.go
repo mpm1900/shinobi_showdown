@@ -133,6 +133,7 @@ var ACTIONS map[uuid.UUID]game.Action = map[uuid.UUID]game.Action{
 	actions.MudWall.ID:         actions.MudWall,
 	actions.Earthquake.ID:      actions.Earthquake,
 	actions.DarkSwamp.ID:       actions.DarkSwamp,
+	actions.ChibakuTensei.ID:   actions.ChibakuTensei,
 
 	// FIRE ATTACKS
 	actions.BurningAsh.ID:            actions.BurningAsh,
