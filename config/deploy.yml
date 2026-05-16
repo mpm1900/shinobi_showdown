@@ -21,9 +21,3 @@ proxy:
   ssl: true
   host: shinobi-showdown.duckdns.org
   app_port: 3000
-
-env:
-  clear:
-    HOST: 0.0.0.0
-    PORT: 3000
-    NITRO_HOST: 0.0.0.0
