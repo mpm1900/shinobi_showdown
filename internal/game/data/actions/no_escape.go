@@ -16,12 +16,12 @@ func MakeNoEscape() game.Action {
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Genjutsu,
 		Description: "Target cannot escape.",
+		TargetType:  game.TargetPositionID,
 	}
 
 	return game.Action{
 		ID:              uuid.MustParse("8d567e50-0a59-4d5c-8e20-6da2698c05e9"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(1),
 		ActionMutation: game.ActionMutation{

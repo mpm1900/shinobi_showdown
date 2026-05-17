@@ -20,6 +20,7 @@ func MakePuppetAssault() game.Action {
 		Power:       game.Ptr(120),
 		Stat:        game.Ptr(game.StatAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(50),
 		Jutsu:       game.Bukijutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),

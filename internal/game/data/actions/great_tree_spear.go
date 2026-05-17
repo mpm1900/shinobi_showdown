@@ -19,6 +19,7 @@ func MakeGreatTreeSpear() game.Action {
 		Power:       game.Ptr(120),
 		Stat:        game.Ptr(game.StatAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(90),
 		Jutsu:       game.Ninjutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),

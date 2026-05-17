@@ -111,12 +111,14 @@ var Switch = Action{
 	Config: ActionConfig{
 		Name:        "Switch",
 		Description: "Switches user out and target ally into battle.",
+		TargetType:  TargetActorID,
 	},
 	Meta: ActionMeta{
 		Switch: true,
 	},
-	Locked:          true,
-	TargetType:      TargetActorID,
+	State: ActionState{
+		Locked: true,
+	},
 	TargetPredicate: ComposeAF(TeamFilter, InactiveFilter, AliveFilter, SwitchFilter),
 	ContextValidate: TargetLengthFilter(1),
 	ActionMutation: ActionMutation{
@@ -140,13 +142,15 @@ func SwitchIn(count int) Action {
 	return Action{
 		ID: SwitchInIds[count],
 		Config: ActionConfig{
-			Name: "Switch In",
+			Name:       "Switch In",
+			TargetType: TargetActorID,
 		},
 		Meta: ActionMeta{
 			Switch: true,
 		},
-		Locked:          true,
-		TargetType:      TargetActorID,
+		State: ActionState{
+			Locked: true,
+		},
 		TargetPredicate: ComposeAF(TeamFilter, InactiveFilter, AliveFilter, SwitchFilter),
 		ContextValidate: TargetLengthFilter(count),
 		ActionMutation: ActionMutation{
@@ -176,7 +180,6 @@ func makeAttack(
 	return Action{
 		ID:              ID,
 		Config:          config,
-		TargetType:      TargetPositionID,
 		TargetPredicate: ComposeAF(OtherFilter, TargetableFilter),
 		ContextValidate: PositionsLengthFilter(*config.TargetCount),
 		ActionMutation: ActionMutation{
@@ -259,8 +262,8 @@ var CancelSummon = Action{
 	Config: ActionConfig{
 		Name:        "Cancel Summon",
 		Description: "Unsummons the user's summon.",
+		TargetType:  TargetActorID,
 	},
-	TargetType: TargetActorID,
 	TargetPredicate: func(g Game, a Actor, ctx Context) bool {
 		return false
 	},

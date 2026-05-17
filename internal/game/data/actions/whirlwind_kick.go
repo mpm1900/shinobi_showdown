@@ -19,6 +19,7 @@ func MakeWhirlwindKick() game.Action {
 		Nature:      game.Ptr(game.NsTai),
 		Cost:        game.Ptr(0),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Taijutsu,
 		CritChance:  game.Ptr(getCriticalStage(2)),
 		CritMod:     1.5,

@@ -18,6 +18,7 @@ func MakeHumanBoulder() game.Action {
 		Stat:        game.Ptr(game.StatDefense),
 		Nature:      game.Ptr(game.NsEarth),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
 		Jutsu:       game.Taijutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),

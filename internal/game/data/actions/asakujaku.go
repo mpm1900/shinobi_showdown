@@ -20,6 +20,7 @@ func MakeAsakujaku() game.Action {
 		Power:       game.Ptr(120),
 		Stat:        game.Ptr(game.StatAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Recoil:      game.Ptr(0.3),
 		Cost:        game.Ptr(0),
 		Cooldown:    game.Ptr(0),

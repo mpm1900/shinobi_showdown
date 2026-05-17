@@ -116,27 +116,27 @@ func (ah *actorResolveHandler) resolveActions(resolved *ResolvedActor) {
 		resolved.Actions[i].Config.Cooldown = Ptr(baseCooldown + resolved.CooldownOffset)
 
 		// set dynamic disabled state
-		if !a.Disabled {
+		if !a.State.Disabled {
 			context := MakeContextForActor(ah.actor)
 			context.ActionID = &a.ID
 
 			if resolved.ActionLocked && resolved.LastUsedActionTX != nil {
 				if resolved.LastUsedActionTX.Mutation.ID != a.ID && !a.Meta.Switch {
-					resolved.Actions[i].Disabled = true
+					resolved.Actions[i].State.Disabled = true
 				}
 			}
 			if resolved.SwitchLocked && a.Meta.Switch {
-				resolved.Actions[i].Disabled = true
+				resolved.Actions[i].State.Disabled = true
 			}
 
 			filterGame := ah.game.WithActor(ah.actor).WithoutActionFilterEval()
 			if !ah.game.disableActionFilterEval && !a.Filter(ah.game, filterGame, context) {
-				resolved.Actions[i].Disabled = true
+				resolved.Actions[i].State.Disabled = true
 			}
 
 			player, ok := ah.game.GetPlayerByID(resolved.PlayerID)
-			if ok && player.UsedSummon && a.Summon {
-				resolved.Actions[i].Disabled = true
+			if ok && player.UsedSummon && a.Config.Summon {
+				resolved.Actions[i].State.Disabled = true
 			}
 
 			_, ok = ah.game.FindQueuedAction(func(t Transaction[Action]) bool {
@@ -144,14 +144,14 @@ func (ah *actorResolveHandler) resolveActions(resolved *ResolvedActor) {
 					return false
 				}
 				is_player := *t.Context.SourcePlayerID == resolved.PlayerID
-				return is_player && t.Mutation.Summon
+				return is_player && t.Mutation.Config.Summon
 			})
 
-			if ok && a.Summon {
-				resolved.Actions[i].Disabled = true
+			if ok && a.Config.Summon {
+				resolved.Actions[i].State.Disabled = true
 			}
 
-			if !a.Meta.Switch && !resolved.Actions[i].Disabled {
+			if !a.Meta.Switch && !resolved.Actions[i].State.Disabled {
 				allDisabled = false
 			}
 		}

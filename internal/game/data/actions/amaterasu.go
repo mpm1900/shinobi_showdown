@@ -18,6 +18,7 @@ func MakeAmaterasu() game.Action {
 		Nature:      game.Ptr(game.NsYin),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Power:       game.Ptr(20),
 		Accuracy:    game.Ptr(90),
 		Cost:        game.Ptr(30),

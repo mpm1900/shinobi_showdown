@@ -20,6 +20,7 @@ func MakeHirudora() game.Action {
 		Power:       game.Ptr(130),
 		Stat:        game.Ptr(game.StatAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(50),
 		Jutsu:       game.Taijutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),

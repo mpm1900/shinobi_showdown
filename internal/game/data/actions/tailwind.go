@@ -20,7 +20,6 @@ func MakeTailwind() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("f0e7a99d-93ff-502a-b07c-6479f9a1fc30"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

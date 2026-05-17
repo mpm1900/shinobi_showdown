@@ -17,11 +17,12 @@ func MakeCoercion() game.Action {
 		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Genjutsu,
 		Description: "Forces the target to use only their last used action.",
+		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("06840403-52cc-4e8a-95eb-318cf012e634"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(1),
 		ActionMutation: game.ActionMutation{

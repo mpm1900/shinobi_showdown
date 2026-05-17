@@ -16,11 +16,11 @@ func MakeActionBoost() game.Action {
 		Nature:      game.Ptr(game.NsTai),
 		Jutsu:       game.Ninjutsu,
 		Description: "Target acts after this action.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              actionBoostID,
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.ComposeAF(game.TeamFilter, game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.TargetLengthFilter(1),
 		ActionMutation: game.ActionMutation{

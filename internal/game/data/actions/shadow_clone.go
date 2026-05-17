@@ -14,12 +14,12 @@ func MakeShadowClone() game.Action {
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Ninjutsu,
 		Description: "Summons a shadow clone to take damage. Pay 1/4th of Max HP.",
+		TargetType:  game.TargetActorID,
 	}
 
 	return game.Action{
 		ID:              uuid.MustParse("e2a1768a-fb9a-5891-a703-a20cf8bcbd6e"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

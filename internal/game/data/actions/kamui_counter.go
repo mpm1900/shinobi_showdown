@@ -20,6 +20,7 @@ func MakeKamuiCounter() game.Action {
 		Nature:      game.Ptr(game.NsYin),
 		Cost:        game.Ptr(0),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Taijutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),
 		CritMod:     1.5,

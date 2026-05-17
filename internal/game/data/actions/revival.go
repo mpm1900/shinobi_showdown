@@ -16,11 +16,11 @@ func MakeRevival() game.Action {
 		Cooldown:    game.Ptr(100),
 		Jutsu:       game.Genjutsu,
 		Description: "Revives a fallen ally. Usable once per battle.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("fa748b4e-2832-476c-b792-f1d525641280"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.ComposeAF(game.TeamFilter, game.InactiveFilter, game.NotAliveFilter),
 		ContextValidate: game.TargetLengthFilter(1),
 		ActionMutation: game.ActionMutation{

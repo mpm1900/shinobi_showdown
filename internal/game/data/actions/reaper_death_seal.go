@@ -16,12 +16,12 @@ func MakeReaperDeathSeal() game.Action {
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Fuinjutsu,
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 	}
 
 	return game.Action{
 		ID:              uuid.MustParse("0cf47657-82bf-4a82-b933-cd7a762e0327"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		ActionMutation: game.ActionMutation{

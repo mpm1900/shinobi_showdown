@@ -19,6 +19,7 @@ func MakeShinraTensei() game.Action {
 		Power:       game.Ptr(100),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(0),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Cooldown:    game.Ptr(1),
 		Jutsu:       game.Ninjutsu,

@@ -16,11 +16,11 @@ func MakeShikigamiDance() game.Action {
 		Nature:      game.Ptr(game.NsWind),
 		Jutsu:       game.Taijutsu,
 		Description: "Raises the user's Chakra Defense by 2 stages.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("ba9be5cb-607a-4f91-8830-7f00eaf4ea16"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

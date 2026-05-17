@@ -19,7 +19,6 @@ func MakeOneHundredHealingsStatus() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("cea0796c-df52-466f-8474-9dc06ec9db6f"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

@@ -16,6 +16,7 @@ func MakeLeechSeed() game.Action {
 		Description: "Saps health from target every turn.",
 		Nature:      game.Ptr(game.NsYang),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Senjutsu,
 	}
@@ -23,7 +24,6 @@ func MakeLeechSeed() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("9ad36f89-03c5-5b52-9f50-66864b06ca03"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

@@ -39,7 +39,7 @@ function SwitchButton({ actor }: { actor: Actor }) {
 
   const { context: t_context } = useGetTargets(context)
   if (
-    switch_action?.disabled ||
+    switch_action?.state.disabled ||
     !idle ||
     !t_context?.target_actor_IDs?.includes(actor.ID)
   ) {
@@ -210,7 +210,7 @@ function ActorTooltip({
                     <tr
                       key={a.ID}
                       className={cn({
-                        'text-destructive': a.disabled,
+                        'text-destructive': a.state.disabled,
                       })}
                     >
                       <td>

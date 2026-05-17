@@ -21,6 +21,7 @@ func MakeChidoriSpear() game.Action {
 		Stat:        game.Ptr(game.StatChakraAttack),
 		Cost:        game.Ptr(50),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Ninjutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),
 		CritMod:     1.5,

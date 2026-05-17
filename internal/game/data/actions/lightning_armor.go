@@ -16,11 +16,11 @@ func MakeLightningArmor() game.Action {
 		Nature:      game.Ptr(game.NsLightning),
 		Jutsu:       game.Ninjutsu,
 		Description: "Raises the user's Attack and Defense stats. Sets electrified terrain.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("32808365-9a64-4102-9ed7-39fe7b795f7d"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

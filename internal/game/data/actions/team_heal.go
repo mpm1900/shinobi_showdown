@@ -15,6 +15,7 @@ func MakeTeamHeal() game.Action {
 		Description: "All active ally shinobi heal for 1/4th HP.",
 		Nature:      game.Ptr(game.NsYang),
 		TargetCount: game.Ptr(0),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Senjutsu,
 	}
@@ -22,7 +23,6 @@ func MakeTeamHeal() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("2bb0f69c-fb8a-4390-9041-60444c4a05fc"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

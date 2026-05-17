@@ -18,6 +18,7 @@ func MakeLuckyStrikes() game.Action {
 		Nature:      game.Ptr(game.NsTai),
 		Cost:        game.Ptr(30),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Taijutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),
 		CritMod:     1.5,
@@ -25,7 +26,6 @@ func MakeLuckyStrikes() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("4ac4894c-2ff3-5142-b087-a8924837cefc"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

@@ -19,6 +19,7 @@ func MakeC0UltimateArt() game.Action {
 		Power:       game.Ptr(250),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(0),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(80),
 		Jutsu:       game.Ninjutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),

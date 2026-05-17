@@ -66,6 +66,7 @@ var focusPunchConfig = game.ActionConfig{
 	Jutsu:       game.Taijutsu,
 	Description: "User tightens their focus. If not damaged this turn, they unleash a powerful attack.",
 	TargetCount: game.Ptr(1),
+	TargetType:  game.TargetPositionID,
 	Accuracy:    game.Ptr(100),
 	Power:       game.Ptr(150),
 	Stat:        game.Ptr(game.StatAttack),
@@ -81,7 +82,6 @@ func MakeFocusPunch() game.Action {
 	return game.Action{
 		ID:              focusPunchID,
 		Config:          focusPunchConfig,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*focusPunchConfig.TargetCount),
 		ActionMutation: game.ActionMutation{

@@ -20,6 +20,7 @@ func MakeCamelliaDance() game.Action {
 		Nature:      game.Ptr(game.NsTai),
 		Cost:        game.Ptr(0),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Taijutsu,
 		CritChance:  game.Ptr(getCriticalStage(4)),
 		CritMod:     1.5,
@@ -27,7 +28,6 @@ func MakeCamelliaDance() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("c2ff8167-941a-4c2b-844f-e3f5bb7d738b"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

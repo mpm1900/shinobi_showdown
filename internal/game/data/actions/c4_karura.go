@@ -70,7 +70,6 @@ func MakeC4Karura() game.Action {
 	return game.Action{
 		ID:              c4KaruraID,
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

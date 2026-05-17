@@ -20,6 +20,7 @@ func MakeRasenshuriken() game.Action {
 		Power:       game.Ptr(130),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(50),
 		Jutsu:       game.Ninjutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),

@@ -17,6 +17,7 @@ func MakeApplyPoison() game.Action {
 		Description: "Poisons target.",
 		Nature:      game.Ptr(game.NsYin),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Accuracy:    game.Ptr(90),
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Ninjutsu,
@@ -25,7 +26,6 @@ func MakeApplyPoison() game.Action {
 	return game.Action{
 		ID:              ID,
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

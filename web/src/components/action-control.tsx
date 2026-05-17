@@ -93,7 +93,7 @@ const ActionControl = memo(function ActionControl({
                   enabled={enabled}
                   loading={false}
                   contextValid={!!valid}
-                  targetType={action.target_type}
+                  targetType={action.config.target_type}
                   context={context}
                   onContextChange={onContextChange}
                 />
@@ -114,7 +114,7 @@ const ActionControl = memo(function ActionControl({
                       enabled={enabled}
                       loading={false}
                       contextValid={!!valid}
-                      targetType={action.target_type}
+                      targetType={action.config.target_type}
                       context={context}
                       onContextChange={onContextChange}
                     />
@@ -134,7 +134,7 @@ const ActionControl = memo(function ActionControl({
                       enabled={enabled}
                       loading={false}
                       contextValid={!!valid}
-                      targetType={action.target_type}
+                      targetType={action.config.target_type}
                       context={context}
                       onContextChange={onContextChange}
                     />

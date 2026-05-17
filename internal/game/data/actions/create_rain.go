@@ -19,7 +19,6 @@ func MakeCreateRain() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("2e05db18-ac05-48fd-9cf4-b50fc6e5dbc3"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

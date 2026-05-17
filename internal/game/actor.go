@@ -532,18 +532,18 @@ func (a *Actor) SetSummonFromActor(actor *Actor, proxy bool) {
 func (a *Actor) SetActionCooldown(actionID uuid.UUID, cooldown int) {
 	for i := range a.Actions {
 		if a.Actions[i].ID == actionID {
-			a.Actions[i].Cooldown = &cooldown
+			a.Actions[i].State.Cooldown = &cooldown
 		}
 	}
 }
 func (a *Actor) DecrementCooldowns() {
 	for i := range a.Actions {
-		if a.Actions[i].Cooldown != nil {
-			cd := *a.Actions[i].Cooldown - 1
+		if a.Actions[i].State.Cooldown != nil {
+			cd := *a.Actions[i].State.Cooldown - 1
 			if cd < 0 {
-				a.Actions[i].Cooldown = nil
+				a.Actions[i].State.Cooldown = nil
 			} else {
-				a.Actions[i].Cooldown = &cd
+				a.Actions[i].State.Cooldown = &cd
 			}
 		}
 	}

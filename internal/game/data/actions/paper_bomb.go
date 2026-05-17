@@ -18,6 +18,7 @@ func MakePaperBomb() game.Action {
 		Stat:        game.Ptr(game.StatChakraDefense),
 		Nature:      game.Ptr(game.NsExplosion),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
 		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Fuinjutsu,

@@ -20,6 +20,7 @@ func MakeStoneBullet() game.Action {
 		Power:       game.Ptr(55),
 		Stat:        game.Ptr(game.StatAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(40),
 		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Taijutsu,

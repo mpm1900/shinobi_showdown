@@ -46,7 +46,6 @@ func MakeRasenganRecharge() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("2eaa6398-06a5-56fe-b90d-e9db6f044744"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.PositionsLengthFilter(0),
 		ActionMutation: game.ActionMutation{

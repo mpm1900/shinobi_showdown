@@ -88,7 +88,7 @@ func SourceIsActionOffCooldown(parent Game, game Game, context Context) bool {
 		return true
 	}
 
-	return action.Cooldown == nil
+	return action.State.Cooldown == nil
 }
 func SourceHasActiveTurns(turns int) func(Game, Game, Context) bool {
 	return func(parent Game, g Game, context Context) bool {

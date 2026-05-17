@@ -24,7 +24,7 @@ var PriorityFailure = game.Modifier{
 				for i, action := range a.Actions {
 					if !action.Meta.Switch {
 						if action.Priority > game.ActionPriorityDefault && action.Config.Power != nil {
-							a.Actions[i].Disabled = true
+							a.Actions[i].State.Disabled = true
 						}
 					}
 				}

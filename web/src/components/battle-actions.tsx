@@ -56,7 +56,7 @@ const BattleActions = memo(function BattleActions({ actor }: { actor: Actor }) {
                 <ActionControl
                   action={action}
                   staged={staged}
-                  enabled={idle && !!actor.position_ID && !action?.disabled}
+                  enabled={idle && !!actor.position_ID && !action?.state.disabled}
                   context={context}
                   onContextChange={setContext}
                 />

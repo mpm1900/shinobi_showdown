@@ -17,6 +17,7 @@ func MakeBodyFlicker() game.Action {
 		Nature:      game.Ptr(game.NsWind),
 		Cost:        game.Ptr(0),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Taijutsu,
 		Power:       game.Ptr(70),
 		Accuracy:    game.Ptr(100),

@@ -15,13 +15,14 @@ func MakeCommand() game.Action {
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Taijutsu,
 		Description: "Ally uses their last used action again.",
+		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("e66cbb4f-ec40-4e40-b88d-ff8a47fecfb4"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.TargetLengthFilter(1),
+		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
 			Filter:   game.SourceIsAlive,

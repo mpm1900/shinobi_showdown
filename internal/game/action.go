@@ -31,27 +31,6 @@ const (
 	Taijutsu  ActionJutsu = "taijutsu"
 )
 
-type ActionConfig struct {
-	Accuracy       *int        `json:"accuracy,omitempty"`
-	Cooldown       *int        `json:"cooldown,omitempty"`
-	Cost           *int        `json:"cost,omitempty"`
-	CritChance     *int        `json:"-"`
-	CritMod        float64     `json:"-"`
-	LifeSteal      *float64    `json:"-"`
-	Name           string      `json:"name"`
-	Nature         *NatureSet  `json:"nature,omitempty"`
-	Power          *int        `json:"power,omitempty"`
-	Recoil         *float64    `json:"-"`
-	Stat           *ActorStat  `json:"stat,omitempty"`
-	TargetCount    *int        `json:"-"`
-	Jutsu          ActionJutsu `json:"jutsu"`
-	Description    string      `json:"description"`
-	LogSuccess     *string     `json:"log_success"`
-	LogFailure     *string     `json:"-"`
-	IgnoreRedirect bool        `json:"-"`
-	SubPriority    int         `json:"-"`
-}
-
 type ActionTargetType string
 
 const (
@@ -59,11 +38,40 @@ const (
 	TargetPositionID ActionTargetType = "target-position-type"
 )
 
+type ActionConfig struct {
+	Accuracy       *int             `json:"accuracy,omitempty"`
+	Cooldown       *int             `json:"cooldown,omitempty"`
+	Cost           *int             `json:"cost,omitempty"`
+	CritChance     *int             `json:"-"`
+	CritMod        float64          `json:"-"`
+	LifeSteal      *float64         `json:"-"`
+	Name           string           `json:"name"`
+	Nature         *NatureSet       `json:"nature,omitempty"`
+	Power          *int             `json:"power,omitempty"`
+	Recoil         *float64         `json:"-"`
+	Stat           *ActorStat       `json:"stat,omitempty"`
+	TargetCount    *int             `json:"-"`
+	TargetType     ActionTargetType `json:"target_type"`
+	Jutsu          ActionJutsu      `json:"jutsu"`
+	Description    string           `json:"description"`
+	LogSuccess     *string          `json:"log_success"`
+	LogFailure     *string          `json:"-"`
+	IgnoreRedirect bool             `json:"-"`
+	SubPriority    int              `json:"-"`
+	Summon         bool             `json:"summon"`
+}
+
 type ActionMutation Mutation[Game, Game, []Transaction[GameMutation]]
 
 type ActionMeta struct {
 	Switch   bool `json:"switch"`
 	Struggle bool `json:"struggle"`
+}
+
+type ActionState struct {
+	Locked   bool `json:"locked"`
+	Disabled bool `json:"disabled"`
+	Cooldown *int `json:"cooldown"`
 }
 
 /** [This comment was not written by an LLM]
@@ -86,16 +94,12 @@ type Action struct {
 	ActionMutation
 	ID              uuid.UUID                       `json:"ID"`
 	Config          ActionConfig                    `json:"config"`
-	Summon          bool                            `json:"summon"`
-	Locked          bool                            `json:"locked"`
-	Disabled        bool                            `json:"disabled"`
-	TargetType      ActionTargetType                `json:"target_type"`
+	State           ActionState                     `json:"state"`
+	Meta            ActionMeta                      `json:"meta"`
 	TargetPredicate func(Game, Actor, Context) bool `json:"-"`
 	ContextValidate func(Context) bool              `json:"-"`
 	MapContext      func(Game, Context) Context     `json:"-"`
 	Cost            GameMutation                    `json:"-"`
-	Cooldown        *int                            `json:"cooldown"`
-	Meta            ActionMeta                      `json:"meta"`
 }
 
 func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransaction {
@@ -138,7 +142,7 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 	/**
 	 * Action Can-Act Checks
 	 */
-	if action.Disabled || !action.Filter(*game, *game, transaction.Context) {
+	if action.State.Disabled || !action.Filter(*game, *game, transaction.Context) {
 		context.ActionID = &action.ID
 		logStart := NewLogContext("$source$ used $action$", context)
 		logFail := NewLogContext("$action$ failed.", context)

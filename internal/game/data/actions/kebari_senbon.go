@@ -19,6 +19,7 @@ func MakeKebariSenbon() game.Action {
 		Nature:      game.Ptr(game.NsYang),
 		Cost:        game.Ptr(50),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Bukijutsu,
 		CritChance:  game.Ptr(getCriticalStage(1)),
 		CritMod:     1.5,
@@ -26,7 +27,6 @@ func MakeKebariSenbon() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("0de3affc-7513-41b0-8622-c603ccb8ee8a"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

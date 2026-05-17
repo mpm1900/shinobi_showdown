@@ -19,8 +19,8 @@ func MakeSummonAlly() game.Action {
 			Name:        "Summon Ally",
 			Nature:      game.Ptr(game.NsYin),
 			Description: "Summons ally to battle, they gain user's stat up/downs. Switches user out.",
+			TargetType:  game.TargetActorID,
 		},
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.ComposeAF(game.TeamFilter, game.InactiveFilter, game.AliveFilter),
 		ContextValidate: game.TargetLengthFilter(1),
 		ActionMutation: game.ActionMutation{

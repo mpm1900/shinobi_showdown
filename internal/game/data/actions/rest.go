@@ -15,6 +15,7 @@ func MakeRest() game.Action {
 		Description: "Heals user 100%. User falls asleep.",
 		Nature:      game.Ptr(game.NsYang),
 		TargetCount: game.Ptr(0),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Senjutsu,
 	}
@@ -22,7 +23,6 @@ func MakeRest() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("64372d78-3c0b-4d57-a71c-8bdf0e2aedc0"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

@@ -19,6 +19,7 @@ func MakePhoenixFlower() game.Action {
 		Nature:      game.Ptr(game.NsFire),
 		Cost:        game.Ptr(50),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Bukijutsu,
 		CritChance:  game.Ptr(getCriticalStage(1)),
 		CritMod:     1.5,
@@ -26,7 +27,6 @@ func MakePhoenixFlower() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("c6a59042-5fa2-4ec6-b83f-b705d5cd5c9e"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

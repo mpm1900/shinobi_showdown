@@ -19,6 +19,7 @@ func MakeOneThousandNeedles() game.Action {
 		Nature:      game.Ptr(game.NsIce),
 		Cost:        game.Ptr(50),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Ninjutsu,
 		CritChance:  game.Ptr(getCriticalStage(1)),
 		CritMod:     1.5,
@@ -26,7 +27,6 @@ func MakeOneThousandNeedles() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("58c829b9-aa81-4a44-84c7-73cf08501e48"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

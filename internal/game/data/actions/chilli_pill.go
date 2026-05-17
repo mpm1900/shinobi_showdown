@@ -16,12 +16,12 @@ func MakeChilliPill() game.Action {
 		Nature:      game.Ptr(game.NsYang),
 		Jutsu:       game.Fuinjutsu,
 		Description: "User pays half of their HP to raise Attack to +6.",
+		TargetType:  game.TargetActorID,
 	}
 
 	return game.Action{
 		ID:              uuid.MustParse("49092b2d-84b3-47cf-a4a6-ba5fc7d5ff52"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

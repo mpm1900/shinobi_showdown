@@ -25,7 +25,6 @@ func makeAttack(config AttackConfig) game.Action {
 	action := game.Action{
 		ID:              config.ID,
 		Config:          config.Config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.Config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Config.Cost),

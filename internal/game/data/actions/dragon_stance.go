@@ -16,11 +16,11 @@ func MakeDragonStance() game.Action {
 		Nature:      game.Ptr(game.NsTai),
 		Jutsu:       game.Taijutsu,
 		Description: "Raises the user's Speed and Attack stats.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("435490c1-ede2-5875-9edf-1c36d4917741"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

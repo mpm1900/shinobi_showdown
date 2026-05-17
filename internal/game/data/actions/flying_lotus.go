@@ -19,6 +19,7 @@ func MakeFlyingLotus() game.Action {
 		Power:       game.Ptr(100),
 		Stat:        game.Ptr(game.StatAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
 		Jutsu:       game.Taijutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),

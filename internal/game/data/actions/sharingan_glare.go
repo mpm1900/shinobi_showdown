@@ -21,6 +21,7 @@ func MakeSharinganGlare() game.Action {
 		Power:       game.Ptr(55),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(0),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(100),
 		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Genjutsu,

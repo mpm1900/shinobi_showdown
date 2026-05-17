@@ -16,11 +16,11 @@ func MakeExpansion() game.Action {
 		Nature:      game.Ptr(game.NsYang),
 		Jutsu:       game.Taijutsu,
 		Description: "Raises the user's Attack and Chakra Attack stats.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("94c7641b-c089-4c38-ae4d-56869f3d9ca6"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

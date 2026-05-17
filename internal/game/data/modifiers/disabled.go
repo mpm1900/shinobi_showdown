@@ -25,7 +25,7 @@ func Disabled(actionID uuid.UUID) game.Modifier {
 				func(g game.Game, a game.Actor, c game.Context) game.Actor {
 					for i, _ := range a.Actions {
 						if a.Actions[i].ID == actionID {
-							a.Actions[i].Disabled = true
+							a.Actions[i].State.Disabled = true
 						}
 					}
 					return a

@@ -15,12 +15,12 @@ func MakeDesperateStrike() game.Action {
 		Jutsu:       game.Taijutsu,
 		Description: "Target's HP becomes equal to the user's.",
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 	}
 
 	return game.Action{
 		ID:              uuid.MustParse("55665151-dfec-40d3-ad45-96ef53d716e9"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		ActionMutation: game.ActionMutation{

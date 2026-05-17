@@ -19,6 +19,7 @@ func MakeRockFist() game.Action {
 		Power:       game.Ptr(80),
 		Stat:        game.Ptr(game.StatAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
 		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,

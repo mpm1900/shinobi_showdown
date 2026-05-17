@@ -33,10 +33,10 @@ func RedirectSingleTargetEnemyActions(source game.Actor) game.GameMutation {
 						continue
 					}
 
-					if a.Mutation.TargetType == game.TargetActorID {
+					if a.Mutation.Config.TargetType == game.TargetActorID {
 						g.Actions[i].Context.TargetActorIDs = []uuid.UUID{source.ID}
 					}
-					if a.Mutation.TargetType == game.TargetPositionID && source.IsActive() {
+					if a.Mutation.Config.TargetType == game.TargetPositionID && source.IsActive() {
 						g.Actions[i].Context.TargetPositionIDs = []uuid.UUID{*source.PositionID}
 					}
 				}

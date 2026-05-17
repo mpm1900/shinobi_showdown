@@ -19,6 +19,7 @@ func MakeDevistation() game.Action {
 		Power:       game.Ptr(150),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
 		Cooldown:    game.Ptr(1),
 		Jutsu:       game.Ninjutsu,
@@ -29,7 +30,6 @@ func MakeDevistation() game.Action {
 	return game.Action{
 		ID:              ID,
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

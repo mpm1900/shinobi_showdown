@@ -29,7 +29,7 @@ var PatternBroke = game.Modifier{
 
 				for i, _ := range a.Actions {
 					if a.Actions[i].ID == a.LastUsedActionTX.Mutation.ID {
-						a.Actions[i].Disabled = true
+						a.Actions[i].State.Disabled = true
 					}
 				}
 				return a

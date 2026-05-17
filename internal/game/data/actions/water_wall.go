@@ -16,11 +16,11 @@ func MakeWaterWall() game.Action {
 		Nature:      game.Ptr(game.NsWater),
 		Jutsu:       game.Ninjutsu,
 		Description: "User's team takes 50% less chakra damage for 5 turns.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("e615a56a-2d0b-46ec-99cc-66553c5ed6c1"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

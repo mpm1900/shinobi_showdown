@@ -20,6 +20,7 @@ func MakeGreatFireAnnihilation() game.Action {
 		Power:       game.Ptr(90),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(0),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Cooldown:    game.Ptr(2),
 		Jutsu:       game.Ninjutsu,

@@ -15,6 +15,7 @@ func MakeRecover() game.Action {
 		Description: "Heals the user for up to half of their HP.",
 		Nature:      game.Ptr(game.NsYang),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Senjutsu,
 	}
@@ -22,7 +23,6 @@ func MakeRecover() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("c0756ddc-2611-5eef-82cc-c2bc03f9f01c"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.ActiveFilter, game.TeamFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

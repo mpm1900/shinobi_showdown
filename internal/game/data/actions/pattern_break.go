@@ -16,11 +16,11 @@ func MakePatternBreak() game.Action {
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Ninjutsu,
 		Description: "Target cannot repeat actions.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("1f17c177-bf08-451e-a052-c1e681e8d499"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.TargetLengthFilter(1),
 		ActionMutation: game.ActionMutation{

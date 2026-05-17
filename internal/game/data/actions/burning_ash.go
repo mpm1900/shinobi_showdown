@@ -21,6 +21,7 @@ func MakeBurningAsh() game.Action {
 		Power:       game.Ptr(20),
 		Accuracy:    game.Ptr(100),
 		TargetCount: game.Ptr(0),
+		TargetType:  game.TargetPositionID,
 		Stat:        game.Ptr(game.StatChakraAttack),
 		CritChance:  game.Ptr(getCriticalStage(0)),
 		CritMod:     1.5,

@@ -20,12 +20,12 @@ func MakeTempleOfNirvana() game.Action {
 		Accuracy:    game.Ptr(85),
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Genjutsu,
+		TargetType:  game.TargetPositionID,
 	}
 
 	return game.Action{
 		ID:              ID,
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

@@ -17,11 +17,11 @@ func MakeTaunt() game.Action {
 		Jutsu:       game.Ninjutsu,
 		Description: "Forces target to use only attacking moves.",
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("c62f29ad-2f3e-5e5e-b045-bb0ed58837bc"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.TargetLengthFilter(*config.TargetCount),
 		ActionMutation: game.ActionMutation{

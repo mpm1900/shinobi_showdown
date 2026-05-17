@@ -16,11 +16,11 @@ func MakeSageMode() game.Action {
 		Nature:      game.Ptr(game.NsSage),
 		Jutsu:       game.Senjutsu,
 		Description: "Inverts the speed of all active shinobi.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("02796a9b-add5-5a5c-a01b-5bc6e26d0135"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

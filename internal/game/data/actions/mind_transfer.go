@@ -14,11 +14,11 @@ func MakeMindTransfer() game.Action {
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Ninjutsu,
 		Description: "Switches abilities with the target temporarily.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("f7a33bde-db98-45e1-8d4d-028afe124aeb"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.ComposeAF(game.TeamFilter, game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.TargetLengthFilter(1),
 		ActionMutation: game.ActionMutation{

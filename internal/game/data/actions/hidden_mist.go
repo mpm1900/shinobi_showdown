@@ -20,7 +20,6 @@ func MakeHiddenMist() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("a8c7fab6-c3e0-4933-ab1a-3d05376c05b1"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

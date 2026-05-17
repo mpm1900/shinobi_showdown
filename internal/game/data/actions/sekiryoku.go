@@ -17,6 +17,7 @@ func MakeSekiryoku() game.Action {
 		Description: "Forces target to switch out.",
 		Nature:      game.Ptr(game.NsYinYang),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Ninjutsu,
 	}
@@ -24,7 +25,6 @@ func MakeSekiryoku() game.Action {
 	return game.Action{
 		ID:              ID,
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

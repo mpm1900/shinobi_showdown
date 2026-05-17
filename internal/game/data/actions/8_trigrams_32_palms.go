@@ -14,11 +14,11 @@ func MakeThirtyTwoPalms() game.Action {
 		Description: "Target loses 50% of the remaining HP. Never misses.",
 		Nature:      game.Ptr(game.NsTai),
 		Jutsu:       game.Taijutsu,
+		TargetType:  game.TargetPositionID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("7e72e33f-3bcf-4144-ad6f-6d1127c9ab92"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.TargetLengthFilter(1),
 		ActionMutation: game.ActionMutation{

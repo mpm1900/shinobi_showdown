@@ -67,14 +67,15 @@ func MakePerishSong() game.Action {
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Fuinjutsu,
 		Description: "Kills target after 5 turns.",
+		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 	}
 
 	return game.Action{
 		ID:              uuid.MustParse("ead0d88a-1b00-417d-a45e-c77a7bcaeb74"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.PositionsLengthFilter(1),
+		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
 			Filter: game.ComposeGF(

@@ -16,11 +16,11 @@ func MakeFlyingSwallow() game.Action {
 		Nature:      game.Ptr(game.NsWind),
 		Jutsu:       game.Ninjutsu,
 		Description: "Raises the user's Attack and Chakra Attack stats.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("497c3176-dc06-4762-ba5f-cc029c54f258"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

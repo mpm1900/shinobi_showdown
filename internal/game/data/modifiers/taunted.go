@@ -22,7 +22,7 @@ var Taunted = game.Modifier{
 			game.ComposeAF(game.ActiveFilter, game.TargetFilter),
 			func(g game.Game, a game.Actor, c game.Context) game.Actor {
 				for i := range a.Actions {
-					a.Actions[i].Disabled = !a.Actions[i].Meta.Switch && a.Actions[i].Config.Power == nil
+					a.Actions[i].State.Disabled = !a.Actions[i].Meta.Switch && a.Actions[i].Config.Power == nil
 				}
 
 				return a

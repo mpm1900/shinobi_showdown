@@ -16,11 +16,11 @@ func MakeChannelChakra() game.Action {
 		Nature:      game.Ptr(game.NsYang),
 		Jutsu:       game.Ninjutsu,
 		Description: "Raises the user's Chakra Attack and Chakra Defense stats.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("403a4bc9-d2fe-4604-a549-6f5e6c7f8dc8"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

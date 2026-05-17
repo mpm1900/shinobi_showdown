@@ -16,11 +16,11 @@ func MakeSwordsStance() game.Action {
 		Nature:      game.Ptr(game.NsTai),
 		Jutsu:       game.Taijutsu,
 		Description: "Raises the user's Physical Attack by 2 stages.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("cdda818c-edac-4de4-99e8-d0890fcc9214"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

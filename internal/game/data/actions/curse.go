@@ -10,14 +10,14 @@ var Curse = MakeCurse()
 
 func MakeCurse() game.Action {
 	config := game.ActionConfig{
-		Name:   "Curse",
-		Nature: game.Ptr(game.NsJashin),
-		Jutsu:  game.Fuinjutsu,
+		Name:       "Curse",
+		Nature:     game.Ptr(game.NsJashin),
+		Jutsu:      game.Fuinjutsu,
+		TargetType: game.TargetPositionID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("79b92672-ecc5-5b29-b8f2-035879182bda"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.TargetLengthFilter(1),
 		ActionMutation: game.ActionMutation{

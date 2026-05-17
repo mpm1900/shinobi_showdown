@@ -20,6 +20,7 @@ func MakeVacuumBlast() game.Action {
 		Power:       game.Ptr(80),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(0),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,

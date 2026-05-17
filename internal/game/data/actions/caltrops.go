@@ -20,7 +20,6 @@ func MakeCaltrops() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("e26b23d1-4f5b-4246-97a9-d29eb57b049b"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

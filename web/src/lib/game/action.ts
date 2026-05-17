@@ -16,13 +16,15 @@ type Action = {
     description: string
     log_success: string
     log_failure: string
+    target_type: 'target-actor-id' | 'target-position-type'
+    summon: boolean
   }
-  summon: boolean
-  locked: boolean
-  cooldown: number | null
-  disabled: boolean
+  state: {
+    locked: boolean
+    cooldown: number | null
+    disabled: boolean
+  }
   priority: number
-  target_type: 'target-actor-id' | 'target-position-type'
   meta: {
     switch: boolean
     struggle: boolean

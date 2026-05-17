@@ -70,13 +70,13 @@ function ActionCard({
               <div className="truncate text-xs font-semibold">
                 {action.config.name}
               </div>
-              {action.cooldown !== null ? (
+              {action.state.cooldown !== null ? (
                 <div className="text-[10px] uppercase tracking-wide text-destructive">
                   on cooldown
                 </div>
               ) : disabled ? (
                 <div className="text-[10px] uppercase tracking-wide text-destructive">
-                  {action.summon && usedSummon ? 'summon used' : 'disabled'}
+                  {action.config.summon && usedSummon ? 'summon used' : 'disabled'}
                 </div>
               ) : (
                 <div className="text-[10px] uppercase tracking-wide text-stone-100/50">

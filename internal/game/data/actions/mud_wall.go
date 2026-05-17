@@ -16,11 +16,11 @@ func MakeMudWall() game.Action {
 		Nature:      game.Ptr(game.NsEarth),
 		Jutsu:       game.Ninjutsu,
 		Description: "User's team takes 50% less physical damage for 5 turns.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("8ddc221c-ebb2-47cf-bbe4-09da335eb70b"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

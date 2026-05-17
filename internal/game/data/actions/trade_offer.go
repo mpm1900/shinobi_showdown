@@ -15,12 +15,12 @@ func MakeTradeOffer() game.Action {
 		Nature:      game.Ptr(game.NsTai),
 		Jutsu:       game.Taijutsu,
 		Description: "Exchanges held items with the target.",
+		TargetType:  game.TargetPositionID,
 	}
 
 	return game.Action{
 		ID:              uuid.MustParse("932069be-0954-486f-b4c7-8ee59cf28ee2"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(1),
 		ActionMutation: game.ActionMutation{

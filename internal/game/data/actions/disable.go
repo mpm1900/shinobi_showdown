@@ -17,13 +17,14 @@ func MakeDisable() game.Action {
 		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Genjutsu,
 		Description: "Disables the target's last used action.",
+		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("5cf69985-6785-56a6-b879-e02cb6207960"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.PositionsLengthFilter(1),
+		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPrioritySlow,
 			Filter: game.ComposeGF(

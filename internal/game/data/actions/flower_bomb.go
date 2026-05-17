@@ -19,6 +19,7 @@ func MakeFlowerBomb() game.Action {
 		Power:       game.Ptr(90),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(90),
 		Jutsu:       game.Ninjutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),

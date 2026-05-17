@@ -41,13 +41,13 @@ func MakeSummonGamabunta() game.Action {
 		Nature:      &nature,
 		Jutsu:       game.Ninjutsu,
 		Description: "",
+		TargetType:  game.TargetActorID,
+		Summon:      true,
 	}
 
 	return game.Action{
 		ID:              uuid.MustParse("17967cc9-5b82-43d4-9cd6-3a4a2c70ca39"),
 		Config:          config,
-		Summon:          true,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

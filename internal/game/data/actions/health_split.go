@@ -14,14 +14,15 @@ func MakeHealthSplit() game.Action {
 		Nature:      game.Ptr(game.NsYang),
 		Jutsu:       game.Ninjutsu,
 		Description: "Averages the damage between user and target.",
+		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 	}
 
 	return game.Action{
 		ID:              uuid.MustParse("4566bbac-23e4-4464-a71f-05367d43acf2"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.PositionsLengthFilter(1),
+		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
 			Filter:   game.SourceIsAlive,

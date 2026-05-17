@@ -18,6 +18,7 @@ func MakeKamuiEscape() game.Action {
 		Description: "Lowers the target's Attack by 2 stages. User then switches out.",
 		Nature:      game.Ptr(game.NsYin),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Genjutsu,
 	}
@@ -25,7 +26,6 @@ func MakeKamuiEscape() game.Action {
 	return game.Action{
 		ID:              ID,
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

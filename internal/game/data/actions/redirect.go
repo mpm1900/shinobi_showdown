@@ -15,11 +15,11 @@ func MakeRedirect() game.Action {
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Genjutsu,
 		Description: "Changes the target of single-target enemy actions.",
+		TargetType:  game.TargetActorID,
 	}
 	return game.Action{
 		ID:              uuid.MustParse("3d0b6e04-f5f0-50db-9eb6-4aede4c11701"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

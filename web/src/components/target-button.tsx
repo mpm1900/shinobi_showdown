@@ -25,7 +25,7 @@ const TargetButton = memo(function TargetButton({
   enabled: boolean
   loading: boolean
   onContextChange: (context: Context) => void
-  targetType: Action['target_type']
+  targetType: Action['config']['target_type']
 }) {
   const source = useStore(gameStore, (g) =>
     g.actors.find((a) => a.ID === context.source_actor_ID)

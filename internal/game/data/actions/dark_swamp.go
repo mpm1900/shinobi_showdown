@@ -20,6 +20,7 @@ func MakeDarkSwamp() game.Action {
 		Power:       game.Ptr(75),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(0),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(100),
 		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,

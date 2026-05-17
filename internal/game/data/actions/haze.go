@@ -20,7 +20,6 @@ func MakeHaze() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("63db7718-b73b-5f31-8b1f-c2dfa5bd5c65"),
 		Config:          config,
-		TargetType:      game.TargetActorID,
 		TargetPredicate: game.NoneFilter,
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{

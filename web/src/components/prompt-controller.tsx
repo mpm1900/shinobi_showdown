@@ -54,7 +54,7 @@ function PromptControl({
                 contextValid={!!valid}
                 context={context}
                 onContextChange={onContextChange}
-                targetType={action.target_type}
+                targetType={action.config.target_type}
               />
             ))}
         </div>

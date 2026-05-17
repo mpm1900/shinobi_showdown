@@ -19,6 +19,7 @@ func MakeLightningLigerBomb() game.Action {
 		Power:       game.Ptr(65),
 		Stat:        game.Ptr(game.StatAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
 		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
@@ -29,7 +30,6 @@ func MakeLightningLigerBomb() game.Action {
 	return game.Action{
 		ID:              ID,
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

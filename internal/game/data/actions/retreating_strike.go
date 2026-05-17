@@ -17,6 +17,7 @@ func MakeRetreatingStrike() game.Action {
 		Nature:      game.Ptr(game.NsTai),
 		Cost:        game.Ptr(0),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Taijutsu,
 		Power:       game.Ptr(40),
 		Accuracy:    game.Ptr(100),

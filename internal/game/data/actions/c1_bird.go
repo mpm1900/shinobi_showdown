@@ -18,6 +18,7 @@ func MakeC1Bird() game.Action {
 		Power:       game.Ptr(70),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,

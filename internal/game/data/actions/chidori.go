@@ -19,6 +19,7 @@ func MakeChidori() game.Action {
 		Stat:        game.Ptr(game.StatAttack),
 		Cost:        game.Ptr(50),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Recoil:      game.Ptr(0.2),
 		Jutsu:       game.Ninjutsu,
 		CritChance:  game.Ptr(getCriticalStage(0)),

@@ -21,6 +21,7 @@ func MakeAtomicDismantlingCharge() game.Action {
 		Power:       game.Ptr(130),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
 		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
@@ -30,7 +31,6 @@ func MakeAtomicDismantlingCharge() game.Action {
 	return game.Action{
 		ID:              uuid.MustParse("1d3c687f-d7a7-4f17-8f07-689764d9d263"),
 		Config:          config,
-		TargetType:      game.TargetPositionID,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		Cost:            modifiers.UseStaminaCost(*config.Cost),

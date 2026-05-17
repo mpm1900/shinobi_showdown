@@ -21,6 +21,7 @@ func MakeFalseDarkness() game.Action {
 		Power:       game.Ptr(95),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Cooldown:    game.Ptr(1),
 		Jutsu:       game.Ninjutsu,
