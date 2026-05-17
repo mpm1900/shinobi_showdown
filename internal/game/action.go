@@ -92,10 +92,11 @@ type ActionState struct {
  */
 type Action struct {
 	ActionMutation
-	ID              uuid.UUID                       `json:"ID"`
-	Config          ActionConfig                    `json:"config"`
-	State           ActionState                     `json:"state"`
-	Meta            ActionMeta                      `json:"meta"`
+	ID     uuid.UUID    `json:"ID"`
+	Config ActionConfig `json:"config"`
+	State  ActionState  `json:"state"`
+	Meta   ActionMeta   `json:"meta"`
+
 	TargetPredicate func(Game, Actor, Context) bool `json:"-"`
 	ContextValidate func(Context) bool              `json:"-"`
 	MapContext      func(Game, Context) Context     `json:"-"`
