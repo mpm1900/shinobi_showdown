@@ -17,6 +17,7 @@ type Instance struct {
 	ctx     context.Context       `json:"-"`
 	Clients map[uuid.UUID]*Client `json:"clients,omitempty"`
 	Game    game.Game             `json:"game"`
+	onEmpty func(uuid.UUID)       `json:"-"`
 
 	Register    chan *Client `json:"-"`
 	Unregister  chan *Client `json:"-"`
@@ -28,11 +29,12 @@ type InstanceJSON struct {
 	Clients map[uuid.UUID]*Client `json:"clients,omitempty"`
 }
 
-func NewInstance(ctx context.Context, id uuid.UUID) *Instance {
+func NewInstance(ctx context.Context, id uuid.UUID, onEmpty func(uuid.UUID)) *Instance {
 	return &Instance{
 		ID:          id,
 		ctx:         ctx,
 		Clients:     make(map[uuid.UUID]*Client),
+		onEmpty:     onEmpty,
 		Register:    make(chan *Client),
 		Unregister:  make(chan *Client),
 		ReadRequest: make(chan Request),
@@ -133,6 +135,13 @@ func (i *Instance) Run() {
 			removed := i.UnregisterClient(client)
 			if !removed {
 				continue
+			}
+
+			if len(i.Clients) == 0 {
+				if i.onEmpty != nil {
+					i.onEmpty(i.ID)
+				}
+				return
 			}
 
 			i.BroadcastClients()

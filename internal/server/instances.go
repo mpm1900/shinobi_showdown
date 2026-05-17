@@ -34,13 +34,19 @@ func (ih *InstancesHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (ih *InstancesHandler) NewInstance(instanceID uuid.UUID, ctx context.Context) *instance.Instance {
-	instance := instance.NewInstance(ctx, instanceID)
+	instance := instance.NewInstance(ctx, instanceID, ih.RemoveInstance)
 	ih.instancesMu.Lock()
 	ih.instances[instance.ID] = instance
 	ih.instancesMu.Unlock()
 	go instance.Run()
 
 	return instance
+}
+
+func (ih *InstancesHandler) RemoveInstance(instanceID uuid.UUID) {
+	ih.instancesMu.Lock()
+	delete(ih.instances, instanceID)
+	ih.instancesMu.Unlock()
 }
 
 func (ih *InstancesHandler) GetInstance(instanceID uuid.UUID) (*instance.Instance, bool) {
