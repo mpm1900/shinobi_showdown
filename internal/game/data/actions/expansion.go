@@ -15,7 +15,7 @@ func MakeExpansion() game.Action {
 		Name:        "Expansion",
 		Nature:      game.Ptr(game.NsYang),
 		Jutsu:       game.Taijutsu,
-		Description: "Raises the user's Attack and Defense stats.",
+		Description: "Raises the user's Attack and Chakra Attack stats.",
 	}
 	return game.Action{
 		ID:              uuid.MustParse("94c7641b-c089-4c38-ae4d-56869f3d9ca6"),
@@ -28,7 +28,7 @@ func MakeExpansion() game.Action {
 			Filter:   game.SourceIsAlive,
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
-				mutation := mutations.AddModifiers(false, modifiers.AttackUpSource, modifiers.DefenseUpSource)
+				mutation := mutations.AddModifiers(false, modifiers.AttackUpSource, modifiers.ChakraAttackUpSource)
 				transaction := game.MakeTransaction(mutation, context)
 				transactions = append(transactions, transaction)
 
