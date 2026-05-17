@@ -42,5 +42,6 @@ var Mifune = game.ActorDef{
 		actions.Disable.ID,
 		actions.SwordsStance.ID,
 		actions.NoEscape.ID,
+		actions.Taunt.ID,
 	}, GlobalActionsExcept(actions.Substitution.ID)...),
 }

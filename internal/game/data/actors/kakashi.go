@@ -41,6 +41,7 @@ var Kakashi = game.ActorDef{
 	Abilities: []game.Modifier{
 		modifiers.CopyAbility,
 		modifiers.TargetTracking,
+		modifiers.Sensei,
 	},
 	ActionCount: 6,
 	ActionIDs: append([]uuid.UUID{

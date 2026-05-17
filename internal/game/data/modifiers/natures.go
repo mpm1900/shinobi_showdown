@@ -28,6 +28,26 @@ func AddNature(nature game.NatureSet, duration int) game.Modifier {
 		},
 	}
 }
+func SetNature(nature game.NatureSet, duration int) game.Modifier {
+	return game.Modifier{
+		ID:       addNatureID,
+		Name:     fmt.Sprintf("Set Nature: %s", nature),
+		Show:     false,
+		Duration: duration,
+		ActorMutations: []game.ActorMutation{
+			game.MakeActorMutation(
+				nil,
+				game.MutPriorityPostStagedStats,
+				game.ComposeAF(game.SourceFilter, game.ActiveFilter),
+				func(g game.Game, a game.Actor, c game.Context) game.Actor {
+					a.Natures = make(map[game.NatureSet][]game.Nature)
+					a.Natures[nature] = game.NATURES[nature]
+					return a
+				},
+			),
+		},
+	}
+}
 
 var removeNatureID = uuid.MustParse("be5ce975-cda5-59e2-b03c-7bdcb3db2e33")
 
