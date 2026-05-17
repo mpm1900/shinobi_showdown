@@ -34,7 +34,7 @@ var Tobi = game.ActorDef{
 	}),
 	Abilities: []game.Modifier{
 		modifiers.MoldBreaker,
-		modifiers.Defiant,
+		modifiers.Intimidate,
 	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{

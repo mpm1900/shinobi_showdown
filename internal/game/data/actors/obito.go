@@ -32,8 +32,9 @@ var Obito = game.ActorDef{
 		game.NsYin,
 	}),
 	Abilities: []game.Modifier{
-		modifiers.Focused,
 		modifiers.NatureSpecialist,
+		modifiers.Focused,
+		modifiers.Defiant,
 	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
