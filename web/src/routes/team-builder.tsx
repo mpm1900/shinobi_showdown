@@ -39,7 +39,6 @@ export const Route = createFileRoute('/team-builder')({
 
 function RouteComponent() {
   const nav = Route.useNavigate()
-  const { team_ID } = Route.useSearch()
   const client = useStore(clientsStore, (s) => s.me)
   const form = useTeamBuilderForm({
     clientID: client?.ID ?? '',
@@ -51,9 +50,6 @@ function RouteComponent() {
   })
 
   const [team, setTeam] = useState<Team>()
-  if (team && team_ID) {
-    team.id = team_ID
-  }
   const qc = useQueryClient()
   const deleteMutation = useDeleteTeam()
 
@@ -92,7 +88,16 @@ function RouteComponent() {
               <form.AppForm>
                 <div className="flex min-h-0 flex-row-reverse items-stretch p-4 gap-8">
                   <div>
-                    <TeamBuilderActions id={team?.id ?? null} form={form} />
+                    <TeamBuilderActions
+                      id={team?.id ?? null}
+                      form={form}
+                      onSaveSuccess={(teamID) => {
+                        setTeam((currentTeam) => {
+                          if (!currentTeam) return currentTeam
+                          return { ...currentTeam, id: teamID }
+                        })
+                      }}
+                    />
                     <TeamBuilderList
                       created_at={team?.created_at ?? null}
                       id={team?.id ?? null}

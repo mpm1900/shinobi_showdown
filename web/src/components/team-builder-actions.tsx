@@ -13,9 +13,11 @@ import { useNavigate } from '@tanstack/react-router'
 function TeamBuilderActions({
   id,
   form,
+  onSaveSuccess,
 }: {
   id: string | null
   form: TeamBuilderForm
+  onSaveSuccess?: (teamID: string | null) => void
 }) {
   const client = useStore(clientsStore, (s) => s.me)
   const qc = useQueryClient()
@@ -54,6 +56,7 @@ function TeamBuilderActions({
                     {
                       onSuccess: (data) => {
                         qc.invalidateQueries(teamsQuery)
+                        onSaveSuccess?.(data.id ?? null)
                         nav({
                           to: '/team-builder',
                           search: {
