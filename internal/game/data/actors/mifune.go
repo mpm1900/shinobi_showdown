@@ -3,6 +3,7 @@ package actors
 import (
 	"shinobi_showdown/internal/game"
 	"shinobi_showdown/internal/game/data/actions"
+	"shinobi_showdown/internal/game/data/modifiers"
 
 	"github.com/google/uuid"
 )
@@ -29,7 +30,10 @@ var Mifune = game.ActorDef{
 	Natures: game.MapNatures([]game.NatureSet{
 		game.NsTai,
 	}),
-	Abilities:   []game.Modifier{},
+	Abilities: []game.Modifier{
+		modifiers.Defiant,
+		modifiers.MoldBreaker,
+	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
 		actions.IaiSlash.ID,
