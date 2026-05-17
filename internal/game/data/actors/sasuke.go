@@ -16,13 +16,13 @@ var Sasuke = game.ActorDef{
 	Affiliations: []string{game.AffAkatsuki, game.AffKonoha},
 
 	Stats: map[game.ActorStat]int{
-		game.StatHP:            88,
+		game.StatHP:            80,
 		game.StatStamina:       100,
-		game.StatAttack:        100,
-		game.StatDefense:       75,
+		game.StatAttack:        95,
+		game.StatDefense:       70,
 		game.StatChakraAttack:  120,
-		game.StatChakraDefense: 75,
-		game.StatSpeed:         142,
+		game.StatChakraDefense: 85,
+		game.StatSpeed:         120,
 		game.StatEvasion:       100,
 		game.StatAccuracy:      100,
 	},

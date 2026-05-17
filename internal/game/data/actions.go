@@ -122,6 +122,9 @@ var ACTIONS map[uuid.UUID]game.Action = map[uuid.UUID]game.Action{
 	actions.RaigoFist.ID:           actions.RaigoFist,
 	actions.WillOfTheFallen.ID:     actions.WillOfTheFallen,
 	actions.FlyingRaijinAssist.ID:  actions.FlyingRaijinAssist,
+	actions.IaiSlash.ID:            actions.IaiSlash,
+	actions.IaiBlock.ID:            actions.IaiBlock,
+	actions.IaiTrueStrike.ID:       actions.IaiTrueStrike,
 
 	actions.StoneBullet.ID:     actions.StoneBullet,
 	actions.IronSkin.ID:        actions.IronSkin,

@@ -61,3 +61,14 @@ func MakeNegateJutsu() game.Action {
 	action.Config.Name = "Negate Jutsu"
 	return action
 }
+
+var IaiBlock = MakeIaiBlock()
+
+func MakeIaiBlock() game.Action {
+	action := MakeSubstitution()
+	action.ID = uuid.MustParse("4a1ebde5-adb7-457c-a8a3-57fa0d13e70f")
+	action.Config.Name = "Iai: Block"
+	action.Config.Nature = game.Ptr(game.NsTai)
+	action.Config.Jutsu = game.Bukijutsu
+	return action
+}

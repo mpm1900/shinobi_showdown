@@ -16,13 +16,13 @@ var Obito = game.ActorDef{
 	Affiliations: []string{game.AffAkatsuki, game.AffKonoha},
 
 	Stats: map[game.ActorStat]int{
-		game.StatHP:            100,
+		game.StatHP:            120,
 		game.StatStamina:       100,
-		game.StatAttack:        135,
-		game.StatDefense:       120,
-		game.StatChakraAttack:  60,
-		game.StatChakraDefense: 85,
-		game.StatSpeed:         50,
+		game.StatAttack:        112,
+		game.StatDefense:       65,
+		game.StatChakraAttack:  80,
+		game.StatChakraDefense: 75,
+		game.StatSpeed:         78,
 		game.StatEvasion:       100,
 		game.StatAccuracy:      100,
 	},
@@ -46,5 +46,6 @@ var Obito = game.ActorDef{
 		actions.KusariChains.ID,
 		actions.SwordsStance.ID,
 		actions.DesperateStrike.ID,
+		actions.WillOfTheFallen.ID,
 	}, GlobalActionsExcept(actions.Substitution.ID)...),
 }
