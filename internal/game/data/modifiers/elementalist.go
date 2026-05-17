@@ -7,22 +7,22 @@ import (
 	"github.com/google/uuid"
 )
 
-var senseiID = uuid.MustParse("8bd9b3bf-0d33-4b6c-ba17-045f47b7f1d9")
-var Sensei = game.Modifier{
-	ID:          senseiID,
-	GroupID:     &senseiID,
-	Name:        "Sensei",
-	Icon:        "sensei",
+var elementalistID = uuid.MustParse("8bd9b3bf-0d33-4b6c-ba17-045f47b7f1d9")
+var Elementalist = game.Modifier{
+	ID:          elementalistID,
+	GroupID:     &elementalistID,
+	Name:        "Elementalist",
+	Icon:        "elementalist",
 	Description: "Changes nature to last used attack's nature.",
 	Show:        true,
 	Duration:    game.ModifierDurationInf,
 	ActorMutations: []game.ActorMutation{
-		game.NewNoopSource(&senseiID),
+		game.NewNoopSource(&elementalistID),
 	},
 	Triggers: []game.Trigger{
 		{
 			ID:         uuid.New(),
-			ModifierID: senseiID,
+			ModifierID: elementalistID,
 			On:         game.OnActionStart,
 			Check:      game.Match__SourceActor_SourceActor,
 			ActionMutation: game.ActionMutation{

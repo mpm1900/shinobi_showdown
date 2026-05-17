@@ -50,7 +50,7 @@ import {
   GiCurlyWing,
   GiRaspberry,
   GiSabersChoc,
-  GiShintoShrineMirror,
+  GiTriorb,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -315,7 +315,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   sages_scroll: ({ className, ...props }) => (
     <FaScroll className={cn('text-stone-300', className)} {...props} />
   ),
-  sensei: GiShintoShrineMirror,
+  elementalist: GiTriorb,
   shark_skin: SiRazorpay,
   sleepy: ImSleepy2,
   speed_up: ({ className, ...props }) => (
