@@ -43,6 +43,20 @@ func (ih *InstancesHandler) NewInstance(instanceID uuid.UUID, ctx context.Contex
 	return instance
 }
 
+func (ih *InstancesHandler) GetOrCreateInstance(instanceID uuid.UUID, ctx context.Context) *instance.Instance {
+	ih.instancesMu.Lock()
+	defer ih.instancesMu.Unlock()
+
+	if existing, ok := ih.instances[instanceID]; ok && existing != nil {
+		return existing
+	}
+
+	created := instance.NewInstance(ctx, instanceID, ih.RemoveInstance)
+	ih.instances[created.ID] = created
+	go created.Run()
+	return created
+}
+
 func (ih *InstancesHandler) RemoveInstance(instanceID uuid.UUID) {
 	ih.instancesMu.Lock()
 	delete(ih.instances, instanceID)
@@ -96,10 +110,7 @@ func (ih *InstancesHandler) handleGameConnection(ctx context.Context) http.Handl
 			return
 		}
 
-		i, ok := ih.GetInstance(instanceID)
-		if !ok {
-			i = ih.NewInstance(instanceID, ctx)
-		}
+		i := ih.GetOrCreateInstance(instanceID, ctx)
 
 		client := instance.NewClient(i)
 		client.AttachUser(&game.User{

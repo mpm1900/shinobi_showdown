@@ -742,6 +742,9 @@ func (g *Game) JumpTransaction(transaction Transaction[GameMutation]) {
 
 func (g *Game) PushLog(log GameLog) {
 	g.Log = append(g.Log, log)
+	if len(g.Log) > SERVER_LOG_RETENTION_SIZE {
+		g.Log = append([]GameLog(nil), g.Log[len(g.Log)-SERVER_LOG_RETENTION_SIZE:]...)
+	}
 }
 
 func (g *Game) NextTurn() {
