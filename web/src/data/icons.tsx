@@ -51,6 +51,7 @@ import {
   GiRaspberry,
   GiSabersChoc,
   GiTriorb,
+  GiWolfHead,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -159,6 +160,7 @@ const SHINOBI_ICONS: Record<string, IconType> = {
 }
 
 const MODIFIER_ICONS: Record<string, IconType> = {
+  akamaru: GiWolfHead,
   ally_guard: FaUserShield,
   ashen: GiDustCloud,
   attack_double: ({ className, ...props }) => (

@@ -38,4 +38,5 @@ var ITEMS map[uuid.UUID]game.Modifier = map[uuid.UUID]game.Modifier{
 	modifiers.LightningChakraBerry.ID: modifiers.LightningChakraBerry,
 	modifiers.EarthChakraBerry.ID:     modifiers.EarthChakraBerry,
 	modifiers.WaterChakraBerry.ID:     modifiers.WaterChakraBerry,
+	modifiers.Akamaru.ID:              modifiers.Akamaru,
 }
