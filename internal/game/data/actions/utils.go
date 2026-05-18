@@ -28,6 +28,7 @@ func makeSpreadAttackConfig(base game.ActionConfig) game.ActionConfig {
 
 func makeNoTargetStatusConfig(base game.ActionConfig) game.ActionConfig {
 	base.Cooldown = game.Ptr(0)
+	base.TargetCount = game.Ptr(0)
 	base.TargetType = game.TargetActorID
 	return base
 }
