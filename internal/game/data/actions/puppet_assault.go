@@ -11,24 +11,19 @@ import (
 var PuppetAssault = MakePuppetAssault()
 
 func MakePuppetAssault() game.Action {
-	ID := uuid.MustParse("9c79987a-6cc3-44eb-a3fa-f1691c989490")
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Puppet Assault",
 		Description: "Lowers user's Defense and Chakra Defense.",
 		Nature:      game.Ptr(game.NsWind),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(120),
 		Stat:        game.Ptr(game.StatAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(50),
 		Jutsu:       game.Bukijutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("9c79987a-6cc3-44eb-a3fa-f1691c989490"),
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}

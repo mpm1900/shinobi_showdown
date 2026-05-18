@@ -10,26 +10,19 @@ import (
 var PunishingFire = MakePunishingFire()
 
 func MakePunishingFire() game.Action {
-	ID := uuid.MustParse("91b571af-0f7b-42ef-8275-fec11e52c372")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Punishing Fire",
 		Description: "Double power if target is statused.",
 		Nature:      game.Ptr(game.NsFire),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(60),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return game.Action{
-		ID:              ID,
+		ID:              uuid.MustParse("91b571af-0f7b-42ef-8275-fec11e52c372"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),

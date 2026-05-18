@@ -10,24 +10,19 @@ import (
 var GreatTreeSpear = MakeGreatTreeSpear()
 
 func MakeGreatTreeSpear() game.Action {
-	ID := uuid.MustParse("00888b4b-973f-5bf5-9a41-bba1c9b629b8")
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Great Tree Spear",
 		Description: "30% chance to poison target.",
 		Nature:      game.Ptr(game.NsWood),
 		Accuracy:    game.Ptr(70),
 		Power:       game.Ptr(120),
 		Stat:        game.Ptr(game.StatAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(90),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("00888b4b-973f-5bf5-9a41-bba1c9b629b8"),
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}

@@ -11,20 +11,16 @@ var flyingLotusID = uuid.MustParse("75d0a924-912a-4972-93fb-3c08e82bb1b3")
 var FlyingLotus = MakeFlyingLotus()
 
 func MakeFlyingLotus() game.Action {
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Flying Lotus",
 		Description: "Must attack for 3 turns.",
 		Nature:      game.Ptr(game.NsTai),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(100),
 		Stat:        game.Ptr(game.StatAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
 		Jutsu:       game.Taijutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
 		ID:     flyingLotusID,

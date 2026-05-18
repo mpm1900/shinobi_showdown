@@ -10,25 +10,19 @@ import (
 var CherryBlossomImpact = MakeCherryBlossomImpact()
 
 func MakeCherryBlossomImpact() game.Action {
-	ID := uuid.MustParse("5188108e-d87b-4405-9006-ef0667ea4a62")
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Cherry Blossom Impact",
 		Description: "30% chance to burn the target.",
 		Nature:      game.Ptr(game.NsTai),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(60),
 		Stat:        game.Ptr(game.StatAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("5188108e-d87b-4405-9006-ef0667ea4a62"),
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}

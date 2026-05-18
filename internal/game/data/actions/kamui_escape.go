@@ -11,8 +11,6 @@ import (
 var KamuiEscape = MakeKamuiEscape()
 
 func MakeKamuiEscape() game.Action {
-	ID := uuid.MustParse("58924949-3d71-4d01-8f11-f20dfe44df14")
-
 	config := game.ActionConfig{
 		Name:        "Kamui: Escape",
 		Description: "Lowers the target's Attack by 2 stages. User then switches out.",
@@ -24,7 +22,7 @@ func MakeKamuiEscape() game.Action {
 	}
 
 	return game.Action{
-		ID:              ID,
+		ID:              uuid.MustParse("58924949-3d71-4d01-8f11-f20dfe44df14"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),

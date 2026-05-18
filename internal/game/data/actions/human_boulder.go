@@ -9,24 +9,19 @@ import (
 var HumanBoulder = MakeHumanBoulder()
 
 func MakeHumanBoulder() game.Action {
-	ID := uuid.MustParse("05b5376a-5c76-4f72-bc2c-c148ad068e40")
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Human Boulder",
 		Description: "Damage is based on the user's Defense rather than Attack.",
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(70),
 		Stat:        game.Ptr(game.StatDefense),
 		Nature:      game.Ptr(game.NsEarth),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
 		Jutsu:       game.Taijutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("05b5376a-5c76-4f72-bc2c-c148ad068e40"),
 		Config: config,
 	})
 }

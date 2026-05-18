@@ -10,26 +10,19 @@ import (
 var GreatFireAnnihilation = MakeGreatFireAnnihilation()
 
 func MakeGreatFireAnnihilation() game.Action {
-	ID := uuid.MustParse("d97ee3bb-7afa-47de-9f8d-2ee77ba6dfe6")
-
-	config := game.ActionConfig{
+	config := makeSpreadAttackConfig(game.ActionConfig{
 		Name:        "Great Fire Annihilation",
 		Description: "Hits all enemy shinobi. 20% chance to burn targets.",
 		Nature:      game.Ptr(game.NsFire),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(90),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(0),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
-		Cooldown:    game.Ptr(2),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:              ID,
+		ID:              uuid.MustParse("d97ee3bb-7afa-47de-9f8d-2ee77ba6dfe6"),
 		Config:          config,
 		TargetPredicate: game.NoneFilter,
 		MapContext: func(g game.Game, context game.Context) game.Context {

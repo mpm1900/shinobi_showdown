@@ -10,25 +10,19 @@ import (
 var Amaterasu = MakeAmaterasu()
 
 func MakeAmaterasu() game.Action {
-	ID := uuid.MustParse("d103e605-9381-52fd-9cb8-450b7315a9f9")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Amaterasu",
 		Description: "Burns target.",
 		Nature:      game.Ptr(game.NsYin),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Power:       game.Ptr(20),
 		Accuracy:    game.Ptr(90),
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Genjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("d103e605-9381-52fd-9cb8-450b7315a9f9"),
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}

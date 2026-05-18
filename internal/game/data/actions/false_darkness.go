@@ -11,26 +11,19 @@ import (
 var FalseDarkness = MakeFalseDarkness()
 
 func MakeFalseDarkness() game.Action {
-	ID := uuid.MustParse("99338b50-de10-4747-9e41-847677db4ca0")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "False Darkness",
 		Description: "Grants the user Lightning nature until end of turn.",
 		Nature:      game.Ptr(game.NsLightning),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(95),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
-		Cooldown:    game.Ptr(1),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("99338b50-de10-4747-9e41-847677db4ca0"),
 		Config: config,
 		BeforeAttack: func(g game.Game, context game.Context) []game.GameTransaction {
 			var transactions = []game.GameTransaction{}

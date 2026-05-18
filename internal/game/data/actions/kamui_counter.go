@@ -10,8 +10,7 @@ import (
 var KamuiCounter = MakeKamuiCounter()
 
 func MakeKamuiCounter() game.Action {
-	ID := uuid.MustParse("09b013e2-436d-4bd4-bf0a-9b2827b9c131")
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Kamui: Counter",
 		Description: "Fails unless the target has a pending attack. +1 priority.",
 		Accuracy:    game.Ptr(100),
@@ -19,14 +18,11 @@ func MakeKamuiCounter() game.Action {
 		Stat:        game.Ptr(game.StatAttack),
 		Nature:      game.Ptr(game.NsYin),
 		Cost:        game.Ptr(0),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Taijutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
+
 	action := makeAttack(AttackConfig{
-		ID:       ID,
+		ID:       uuid.MustParse("09b013e2-436d-4bd4-bf0a-9b2827b9c131"),
 		Config:   config,
 		Priority: game.Ptr(game.ActionPriorityP1),
 	})

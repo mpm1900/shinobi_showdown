@@ -10,9 +10,7 @@ import (
 var ChidoriSpear = MakeChidoriSpear()
 
 func MakeChidoriSpear() game.Action {
-	ID := uuid.MustParse("f89e4aba-35c8-4ddf-ab0b-bb809d5deb69")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Chidori Spear",
 		Description: "20% chance to paralyze the target.",
 		Nature:      game.Ptr(game.NsLightning),
@@ -20,15 +18,11 @@ func MakeChidoriSpear() game.Action {
 		Power:       game.Ptr(90),
 		Stat:        game.Ptr(game.StatChakraAttack),
 		Cost:        game.Ptr(50),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("f89e4aba-35c8-4ddf-ab0b-bb809d5deb69"),
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}

@@ -60,21 +60,16 @@ var Focusing = game.Modifier{
 	},
 }
 
-var focusPunchConfig = game.ActionConfig{
+var focusPunchConfig = makeAttackConfig(game.ActionConfig{
 	Name:        "Focus Punch",
 	Nature:      game.Ptr(game.NsTai),
 	Jutsu:       game.Taijutsu,
 	Description: "User tightens their focus. If not damaged this turn, they unleash a powerful attack.",
-	TargetCount: game.Ptr(1),
-	TargetType:  game.TargetPositionID,
 	Accuracy:    game.Ptr(100),
 	Power:       game.Ptr(150),
 	Stat:        game.Ptr(game.StatAttack),
-	Cooldown:    game.Ptr(0),
 	Cost:        game.Ptr(0),
-	CritChance:  game.Ptr(getCriticalStage(0)),
-	CritMod:     1.5,
-}
+})
 
 var FocusPunch = MakeFocusPunch()
 

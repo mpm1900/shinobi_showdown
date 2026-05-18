@@ -10,26 +10,19 @@ import (
 var Graft = MakeGraft()
 
 func MakeGraft() game.Action {
-	ID := uuid.MustParse("fdbfd320-071a-46a2-b449-e1455d1a3d14")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Graft",
 		Description: "Heals an ally or damages an enemy.",
 		Nature:      game.Ptr(game.NsWood),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(70),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
-		Cooldown:    game.Ptr(1),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(5),
-		CritMod:     1.5,
-	}
+	})
 
 	return game.Action{
-		ID:              ID,
+		ID:              uuid.MustParse("fdbfd320-071a-46a2-b449-e1455d1a3d14"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),

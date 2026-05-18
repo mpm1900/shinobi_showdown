@@ -11,26 +11,19 @@ import (
 var SharinganGlare = MakeSharinganGlare()
 
 func MakeSharinganGlare() game.Action {
-	ID := uuid.MustParse("ac1ce2ba-7bec-4b26-b72e-9a657d498697")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Sharingan: Glare",
 		Description: "Hits all enemy shinobi. Lowers targets' speed.",
 		Nature:      game.Ptr(game.NsYin),
 		Accuracy:    game.Ptr(95),
 		Power:       game.Ptr(55),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(0),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(100),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Genjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:              ID,
+		ID:              uuid.MustParse("ac1ce2ba-7bec-4b26-b72e-9a657d498697"),
 		Config:          config,
 		TargetPredicate: game.NoneFilter,
 		MapContext: func(g game.Game, context game.Context) game.Context {

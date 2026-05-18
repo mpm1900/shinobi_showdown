@@ -10,7 +10,7 @@ import (
 var OneThousandNeedles = MakeOneThousandNeedles()
 
 func MakeOneThousandNeedles() game.Action {
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "1000 Needles",
 		Description: "Hits 2-5 times. High critical chance.",
 		Accuracy:    game.Ptr(100),
@@ -18,12 +18,11 @@ func MakeOneThousandNeedles() game.Action {
 		Stat:        game.Ptr(game.StatChakraAttack),
 		Nature:      game.Ptr(game.NsIce),
 		Cost:        game.Ptr(50),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(1)),
-		CritMod:     1.5,
-	}
+	})
+
+	config.CritChance = game.Ptr(getCriticalStage(1))
+
 	return game.Action{
 		ID:              uuid.MustParse("58c829b9-aa81-4a44-84c7-73cf08501e48"),
 		Config:          config,

@@ -10,23 +10,19 @@ import (
 var IaiSlash = MakeIaiSlash()
 
 func MakeIaiSlash() game.Action {
-	ID := uuid.MustParse("f10db0fa-fd12-4a53-ae48-1848ba6f61bf")
-	config := game.ActionConfig{
-		Name:        "Iai: Quick Slash",
+	config := makeAttackConfig(game.ActionConfig{
+		Name:        "Iai: Slash",
 		Description: "Fails unless the target has a pending attack. +1 priority.",
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(70),
 		Stat:        game.Ptr(game.StatAttack),
 		Nature:      game.Ptr(game.NsTai),
 		Cost:        game.Ptr(0),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-		Jutsu:       game.Bukijutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+		Jutsu:       game.Taijutsu,
+	})
+
 	action := makeAttack(AttackConfig{
-		ID:       ID,
+		ID:       uuid.MustParse("f10db0fa-fd12-4a53-ae48-1848ba6f61bf"),
 		Config:   config,
 		Priority: game.Ptr(game.ActionPriorityP1),
 	})

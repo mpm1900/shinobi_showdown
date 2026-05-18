@@ -11,7 +11,7 @@ import (
 var CamelliaDance = MakeCamelliaDance()
 
 func MakeCamelliaDance() game.Action {
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Camellia Dance",
 		Description: "Hits 3 times. Bypasses Protect. Always crits.",
 		Accuracy:    game.Ptr(100),
@@ -19,12 +19,11 @@ func MakeCamelliaDance() game.Action {
 		Stat:        game.Ptr(game.StatAttack),
 		Nature:      game.Ptr(game.NsTai),
 		Cost:        game.Ptr(0),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Taijutsu,
-		CritChance:  game.Ptr(getCriticalStage(4)),
-		CritMod:     1.5,
-	}
+	})
+
+	config.CritChance = game.Ptr(getCriticalStage(4))
+
 	return game.Action{
 		ID:              uuid.MustParse("c2ff8167-941a-4c2b-844f-e3f5bb7d738b"),
 		Config:          config,

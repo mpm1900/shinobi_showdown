@@ -11,22 +11,19 @@ var GiantRasengan = MakeGiantRasengan()
 var RasenganRecharge = MakeRasenganRecharge()
 
 func MakeGiantRasengan() game.Action {
-	ID := uuid.MustParse("e0874a45-2f62-5544-a4a2-f440644407db")
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Giant Rasengan",
 		Description: "Powerful chakra attack. Must recharge the next turn.",
 		Nature:      game.Ptr(game.NsSage),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(150),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(1),
 		Cost:        game.Ptr(100),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
+
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("e0874a45-2f62-5544-a4a2-f440644407db"),
 		Config: config,
 		OnSuccess: func(g game.Game, context, _ game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}

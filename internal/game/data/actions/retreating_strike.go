@@ -9,25 +9,19 @@ import (
 var RetreatingStrike = MakeRetreatingStrike()
 
 func MakeRetreatingStrike() game.Action {
-	ID := uuid.MustParse("a6c3bd65-c750-4260-bfc2-bcada542c663")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Retreating Strike",
 		Description: "User then switches out.",
 		Nature:      game.Ptr(game.NsTai),
 		Cost:        game.Ptr(0),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Taijutsu,
 		Power:       game.Ptr(40),
 		Accuracy:    game.Ptr(100),
 		Stat:        game.Ptr(game.StatAttack),
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("a6c3bd65-c750-4260-bfc2-bcada542c663"),
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}

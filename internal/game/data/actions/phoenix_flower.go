@@ -10,7 +10,7 @@ import (
 var PhoenixFlower = MakePhoenixFlower()
 
 func MakePhoenixFlower() game.Action {
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Phoenix Flower",
 		Description: "Hits up-to 6 times. High critical chance.",
 		Accuracy:    game.Ptr(90),
@@ -18,12 +18,10 @@ func MakePhoenixFlower() game.Action {
 		Stat:        game.Ptr(game.StatAttack),
 		Nature:      game.Ptr(game.NsFire),
 		Cost:        game.Ptr(50),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Jutsu:       game.Bukijutsu,
-		CritChance:  game.Ptr(getCriticalStage(1)),
-		CritMod:     1.5,
-	}
+	})
+	config.CritChance = game.Ptr(getCriticalStage(1))
+
 	return game.Action{
 		ID:              uuid.MustParse("c6a59042-5fa2-4ec6-b83f-b705d5cd5c9e"),
 		Config:          config,

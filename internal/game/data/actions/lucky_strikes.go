@@ -10,19 +10,16 @@ import (
 var LuckyStrikes = MakeLuckyStrikes()
 
 func MakeLuckyStrikes() game.Action {
-	config := game.ActionConfig{
-		Name:        "Lucky Strikes",
-		Accuracy:    game.Ptr(80),
-		Power:       game.Ptr(10),
-		Stat:        game.Ptr(game.StatAttack),
-		Nature:      game.Ptr(game.NsTai),
-		Cost:        game.Ptr(30),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-		Jutsu:       game.Taijutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	config := makeAttackConfig(game.ActionConfig{
+		Name:     "Lucky Strikes",
+		Accuracy: game.Ptr(80),
+		Power:    game.Ptr(10),
+		Stat:     game.Ptr(game.StatAttack),
+		Nature:   game.Ptr(game.NsTai),
+		Cost:     game.Ptr(30),
+		Jutsu:    game.Taijutsu,
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("4ac4894c-2ff3-5142-b087-a8924837cefc"),
 		Config:          config,

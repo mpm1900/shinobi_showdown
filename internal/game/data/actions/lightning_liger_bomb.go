@@ -10,25 +10,19 @@ import (
 var LightningLigerBomb = MakeLightningLigerBomb()
 
 func MakeLightningLigerBomb() game.Action {
-	ID := uuid.MustParse("4b45490f-b1b9-4c76-b15f-0e8d1e5019cd")
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Lightning Liger Bomb",
 		Description: "Deals double damage in Electrified Terrain.",
 		Nature:      game.Ptr(game.NsLightning),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(65),
 		Stat:        game.Ptr(game.StatAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return game.Action{
-		ID:              ID,
+		ID:              uuid.MustParse("4b45490f-b1b9-4c76-b15f-0e8d1e5019cd"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),

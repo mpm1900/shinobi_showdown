@@ -10,8 +10,6 @@ import (
 var ApplyPoison = MakeApplyPoison()
 
 func MakeApplyPoison() game.Action {
-	ID := uuid.MustParse("e5eb5e94-eea4-45b4-b033-518e696ca9a3")
-
 	config := game.ActionConfig{
 		Name:        "Apply Poison",
 		Description: "Poisons target.",
@@ -24,7 +22,7 @@ func MakeApplyPoison() game.Action {
 	}
 
 	return game.Action{
-		ID:              ID,
+		ID:              uuid.MustParse("e5eb5e94-eea4-45b4-b033-518e696ca9a3"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),

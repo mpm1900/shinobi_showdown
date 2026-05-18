@@ -12,7 +12,7 @@ var burningAshID = uuid.MustParse("8182c2a7-48ea-4d71-ae05-641988c70993")
 var BurningAsh = MakeBurningAsh()
 
 func MakeBurningAsh() game.Action {
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Burning Ash",
 		Nature:      game.Ptr(game.NsFire),
 		Jutsu:       game.Ninjutsu,
@@ -20,12 +20,8 @@ func MakeBurningAsh() game.Action {
 		Cost:        game.Ptr(10),
 		Power:       game.Ptr(20),
 		Accuracy:    game.Ptr(100),
-		TargetCount: game.Ptr(0),
-		TargetType:  game.TargetPositionID,
 		Stat:        game.Ptr(game.StatChakraAttack),
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	done := false // this closure is really stupid but works to define a "once per attack on success"
 

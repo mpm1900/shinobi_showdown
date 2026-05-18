@@ -11,26 +11,19 @@ import (
 var Firestorm = MakeFirestorm()
 
 func MakeFirestorm() game.Action {
-	ID := uuid.MustParse("5756b76d-dd39-460c-b5fa-431b80200f3b")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Firestorm",
 		Description: "10% chance to burn target. Lowers user's Chakra attack by 2 stages.",
 		Nature:      game.Ptr(game.NsFire),
 		Accuracy:    game.Ptr(90),
 		Power:       game.Ptr(130),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(100),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("5756b76d-dd39-460c-b5fa-431b80200f3b"),
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}

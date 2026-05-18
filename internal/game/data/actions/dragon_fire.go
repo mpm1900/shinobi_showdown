@@ -10,26 +10,19 @@ import (
 var DragonFire = MakeDragonFire()
 
 func MakeDragonFire() game.Action {
-	ID := uuid.MustParse("dca159df-75fb-4cf0-85c5-db69d987a029")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Dragon Fire",
 		Description: "25% chance to burn target. In Flammable Terrain, hits all enemies.",
 		Nature:      game.Ptr(game.NsFire),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(80),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("dca159df-75fb-4cf0-85c5-db69d987a029"),
 		Config: config,
 		MapContext: func(g game.Game, context game.Context) game.Context {
 			state, _ := g.GetState(context)

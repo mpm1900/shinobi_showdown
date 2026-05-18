@@ -11,26 +11,19 @@ import (
 var SnakeStrike = MakeSnakeStrike()
 
 func MakeSnakeStrike() game.Action {
-	ID := uuid.MustParse("62587c38-1644-4910-a2c0-c44a6b27c576")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Snake Strike",
 		Description: "30% chance to paralyze, poison, or put target to sleep.",
 		Nature:      game.Ptr(game.NsYin),
 		Accuracy:    game.Ptr(90),
 		Power:       game.Ptr(80),
 		Stat:        game.Ptr(game.StatAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(50),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("62587c38-1644-4910-a2c0-c44a6b27c576"),
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}

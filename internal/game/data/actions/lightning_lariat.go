@@ -10,26 +10,21 @@ import (
 var LightningLariat = MakeLightningLariat()
 
 func MakeLightningLariat() game.Action {
-	ID := uuid.MustParse("75a444bf-cb42-4a10-8f92-6bc7de709f26")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Lightning Lariat",
 		Description: "10% chance to stun target. High crit chance.",
 		Nature:      game.Ptr(game.NsLightning),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(90),
 		Stat:        game.Ptr(game.StatAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(50),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(1)),
-		CritMod:     1.5,
-	}
+	})
+
+	config.CritChance = game.Ptr(getCriticalStage(1))
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("75a444bf-cb42-4a10-8f92-6bc7de709f26"),
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}

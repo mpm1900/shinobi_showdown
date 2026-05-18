@@ -20,6 +20,7 @@ func MakeBlindingFlash() game.Action {
 		TargetCount: game.Ptr(1),
 		TargetType:  game.TargetPositionID,
 	}
+
 	return game.Action{
 		ID:              uuid.MustParse("4cf69985-6785-56a6-b879-e02cb6207960"),
 		Config:          config,

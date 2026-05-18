@@ -9,18 +9,17 @@ import (
 var ThirtyTwoPalms = MakeThirtyTwoPalms()
 
 func MakeThirtyTwoPalms() game.Action {
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "8 Trigrams: 32 Palms",
 		Description: "Target loses 50% of the remaining HP. Never misses.",
 		Nature:      game.Ptr(game.NsTai),
 		Jutsu:       game.Taijutsu,
-		TargetType:  game.TargetPositionID,
-	}
+	})
 	return game.Action{
 		ID:              uuid.MustParse("7e72e33f-3bcf-4144-ad6f-6d1127c9ab92"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.TargetLengthFilter(1),
+		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
 			Filter:   game.SourceIsAlive,

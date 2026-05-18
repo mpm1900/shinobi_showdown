@@ -10,25 +10,19 @@ import (
 var Devistation = MakeDevistation()
 
 func MakeDevistation() game.Action {
-	ID := uuid.MustParse("3f1e20b2-7a85-4d12-80fd-c2a0991d2ee8")
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Devistation",
 		Description: "Deals more damage proportional to remaining HP.",
 		Nature:      game.Ptr(game.NsWind),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(150),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
-		Cooldown:    game.Ptr(1),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return game.Action{
-		ID:              ID,
+		ID:              uuid.MustParse("3f1e20b2-7a85-4d12-80fd-c2a0991d2ee8"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),

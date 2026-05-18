@@ -9,26 +9,19 @@ import (
 var FlameBullet = MakeFlameBullet()
 
 func MakeFlameBullet() game.Action {
-	ID := uuid.MustParse("46389f19-31f5-4814-b8ab-32a22be9258f")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Flame Bullet",
 		Description: "+1 priority.",
 		Nature:      game.Ptr(game.NsFire),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(60),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:       ID,
+		ID:       uuid.MustParse("46389f19-31f5-4814-b8ab-32a22be9258f"),
 		Config:   config,
 		Priority: game.Ptr(game.ActionPriorityP1),
 	})

@@ -11,8 +11,6 @@ import (
 var MirageCrow = MakeMirageCrow()
 
 func MakeMirageCrow() game.Action {
-	ID := uuid.MustParse("355753f0-5332-5ee4-b438-899d1a71c184")
-
 	config := game.ActionConfig{
 		Name:        "Crow Escape",
 		Description: "Lowers the target's Chakra Attack by 2 stages. User then switches out.",
@@ -24,7 +22,7 @@ func MakeMirageCrow() game.Action {
 	}
 
 	return game.Action{
-		ID:              ID,
+		ID:              uuid.MustParse("355753f0-5332-5ee4-b438-899d1a71c184"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),

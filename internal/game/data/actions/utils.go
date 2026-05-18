@@ -8,6 +8,24 @@ import (
 	"github.com/google/uuid"
 )
 
+func makeAttackConfig(base game.ActionConfig) game.ActionConfig {
+	base.Cooldown = game.Ptr(0)
+	base.CritChance = game.Ptr(getCriticalStage(0))
+	base.CritMod = 1.5
+	base.TargetCount = game.Ptr(1)
+	base.TargetType = game.TargetPositionID
+	return base
+}
+
+func makeSpreadAttackConfig(base game.ActionConfig) game.ActionConfig {
+	base.Cooldown = game.Ptr(0)
+	base.CritChance = game.Ptr(getCriticalStage(0))
+	base.CritMod = 1.5
+	base.TargetCount = game.Ptr(0)
+	base.TargetType = game.TargetPositionID
+	return base
+}
+
 type AttackConfig struct {
 	ID              uuid.UUID
 	Config          game.ActionConfig

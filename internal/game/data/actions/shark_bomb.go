@@ -9,8 +9,7 @@ import (
 var SharkBomb = MakeSharkBomb()
 
 func MakeSharkBomb() game.Action {
-	ID := uuid.MustParse("28f4a572-b566-40dc-ae22-2f5e22cc5229")
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Shark Bomb",
 		Description: "Deals 30% recoil damage.",
 		Nature:      game.Ptr(game.NsWater),
@@ -18,15 +17,12 @@ func MakeSharkBomb() game.Action {
 		Power:       game.Ptr(120),
 		Stat:        game.Ptr(game.StatAttack),
 		Cost:        game.Ptr(70),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Recoil:      game.Ptr(0.3),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
+
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("28f4a572-b566-40dc-ae22-2f5e22cc5229"),
 		Config: config,
 	})
 }

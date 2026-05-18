@@ -17,6 +17,7 @@ func MakeHiddenMist() game.Action {
 		Jutsu:       game.Ninjutsu,
 		Description: "All non-water shinobi have Accuracy down x2 for 5 turns.",
 	}
+
 	return game.Action{
 		ID:              uuid.MustParse("a8c7fab6-c3e0-4933-ab1a-3d05376c05b1"),
 		Config:          config,

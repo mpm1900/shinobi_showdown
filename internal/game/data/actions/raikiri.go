@@ -9,8 +9,7 @@ import (
 var Raikiri = MakeRaikiri()
 
 func MakeRaikiri() game.Action {
-	ID := uuid.MustParse("fac49e63-a734-41b2-9c50-463c5af92233")
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Raikiri",
 		Description: "Deals 30% recoil damage.",
 		Nature:      game.Ptr(game.NsLightning),
@@ -18,16 +17,12 @@ func MakeRaikiri() game.Action {
 		Power:       game.Ptr(120),
 		Stat:        game.Ptr(game.StatAttack),
 		Cost:        game.Ptr(70),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Recoil:      game.Ptr(0.3),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("fac49e63-a734-41b2-9c50-463c5af92233"),
 		Config: config,
 	})
 }

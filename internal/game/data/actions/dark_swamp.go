@@ -10,26 +10,19 @@ import (
 var DarkSwamp = MakeDarkSwamp()
 
 func MakeDarkSwamp() game.Action {
-	ID := uuid.MustParse("82947ffd-47a1-4bca-be69-7e545f12e0ab")
-
-	config := game.ActionConfig{
+	config := makeSpreadAttackConfig(game.ActionConfig{
 		Name:        "Dark Swamp",
 		Description: "Hits all enemy shinobi. 30% chance to stun targets.",
 		Nature:      game.Ptr(game.NsEarth),
 		Accuracy:    game.Ptr(90),
 		Power:       game.Ptr(75),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(0),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(100),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:              ID,
+		ID:              uuid.MustParse("82947ffd-47a1-4bca-be69-7e545f12e0ab"),
 		Config:          config,
 		TargetPredicate: game.NoneFilter,
 		MapContext: func(g game.Game, context game.Context) game.Context {

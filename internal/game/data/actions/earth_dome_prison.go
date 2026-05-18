@@ -11,26 +11,19 @@ import (
 var EarthDomePrison = MakeEarthDomePrison()
 
 func MakeEarthDomePrison() game.Action {
-	ID := uuid.MustParse("c0066f1e-7b7e-40ca-a06b-ade3ad06d19b")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Earth Dome Prison",
 		Description: "Lowers target's Speed.",
 		Nature:      game.Ptr(game.NsEarth),
 		Accuracy:    game.Ptr(95),
 		Power:       game.Ptr(80),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(50),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("c0066f1e-7b7e-40ca-a06b-ade3ad06d19b"),
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}

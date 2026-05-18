@@ -10,26 +10,19 @@ import (
 var KusariChains = MakeKusariChains()
 
 func MakeKusariChains() game.Action {
-	ID := uuid.MustParse("fba5ad6e-d2ee-4b3a-b524-fc2bb6473a09")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Kusari Chains",
 		Description: "30% chance to stun target.",
 		Nature:      game.Ptr(game.NsTai),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(80),
 		Stat:        game.Ptr(game.StatAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(0),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Bukijutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("fba5ad6e-d2ee-4b3a-b524-fc2bb6473a09"),
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}

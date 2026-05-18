@@ -10,24 +10,19 @@ import (
 var FlowerBomb = MakeFlowerBomb()
 
 func MakeFlowerBomb() game.Action {
-	ID := uuid.MustParse("134b2304-7829-4739-864e-5e8b77bf0a41")
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Flower Bomb",
 		Description: "30% chance to poison target.",
 		Nature:      game.Ptr(game.NsWood),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(90),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(90),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("134b2304-7829-4739-864e-5e8b77bf0a41"),
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}

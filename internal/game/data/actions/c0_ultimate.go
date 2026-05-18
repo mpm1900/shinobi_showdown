@@ -9,25 +9,19 @@ import (
 var C0UltimateArt = MakeC0UltimateArt()
 
 func MakeC0UltimateArt() game.Action {
-	ID := uuid.MustParse("181d48e6-11d4-45fe-a8a4-09a5fc37c800")
-
-	config := game.ActionConfig{
+	config := makeAttackConfig(game.ActionConfig{
 		Name:        "C0: Ultimate Art",
 		Description: "Hits all other active shinobi. User dies.",
 		Nature:      game.Ptr(game.NsExplosion),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(250),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(0),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(80),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	return makeAttack(AttackConfig{
-		ID:              ID,
+		ID:              uuid.MustParse("181d48e6-11d4-45fe-a8a4-09a5fc37c800"),
 		Config:          config,
 		TargetPredicate: game.NoneFilter,
 		MapContext: func(g game.Game, context game.Context) game.Context {
