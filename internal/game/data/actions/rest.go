@@ -10,15 +10,13 @@ import (
 var Rest = MakeRest()
 
 func MakeRest() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Rest",
 		Description: "Heals user 100%. User falls asleep.",
 		Nature:      game.Ptr(game.NsYang),
-		TargetCount: game.Ptr(0),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Senjutsu,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("64372d78-3c0b-4d57-a71c-8bdf0e2aedc0"),

@@ -9,13 +9,12 @@ import (
 var ShadowClone = MakeShadowClone()
 
 func MakeShadowClone() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Shadow Clone",
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Ninjutsu,
 		Description: "Summons a shadow clone to take damage. Pay 1/4th of Max HP.",
-		TargetType:  game.TargetActorID,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("e2a1768a-fb9a-5891-a703-a20cf8bcbd6e"),

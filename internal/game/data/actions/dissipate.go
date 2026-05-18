@@ -11,13 +11,13 @@ import (
 var Dissipate = MakeDissipate()
 
 func MakeDissipate() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Dissipate",
 		Nature:      game.Ptr(game.NsWind),
 		Jutsu:       game.Ninjutsu,
 		Description: "Raises the user's Evasion.",
-		TargetType:  game.TargetActorID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("aa485c2f-920b-431a-a33d-919decdab2a4"),
 		Config:          config,

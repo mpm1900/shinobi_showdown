@@ -9,14 +9,12 @@ import (
 var DesperateStrike = MakeDesperateStrike()
 
 func MakeDesperateStrike() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Desperate Strike",
 		Nature:      game.Ptr(game.NsTai),
 		Jutsu:       game.Taijutsu,
 		Description: "Target's HP becomes equal to the user's.",
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("55665151-dfec-40d3-ad45-96ef53d716e9"),

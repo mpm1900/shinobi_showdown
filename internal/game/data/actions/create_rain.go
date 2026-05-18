@@ -10,12 +10,13 @@ import (
 var CreateRain = MakeCreateRain()
 
 func MakeCreateRain() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Create Rain",
 		Nature:      game.Ptr(game.NsWater),
 		Jutsu:       game.Ninjutsu,
 		Description: "Creates rain.",
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("2e05db18-ac05-48fd-9cf4-b50fc6e5dbc3"),
 		Config:          config,

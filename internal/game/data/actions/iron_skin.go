@@ -11,13 +11,13 @@ import (
 var IronSkin = MakeIronSkin()
 
 func MakeIronSkin() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Iron Skin",
 		Nature:      game.Ptr(game.NsEarth),
 		Jutsu:       game.Ninjutsu,
 		Description: "Raises the user's Defense stats by 2 stages.",
-		TargetType:  game.TargetActorID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("4f70f329-a1f4-4e09-aa36-9bd4bc47198c"),
 		Config:          config,

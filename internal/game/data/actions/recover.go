@@ -10,15 +10,13 @@ import (
 var Recover = MakeRecover()
 
 func MakeRecover() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Recover",
 		Description: "Heals the user for up to half of their HP.",
 		Nature:      game.Ptr(game.NsYang),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Senjutsu,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("c0756ddc-2611-5eef-82cc-c2bc03f9f01c"),

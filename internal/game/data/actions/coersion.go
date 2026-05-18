@@ -11,15 +11,13 @@ import (
 var Coercion = MakeCoercion()
 
 func MakeCoercion() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Coercion",
 		Nature:      game.Ptr(game.NsYin),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Genjutsu,
 		Description: "Forces the target to use only their last used action.",
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("06840403-52cc-4e8a-95eb-318cf012e634"),
 		Config:          config,

@@ -9,17 +9,18 @@ import (
 var Curse = MakeCurse()
 
 func MakeCurse() game.Action {
-	config := game.ActionConfig{
-		Name:       "Curse",
-		Nature:     game.Ptr(game.NsJashin),
-		Jutsu:      game.Fuinjutsu,
-		TargetType: game.TargetPositionID,
-	}
+	config := makeStatusConfig(game.ActionConfig{
+		Name:   "Curse",
+		Nature: game.Ptr(game.NsJashin),
+		Jutsu:  game.Fuinjutsu,
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("79b92672-ecc5-5b29-b8f2-035879182bda"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.TargetLengthFilter(1),
+		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
+
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
 			Filter:   game.SourceIsAlive,

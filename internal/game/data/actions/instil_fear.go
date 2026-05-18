@@ -10,21 +10,17 @@ import (
 var InstilFear = MakeInstilFear()
 
 func MakeInstilFear() game.Action {
-	ID := uuid.MustParse("0b2947a8-5caf-4588-b4d5-192443bd51e3")
-
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Instil Fear",
 		Description: "Paralyzes the target.",
 		Nature:      game.Ptr(game.NsYin),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Accuracy:    game.Ptr(100),
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Genjutsu,
-	}
+	})
 
 	return game.Action{
-		ID:              ID,
+		ID:              uuid.MustParse("0b2947a8-5caf-4588-b4d5-192443bd51e3"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),

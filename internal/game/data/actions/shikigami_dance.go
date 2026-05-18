@@ -11,13 +11,13 @@ import (
 var ShikigamiDance = MakeShikigamiDance()
 
 func MakeShikigamiDance() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Shikigami Dance",
 		Nature:      game.Ptr(game.NsWind),
 		Jutsu:       game.Taijutsu,
 		Description: "Raises the user's Chakra Defense by 2 stages.",
-		TargetType:  game.TargetActorID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("ba9be5cb-607a-4f91-8830-7f00eaf4ea16"),
 		Config:          config,

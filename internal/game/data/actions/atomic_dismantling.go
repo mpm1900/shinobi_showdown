@@ -23,6 +23,7 @@ func MakeAtomicDismantlingCharge() game.Action {
 		Cost:        game.Ptr(0),
 		Jutsu:       game.Ninjutsu,
 	})
+
 	return game.Action{
 		ID:              uuid.MustParse("1d3c687f-d7a7-4f17-8f07-689764d9d263"),
 		Config:          config,

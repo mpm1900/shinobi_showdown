@@ -11,15 +11,13 @@ import (
 var LeechSeed = MakeLeechSeed()
 
 func MakeLeechSeed() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Plant Roots",
 		Description: "Saps health from target every turn.",
 		Nature:      game.Ptr(game.NsYang),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Senjutsu,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("9ad36f89-03c5-5b52-9f50-66864b06ca03"),

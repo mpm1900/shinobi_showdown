@@ -67,6 +67,7 @@ func MakeC4Karura() game.Action {
 		Cost:        game.Ptr(80),
 		Description: "In 2 turns, each enemy shinobi loses half of their HP. This effect is nullified if the user dies or switches out.",
 	}
+
 	return game.Action{
 		ID:              c4KaruraID,
 		Config:          config,

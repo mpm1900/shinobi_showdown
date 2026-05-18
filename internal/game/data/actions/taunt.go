@@ -11,14 +11,13 @@ import (
 var Taunt = MakeTaunt()
 
 func MakeTaunt() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Taunt",
 		Nature:      game.Ptr(game.NsTai),
 		Jutsu:       game.Ninjutsu,
 		Description: "Forces target to use only attacking moves.",
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("c62f29ad-2f3e-5e5e-b045-bb0ed58837bc"),
 		Config:          config,

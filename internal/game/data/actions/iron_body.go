@@ -11,13 +11,13 @@ import (
 var IronBody = MakeIronBody()
 
 func MakeIronBody() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Iron Body",
 		Nature:      game.Ptr(game.NsEarth),
 		Jutsu:       game.Ninjutsu,
 		Description: "Raises the user's Attack and Defense and lowers Speed.",
-		TargetType:  game.TargetActorID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("36a1a65f-cf89-44e6-9fa5-264636bf9066"),
 		Config:          config,

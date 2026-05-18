@@ -10,13 +10,13 @@ import (
 var Redirect = MakeRedirect()
 
 func MakeRedirect() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Redirect",
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Genjutsu,
 		Description: "Changes the target of single-target enemy actions.",
-		TargetType:  game.TargetActorID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("3d0b6e04-f5f0-50db-9eb6-4aede4c11701"),
 		Config:          config,

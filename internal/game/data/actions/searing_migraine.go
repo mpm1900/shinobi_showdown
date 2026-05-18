@@ -11,8 +11,6 @@ import (
 var SearingMigraine = MakeSearingMigraine()
 
 func MakeSearingMigraine() game.Action {
-	ID := uuid.MustParse("dc6edab6-535f-508f-b791-e197283eae86")
-
 	config := makeSpreadAttackConfig(game.ActionConfig{
 		Name:        "Searing Migraine",
 		Description: "Hits all enemy shinobi. Grants the user Fire nature until end of turn.",
@@ -25,7 +23,7 @@ func MakeSearingMigraine() game.Action {
 	})
 
 	return makeAttack(AttackConfig{
-		ID:              ID,
+		ID:              uuid.MustParse("dc6edab6-535f-508f-b791-e197283eae86"),
 		Config:          config,
 		TargetPredicate: game.NoneFilter,
 		MapContext: func(g game.Game, context game.Context) game.Context {

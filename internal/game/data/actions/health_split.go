@@ -9,14 +9,12 @@ import (
 var HealthSplit = MakeHealthSplit()
 
 func MakeHealthSplit() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Health Split",
 		Nature:      game.Ptr(game.NsYang),
 		Jutsu:       game.Ninjutsu,
 		Description: "Averages the damage between user and target.",
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("4566bbac-23e4-4464-a71f-05367d43acf2"),

@@ -11,13 +11,13 @@ import (
 var SwordsStance = MakeSwordsStance()
 
 func MakeSwordsStance() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Swords Stance",
 		Nature:      game.Ptr(game.NsTai),
 		Jutsu:       game.Taijutsu,
 		Description: "Raises the user's Physical Attack by 2 stages.",
-		TargetType:  game.TargetActorID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("cdda818c-edac-4de4-99e8-d0890fcc9214"),
 		Config:          config,

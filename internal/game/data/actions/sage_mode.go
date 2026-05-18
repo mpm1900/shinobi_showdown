@@ -11,13 +11,13 @@ import (
 var SageMode = MakeSageMode()
 
 func MakeSageMode() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Sage Mode",
 		Nature:      game.Ptr(game.NsSage),
 		Jutsu:       game.Senjutsu,
 		Description: "Inverts the speed of all active shinobi.",
-		TargetType:  game.TargetActorID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("02796a9b-add5-5a5c-a01b-5bc6e26d0135"),
 		Config:          config,

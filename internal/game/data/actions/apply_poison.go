@@ -10,16 +10,14 @@ import (
 var ApplyPoison = MakeApplyPoison()
 
 func MakeApplyPoison() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Apply Poison",
 		Description: "Poisons target.",
 		Nature:      game.Ptr(game.NsYin),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Accuracy:    game.Ptr(90),
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Ninjutsu,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("e5eb5e94-eea4-45b4-b033-518e696ca9a3"),

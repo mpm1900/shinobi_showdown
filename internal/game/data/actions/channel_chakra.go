@@ -11,13 +11,13 @@ import (
 var ChannelChakra = MakeChannelChakra()
 
 func MakeChannelChakra() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Channel Chakra",
 		Nature:      game.Ptr(game.NsYang),
 		Jutsu:       game.Ninjutsu,
 		Description: "Raises the user's Chakra Attack and Chakra Defense stats.",
-		TargetType:  game.TargetActorID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("403a4bc9-d2fe-4604-a549-6f5e6c7f8dc8"),
 		Config:          config,

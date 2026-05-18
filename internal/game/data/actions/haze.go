@@ -11,12 +11,13 @@ import (
 var Haze = MakeHaze()
 
 func MakeHaze() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Haze",
 		Nature:      game.Ptr(game.NsWater),
 		Jutsu:       game.Ninjutsu,
 		Description: "Nullifies all stat stage changes for 5 turns.",
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("63db7718-b73b-5f31-8b1f-c2dfa5bd5c65"),
 		Config:          config,

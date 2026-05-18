@@ -10,12 +10,13 @@ import (
 var OneHundredHealingsStatus = MakeOneHundredHealingsStatus()
 
 func MakeOneHundredHealingsStatus() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "100 Healings: Status",
 		Nature:      game.Ptr(game.NsYang),
 		Jutsu:       game.Ninjutsu,
 		Description: "Heals status from user's party.",
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("cea0796c-df52-466f-8474-9dc06ec9db6f"),
 		Config:          config,

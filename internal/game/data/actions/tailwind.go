@@ -11,12 +11,13 @@ import (
 var Tailwind = MakeTailwind()
 
 func MakeTailwind() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Tailwind",
 		Nature:      game.Ptr(game.NsWind),
 		Jutsu:       game.Ninjutsu,
 		Description: "Doubles the speed of the user's party for 4 turns. This effect does not stack.",
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("f0e7a99d-93ff-502a-b07c-6479f9a1fc30"),
 		Config:          config,

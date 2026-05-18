@@ -26,6 +26,19 @@ func makeSpreadAttackConfig(base game.ActionConfig) game.ActionConfig {
 	return base
 }
 
+func makeNoTargetStatusConfig(base game.ActionConfig) game.ActionConfig {
+	base.Cooldown = game.Ptr(0)
+	base.TargetType = game.TargetActorID
+	return base
+}
+
+func makeStatusConfig(base game.ActionConfig) game.ActionConfig {
+	base.Cooldown = game.Ptr(0)
+	base.TargetCount = game.Ptr(1)
+	base.TargetType = game.TargetPositionID
+	return base
+}
+
 type AttackConfig struct {
 	ID              uuid.UUID
 	Config          game.ActionConfig

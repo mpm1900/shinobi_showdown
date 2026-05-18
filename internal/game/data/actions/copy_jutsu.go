@@ -10,14 +10,13 @@ import (
 var CopyJutsu = MakeCopyJutsu()
 
 func MakeCopyJutsu() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Copy Jutsu",
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Ninjutsu,
 		Description: "Copies target's last used action.",
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("7bc916c9-f762-472c-ac29-d5e7996b64e3"),
 		Config:          config,

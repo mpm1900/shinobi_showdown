@@ -11,15 +11,12 @@ import (
 var Flash = MakeBlindingFlash()
 
 func MakeBlindingFlash() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Flash",
 		Nature:      game.Ptr(game.NsYin),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Genjutsu,
 		Description: "Stuns the target this turn. Usable on the turn after the user switched in. +3 priority.",
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("4cf69985-6785-56a6-b879-e02cb6207960"),

@@ -9,7 +9,6 @@ import (
 var WillOfTheFallen = MakeWillOfTheFallen()
 
 func MakeWillOfTheFallen() game.Action {
-	ID := uuid.MustParse("abb5de14-3093-40c6-82a6-f2bdb80cc074")
 	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Will Of The Fallen",
 		Description: "Power is increased +50 for each fallen ally.",
@@ -22,7 +21,7 @@ func MakeWillOfTheFallen() game.Action {
 	})
 
 	return makeAttack(AttackConfig{
-		ID:     ID,
+		ID:     uuid.MustParse("abb5de14-3093-40c6-82a6-f2bdb80cc074"),
 		Config: config,
 		MapConfig: func(g game.Game, context game.Context, config game.ActionConfig) game.ActionConfig {
 			dead_ally_count := 0

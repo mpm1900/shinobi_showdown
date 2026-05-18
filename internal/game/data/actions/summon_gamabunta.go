@@ -35,15 +35,13 @@ var GamabuntaActions []game.Action = []game.Action{
 var SummonGamabunta = MakeSummonGamabunta()
 
 func MakeSummonGamabunta() game.Action {
-	nature := game.NsSage
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Summon Gamabunta",
-		Nature:      &nature,
+		Nature:      game.Ptr(game.NsSage),
 		Jutsu:       game.Ninjutsu,
 		Description: "",
-		TargetType:  game.TargetActorID,
 		Summon:      true,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("17967cc9-5b82-43d4-9cd6-3a4a2c70ca39"),

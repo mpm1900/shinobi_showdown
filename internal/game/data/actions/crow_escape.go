@@ -11,15 +11,13 @@ import (
 var MirageCrow = MakeMirageCrow()
 
 func MakeMirageCrow() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Crow Escape",
 		Description: "Lowers the target's Chakra Attack by 2 stages. User then switches out.",
 		Nature:      game.Ptr(game.NsYin),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Genjutsu,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("355753f0-5332-5ee4-b438-899d1a71c184"),

@@ -62,14 +62,12 @@ var PerishInfoModifier game.Modifier = game.Modifier{
 var PerishSong = MakePerishSong()
 
 func MakePerishSong() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Perish Song",
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Fuinjutsu,
 		Description: "Kills target after 5 turns.",
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("ead0d88a-1b00-417d-a45e-c77a7bcaeb74"),

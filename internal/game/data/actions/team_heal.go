@@ -10,15 +10,13 @@ import (
 var TeamHeal = MakeTeamHeal()
 
 func MakeTeamHeal() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Team Heal",
 		Description: "All active ally shinobi heal for 1/4th HP.",
 		Nature:      game.Ptr(game.NsYang),
-		TargetCount: game.Ptr(0),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Senjutsu,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("2bb0f69c-fb8a-4390-9041-60444c4a05fc"),

@@ -11,15 +11,13 @@ import (
 var Disable = MakeDisable()
 
 func MakeDisable() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Disable",
 		Nature:      game.Ptr(game.NsYin),
-		Cooldown:    game.Ptr(0),
 		Jutsu:       game.Genjutsu,
 		Description: "Disables the target's last used action.",
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("5cf69985-6785-56a6-b879-e02cb6207960"),
 		Config:          config,

@@ -11,13 +11,13 @@ import (
 var WaterWall = MakeWaterWall()
 
 func MakeWaterWall() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Water Wall",
 		Nature:      game.Ptr(game.NsWater),
 		Jutsu:       game.Ninjutsu,
 		Description: "User's team takes 50% less chakra damage for 5 turns.",
-		TargetType:  game.TargetActorID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("e615a56a-2d0b-46ec-99cc-66553c5ed6c1"),
 		Config:          config,

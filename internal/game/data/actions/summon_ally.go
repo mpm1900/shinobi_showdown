@@ -13,16 +13,19 @@ import (
 var SummonAlly = MakeSummonAlly()
 
 func MakeSummonAlly() game.Action {
+	config := game.ActionConfig{
+		Name:        "Summon Ally",
+		Nature:      game.Ptr(game.NsYin),
+		Description: "Summons ally to battle, they gain user's stat up/downs. Switches user out.",
+		TargetCount: game.Ptr(1),
+		TargetType:  game.TargetActorID,
+	}
+
 	return game.Action{
-		ID: uuid.MustParse("c06b7803-7b52-4e20-a359-e92695920896"),
-		Config: game.ActionConfig{
-			Name:        "Summon Ally",
-			Nature:      game.Ptr(game.NsYin),
-			Description: "Summons ally to battle, they gain user's stat up/downs. Switches user out.",
-			TargetType:  game.TargetActorID,
-		},
+		ID:              uuid.MustParse("c06b7803-7b52-4e20-a359-e92695920896"),
+		Config:          config,
 		TargetPredicate: game.ComposeAF(game.TeamFilter, game.InactiveFilter, game.AliveFilter),
-		ContextValidate: game.TargetLengthFilter(1),
+		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
 			Filter:   game.TrueGameFilter,

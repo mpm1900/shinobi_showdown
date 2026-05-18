@@ -11,13 +11,12 @@ import (
 var ChilliPill = MakeChilliPill()
 
 func MakeChilliPill() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Chilli Pill",
 		Nature:      game.Ptr(game.NsYang),
 		Jutsu:       game.Fuinjutsu,
 		Description: "User pays half of their HP to raise Attack to +6.",
-		TargetType:  game.TargetActorID,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("49092b2d-84b3-47cf-a4a6-ba5fc7d5ff52"),

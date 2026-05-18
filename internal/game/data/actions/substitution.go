@@ -11,14 +11,14 @@ import (
 var Substitution = MakeSubstitution()
 
 func MakeSubstitution() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Substitution",
 		Nature:      game.Ptr(game.NsYin),
-		Cooldown:    game.Ptr(1),
 		Jutsu:       game.Ninjutsu,
 		Description: "Protects the user from actions this turn. +4 priority, 1 turn cooldown.",
-		TargetType:  game.TargetActorID,
-	}
+	})
+	config.Cooldown = game.Ptr(1)
+
 	return game.Action{
 		ID:              uuid.MustParse("d3765608-4b30-5c4c-b5a9-f4132f0bbb7c"),
 		Config:          config,

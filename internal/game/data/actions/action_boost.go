@@ -11,13 +11,14 @@ var actionBoostID = uuid.MustParse("ff9387f1-ee1a-4162-b5a6-ce2b47498bc5")
 var ActionBoost = MakeActionBoost()
 
 func MakeActionBoost() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Action Boost",
 		Nature:      game.Ptr(game.NsTai),
 		Jutsu:       game.Ninjutsu,
 		Description: "Target acts after this action.",
 		TargetType:  game.TargetActorID,
-	}
+	})
+
 	return game.Action{
 		ID:              actionBoostID,
 		Config:          config,

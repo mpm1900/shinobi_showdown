@@ -11,15 +11,13 @@ import (
 var KamuiEscape = MakeKamuiEscape()
 
 func MakeKamuiEscape() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Kamui: Escape",
 		Description: "Lowers the target's Attack by 2 stages. User then switches out.",
 		Nature:      game.Ptr(game.NsYin),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Genjutsu,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("58924949-3d71-4d01-8f11-f20dfe44df14"),

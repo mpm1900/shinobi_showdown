@@ -52,14 +52,12 @@ var SleepyModifier = game.Modifier{
 var Yawn = MakeYawn()
 
 func MakeYawn() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Yawn",
 		Nature:      game.Ptr(game.NsSage),
 		Jutsu:       game.Senjutsu,
 		Description: "Applies sleepy to the target. (Target will fall asleep at the end of the next turn.)",
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-	}
+	})
 
 	return game.Action{
 		ID:              uuid.MustParse("2ac1ffa2-d197-48fc-a21e-2cca9afe0e19"),

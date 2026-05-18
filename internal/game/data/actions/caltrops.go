@@ -11,12 +11,13 @@ import (
 var Caltrops = MakeCaltrops()
 
 func MakeCaltrops() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Caltrops",
 		Nature:      game.Ptr(game.NsTai),
 		Jutsu:       game.Bukijutsu,
 		Description: "Adds entry hazard for enemies.",
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("e26b23d1-4f5b-4246-97a9-d29eb57b049b"),
 		Config:          config,

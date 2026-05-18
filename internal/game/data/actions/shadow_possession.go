@@ -11,22 +11,17 @@ import (
 var ShadowPossession = MakeShadowPossession()
 
 func MakeShadowPossession() game.Action {
-	ID := uuid.MustParse("6005ead3-37ca-4793-a166-c41eb7c2f3bd")
-
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Shadow Possession",
 		Description: "Increases an ally's speed or paralyzes an enemy.",
 		Nature:      game.Ptr(game.NsYin),
 		Accuracy:    game.Ptr(100),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
-		Cooldown:    game.Ptr(1),
 		Jutsu:       game.Ninjutsu,
-	}
+	})
 
 	return game.Action{
-		ID:              ID,
+		ID:              uuid.MustParse("6005ead3-37ca-4793-a166-c41eb7c2f3bd"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),

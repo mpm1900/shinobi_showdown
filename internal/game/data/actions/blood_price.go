@@ -9,18 +9,18 @@ import (
 var BloodPrice = MakeBloodPrice()
 
 func MakeBloodPrice() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Blood Price",
 		Description: "Deals damage equal to 1.5x the amount damage last dealt to the user by the target.",
 		Nature:      game.Ptr(game.NsJashin),
 		Jutsu:       game.Fuinjutsu,
-		TargetType:  game.TargetPositionID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("b21ee132-d0b9-4a2d-b96d-d8fdfd4aa7a7"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.TargetLengthFilter(1),
+		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPrioritySlow3,
 			Filter:   game.SourceIsAlive,

@@ -11,14 +11,13 @@ import (
 var PowerBoost = MakePowerBoost()
 
 func MakePowerBoost() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Power Boost",
 		Nature:      game.Ptr(game.NsSage),
 		Jutsu:       game.Ninjutsu,
 		Description: "Powers up target's attacks this turn.",
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("fa0a4e99-9b26-5962-9ed0-fc88a6e73cb5"),
 		Config:          config,

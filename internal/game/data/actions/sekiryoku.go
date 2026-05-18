@@ -10,20 +10,16 @@ import (
 var Sekiryoku = MakeSekiryoku()
 
 func MakeSekiryoku() game.Action {
-	ID := uuid.MustParse("ebb162b4-ead0-5601-afea-4948f147604c")
-
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Sekiryoku",
 		Description: "Forces target to switch out.",
 		Nature:      game.Ptr(game.NsYinYang),
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Ninjutsu,
-	}
+	})
 
 	return game.Action{
-		ID:              ID,
+		ID:              uuid.MustParse("ebb162b4-ead0-5601-afea-4948f147604c"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),

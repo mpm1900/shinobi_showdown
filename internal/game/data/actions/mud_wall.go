@@ -11,13 +11,13 @@ import (
 var MudWall = MakeMudWall()
 
 func MakeMudWall() game.Action {
-	config := game.ActionConfig{
+	config := makeNoTargetStatusConfig(game.ActionConfig{
 		Name:        "Mud Wall",
 		Nature:      game.Ptr(game.NsEarth),
 		Jutsu:       game.Ninjutsu,
 		Description: "User's team takes 50% less physical damage for 5 turns.",
-		TargetType:  game.TargetActorID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("8ddc221c-ebb2-47cf-bbe4-09da335eb70b"),
 		Config:          config,

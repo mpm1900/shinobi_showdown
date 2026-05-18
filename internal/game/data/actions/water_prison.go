@@ -11,14 +11,13 @@ import (
 var WaterPrison = MakeWaterPrison()
 
 func MakeWaterPrison() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Water Prison",
 		Nature:      game.Ptr(game.NsWater),
 		Jutsu:       game.Ninjutsu,
 		Description: "Traps target in a water prison that damages the user for 1/8th HP for 3 turns.",
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("41893bef-2aad-4de6-82f6-a4f0391916d5"),
 		Config:          config,

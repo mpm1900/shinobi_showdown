@@ -10,21 +10,17 @@ import (
 var TempleOfNirvana = MakeTempleOfNirvana()
 
 func MakeTempleOfNirvana() game.Action {
-	ID := uuid.MustParse("d59535f2-9cb5-4268-854e-4d9a1d6b7c70")
-
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Temple Of Nirvana",
 		Description: "Puts target to sleep",
 		Nature:      game.Ptr(game.NsYin),
-		TargetCount: game.Ptr(1),
 		Accuracy:    game.Ptr(85),
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Genjutsu,
-		TargetType:  game.TargetPositionID,
-	}
+	})
 
 	return game.Action{
-		ID:              ID,
+		ID:              uuid.MustParse("d59535f2-9cb5-4268-854e-4d9a1d6b7c70"),
 		Config:          config,
 		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
 		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),

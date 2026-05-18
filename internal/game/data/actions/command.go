@@ -10,14 +10,13 @@ import (
 var Command = MakeCommand()
 
 func MakeCommand() game.Action {
-	config := game.ActionConfig{
+	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Command",
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Taijutsu,
 		Description: "Ally uses their last used action again.",
-		TargetCount: game.Ptr(1),
-		TargetType:  game.TargetPositionID,
-	}
+	})
+
 	return game.Action{
 		ID:              uuid.MustParse("e66cbb4f-ec40-4e40-b88d-ff8a47fecfb4"),
 		Config:          config,
