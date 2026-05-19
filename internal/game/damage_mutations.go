@@ -220,6 +220,11 @@ func (e *damageHandler) resolveTargetHit(g *Game, targetIndex int, target Resolv
 	if target.Protected && !e.config.IgnoreProtect {
 		g.PushLog(MakeGameLog("$source$ was protected.", targetContext.WithSource(target.ID), 1))
 		g.On(OnProtected, &targetContext)
+
+		if e.config.OnFailure != nil {
+			e.sideEffectTxs = append(e.sideEffectTxs, e.config.OnFailure(*g, e.context, targetContext)...)
+		}
+
 		return false
 	}
 

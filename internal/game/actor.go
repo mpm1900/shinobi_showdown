@@ -363,6 +363,44 @@ func (ad ActorDef) Clone() ActorDef {
 	return cloned
 }
 
+func MakeActorState() ActorState {
+	return ActorState{
+		State:                ActorStateGrounded,
+		ActiveTurns:          0,
+		Alive:                true,
+		Damage:               0,
+		InactiveTurns:        0,
+		Enters:               0,
+		PositionID:           nil,
+		LastUsedActionTX:     nil,
+		LastReceivedDamage:   map[uuid.UUID]int{},
+		ActionLocked:         false,
+		SwitchLocked:         false,
+		Protected:            false,
+		Safeguarded:          false,
+		Warded:               false,
+		IgnoreRedirect:       false,
+		PowerMultiplier:      1.0,
+		StabMultiplier:       1.5,
+		Reflect:              0.0,
+		ModifierChanceOffset: 0,
+		ModifierChanceMult:   1.0,
+		StatusChanceOffset:   0,
+		StatusChanceMult:     1.0,
+		CooldownOffset:       0,
+		RepeatsMinOffset:     0,
+		RepeatsMaxOffset:     0,
+		ActionAccuracyOffset: 0,
+		Immortal:             false,
+		Seen:                 false,
+		StaminaDamage:        0,
+		Stunned:              false,
+		Statused:             false,
+		Sleeping:             false,
+		SleepCounter:         0,
+	}
+}
+
 func MakeActor(
 	def ActorDef,
 	playerID uuid.UUID,
@@ -385,41 +423,7 @@ func MakeActor(
 		Focus:      focus,
 		Item:       item,
 		Ability:    ability,
-		ActorState: ActorState{
-			State:                ActorStateGrounded,
-			ActiveTurns:          0,
-			Alive:                true,
-			Damage:               0,
-			InactiveTurns:        0,
-			Enters:               0,
-			PositionID:           nil,
-			LastUsedActionTX:     nil,
-			LastReceivedDamage:   map[uuid.UUID]int{},
-			ActionLocked:         false,
-			SwitchLocked:         false,
-			Protected:            false,
-			Safeguarded:          false,
-			Warded:               false,
-			IgnoreRedirect:       false,
-			PowerMultiplier:      1.0,
-			StabMultiplier:       1.5,
-			Reflect:              0.0,
-			ModifierChanceOffset: 0,
-			ModifierChanceMult:   1.0,
-			StatusChanceOffset:   0,
-			StatusChanceMult:     1.0,
-			CooldownOffset:       0,
-			RepeatsMinOffset:     0,
-			RepeatsMaxOffset:     0,
-			ActionAccuracyOffset: 0,
-			Immortal:             false,
-			Seen:                 false,
-			StaminaDamage:        0,
-			Stunned:              false,
-			Statused:             false,
-			Sleeping:             false,
-			SleepCounter:         0,
-		},
+		ActorState: MakeActorState(),
 		DamageMultipliers: map[AttackStat]float64{
 			Attack:       1.0,
 			ChakraAttack: 1.0,
@@ -458,21 +462,7 @@ func (a *Actor) Transform(def ActorDef) {
 
 func (a *Actor) Reset() {
 	a.Enabled = false
-	a.Alive = true
-	a.PositionID = nil
-	a.Damage = 0
-	a.StaminaDamage = 0
-	a.Seen = false
-	a.ActiveTurns = 0
-	a.AuxAbility = nil
-	a.LastUsedActionTX = nil
-	a.InactiveTurns = 0
-	a.PoisonedCounter = 0
-	a.SleepCounter = 0
-	a.Sleeping = false
-	a.Paralyzed = false
-	a.Poisoned = false
-	a.Statused = false
+	a.ActorState = MakeActorState()
 	a.SetSummon(nil)
 }
 
