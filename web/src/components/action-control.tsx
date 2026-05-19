@@ -9,7 +9,7 @@ import type { Action, ActionTransaction } from '#/lib/game/action'
 import { setActionID } from '#/lib/stores/battle-context'
 import { useValidateContext } from '#/hooks/use-validate-context'
 import { useGetTargets } from '#/hooks/use-get-targets'
-import { ChevronRight, Loader } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import { memo, useMemo } from 'react'
 
 const ActionControl = memo(function ActionControl({

@@ -39,7 +39,7 @@ function DefaultAction({ action, context }: { action: Action, context: Context }
     </div>
 
     {has_targets && (
-      <div className="mt-3 h-px w-full bg-gradient-to-r from-transparent via-stone-100/35 to-transparent" />
+      <div className="mt-3 h-px w-full bg-linear-to-r from-transparent via-stone-100/35 to-transparent" />
     )}
 
     {has_targets && (
@@ -147,8 +147,8 @@ function RunningContext({ context }: { context: Context }) {
           <div className="absolute inset-0 bg-[repeating-linear-gradient(-45deg,transparent,transparent_18px,rgba(255,255,255,0.03)_18px,rgba(255,255,255,0.03)_20px)] opacity-40" />
         </div>
 
-        <div className="absolute -bottom-1 left-5 right-50 h-px bg-gradient-to-r from-transparent via-amber-200/60 to-transparent" />
-        <div className="absolute -top-1 left-50 right-5 h-px bg-gradient-to-r from-transparent via-amber-200/60 to-transparent" />
+        <div className="absolute -bottom-1 left-5 right-50 h-px bg-linear-to-r from-transparent via-amber-200/60 to-transparent" />
+        <div className="absolute -top-1 left-50 right-5 h-px bg-linear-to-r from-transparent via-amber-200/60 to-transparent" />
       </div>
 
       <div

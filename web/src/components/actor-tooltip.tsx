@@ -1,7 +1,7 @@
 import { useActiveActor } from '#/hooks/use-active-actor'
 import { useGetTargets } from '#/hooks/use-get-targets'
 import type { Actor } from '#/lib/game/actor'
-import { natureIndexes, type NatureSet } from '#/lib/game/nature'
+import { natureIndexes } from '#/lib/game/nature'
 import { ActorStat } from './actor-stat'
 import { NatureBadge } from './nature-badge'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from './ui/hover-card'
@@ -103,7 +103,7 @@ function ActorTooltip({
             </div>
           </div>
           <div className="bg-stone-700 rounded-xs overflow-hidden ring ring-black mb-2">
-            <div className="mb-1 h-px w-full bg-gradient-to-r to-stone-100/35 from-transparent" />
+            <div className="mb-1 h-px w-full bg-linear-to-r to-stone-100/35 from-transparent" />
             <div className="flex gap-8 [&>div]:flex-1 [&>div]:text-nowrap px-2">
               <div className="capitalize">{actor.focus}</div>
               <div className="flex gap-1 items-center">
@@ -115,7 +115,7 @@ function ActorTooltip({
                 {actor.ability?.name ?? '-'}
               </div>
             </div>
-            <div className="mt-1 h-px w-full bg-gradient-to-r to-transparent from-stone-100/35" />
+            <div className="mt-1 h-px w-full bg-linear-to-r to-transparent from-stone-100/35" />
           </div>
 
           <div className="flex items-start mb-4">
