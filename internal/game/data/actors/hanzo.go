@@ -51,6 +51,7 @@ var Hanzo = game.ActorDef{
 		actions.DragonFire.ID,
 		actions.DarkSwamp.ID,
 		actions.NoEscape.ID,
+		actions.Gambit.ID,
 	}, GlobalActions...),
 	Immunities: map[uuid.UUID]struct{}{},
 }
