@@ -366,15 +366,18 @@ func (e *damageHandler) buildSideEffects() {
 		e.sideEffectTxs = append(e.sideEffectTxs, healTx)
 	}
 
-	if e.action.Recoil != nil && *e.action.Recoil > 0.0 {
-		amount := Round(*e.action.Recoil * float64(e.total))
-		recoilTx := MakeTransaction(PureDamage(amount, false), context)
-		e.sideEffectTxs = append(e.sideEffectTxs, recoilTx)
-	}
-	if e.action.Recoil != nil && *e.action.Recoil < 0.0 {
-		amount := Round(*e.action.Recoil * float64(e.total))
-		recoilTx := MakeTransaction(PureHeal(amount*-1), context)
-		e.sideEffectTxs = append(e.sideEffectTxs, recoilTx)
+	if e.action.Recoil != nil {
+		recoil := *e.action.Recoil * e.source.RecoilMultiplier
+		if recoil > 0.0 {
+			amount := Round(recoil * float64(e.total))
+			recoilTx := MakeTransaction(PureDamage(amount, false), context)
+			e.sideEffectTxs = append(e.sideEffectTxs, recoilTx)
+		}
+		if recoil < 0.0 {
+			amount := Round(recoil * float64(e.total))
+			recoilTx := MakeTransaction(PureHeal(amount*-1), context)
+			e.sideEffectTxs = append(e.sideEffectTxs, recoilTx)
+		}
 	}
 
 	for i, target := range e.resolvedTargets {

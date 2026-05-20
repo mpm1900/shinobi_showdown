@@ -189,6 +189,7 @@ type ActorState struct {
 	// [Reflect] how much damage is reflected (PureDamage not affected)
 	IgnoreRedirect       bool    `json:"-"`
 	Reflect              float64 `json:"-"`
+	RecoilMultiplier     float64 `json:"-"`
 	PowerMultiplier      float64 `json:"-"`
 	StabMultiplier       float64 `json:"-"`
 	ModifierChanceOffset int     `json:"-"`
@@ -255,12 +256,12 @@ type Actor struct {
 	// - set to nil on switch-out
 	AuxAbility        *Modifier              `json:"-"`
 	Item              *Modifier              `json:"item"`
+	Summon            *Summon                `json:"summon,omitempty"`
 	Stages            map[ActorStat]int      `json:"staged_stats"`
 	AuxStats          map[ActorStat]int      `json:"aux_stats"`
 	DamageMultipliers map[AttackStat]float64 `json:"-"`
 	DamageReduction   map[AttackStat]float64 `json:"-"`
 	Actions           []Action               `json:"actions"`
-	Summon            *Summon                `json:"summon,omitempty"`
 	AppliedModifiers  map[uuid.UUID]int      `json:"applied_modifiers"`
 }
 
@@ -383,6 +384,7 @@ func MakeActorState() ActorState {
 		PowerMultiplier:      1.0,
 		StabMultiplier:       1.5,
 		Reflect:              0.0,
+		RecoilMultiplier:     1.0,
 		ModifierChanceOffset: 0,
 		ModifierChanceMult:   1.0,
 		StatusChanceOffset:   0,
