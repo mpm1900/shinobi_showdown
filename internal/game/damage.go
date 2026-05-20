@@ -21,28 +21,6 @@ type DamageTerms struct {
 	Targets  float64
 }
 
-type DamageConfig struct {
-	Critical        float64
-	Random          float64
-	IgnoreProtect   bool
-	IgnoreModifiers bool
-	Repeat          bool
-	RepeatMax       int
-	OnSuccess       func(Game, Context, Context) []GameTransaction
-	OnFailure       func(Game, Context, Context) []GameTransaction
-}
-
-func NewDamageConfig(critical float64, random float64) DamageConfig {
-	return DamageConfig{
-		Critical:        critical,
-		Random:          random,
-		IgnoreModifiers: critical > 1,
-		IgnoreProtect:   false,
-		Repeat:          false,
-		RepeatMax:       0,
-	}
-}
-
 func RandomDamageFactor() float64 {
 	roll := rand.IntN(15) + 89
 	value := float64(roll) / 100.0

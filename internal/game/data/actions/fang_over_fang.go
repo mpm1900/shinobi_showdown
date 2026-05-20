@@ -12,7 +12,7 @@ func MakeFangOverFang() game.Action {
 	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Fang Over Fang",
 		Description: "Deals 30% recoil damage.",
-		Nature:      game.Ptr(game.NsFire),
+		Nature:      game.Ptr(game.NsYang),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(120),
 		Stat:        game.Ptr(game.StatAttack),
