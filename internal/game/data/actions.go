@@ -178,6 +178,7 @@ var ACTIONS map[uuid.UUID]game.Action = map[uuid.UUID]game.Action{
 
 	actions.KebariSenbon.ID: actions.KebariSenbon,
 	actions.HealthSplit.ID:  actions.HealthSplit,
+	actions.FangOverFang.ID: actions.FangOverFang,
 
 	actions.ApplyPoison.ID:    actions.ApplyPoison,
 	actions.SnakeStrike.ID:    actions.SnakeStrike,

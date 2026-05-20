@@ -52,6 +52,7 @@ import {
   GiSabersChoc,
   GiTriorb,
   GiWolfHead,
+  GiHelmetHeadShot,
 } from 'react-icons/gi'
 import {
   PiCaretDoubleUpDuotone,
@@ -247,6 +248,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
       {...props}
     />
   ),
+  hard_headed: GiHelmetHeadShot,
   hot_coal: GiHotSpices,
   electrified_speed: ({ className, ...props }) => (
     <BsSpeedometer className={cn('text-yellow-300', className)} {...props} />

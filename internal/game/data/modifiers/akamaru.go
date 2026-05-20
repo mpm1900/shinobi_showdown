@@ -13,7 +13,6 @@ var Akamaru = game.Modifier{
 	Icon:        "akamaru",
 	Name:        "Akamaru",
 	Description: "Is good boy.",
-	Show:        true,
 	Duration:    game.ModifierDurationInf,
 	ActorMutations: []game.ActorMutation{
 		game.NewNoopSource(&akamaruID),

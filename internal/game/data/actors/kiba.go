@@ -31,13 +31,16 @@ var Kiba = game.ActorDef{
 		game.NsEarth,
 		game.NsYang,
 	}),
-	Abilities:   []game.Modifier{},
+	Abilities: []game.Modifier{
+		modifiers.HardHeaded,
+	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
 		actions.Expansion.ID,
 		actions.WhirlwindKick.ID,
 		actions.RockFist.ID,
 		actions.Earthquake.ID,
+		actions.FangOverFang.ID,
 	}, GlobalActions...),
 	DefaultModifiers: []game.Modifier{
 		modifiers.MansBestFriend,
