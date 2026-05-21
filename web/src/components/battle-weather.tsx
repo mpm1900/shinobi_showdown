@@ -10,7 +10,7 @@ function BattleWeather() {
     g.modifiers.filter((tx) => g.applied_game_state_tx.includes(tx.ID))
   )
   return (
-    <div>
+    <div className="space-y-2 mt-4">
       <Switch checked={ui.bgEnabled} onCheckedChange={setBgEnabled} />
       <div>
         {modifiers.map((tx) => (
