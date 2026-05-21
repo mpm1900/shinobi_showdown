@@ -23,7 +23,7 @@ var ShinobiVest game.Modifier = game.Modifier{
 			game.ComposeAF(game.SourceFilter, game.ActiveFilter),
 			func(g game.Game, actor game.Actor, context game.Context) game.Actor {
 				for i := range actor.Actions {
-					actor.Actions[i].State.Disabled = !actor.Actions[i].Meta.Switch && actor.Actions[i].Config.Power == nil
+					actor.Actions[i].State.Disabled = !actor.Actions[i].Config.Switch && actor.Actions[i].Config.Power == nil
 				}
 
 				actor.Stats[game.StatChakraDefense] = game.Round(float64(actor.Stats[game.StatChakraDefense]) * 1.5)

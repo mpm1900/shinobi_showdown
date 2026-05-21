@@ -169,14 +169,8 @@ func pushAction(instance *Instance, request Request) int {
 		return none
 	}
 
-	if action.Meta.Switch && actor.SwitchLocked {
+	if action.State.Disabled {
 		return none
-	}
-
-	if !action.Meta.Switch && actor.ActionLocked && actor.LastUsedActionTX != nil {
-		if *request.Context.ActionID != actor.LastUsedActionTX.Mutation.ID {
-			return none
-		}
 	}
 
 	transaction := game.MakeTransaction(action, request.Context)

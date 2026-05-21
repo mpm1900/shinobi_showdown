@@ -112,9 +112,7 @@ var Switch = Action{
 		Name:        "Switch",
 		Description: "Switches user out and target ally into battle.",
 		TargetType:  TargetActorID,
-	},
-	Meta: ActionMeta{
-		Switch: true,
+		Switch:      true,
 	},
 	State: ActionState{
 		Locked: true,
@@ -144,9 +142,7 @@ func SwitchIn(count int) Action {
 		Config: ActionConfig{
 			Name:       "Switch In",
 			TargetType: TargetActorID,
-		},
-		Meta: ActionMeta{
-			Switch: true,
+			Switch:     true,
 		},
 		State: ActionState{
 			Locked: true,
@@ -219,6 +215,7 @@ func MakeStruggle() Action {
 		Cooldown:    Ptr(0),
 		CritChance:  Ptr(5),
 		CritMod:     1.5,
+		Struggle:    true,
 	}
 
 	action := makeAttack(
@@ -240,7 +237,6 @@ func MakeStruggle() Action {
 			return transactions
 		},
 	)
-	action.Meta.Struggle = true
 	action.TargetPredicate = NoneFilter
 	action.MapContext = func(g Game, context Context) Context {
 		other_actors := g.GetActorsFilters(context, ComposeAF(ActiveFilter, OtherTeamFilter))

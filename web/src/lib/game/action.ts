@@ -18,6 +18,8 @@ type Action = {
     log_failure: string
     target_type: 'target-actor-id' | 'target-position-type'
     summon: boolean
+    switch: boolean
+    struggle: boolean
   }
   state: {
     locked: boolean
@@ -25,10 +27,6 @@ type Action = {
     disabled: boolean
   }
   priority: number
-  meta: {
-    switch: boolean
-    struggle: boolean
-  }
 }
 
 type ActionTransaction = {

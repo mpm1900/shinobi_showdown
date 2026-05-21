@@ -83,7 +83,7 @@ const ActionControl = memo(function ActionControl({
   return (
     <div className="flex flex-col items-center gap-4 min-w-xs">
       {action &&
-        (action.meta.switch ? (
+        (action.config.switch ? (
           <div className="gap-3 grid grid-cols-2">
             {actors.map((a) => {
               return (

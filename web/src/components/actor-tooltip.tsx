@@ -18,7 +18,7 @@ import { MODIFIER_ICONS } from '#/data/icons'
 
 function SwitchButton({ actor }: { actor: Actor }) {
   const active = useActiveActor()
-  const switch_action = active?.actions.find((a) => a.meta.switch)
+  const switch_action = active?.actions.find((a) => a.config.switch)
   const context = {
     ...NULL_CONTEXT,
     action_ID: switch_action?.ID ?? null,
@@ -205,7 +205,7 @@ function ActorTooltip({
             <table className="[&_td]:px-2 [&_td]:whitespace-nowrap">
               <tbody>
                 {actor.actions
-                  .filter((a) => !a.meta.switch)
+                  .filter((a) => !a.config.switch)
                   .map((a) => (
                     <tr
                       key={a.ID}

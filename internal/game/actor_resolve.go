@@ -121,11 +121,11 @@ func (ah *actorResolveHandler) resolveActions(resolved *ResolvedActor) {
 			context.ActionID = &a.ID
 
 			if resolved.ActionLocked && resolved.LastUsedActionTX != nil {
-				if resolved.LastUsedActionTX.Mutation.ID != a.ID && !a.Meta.Switch {
+				if resolved.LastUsedActionTX.Mutation.ID != a.ID && !a.Config.Switch {
 					resolved.Actions[i].State.Disabled = true
 				}
 			}
-			if resolved.SwitchLocked && a.Meta.Switch {
+			if resolved.SwitchLocked && a.Config.Switch {
 				resolved.Actions[i].State.Disabled = true
 			}
 
@@ -151,7 +151,7 @@ func (ah *actorResolveHandler) resolveActions(resolved *ResolvedActor) {
 				resolved.Actions[i].State.Disabled = true
 			}
 
-			if !a.Meta.Switch && !resolved.Actions[i].State.Disabled {
+			if !a.Config.Switch && !resolved.Actions[i].State.Disabled {
 				allDisabled = false
 			}
 		}

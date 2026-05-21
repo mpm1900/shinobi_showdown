@@ -79,7 +79,7 @@ function LobbyActorDetails({
         <table className="z-10 [&_td]:px-2 [&_td]:whitespace-nowrap text-shadow-[1px_1px_0px_#000000]">
           <tbody>
             {actor.actions
-              .filter((a) => !a.meta.switch)
+              .filter((a) => !a.config.switch)
               .map((a) => (
                 <tr
                   key={a.ID}

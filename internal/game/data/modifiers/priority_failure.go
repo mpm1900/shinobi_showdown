@@ -22,7 +22,7 @@ var PriorityFailure = game.Modifier{
 			game.ComposeAF(game.ActiveFilter),
 			func(g game.Game, a game.Actor, c game.Context) game.Actor {
 				for i, action := range a.Actions {
-					if !action.Meta.Switch {
+					if !action.Config.Switch {
 						if action.Priority > game.ActionPriorityDefault && action.Config.Power != nil {
 							a.Actions[i].State.Disabled = true
 						}

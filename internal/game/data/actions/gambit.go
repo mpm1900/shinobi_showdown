@@ -36,7 +36,7 @@ func MakeGambit() game.Action {
 				if tx.Context.SourceActorID == nil {
 					is_switch = false
 				}
-				return *tx.Context.SourceActorID == target.ID && tx.Mutation.Meta.Switch
+				return *tx.Context.SourceActorID == target.ID && tx.Mutation.Config.Switch
 			})
 			if !ok {
 				is_switch = false

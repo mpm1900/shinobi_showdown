@@ -24,7 +24,7 @@ func Coerced(actionID uuid.UUID) game.Modifier {
 				game.ComposeAF(game.ActiveFilter, game.TargetFilter),
 				func(g game.Game, a game.Actor, c game.Context) game.Actor {
 					for i, _ := range a.Actions {
-						a.Actions[i].State.Disabled = a.Actions[i].ID != actionID && !a.Actions[i].Meta.Switch
+						a.Actions[i].State.Disabled = a.Actions[i].ID != actionID && !a.Actions[i].Config.Switch
 					}
 					return a
 				},

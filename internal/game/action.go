@@ -59,14 +59,11 @@ type ActionConfig struct {
 	IgnoreRedirect bool             `json:"-"`
 	SubPriority    int              `json:"-"`
 	Summon         bool             `json:"summon"`
+	Switch         bool             `json:"switch"`
+	Struggle       bool             `json:"struggle"`
 }
 
 type ActionMutation Mutation[Game, Game, []Transaction[GameMutation]]
-
-type ActionMeta struct {
-	Switch   bool `json:"switch"`
-	Struggle bool `json:"struggle"`
-}
 
 type ActionState struct {
 	Locked   bool `json:"locked"`
@@ -95,7 +92,6 @@ type Action struct {
 	ID     uuid.UUID    `json:"ID"`
 	Config ActionConfig `json:"config"`
 	State  ActionState  `json:"state"`
-	Meta   ActionMeta   `json:"meta"`
 
 	TargetPredicate func(Game, Actor, Context) bool `json:"-"`
 	ContextValidate func(Context) bool              `json:"-"`
@@ -125,7 +121,7 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 	/**
 	 * Source Can-Act Checks
 	 */
-	if ok && !action.Meta.Switch {
+	if ok && !action.Config.Switch {
 		resolved := source.Resolve(*game)
 		if !resolved.CanAct(game, context) {
 			return []GameTransaction{}
@@ -169,7 +165,7 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 	}
 
 	if ok {
-		if !action.Meta.Struggle {
+		if !action.Config.Struggle {
 			game.UpdateActor(source.ID, func(a Actor) Actor {
 				a.LastUsedActionTX = &transaction
 				return a
