@@ -1,24 +1,24 @@
-import { gameStore } from "#/lib/stores/game"
-import { useStore } from "@tanstack/react-store"
-import { Modifier } from "./modifier"
+import { gameStore } from '#/lib/stores/game'
+import { useStore } from '@tanstack/react-store'
+import { Modifier } from './modifier'
+import { Switch } from './ui/switch'
+import { setBgEnabled, uiStore } from '#/lib/stores/ui'
 
 function BattleWeather() {
-  const state = useStore(gameStore, g => g.state)
-  const modifiers = useStore(gameStore, g => g.modifiers
-    .filter((tx) =>
-      g.applied_game_state_tx.includes(tx.ID)
-    ))
+  const ui = useStore(uiStore, (s) => s)
+  const modifiers = useStore(gameStore, (g) =>
+    g.modifiers.filter((tx) => g.applied_game_state_tx.includes(tx.ID))
+  )
   return (
     <div>
-      <div>Weather: {state.weather}</div>
-      <div>Terrain: {state.terrain}</div>
+      <Switch checked={ui.bgEnabled} onCheckedChange={setBgEnabled} />
       <div>
-        {modifiers
-          .map((tx) => <Modifier key={tx.ID} modifier={tx.mutation} count={1} />)}
+        {modifiers.map((tx) => (
+          <Modifier key={tx.ID} modifier={tx.mutation} count={1} />
+        ))}
       </div>
     </div>
   )
 }
-
 
 export { BattleWeather }

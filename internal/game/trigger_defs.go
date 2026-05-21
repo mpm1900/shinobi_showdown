@@ -34,7 +34,6 @@ var END_OF_TURN_TRIGGER Trigger = Trigger{
 								g.Actors[i].PoisonedCounter++
 							}
 						}
-						g.Actors[i].IncrementTurns()
 					}
 
 					if t > 0 {

@@ -23,6 +23,9 @@ interface RouterContext {
 // const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='auto')?stored:'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='auto'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);if(mode==='auto'){root.removeAttribute('data-theme')}else{root.setAttribute('data-theme',mode)}root.style.colorScheme=resolved;}catch(e){}})();`
 
 import { meQuery } from '#/lib/queries/auth'
+import { useStore } from '@tanstack/react-store'
+import { uiStore } from '#/lib/stores/ui'
+import { bg } from 'zod/v4/locales'
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   beforeLoad: async ({ context, location }) => {
@@ -75,6 +78,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const bgEnabled = useStore(uiStore, (s) => s.bgEnabled)
+
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
@@ -82,10 +87,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
         <HeadContent />
       </head>
-      <body className="font-sans antialiased wrap-anywhere overflow-x-hidden flex flex-col">
-        <ClientOnly>
-          <VantaBackground />
-        </ClientOnly>
+      <body className="font-sans antialiased wrap-anywhere overflow-x-hidden flex flex-col bg-stone-800">
+        {bgEnabled && (
+          <ClientOnly>
+            <VantaBackground />
+          </ClientOnly>
+        )}
         <TanStackQueryProvider>
           <TooltipProvider>{children}</TooltipProvider>
         </TanStackQueryProvider>

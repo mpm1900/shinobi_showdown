@@ -760,6 +760,15 @@ func (g *Game) NextTurn() {
 	}
 }
 
+func (g *Game) EndTurn() {
+	if g.Turn.Count > 0 {
+		g.On(OnTurnEnd, nil)
+	}
+	for index := range g.Actors {
+		g.Actors[index].IncrementTurns()
+	}
+}
+
 type GameJSON struct {
 	Status             GameStatus             `json:"status"`
 	Turn               Turn                   `json:"turn"`

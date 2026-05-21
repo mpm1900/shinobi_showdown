@@ -157,6 +157,19 @@ func (i *Instance) Run() {
 	}
 }
 
+func (i *Instance) FlushGame() bool {
+	for i.Game.Next() {
+		i.BroadcastGame()
+		time.Sleep(i.Game.Tick)
+	}
+
+	if len(i.Game.Prompts) > 0 {
+		return true
+	}
+
+	return false
+}
+
 func (i *Instance) RunGameActions() {
 	go func() {
 		i.Game.Status = game.GameStatusRunning
@@ -164,12 +177,7 @@ func (i *Instance) RunGameActions() {
 
 	resolveStep:
 		for {
-			for i.Game.Next() {
-				i.BroadcastGame()
-				time.Sleep(i.Game.Tick)
-			}
-
-			if len(i.Game.Prompts) > 0 {
+			if i.FlushGame() {
 				break resolveStep
 			}
 
@@ -180,20 +188,9 @@ func (i *Instance) RunGameActions() {
 				continue
 
 			case game.TurnEnd:
-				if i.Game.Turn.Count > 0 {
-					i.Game.On(game.OnTurnEnd, nil)
-				} else {
-					for index := range i.Game.Actors {
-						i.Game.Actors[index].IncrementTurns()
-					}
-				}
+				i.Game.EndTurn()
 
-				for i.Game.Next() {
-					i.BroadcastGame()
-					time.Sleep(i.Game.Tick)
-				}
-
-				if len(i.Game.Prompts) > 0 {
+				if i.FlushGame() {
 					break resolveStep
 				}
 
