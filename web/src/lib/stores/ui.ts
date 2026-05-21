@@ -8,7 +8,7 @@ function toggleBg() {
   uiStore.setState((s) => ({ bgEnabled: !s.bgEnabled }))
 }
 function setBgEnabled(enabled: boolean) {
-  uiStore.setState((prev) => ({ bgEnabled: enabled }))
+  uiStore.setState(() => ({ bgEnabled: enabled }))
 }
 
 export { uiStore, toggleBg, setBgEnabled }

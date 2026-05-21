@@ -25,7 +25,6 @@ interface RouterContext {
 import { meQuery } from '#/lib/queries/auth'
 import { useStore } from '@tanstack/react-store'
 import { uiStore } from '#/lib/stores/ui'
-import { bg } from 'zod/v4/locales'
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   beforeLoad: async ({ context, location }) => {
