@@ -106,7 +106,7 @@ func (e *damageHandler) resolveTargetHit(g *Game, targetIndex int, target Resolv
 		return false
 	}
 
-	result := MakeAccuracyCheck(g, e.action, e.source, target, e.config.IgnoreModifiers)
+	result := MakeAccuracyCheck(*g, e.action, e.source, target, e.config.IgnoreModifiers)
 	if !result.Success {
 		if !e.config.Repeat || e.repeats == 0 {
 			g.PushLog(NewLog(fmt.Sprintf("%s missed!", e.action.Name)))

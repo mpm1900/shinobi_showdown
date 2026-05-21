@@ -222,8 +222,8 @@ func MakeCriticalCheck(action ActionConfig) ChanceResult {
 	}
 }
 
-func MakeAccuracyCheck(g *Game, action ActionConfig, source ResolvedActor, target ResolvedActor, ignoreModifiers bool) ChanceResult {
-	base_accuracy := GetAccuracy(*g, source, target, ignoreModifiers)
+func MakeAccuracyCheck(g Game, action ActionConfig, source ResolvedActor, target ResolvedActor, ignoreModifiers bool) ChanceResult {
+	base_accuracy := GetAccuracy(g, source, target, ignoreModifiers)
 	if action.Accuracy == nil {
 		return ChanceResult{
 			Success: true,
@@ -232,7 +232,9 @@ func MakeAccuracyCheck(g *Game, action ActionConfig, source ResolvedActor, targe
 
 	accuracy := Round(base_accuracy * (float64(*action.Accuracy + source.ActionAccuracyOffset)))
 	roll := MakeActionRoll()
+
 	fmt.Printf("acc = %d, roll = %d\n", accuracy, roll)
+
 	return ChanceResult{
 		Chance:  accuracy,
 		Roll:    roll,

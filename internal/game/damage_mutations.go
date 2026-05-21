@@ -252,7 +252,7 @@ func NewHeal(action ActionConfig, ratio float64) GameMutation {
 
 			source := s.Resolve(g)
 			for _, target := range resolveTargets(g, context) {
-				result := MakeAccuracyCheck(&g, action, source, target, false)
+				result := MakeAccuracyCheck(g, action, source, target, false)
 				if !result.Success {
 					g.PushLog(NewLog(fmt.Sprintf("%s missed!", action.Name)))
 					g.PushLog(NewLog(fmt.Sprintf("roll = %d, acc = %d", result.Roll, result.Chance)))
