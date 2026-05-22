@@ -184,8 +184,26 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 
 func GetAccuracy(game Game, source ResolvedActor, target ResolvedActor, ignoreModifiers bool) float64 {
 	ratio := float64(source.Stats[StatAccuracy]) / float64(target.Stats[StatEvasion])
-	fmt.Printf("acc ratio = %d / %d = %f \n", source.Stats[StatAccuracy], target.Stats[StatEvasion], ratio)
 	return ratio
+}
+
+func GetCriticalChance(action ActionConfig, source ResolvedActor) float64 {
+	if action.CritChance == nil && action.CritStage == nil {
+		return 0.0
+	}
+
+	crit_chance := 0.0
+	if action.CritChance != nil {
+		crit_chance = float64(*action.CritChance)
+	}
+	if action.CritStage != nil {
+		stage := *action.CritStage + source.Stages[StatCritical]
+		crit_chance = getCriticalStage(stage)
+	}
+
+	crit_chance += float64(source.BaseStats[StatCritical])
+
+	return crit_chance
 }
 
 func MakeActionRoll() int {
@@ -206,33 +224,14 @@ var criticalStages = map[int]float64{
 	3: 100.0,
 }
 
-func getCriticalStage(stage int) int {
+func getCriticalStage(stage int) float64 {
 	stage = max(0, stage)
 	stage = min(stage, len(criticalStages)-1)
-	return Round(criticalStages[stage])
+	return criticalStages[stage]
 }
 
 func MakeCriticalCheck(action ActionConfig, source ResolvedActor) ChanceResult {
-	if action.CritChance == nil && action.CritStage == nil {
-		return ChanceResult{
-			Success: false,
-		}
-	}
-
-	crit_chance := 0.0
-	if action.CritChance != nil {
-		crit_chance = float64(*action.CritChance)
-	}
-	if action.CritStage != nil {
-		stage := *action.CritStage + source.Stages[StatCritical]
-		crit_chance = criticalStages[stage]
-		_, ok := criticalStages[stage]
-		if !ok {
-			crit_chance = 100.0
-		}
-	}
-
-	crit_chance += float64(source.BaseStats[StatCritical])
+	crit_chance := GetCriticalChance(action, source)
 	roll := MakeActionRoll()
 	success := float64(roll) < crit_chance
 	ratio := 1.0
@@ -240,7 +239,7 @@ func MakeCriticalCheck(action ActionConfig, source ResolvedActor) ChanceResult {
 		ratio = action.CritMod
 	}
 
-	fmt.Println("CRIT CHANCE:", crit_chance)
+	fmt.Printf("crit_chance = %f, roll = %d\n", crit_chance, roll)
 
 	return ChanceResult{
 		Chance:  crit_chance,
