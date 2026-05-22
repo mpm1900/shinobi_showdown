@@ -20,7 +20,7 @@ func MakeKirin() game.Action {
 		Cost:        game.Ptr(50),
 		Jutsu:       game.Ninjutsu,
 	})
-	config.CritChance = game.Ptr(getCriticalStage(4))
+	config.CritStage = game.Ptr(4)
 
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("d55c8221-fc03-4ae0-9737-cb5c7db88f73"),

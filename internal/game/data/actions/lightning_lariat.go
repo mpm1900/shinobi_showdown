@@ -21,7 +21,7 @@ func MakeLightningLariat() game.Action {
 		Jutsu:       game.Ninjutsu,
 	})
 
-	config.CritChance = game.Ptr(getCriticalStage(1))
+	config.CritStage = game.Ptr(1)
 
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("75a444bf-cb42-4a10-8f92-6bc7de709f26"),

@@ -35,9 +35,14 @@ func MakeGraft() game.Action {
 			),
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
+				source, ok := g.GetSource(context)
+				if !ok {
+					return transactions
+				}
 
 				conf, _ := game.GetActiveActionConfig(g, config)
-				crit_result := game.MakeCriticalCheck(conf)
+				resolved := source.Resolve(g)
+				crit_result := game.MakeCriticalCheck(conf, resolved)
 
 				for _, target := range g.GetTargets(context) {
 					isTeam := context.SourcePlayerID != nil && target.PlayerID == *context.SourcePlayerID

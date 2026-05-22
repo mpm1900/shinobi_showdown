@@ -46,7 +46,7 @@ func MakeDevistation() game.Action {
 
 				action_config, _ := game.GetActiveActionConfig(g, config)
 				action_config.Power = game.Ptr(game.Round(float64(*action_config.Power) * ratio))
-				crit_result := game.MakeCriticalCheck(action_config)
+				crit_result := game.MakeCriticalCheck(action_config, resolved)
 				dmg_config := game.NewDamageConfig(crit_result.Ratio, game.RandomDamageFactor())
 				damages := game.NewDamage(action_config, dmg_config)
 				transactions = append(

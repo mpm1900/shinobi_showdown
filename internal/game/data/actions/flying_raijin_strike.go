@@ -20,7 +20,7 @@ func MakeFlyingRaijin() game.Action {
 		Jutsu:       game.Fuinjutsu,
 	})
 
-	config.CritChance = game.Ptr(getCriticalStage(1))
+	config.CritStage = game.Ptr(1)
 
 	return makeAttack(AttackConfig{
 		ID:       uuid.MustParse("1a54031e-0ae6-49ed-b8b5-931c692417bf"),

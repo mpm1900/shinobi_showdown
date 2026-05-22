@@ -22,7 +22,7 @@ func MakeCamelliaDance() game.Action {
 		Jutsu:       game.Taijutsu,
 	})
 
-	config.CritChance = game.Ptr(getCriticalStage(4))
+	config.CritStage = game.Ptr(4)
 
 	return game.Action{
 		ID:              uuid.MustParse("c2ff8167-941a-4c2b-844f-e3f5bb7d738b"),
@@ -35,9 +35,14 @@ func MakeCamelliaDance() game.Action {
 			Filter:   game.SourceIsAlive,
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
+				source, ok := g.GetSource(context)
+				if !ok {
+					return transactions
+				}
 
 				conf, _ := game.GetActiveActionConfig(g, config)
-				crit_result := game.MakeCriticalCheck(conf)
+				resolved := source.Resolve(g)
+				crit_result := game.MakeCriticalCheck(conf, resolved)
 				fmt.Printf("%+v\n", crit_result)
 				damage_config := game.NewDamageConfig(crit_result.Ratio, game.RandomDamageFactor())
 				damage_config.Repeat = true

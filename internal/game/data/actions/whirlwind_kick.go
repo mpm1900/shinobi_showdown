@@ -11,7 +11,7 @@ var WhirlwindKick = MakeWhirlwindKick()
 func MakeWhirlwindKick() game.Action {
 	config := makeAttackConfig(game.ActionConfig{
 		Name:        "Whirlwind Kick",
-		Description: "High critical chance.",
+		Description: "Extra high critical chance.",
 		Accuracy:    game.Ptr(90),
 		Power:       game.Ptr(80),
 		Stat:        game.Ptr(game.StatAttack),
@@ -19,7 +19,7 @@ func MakeWhirlwindKick() game.Action {
 		Cost:        game.Ptr(0),
 		Jutsu:       game.Taijutsu,
 	})
-	config.CritChance = game.Ptr(getCriticalStage(2))
+	config.CritStage = game.Ptr(2)
 
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("b23ace96-eb09-5bf7-b884-7ef8e8fc544d"),

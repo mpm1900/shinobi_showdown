@@ -43,6 +43,7 @@ type ActionConfig struct {
 	Cooldown       *int             `json:"cooldown,omitempty"`
 	Cost           *int             `json:"cost,omitempty"`
 	CritChance     *int             `json:"-"`
+	CritStage      *int             `json:"-"`
 	CritMod        float64          `json:"-"`
 	LifeSteal      *float64         `json:"-"`
 	Name           string           `json:"name"`
@@ -192,30 +193,57 @@ func MakeActionRoll() int {
 }
 
 type ChanceResult struct {
-	Chance  int
+	Chance  float64
 	Roll    int
 	Success bool
 	Ratio   float64
 }
 
-func MakeCriticalCheck(action ActionConfig) ChanceResult {
-	if action.CritChance == nil {
+var criticalStages = map[int]float64{
+	0: 4.167,
+	1: 12.5,
+	2: 50.0,
+	3: 100.0,
+}
+
+func getCriticalStage(stage int) int {
+	stage = max(0, stage)
+	stage = min(stage, len(criticalStages)-1)
+	return Round(criticalStages[stage])
+}
+
+func MakeCriticalCheck(action ActionConfig, source ResolvedActor) ChanceResult {
+	if action.CritChance == nil && action.CritStage == nil {
 		return ChanceResult{
 			Success: false,
 		}
 	}
 
-	fmt.Println("CRIT CHANCE:", *action.CritChance)
-	threshold := int(*action.CritChance)
+	crit_chance := 0.0
+	if action.CritChance != nil {
+		crit_chance = float64(*action.CritChance)
+	}
+	if action.CritStage != nil {
+		stage := *action.CritStage + source.Stages[StatCritical]
+		crit_chance = criticalStages[stage]
+		_, ok := criticalStages[stage]
+		if !ok {
+			crit_chance = 100.0
+		}
+	}
+
+	crit_chance += float64(source.BaseStats[StatCritical])
 	roll := MakeActionRoll()
-	success := roll <= threshold
+	success := float64(roll) < crit_chance
 	ratio := 1.0
 	if success {
 		ratio = action.CritMod
 	}
 
+	fmt.Println("CRIT CHANCE:", crit_chance)
+
 	return ChanceResult{
-		Chance:  threshold,
+		Chance:  crit_chance,
 		Roll:    roll,
 		Success: success,
 		Ratio:   ratio,
@@ -236,7 +264,7 @@ func MakeAccuracyCheck(g Game, action ActionConfig, source ResolvedActor, target
 	fmt.Printf("acc = %d, roll = %d\n", accuracy, roll)
 
 	return ChanceResult{
-		Chance:  accuracy,
+		Chance:  float64(accuracy),
 		Roll:    roll,
 		Success: roll <= accuracy,
 	}

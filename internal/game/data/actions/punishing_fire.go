@@ -2,7 +2,6 @@ package actions
 
 import (
 	"shinobi_showdown/internal/game"
-	"shinobi_showdown/internal/game/data/modifiers"
 
 	"github.com/google/uuid"
 )
@@ -21,39 +20,18 @@ func MakePunishingFire() game.Action {
 		Jutsu:       game.Ninjutsu,
 	})
 
-	return game.Action{
-		ID:              uuid.MustParse("91b571af-0f7b-42ef-8275-fec11e52c372"),
-		Config:          config,
-		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
-		Cost:            modifiers.UseStaminaCost(*config.Cost),
-		ActionMutation: game.ActionMutation{
-			Priority: game.ActionPriorityDefault,
-			Filter: game.ComposeGF(
-				game.SourceIsAlive,
-				game.SourceIsActionOffCooldown,
-			),
-			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
-
-				for _, target := range g.GetTargets(context) {
-					action_config, _ := game.GetActiveActionConfig(g, config)
-					if target.Statused && action_config.Power != nil {
-						action_config.Power = game.Ptr(*action_config.Power * 2)
-					}
-					crit_result := game.MakeCriticalCheck(action_config)
-					dmg_config := game.NewDamageConfig(crit_result.Ratio, game.RandomDamageFactor())
-					damages := game.NewDamage(action_config, dmg_config)
-					ctx := context
-					ctx.TargetPositionIDs = []uuid.UUID{*target.PositionID}
-					transactions = append(
-						transactions,
-						game.MakeDamageTransactions(ctx, damages)...,
-					)
+	return makeAttack(AttackConfig{
+		ID:     uuid.MustParse("91b571af-0f7b-42ef-8275-fec11e52c372"),
+		Config: config,
+		MapConfig: func(g game.Game, ctx game.Context, config game.ActionConfig) game.ActionConfig {
+			targets := g.GetTargets(ctx)
+			for _, target := range targets {
+				if target.Statused {
+					config.Power = game.Ptr(*config.Power * 2)
+					break
 				}
-
-				return transactions
-			},
+			}
+			return config
 		},
-	}
+	})
 }

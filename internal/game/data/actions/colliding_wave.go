@@ -10,20 +10,16 @@ import (
 var CollidingWave = MakeCollidingWave()
 
 func MakeCollidingWave() game.Action {
-	config := game.ActionConfig{
+	config := makeSpreadAttackConfig(game.ActionConfig{
 		Name:        "Colliding Wave",
 		Description: "Hits all other active shinobi. Sets flooded terrain.",
 		Nature:      game.Ptr(game.NsWater),
 		Accuracy:    game.Ptr(100),
 		Power:       game.Ptr(90),
 		Stat:        game.Ptr(game.StatChakraAttack),
-		TargetCount: game.Ptr(0),
-		TargetType:  game.TargetPositionID,
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Ninjutsu,
-		CritChance:  game.Ptr(getCriticalStage(0)),
-		CritMod:     1.5,
-	}
+	})
 
 	done := false // this closure is really stupid but works to define a "once per attack on success"
 	action := makeAttack(AttackConfig{

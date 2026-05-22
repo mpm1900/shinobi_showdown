@@ -9,8 +9,9 @@ import (
 )
 
 func makeAttackConfig(base game.ActionConfig) game.ActionConfig {
+	base.Cost = game.Ptr(0)
 	base.Cooldown = game.Ptr(0)
-	base.CritChance = game.Ptr(getCriticalStage(0))
+	base.CritStage = game.Ptr(0)
 	base.CritMod = 1.5
 	base.TargetCount = game.Ptr(1)
 	base.TargetType = game.TargetPositionID
@@ -18,8 +19,9 @@ func makeAttackConfig(base game.ActionConfig) game.ActionConfig {
 }
 
 func makeSpreadAttackConfig(base game.ActionConfig) game.ActionConfig {
+	base.Cost = game.Ptr(0)
 	base.Cooldown = game.Ptr(0)
-	base.CritChance = game.Ptr(getCriticalStage(0))
+	base.CritStage = game.Ptr(0)
 	base.CritMod = 1.5
 	base.TargetCount = game.Ptr(0)
 	base.TargetType = game.TargetPositionID
@@ -69,6 +71,10 @@ func makeAttack(config AttackConfig) game.Action {
 			),
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
+				source, ok := g.GetSource(context)
+				if !ok {
+					return transactions
+				}
 
 				if config.BeforeAttack != nil {
 					transactions = append(transactions, config.BeforeAttack(g, context)...)
@@ -78,7 +84,9 @@ func makeAttack(config AttackConfig) game.Action {
 				if config.MapConfig != nil {
 					action_config = config.MapConfig(g, context, action_config)
 				}
-				crit_result := game.MakeCriticalCheck(action_config)
+
+				resolved_source := source.Resolve(g)
+				crit_result := game.MakeCriticalCheck(action_config, resolved_source)
 				dmg_config := game.NewDamageConfig(crit_result.Ratio, game.RandomDamageFactor())
 				if config.OnSuccess != nil {
 					dmg_config.OnSuccess = config.OnSuccess
@@ -160,19 +168,6 @@ func checkPlayerHasModifier(g game.Game, context game.Context, modifierID uuid.U
 	}
 
 	return false
-}
-
-var criticalStages = map[int]float64{
-	0: 4.167,
-	1: 12.5,
-	2: 50.0,
-	3: 100.0,
-}
-
-func getCriticalStage(stage int) int {
-	stage = max(0, stage)
-	stage = min(stage, len(criticalStages)-1)
-	return game.Round(criticalStages[stage])
 }
 
 func MakeRepeats(config game.DamageConfig, min int, max int, g game.Game, context game.Context) game.DamageConfig {

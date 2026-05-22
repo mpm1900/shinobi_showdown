@@ -35,6 +35,10 @@ func MakeLightningLigerBomb() game.Action {
 			),
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
+				source, ok := g.GetSource(context)
+				if !ok {
+					return transactions
+				}
 
 				ratio := 1.0
 				state, _ := g.GetState(context)
@@ -45,7 +49,8 @@ func MakeLightningLigerBomb() game.Action {
 				action_config, _ := game.GetActiveActionConfig(g, config)
 				power := game.Round(float64(*action_config.Power) * ratio)
 				action_config.Power = game.Ptr(power)
-				crit_result := game.MakeCriticalCheck(action_config)
+				resolved := source.Resolve(g)
+				crit_result := game.MakeCriticalCheck(action_config, resolved)
 				dmg_config := game.NewDamageConfig(crit_result.Ratio, game.RandomDamageFactor())
 				damages := game.NewDamage(action_config, dmg_config)
 				transactions = append(

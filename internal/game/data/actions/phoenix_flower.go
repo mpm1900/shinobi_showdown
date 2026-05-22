@@ -20,7 +20,7 @@ func MakePhoenixFlower() game.Action {
 		Cost:        game.Ptr(50),
 		Jutsu:       game.Bukijutsu,
 	})
-	config.CritChance = game.Ptr(getCriticalStage(1))
+	config.CritStage = game.Ptr(1)
 
 	return game.Action{
 		ID:              uuid.MustParse("c6a59042-5fa2-4ec6-b83f-b705d5cd5c9e"),
@@ -33,9 +33,14 @@ func MakePhoenixFlower() game.Action {
 			Filter:   game.SourceIsAlive,
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
+				source, ok := g.GetSource(context)
+				if !ok {
+					return transactions
+				}
 
 				conf, _ := game.GetActiveActionConfig(g, config)
-				crit_result := game.MakeCriticalCheck(conf)
+				resolved := source.Resolve(g)
+				crit_result := game.MakeCriticalCheck(conf, resolved)
 				damage_config := game.NewDamageConfig(crit_result.Ratio, game.RandomDamageFactor())
 				damage_config.Repeat = true
 				damage_config.RepeatMax = 6

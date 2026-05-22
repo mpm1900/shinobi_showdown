@@ -20,7 +20,7 @@ func MakeWindSlash() game.Action {
 		Cost:        game.Ptr(60),
 		Jutsu:       game.Ninjutsu,
 	})
-	config.CritChance = game.Ptr(getCriticalStage(1))
+	config.CritStage = game.Ptr(1)
 
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("deae75a9-2943-4934-bd67-f1b773e7035f"),

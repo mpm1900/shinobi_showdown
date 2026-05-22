@@ -35,6 +35,7 @@ const (
 	StatSpeed         ActorStat = "speed"
 	StatEvasion       ActorStat = "evasion"
 	StatAccuracy      ActorStat = "accuracy"
+	StatCritical      ActorStat = "critical"
 )
 
 type ActorFocus string
@@ -444,6 +445,7 @@ func MakeActor(
 			StatSpeed:         0,
 			StatEvasion:       0,
 			StatAccuracy:      0,
+			StatCritical:      0,
 		},
 		AuxStats:         maps.Clone(auxStats),
 		AppliedModifiers: map[uuid.UUID]int{},

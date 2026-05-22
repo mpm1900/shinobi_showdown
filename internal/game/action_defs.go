@@ -185,9 +185,14 @@ func makeAttack(
 			),
 			Delta: func(p Game, g Game, context Context) []GameTransaction {
 				transactions := []GameTransaction{}
+				source, ok := g.GetSource(context)
+				if !ok {
+					return transactions
+				}
 
 				conf, _ := GetActiveActionConfig(g, config)
-				crit_result := MakeCriticalCheck(conf)
+				resolved := source.Resolve(g)
+				crit_result := MakeCriticalCheck(conf, resolved)
 				damages := NewDamage(conf, NewDamageConfig(crit_result.Ratio, RandomDamageFactor()))
 				transactions = append(
 					transactions,
@@ -213,8 +218,6 @@ func MakeStruggle() Action {
 		Stat:        Ptr(StatAttack),
 		Jutsu:       Taijutsu,
 		Cooldown:    Ptr(0),
-		CritChance:  Ptr(5),
-		CritMod:     1.5,
 		Struggle:    true,
 	}
 
