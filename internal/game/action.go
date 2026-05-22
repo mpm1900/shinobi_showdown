@@ -188,11 +188,11 @@ func GetAccuracy(game Game, source ResolvedActor, target ResolvedActor, ignoreMo
 }
 
 func GetCriticalChance(action ActionConfig, source ResolvedActor) float64 {
+	crit_chance := 0.0
 	if action.CritChance == nil && action.CritStage == nil {
-		return 0.0
+		return crit_chance
 	}
 
-	crit_chance := 0.0
 	if action.CritChance != nil {
 		crit_chance = float64(*action.CritChance)
 	}
