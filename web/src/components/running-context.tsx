@@ -123,7 +123,7 @@ function RunningContext({ context }: { context: Context }) {
       >
         <div
           className={cn(
-            'absolute -inset-4 -z-10 rounded-2xl opacity-70 blur-2xl',
+            'absolute -inset-4 -z-10 opacity-70 blur-2xl',
             {
               'bg-blue-600/25': is_friendly_source,
               'bg-rose-700/25': !is_friendly_source,
@@ -133,7 +133,7 @@ function RunningContext({ context }: { context: Context }) {
 
         <div
           className={cn(
-            'relative w-full overflow-hidden rounded-lg border bg-stone-900/92 ring ring-black shadow-[0_10px_30px_rgba(0,0,0,0.7)]',
+            'relative w-full overflow-hidden border bg-stone-900/92 ring ring-black shadow-[0_10px_30px_rgba(0,0,0,0.7)]',
             {
               'border-blue-200/30': is_friendly_source,
               'border-rose-200/30': !is_friendly_source,

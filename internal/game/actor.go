@@ -287,7 +287,7 @@ const (
 	MutPriorityPostStagedStats = 11
 	MutPriorityZero            = 19
 	MutPrioritySet             = 20
-	MutPriorityPostSet         = 21 // toad song
+	MutPriorityPostSet         = 21
 )
 
 func GetLevel(experience int) int {
@@ -588,110 +588,6 @@ func (a Actor) GetModifiers() []Modifier {
 	return modifiers
 }
 
-func MapBaseStat(stat, level int, focus float64, ev int) int {
-	base := float64((stat * 2) + BASE_IV)
-	ratio := float64((base+(float64(ev*2)))*float64(level)) / 100
-	return Round((ratio + 5) * focus)
-}
-
-func MapResourceStat(stat, level int, focus float64, ev int) int {
-	return MapBaseStat(stat, level, focus, ev) + level + 5
-}
-
-func (actor *Actor) MapBase(stat ActorStat) {
-	actor.Stats[stat] = MapBaseStat(actor.Stats[stat], actor.Level, actor.GetFocusModifier(stat), actor.AuxStats[stat])
-}
-
-func (actor *Actor) MapResource(stat ActorStat) {
-	actor.Stats[stat] = MapResourceStat(actor.Stats[stat], actor.Level, 1.0, actor.AuxStats[stat])
-}
-
-func MapBaseStats(actor Actor) Actor {
-	actor.MapResource(StatHP)
-	actor.MapResource(StatStamina)
-
-	actor.MapBase(StatAttack)
-	actor.MapBase(StatDefense)
-	actor.MapBase(StatChakraAttack)
-	actor.MapBase(StatChakraDefense)
-	actor.MapBase(StatSpeed)
-
-	return actor
-}
-
-func MapStagedStat(stat, stage, mod int) int {
-	m := 1.0
-	if stage > 0 {
-		stage = min(stage, 6)
-		m = float64(stage+mod) / float64(mod)
-	} else if stage < 0 {
-		stage = max(stage, -6)
-		m = float64(mod) / float64(-stage+mod)
-	}
-
-	return Round(float64(stat) * m)
-}
-
-func (actor *Actor) MapStaged(stat ActorStat, mod int) {
-	actor.Stats[stat] = MapStagedStat(actor.Stats[stat], actor.Stages[stat], mod)
-}
-
-func MapStagedStats(actor Actor) Actor {
-	actor.MapStaged(StatAttack, 2)
-	actor.MapStaged(StatDefense, 2)
-	actor.MapStaged(StatChakraAttack, 2)
-	actor.MapStaged(StatChakraDefense, 2)
-	actor.MapStaged(StatSpeed, 2)
-	actor.MapStaged(StatEvasion, 3)
-	actor.MapStaged(StatAccuracy, 3)
-	return actor
-}
-
-func newActorContext(actor Actor) Context {
-	context := MakeContextForActor(actor)
-	context.TargetActorIDs = []uuid.UUID{}
-	return context
-}
-
-func GetActorModifiers(game Game) []Transaction[Modifier] {
-	var modifiers []Transaction[Modifier]
-	activeActors := game.GetActorsFilters(
-		Context{},
-		ActiveFilter,
-	)
-
-	for _, actor := range activeActors {
-		context := newActorContext(actor)
-		a_modifiers := actor.GetModifiers()
-
-		for _, mod := range a_modifiers {
-			transaction := MakeTransaction(mod, context)
-			modifiers = append(modifiers, transaction)
-		}
-	}
-
-	return modifiers
-}
-
-var specialMutations = []ActorMutation{
-	MakeActorMutation(
-		nil,
-		MutPriorityMapBaseStats,
-		AllFilter,
-		func(g Game, input Actor, context Context) Actor {
-			return MapBaseStats(input)
-		},
-	),
-	MakeActorMutation(
-		nil,
-		MutPriorityMapStagedStats,
-		AllFilter,
-		func(g Game, input Actor, context Context) Actor {
-			return MapStagedStats(input)
-		},
-	),
-}
-
 func (a Actor) Clone() Actor {
 	b := a
 
@@ -724,52 +620,6 @@ func (a Actor) Clone() Actor {
 	}
 
 	return b
-}
-
-func getContext(actor Actor, transactions []Transaction[Modifier], mutation ActorMutation) Context {
-	context := newActorContext(actor)
-	return ResolveModifierTransactionContext(context, transactions, mutation.TransactionID)
-}
-
-func resolveActor(actor Actor, g Game, bypassModifiers bool) ResolvedActor {
-	handler := newActorResolveHandler(actor, g, bypassModifiers)
-
-	resolved := handler.resolveMutations()
-	handler.resolveNatures(&resolved)
-	handler.resolveActions(&resolved)
-	return resolved
-}
-
-func resolveActorStats(actor Actor, g Game, bypassModifiers bool) ResolvedActor {
-	handler := newActorResolveHandler(actor, g, bypassModifiers)
-
-	resolved := handler.resolveMutations()
-	handler.resolveNatures(&resolved)
-	return resolved
-}
-
-func (a Actor) getActor() Actor {
-	actor := a
-	if actor.Summon != nil && !actor.Summon.Proxy {
-		form := actor.Summon.Actor
-		actor.ActorDef = form.ActorDef
-		actor.Actions = form.Actions
-	}
-
-	return actor
-}
-
-func (a Actor) ResolveStats(g Game) ResolvedActor {
-	return resolveActorStats(a.getActor(), g, false)
-}
-func (a Actor) Resolve(g Game) ResolvedActor {
-	actor := a.getActor()
-	resolved := resolveActor(actor, g, false)
-	unmodified := resolveActorStats(actor, g, true)
-	resolved.UnmodifiedStats = maps.Clone(unmodified.Stats)
-	resolved.Ability = actor.GetAbility()
-
-	return resolved
 }
 
 func (r ResolvedActor) CanAct(game *Game, context Context) bool {

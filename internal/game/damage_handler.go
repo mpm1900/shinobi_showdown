@@ -110,7 +110,7 @@ func (e *damageHandler) resolveTargetHit(g *Game, targetIndex int, target Resolv
 	if !result.Success {
 		if !e.config.Repeat || e.repeats == 0 {
 			g.PushLog(NewLog(fmt.Sprintf("%s missed!", e.action.Name)))
-			g.PushLog(NewLog(fmt.Sprintf("roll = %d, acc = %d", result.Roll, result.Chance)))
+			g.PushLog(NewLog(fmt.Sprintf("roll = %d, acc = %f", result.Roll, result.Chance)))
 			g.On(OnMiss, &targetContext)
 		}
 

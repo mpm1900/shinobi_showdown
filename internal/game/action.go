@@ -218,10 +218,10 @@ type ChanceResult struct {
 }
 
 var criticalStages = map[int]float64{
-	0: 4.167,
-	1: 12.5,
-	2: 50.0,
-	3: 100.0,
+	0: CRITICAL_STAGE_0,
+	1: CRITICAL_STAGE_1,
+	2: CRITICAL_STAGE_2,
+	3: CRITICAL_STAGE_3,
 }
 
 func getCriticalStage(stage int) float64 {

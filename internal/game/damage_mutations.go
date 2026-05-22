@@ -255,7 +255,7 @@ func NewHeal(action ActionConfig, ratio float64) GameMutation {
 				result := MakeAccuracyCheck(g, action, source, target, false)
 				if !result.Success {
 					g.PushLog(NewLog(fmt.Sprintf("%s missed!", action.Name)))
-					g.PushLog(NewLog(fmt.Sprintf("roll = %d, acc = %d", result.Roll, result.Chance)))
+					g.PushLog(NewLog(fmt.Sprintf("roll = %d, acc = %f", result.Roll, result.Chance)))
 					continue
 				}
 				ApplyHealRatio(&g, target, ratio)
