@@ -47,5 +47,6 @@ var Hiruzen = game.ActorDef{
 		actions.Earthquake.ID,
 		actions.DarkSwamp.ID,
 		actions.TradeOffer.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 }

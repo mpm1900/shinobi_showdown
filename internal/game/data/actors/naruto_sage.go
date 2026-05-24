@@ -47,5 +47,6 @@ var NarutoSage = game.ActorDef{
 		actions.Rasenshuriken.ID,
 		actions.VacuumBlast.ID,
 		actions.TradeOffer.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 }

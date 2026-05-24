@@ -49,5 +49,6 @@ var Madara = game.ActorDef{
 		actions.Firestorm.ID,
 		actions.SharinganGlare.ID,
 		actions.ChibakuTensei.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 }

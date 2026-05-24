@@ -37,6 +37,7 @@ var PainAnimal = game.ActorDef{
 		actions.SummonAlly.ID,
 		actions.DragonStance.ID,
 		actions.RetreatingStrike.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 	Immunities: map[uuid.UUID]struct{}{
 		modifiers.BurdenOfPain.ID:    {},

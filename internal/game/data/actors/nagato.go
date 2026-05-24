@@ -48,6 +48,7 @@ var Nagato = game.ActorDef{
 		actions.MindTransfer.ID,
 		actions.CollidingWave.ID,
 		actions.ChibakuTensei.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 	Immunities: map[uuid.UUID]struct{}{
 		modifiers.BurdenOfPain.ID:    {},

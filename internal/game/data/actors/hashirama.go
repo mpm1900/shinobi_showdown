@@ -50,5 +50,6 @@ var Hashirama = game.ActorDef{
 		actions.DeepForestEmergence.ID,
 		actions.Earthquake.ID,
 		actions.TradeOffer.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 }

@@ -53,5 +53,6 @@ var Itachi = game.ActorDef{
 		actions.DisarmingStrike.ID,
 		actions.SharinganGlare.ID,
 		actions.Caltrops.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 }

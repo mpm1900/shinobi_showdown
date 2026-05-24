@@ -47,5 +47,6 @@ var Sasuke = game.ActorDef{
 		actions.DragonFire.ID,
 		actions.GreatFireball.ID,
 		actions.Amaterasu.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 }

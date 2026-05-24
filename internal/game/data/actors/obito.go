@@ -48,5 +48,6 @@ var Obito = game.ActorDef{
 		actions.SwordsStance.ID,
 		actions.DesperateStrike.ID,
 		actions.WillOfTheFallen.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActionsExcept(actions.Substitution.ID)...),
 }

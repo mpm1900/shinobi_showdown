@@ -46,5 +46,6 @@ var Yamato = game.ActorDef{
 		actions.GreatWaterfall.ID,
 		actions.MudWall.ID,
 		actions.WaterWall.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 }

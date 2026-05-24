@@ -43,6 +43,7 @@ var PainPreta = game.ActorDef{
 		actions.ChannelChakra.ID,
 		actions.Expansion.ID,
 		actions.BlackNeedle.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActionsExcept(actions.Substitution.ID)...),
 	Immunities: map[uuid.UUID]struct{}{
 		modifiers.BurdenOfPain.ID:    {},

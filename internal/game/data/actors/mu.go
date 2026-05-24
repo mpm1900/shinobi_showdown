@@ -45,5 +45,6 @@ var Mu = game.ActorDef{
 		actions.DisarmingStrike.ID,
 		actions.AtomicDismantlingCharge.ID,
 		actions.Earthquake.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 }

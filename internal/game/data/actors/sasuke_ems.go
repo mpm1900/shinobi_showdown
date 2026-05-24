@@ -47,5 +47,6 @@ var SasukeEMS = game.ActorDef{
 		actions.DragonStance.ID,
 		actions.GreatFireball.ID,
 		actions.Amaterasu.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 }

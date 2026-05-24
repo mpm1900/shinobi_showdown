@@ -50,5 +50,6 @@ var Shisui = game.ActorDef{
 		actions.BodyFlicker.ID,
 		actions.Recover.ID,
 		actions.TradeOffer.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 }

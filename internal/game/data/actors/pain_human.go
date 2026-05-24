@@ -42,6 +42,7 @@ var PainHuman = game.ActorDef{
 		actions.RetreatingStrike.ID,
 		actions.SummonAlly.ID,
 		actions.BlackNeedle.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 	Immunities: map[uuid.UUID]struct{}{
 		modifiers.BurdenOfPain.ID:    {},

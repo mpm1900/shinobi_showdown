@@ -49,6 +49,7 @@ var Naruto = game.ActorDef{
 		actions.VacuumBlast.ID,
 		actions.Tailwind.ID,
 		actions.TradeOffer.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 }
 

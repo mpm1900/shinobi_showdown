@@ -43,6 +43,7 @@ var PainNaraka = game.ActorDef{
 		actions.SummonAlly.ID,
 		actions.BlackNeedle.ID,
 		actions.InstilFear.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 	Immunities: map[uuid.UUID]struct{}{
 		modifiers.BurdenOfPain.ID:    {},
