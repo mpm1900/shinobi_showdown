@@ -1,10 +1,8 @@
 function NatureGrid() {
-
   return (
     <table>
       <thead>
-        <tr>
-        </tr>
+        <tr></tr>
       </thead>
     </table>
   )

@@ -2,8 +2,6 @@ import type { Actor } from '#/lib/game/actor'
 import type { Modifier as ModifierType } from '#/lib/game/modifier'
 import { Modifier } from './modifier'
 
-
-
 function ActorModifiers({
   actor,
   modifiers,

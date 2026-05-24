@@ -67,7 +67,7 @@ function StageBadge({
         }
       )}
     >
-      x{stage_value} <span className='opacity-70'>{statName[stat]}</span>
+      x{stage_value} <span className="opacity-70">{statName[stat]}</span>
     </span>
   )
 }

@@ -195,3 +195,23 @@ func Transform(def game.ActorDef) game.GameMutation {
 		},
 	}
 }
+
+func KillSource() game.GameMutation {
+	return game.GameMutation{
+		Delta: func(p, g game.Game, context game.Context) game.Game {
+			source, ok := g.GetSource(context)
+			if !ok {
+				return g
+			}
+
+			resolved := source.Resolve(g)
+			g.UpdateActor(source.ID, func(a game.Actor) game.Actor {
+				a.Damage = resolved.Stats[game.StatHP]
+				a.Alive = false
+				return a
+			})
+
+			return g
+		},
+	}
+}

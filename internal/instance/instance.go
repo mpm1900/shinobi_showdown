@@ -122,6 +122,10 @@ func (i *Instance) Run() {
 	for {
 		select {
 		case client := <-i.Register:
+			if len(i.Game.Players) >= 2 {
+				continue
+			}
+
 			i.RegisterClient(client)
 			i.BroadcastClients()
 

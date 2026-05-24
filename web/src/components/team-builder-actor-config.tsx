@@ -1,9 +1,6 @@
 import type { TeamBuilderForm } from '#/hooks/use-team-builder-form'
 import type { ActorDef } from '#/lib/game/actor'
-import {
-  natureIndexes,
-
-} from '#/lib/game/nature'
+import { natureIndexes } from '#/lib/game/nature'
 import { keys } from '#/lib/utils'
 import { NatureBadge } from './nature-badge'
 import { NastureSetDetails } from './natureset-details'
@@ -39,7 +36,9 @@ function TeamBuilderActorConfig({
       {({ actor, selected_index, total, items }) => (
         <div>
           <div className="flex my-2">
-            {def && <img src={def.sprite_url} className="object-cover size-16" />}
+            {def && (
+              <img src={def.sprite_url} className="object-cover size-16" />
+            )}
             <div className="flex flex-col px-2">
               <div className="flex gap-6 justify-between overflow-hidden truncate">
                 <div className="flex-1">{def?.name}</div>
@@ -56,7 +55,9 @@ function TeamBuilderActorConfig({
                 </div>
               </div>
               <div className="text-xs text-muted-foreground">
-                {def?.restricted && <span className='text-amber-300'>Restricted</span>}
+                {def?.restricted && (
+                  <span className="text-amber-300">Restricted</span>
+                )}
               </div>
             </div>
           </div>
@@ -87,9 +88,7 @@ function TeamBuilderActorConfig({
                   )
                 }}
               />
-              <NastureSetDetails
-                natures={keys(def?.natures ?? [])}
-              />
+              <NastureSetDetails natures={keys(def?.natures ?? [])} />
             </div>
 
             <TeamBuilderStats

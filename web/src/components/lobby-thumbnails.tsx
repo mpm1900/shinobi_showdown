@@ -1,7 +1,7 @@
+import { gameStore } from '#/lib/stores/game'
 import { cn } from '#/lib/utils'
 import { useStore } from '@tanstack/react-store'
 import { ActorThumbnail } from './actor-thumbnail'
-import { gameStore } from '#/lib/stores/game'
 
 function LobbyThumbnails({
   className,

@@ -1,7 +1,7 @@
-import { createServerFn } from '@tanstack/react-start'
-import { queryOptions } from '@tanstack/react-query'
-import type { Action } from '../game/action'
 import { getApiBaseUrl } from '#/lib/server/api-base'
+import { queryOptions } from '@tanstack/react-query'
+import { createServerFn } from '@tanstack/react-start'
+import type { Action } from '../game/action'
 
 const getActions = createServerFn().handler(async () => {
   const base = getApiBaseUrl()

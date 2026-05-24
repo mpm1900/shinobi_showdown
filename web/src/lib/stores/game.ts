@@ -5,7 +5,7 @@ const gameStore = new Store<Game>({
   status: 'init',
   turn: {
     count: 0,
-    phase: 'init'
+    phase: 'init',
   },
   actors: [],
   actions: [],
@@ -18,10 +18,8 @@ const gameStore = new Store<Game>({
   applied_game_state_tx: [],
   state: {
     terrain: 'none',
-    weather: 'none'
-  }
+    weather: 'none',
+  },
 })
-
-
 
 export { gameStore }

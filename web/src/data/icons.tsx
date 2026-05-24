@@ -1,93 +1,92 @@
 import { cn } from '#/lib/utils'
+import { BiSolidBinoculars } from 'react-icons/bi'
 import {
-  GiComa,
-  GiFlamer,
-  GiLightningTrio,
-  GiShieldcomb,
-  GiStarSwirl,
-  GiNoodles,
-  GiKevlarVest,
-  GiDoubled,
-  GiBeastEye,
-  GiHealing,
-  GiTopaz,
-  GiMinotaur,
-  GiNightSleep,
-  GiHandheldFan,
-  GiSandstorm,
-  GiHealthIncrease,
-  GiWaterRecycling,
-  GiPoisonBottle,
-  GiShieldReflect,
-  GiHeartOrgan,
-  GiArmorUpgrade,
-  GiPoisonGas,
-  GiLookAt,
-  GiEcology,
-  GiLightningDissipation,
-  GiSharkJaws,
-  GiCaltrops,
-  GiPunchBlast,
-  GiMissileSwarm,
-  GiFireBowl,
-  GiDustCloud,
-  GiBellPepper,
-  GiCoral,
-  GiLinkedRings,
-  GiArmorPunch,
-  GiGlowingHands,
-  GiMultipleTargets,
-  GiStonePile,
-  GiHood,
-  GiSkiBoot,
-  GiLaserBurst,
-  GiPunch,
-  GiBlackball,
-  GiWildfires,
-  GiAura,
-  GiMedicines,
-  GiHotSpices,
-  GiCurlyWing,
-  GiRaspberry,
-  GiSabersChoc,
-  GiTriorb,
-  GiWolfHead,
-  GiHelmetHeadShot,
-} from 'react-icons/gi'
-import {
-  PiCaretDoubleUpDuotone,
-  PiOnigiriFill,
-  PiArrowFatLinesDownBold,
-  PiPlantBold,
-  PiWindFill,
-  PiSpiralFill,
-  PiBrain,
-} from 'react-icons/pi'
-import type { IconType } from 'react-icons/lib'
-import { MdFileUploadOff, MdOutlineSyncProblem } from 'react-icons/md'
-import { GrFastForward } from 'react-icons/gr'
-import { TbTagPlus } from 'react-icons/tb'
-import { HiScale } from 'react-icons/hi2'
+  BsCloudRain,
+  BsCloudRainHeavyFill,
+  BsMoonFill,
+  BsSpeedometer,
+} from 'react-icons/bs'
+import { FaHandsHelping, FaUserShield } from 'react-icons/fa'
 import {
   FaFrog,
   FaHouseFloodWater,
-  FaWeightHanging,
   FaRing,
   FaScroll,
+  FaWeightHanging,
 } from 'react-icons/fa6'
-import { FaHandsHelping, FaUserShield } from 'react-icons/fa'
-import { TbScanEye, TbCancel, TbClockCancel } from 'react-icons/tb'
 import {
-  BsCloudRainHeavyFill,
-  BsCloudRain,
-  BsSpeedometer,
-  BsMoonFill,
-} from 'react-icons/bs'
+  GiArmorPunch,
+  GiArmorUpgrade,
+  GiAura,
+  GiBeastEye,
+  GiBellPepper,
+  GiBlackball,
+  GiCaltrops,
+  GiComa,
+  GiCoral,
+  GiCurlyWing,
+  GiDoubled,
+  GiDustCloud,
+  GiEcology,
+  GiFireBowl,
+  GiFlamer,
+  GiGlowingHands,
+  GiHandheldFan,
+  GiHealing,
+  GiHealthIncrease,
+  GiHeartOrgan,
+  GiHelmetHeadShot,
+  GiHood,
+  GiHotSpices,
+  GiKevlarVest,
+  GiLaserBurst,
+  GiLightningDissipation,
+  GiLightningTrio,
+  GiLinkedRings,
+  GiLookAt,
+  GiMedicines,
+  GiMinotaur,
+  GiMissileSwarm,
+  GiMultipleTargets,
+  GiNightSleep,
+  GiNoodles,
+  GiPoisonBottle,
+  GiPoisonGas,
+  GiPunch,
+  GiPunchBlast,
+  GiRaspberry,
+  GiSabersChoc,
+  GiSandstorm,
+  GiSharkJaws,
+  GiShieldcomb,
+  GiShieldReflect,
+  GiSkiBoot,
+  GiStarSwirl,
+  GiStonePile,
+  GiTopaz,
+  GiTriorb,
+  GiWaterRecycling,
+  GiWildfires,
+  GiWolfHead,
+} from 'react-icons/gi'
+import { GrFastForward } from 'react-icons/gr'
+import { HiScale } from 'react-icons/hi2'
 import { ImSleepy2 } from 'react-icons/im'
-import { SiComma, SiRazorpay } from 'react-icons/si'
+import type { IconType } from 'react-icons/lib'
 import { LuRefreshCwOff } from 'react-icons/lu'
-import { BiSolidBinoculars } from 'react-icons/bi'
+import { MdFileUploadOff, MdOutlineSyncProblem } from 'react-icons/md'
+import {
+  PiArrowFatLinesDownBold,
+  PiBrain,
+  PiCaretDoubleUpDuotone,
+  PiOnigiriFill,
+  PiPlantBold,
+  PiSpiralFill,
+  PiWindFill,
+} from 'react-icons/pi'
 import { RiFileCopyFill } from 'react-icons/ri'
+import { SiComma, SiRazorpay } from 'react-icons/si'
+import { TbCancel, TbClockCancel, TbScanEye, TbTagPlus } from 'react-icons/tb'
 
 const Aburame: IconType = (props) => (
   <img src="/icons/aburame.svg" alt="aburame" {...(props as any)} />
@@ -345,4 +344,4 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   will_of_fire: GiFireBowl,
 }
 
-export { Akatsuki, SHINOBI_ICONS, MODIFIER_ICONS }
+export { Akatsuki, MODIFIER_ICONS, SHINOBI_ICONS }

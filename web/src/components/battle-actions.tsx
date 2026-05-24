@@ -1,13 +1,13 @@
-import { ActionControl } from './action-control'
-import { useStore } from '@tanstack/react-store'
-import { gameStore } from '#/lib/stores/game'
 import type { Actor } from '#/lib/game/actor'
 import { battleContext, setContext } from '#/lib/stores/battle-context'
+import { gameStore } from '#/lib/stores/game'
+import { useStore } from '@tanstack/react-store'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
+import { ActionControl } from './action-control'
 import { BattleCards } from './battle-cards'
 
-import { memo, useMemo } from 'react'
 import { contextToString } from '#/lib/game/context'
+import { memo, useMemo } from 'react'
 
 const BattleActions = memo(function BattleActions({ actor }: { actor: Actor }) {
   const status = useStore(gameStore, (g) => g.status)
@@ -56,7 +56,9 @@ const BattleActions = memo(function BattleActions({ actor }: { actor: Actor }) {
                 <ActionControl
                   action={action}
                   staged={staged}
-                  enabled={idle && !!actor.position_ID && !action?.state.disabled}
+                  enabled={
+                    idle && !!actor.position_ID && !action?.state.disabled
+                  }
                   context={context}
                   onContextChange={setContext}
                 />

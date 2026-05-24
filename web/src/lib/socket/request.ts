@@ -54,8 +54,8 @@ type SocketMessageSubscriber = (
 ) => void
 
 export type {
-  SocketRequestType,
-  SocketRequest,
-  SocketResponse,
   SocketMessageSubscriber,
+  SocketRequest,
+  SocketRequestType,
+  SocketResponse,
 }

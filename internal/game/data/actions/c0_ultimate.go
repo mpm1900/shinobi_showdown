@@ -2,6 +2,7 @@ package actions
 
 import (
 	"shinobi_showdown/internal/game"
+	"shinobi_showdown/internal/game/data/mutations"
 
 	"github.com/google/uuid"
 )
@@ -38,7 +39,7 @@ func MakeC0UltimateArt() game.Action {
 				return transactions
 			}
 
-			self_dmg := game.RatioDamage(1.0)
+			self_dmg := mutations.KillSource()
 			self_dmg_ctx := game.MakeContextForActor(source)
 			transactions = append(transactions, game.MakeTransaction(self_dmg, self_dmg_ctx))
 

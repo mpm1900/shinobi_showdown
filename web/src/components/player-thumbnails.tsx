@@ -1,8 +1,8 @@
+import { clientsStore } from '#/lib/stores/clients'
+import { gameStore } from '#/lib/stores/game'
 import { cn } from '#/lib/utils'
 import { useStore } from '@tanstack/react-store'
 import { ActorThumbnail } from './actor-thumbnail'
-import { gameStore } from '#/lib/stores/game'
-import { clientsStore } from '#/lib/stores/clients'
 import { ActorTooltip } from './actor-tooltip'
 
 function PlayerThumbnails({ player_ID }: { player_ID: string }) {

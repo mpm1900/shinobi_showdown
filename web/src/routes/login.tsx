@@ -1,15 +1,15 @@
+import { Button } from '#/components/ui/button'
 import { Card, CardContent } from '#/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs'
-import { cn } from '#/lib/utils'
-import { createFileRoute, redirect } from '@tanstack/react-router'
-import { GiSharpShuriken } from 'react-icons/gi'
-import { useForm } from '@tanstack/react-form'
-import z from 'zod'
 import { Field, FieldGroup, FieldLabel, FieldSet } from '#/components/ui/field'
 import { Input } from '#/components/ui/input'
-import { Button } from '#/components/ui/button'
-import { useSignup } from '#/lib/mutations/signup'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs'
 import { useLogin } from '#/lib/mutations/login'
+import { useSignup } from '#/lib/mutations/signup'
+import { cn } from '#/lib/utils'
+import { useForm } from '@tanstack/react-form'
+import { createFileRoute, redirect } from '@tanstack/react-router'
+import { GiSharpShuriken } from 'react-icons/gi'
+import z from 'zod'
 
 const authSchema = z.object({
   form: z.enum(['login', 'signup']),
@@ -64,7 +64,10 @@ function RouteComponent() {
             <GiSharpShuriken className="size-4" />
           </div>
         </a>
-        <form className={cn('flex flex-col gap-3')} onSubmit={form.handleSubmit}>
+        <form
+          className={cn('flex flex-col gap-3')}
+          onSubmit={form.handleSubmit}
+        >
           <form.Field name="form">
             {(field) => (
               <Card>

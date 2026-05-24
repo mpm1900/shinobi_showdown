@@ -76,7 +76,9 @@ function ActionCard({
                 </div>
               ) : disabled ? (
                 <div className="text-[10px] uppercase tracking-wide text-destructive">
-                  {action.config.summon && usedSummon ? 'summon used' : 'disabled'}
+                  {action.config.summon && usedSummon
+                    ? 'summon used'
+                    : 'disabled'}
                 </div>
               ) : (
                 <div className="text-[10px] uppercase tracking-wide text-stone-100/50">

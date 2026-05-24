@@ -1,9 +1,9 @@
-import { AnimatePresence, motion, type Transition } from 'motion/react'
-import { cn } from '#/lib/utils'
-import { battleContext, setContextAction } from '#/lib/stores/battle-context'
-import { useStore } from '@tanstack/react-store'
-import { gameStore } from '#/lib/stores/game'
 import type { Actor } from '#/lib/game/actor'
+import { battleContext, setContextAction } from '#/lib/stores/battle-context'
+import { gameStore } from '#/lib/stores/game'
+import { cn } from '#/lib/utils'
+import { useStore } from '@tanstack/react-store'
+import { AnimatePresence, motion, type Transition } from 'motion/react'
 import { ActionCard } from './action-card'
 
 const collection_transition: Transition = {
@@ -21,7 +21,7 @@ const card_transition: Transition = {
 
 function BattleCards({ actor }: { actor: Actor }) {
   const queued_actions = useStore(gameStore, (g) => g.queued_actions)
-  const prompt = useStore(gameStore, g => g.prompt)
+  const prompt = useStore(gameStore, (g) => g.prompt)
   const status = useStore(gameStore, (g) => g.status)
   const actions = useStore(gameStore, (g) => g.actions)
   const action_ID = useStore(battleContext, (c) => c.action_ID)

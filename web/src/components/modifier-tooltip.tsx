@@ -1,7 +1,7 @@
-import type React from 'react'
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import type { Modifier } from '#/lib/game/modifier'
 import { cn } from '#/lib/utils'
+import type React from 'react'
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
 function ModifierTooltip({
   modifier,

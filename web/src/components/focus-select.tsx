@@ -1,4 +1,8 @@
-import { ACTOR_FOCUS_DETAILS, actorFocuses, type ActorFocus } from '#/lib/game/actor'
+import {
+  ACTOR_FOCUS_DETAILS,
+  actorFocuses,
+  type ActorFocus,
+} from '#/lib/game/actor'
 import { Field, FieldContent, FieldLabel } from './ui/field'
 import {
   Select,
@@ -15,7 +19,10 @@ function FocusSelectItem({ focus }: { focus: (typeof actorFocuses)[number] }) {
   const down = obj.down?.replaceAll('_', ' ')
   return (
     <SelectItem value={focus}>
-      <span className='capitalize'>{focus}</span> <span className='opacity-40 capitalize'>(+{up}, -{down})</span>
+      <span className="capitalize">{focus}</span>{' '}
+      <span className="opacity-40 capitalize">
+        (+{up}, -{down})
+      </span>
     </SelectItem>
   )
 }

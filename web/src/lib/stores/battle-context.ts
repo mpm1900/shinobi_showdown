@@ -1,7 +1,7 @@
 import { Store } from '@tanstack/store'
+import type { Actor } from '../game/actor'
 import { NULL_CONTEXT, type Context } from '../game/context'
 import type { Game } from '../game/game'
-import type { Actor } from '../game/actor'
 
 type BattleContextState = Context & {
   previous_action_IDs: Record<string, string>
@@ -11,7 +11,7 @@ type BattleContextState = Context & {
 const battleContext = new Store<BattleContextState>({
   ...NULL_CONTEXT,
   previous_action_IDs: {},
-  hover_target_IDs: []
+  hover_target_IDs: [],
 })
 
 function setContextPlayer(player_ID: string) {
@@ -74,13 +74,16 @@ function getNextActionableActor(
   return actionableActors[0] ?? null
 }
 
-function nextAction(actor: Actor, previous_action_IDs: {
-  [x: string]: string;
-}) {
-
-  const preferredActionID = (previous_action_IDs[actor.ID] as string | null) ?? null
+function nextAction(
+  actor: Actor,
+  previous_action_IDs: {
+    [x: string]: string
+  }
+) {
+  const preferredActionID =
+    (previous_action_IDs[actor.ID] as string | null) ?? null
   const preferredAction = actor.actions.find((a) => a.ID === preferredActionID)
-  const fallbackActionID = actor.actions.find(a => !a.disabled)?.ID ?? null
+  const fallbackActionID = actor.actions.find((a) => !a.disabled)?.ID ?? null
   let nextActionID = preferredActionID ?? fallbackActionID
   if (preferredAction?.disabled === true) {
     nextActionID = fallbackActionID
@@ -214,13 +217,13 @@ function setContext(context: Context) {
 }
 
 export {
-  battleContext,
-  setContext,
-  setContextPlayer,
-  setActionID,
-  setContextSource,
-  setContextAction,
-  clearHoverTargets,
   addHoverTarget,
+  battleContext,
+  clearHoverTargets,
   removeHoverTarget,
+  setActionID,
+  setContext,
+  setContextAction,
+  setContextPlayer,
+  setContextSource,
 }

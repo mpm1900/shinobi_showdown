@@ -1,5 +1,5 @@
-import type { TeamActor } from "../stores/config";
-import type { ActorDef } from "./actor";
+import type { TeamActor } from '../stores/config'
+import type { ActorDef } from './actor'
 
 function makeConfigFromDef(def: ActorDef): TeamActor {
   return {

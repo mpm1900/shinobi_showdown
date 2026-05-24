@@ -1,6 +1,3 @@
-import { cva } from 'class-variance-authority'
-import type { ClassValue } from 'class-variance-authority/types'
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import {
   getResistance,
   getWeakness,
@@ -8,7 +5,10 @@ import {
   type NatureSet,
 } from '#/lib/game/nature'
 import { cn } from '#/lib/utils'
+import { cva } from 'class-variance-authority'
+import type { ClassValue } from 'class-variance-authority/types'
 import { ChevronRight } from 'lucide-react'
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
 type t = Record<string, Partial<Record<NatureSet | 'none', ClassValue>>>
 
@@ -30,7 +30,8 @@ const variants = cva<t>(
         ice: 'bg-cyan-700 shadow-[inset_0_0_0_1px_theme(colors.amber.300)] text-amber-300!',
         explosion:
           'bg-rose-900 shadow-[inset_0_0_0_1px_theme(colors.amber.300)] text-amber-300!',
-        magnet: 'bg-violet-800 shadow-[inset_0_0_0_1px_theme(colors.amber.300)] text-amber-300!',
+        magnet:
+          'bg-violet-800 shadow-[inset_0_0_0_1px_theme(colors.amber.300)] text-amber-300!',
         storm:
           'bg-blue-900 shadow-[inset_0_0_0_1px_theme(colors.amber.300)] text-amber-300!',
         wood: 'bg-olive-600 shadow-[inset_0_0_0_1px_theme(colors.amber.300)] text-amber-300!',

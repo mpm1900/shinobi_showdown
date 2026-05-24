@@ -1,7 +1,7 @@
 import type { Context } from '#/lib/game/context'
+import { battleContext } from '#/lib/stores/battle-context'
 import { clientsStore } from '#/lib/stores/clients'
 import { gameStore } from '#/lib/stores/game'
-import { battleContext } from '#/lib/stores/battle-context'
 import { useStore } from '@tanstack/react-store'
 import { useEffect, useMemo, useState } from 'react'
 

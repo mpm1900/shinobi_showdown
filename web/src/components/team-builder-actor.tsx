@@ -1,8 +1,8 @@
 import type { TeamBuilderForm } from '#/hooks/use-team-builder-form'
+import { actorsQuery } from '#/lib/queries/actors'
 import { useQuery } from '@tanstack/react-query'
 import { TeamBuilderActionsTable } from './team-builder-actions-table'
 import { TeamBuilderActorConfig } from './team-builder-actor-config'
-import { actorsQuery } from '#/lib/queries/actors'
 
 function TeamBuilderActor({ form }: { form: TeamBuilderForm }) {
   const actors = useQuery(actorsQuery)

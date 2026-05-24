@@ -1,10 +1,10 @@
 import { Store } from '@tanstack/store'
-import type { ActorConfig } from './config'
 import type {
   SocketMessageSubscriber,
   SocketRequest,
   SocketResponse,
 } from '../socket/request'
+import type { ActorConfig } from './config'
 
 type SocketStatus =
   | 'idle'
@@ -40,7 +40,7 @@ function sendSocketMessage(
     return false
   }
 
-  socket.send(payload)
+  socket.send(payload as any)
   return true
 }
 
@@ -48,5 +48,5 @@ function sendContextMessage(request: SocketRequest) {
   return sendSocketMessage(JSON.stringify(request))
 }
 
-export type { SocketResponse, SocketMessageSubscriber, ActorConfig }
-export { socketStore, sendSocketMessage, sendContextMessage }
+export { sendContextMessage, sendSocketMessage, socketStore }
+export type { ActorConfig, SocketMessageSubscriber, SocketResponse }

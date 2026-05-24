@@ -1,8 +1,8 @@
 import { gameStore } from '#/lib/stores/game'
+import { setBgEnabled, uiStore } from '#/lib/stores/ui'
 import { useStore } from '@tanstack/react-store'
 import { Modifier } from './modifier'
 import { Switch } from './ui/switch'
-import { setBgEnabled, uiStore } from '#/lib/stores/ui'
 
 function BattleWeather() {
   const ui = useStore(uiStore, (s) => s)

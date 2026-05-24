@@ -48,7 +48,6 @@ function TeamBuilderStats({
           onConfigChange={onConfigChange}
         />
 
-
         <TeamBuilderStat
           total={total}
           base={def}

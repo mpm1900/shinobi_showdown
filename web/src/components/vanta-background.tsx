@@ -11,7 +11,7 @@ declare global {
 export const VantaBackground = () => {
   const vantaRef = useRef<HTMLDivElement>(null)
   const vantaEffectRef = useRef<any>(null)
-  const g_state = useStore(gameStore, g => g.state)
+  const g_state = useStore(gameStore, (g) => g.state)
   const weather = g_state.weather
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export const VantaBackground = () => {
             blurFactor: 0.35,
             speed: 0.3,
             zoom: 0.4,
-            ...colors
+            ...colors,
           })
         } catch (err) {
           console.error('Vanta initialization failed:', err)

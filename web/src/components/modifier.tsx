@@ -1,7 +1,7 @@
-import { MODIFIER_ICONS } from "#/data/icons"
-import type { Modifier as ModifierType } from "#/lib/game/modifier"
-import { cn } from "#/lib/utils"
-import { ModifierTooltip } from "./modifier-tooltip"
+import { MODIFIER_ICONS } from '#/data/icons'
+import type { Modifier as ModifierType } from '#/lib/game/modifier'
+import { cn } from '#/lib/utils'
+import { ModifierTooltip } from './modifier-tooltip'
 
 function Modifier({
   count,

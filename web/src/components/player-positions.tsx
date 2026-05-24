@@ -1,11 +1,11 @@
-import { gameStore } from '#/lib/stores/game'
-import { useStore } from '@tanstack/react-store'
-import { ActorCard } from './actor-card'
-import { clientsStore } from '#/lib/stores/clients'
-import { Item } from './ui/item'
-import { cn } from '#/lib/utils'
-import { motion, AnimatePresence } from 'motion/react'
 import { battleContext } from '#/lib/stores/battle-context'
+import { clientsStore } from '#/lib/stores/clients'
+import { gameStore } from '#/lib/stores/game'
+import { cn } from '#/lib/utils'
+import { useStore } from '@tanstack/react-store'
+import { AnimatePresence, motion } from 'motion/react'
+import { ActorCard } from './actor-card'
+import { Item } from './ui/item'
 
 function PlayerPositions({
   flip,

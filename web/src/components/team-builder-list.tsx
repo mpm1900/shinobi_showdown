@@ -1,10 +1,10 @@
 import type { TeamBuilderForm } from '#/hooks/use-team-builder-form'
 import { getEffectiveness, NATURES } from '#/lib/game/nature'
 import { makeConfigFromDef } from '#/lib/game/team'
-import { ActorCombobox } from './actor-combobox'
 import { formatDistanceToNow } from 'date-fns'
-import { NatureBadge } from './nature-badge'
 import { Fragment } from 'react/jsx-runtime'
+import { ActorCombobox } from './actor-combobox'
+import { NatureBadge } from './nature-badge'
 
 const typeNatures = NATURES
 
@@ -75,9 +75,7 @@ function TeamBuilderList({
                 ))}
                 {typeNatures.map((a) => (
                   <Fragment key={a}>
-                    <div
-                      className="grid grid-cols-1 place-items-center"
-                    >
+                    <div className="grid grid-cols-1 place-items-center">
                       <NatureBadge nature={a} />
                     </div>
                     {typeNatures.map((b) => {

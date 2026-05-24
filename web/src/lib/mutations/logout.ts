@@ -1,13 +1,13 @@
+import { getApiBaseUrl } from '#/lib/server/api-base'
+import { setResponseCookie } from '#/utils/set-cookie'
 import {
   mutationOptions,
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query'
+import { useRouter } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import { getRequest } from '@tanstack/react-start/server'
-import { useRouter } from '@tanstack/react-router'
-import { setResponseCookie } from '#/utils/set-cookie'
-import { getApiBaseUrl } from '#/lib/server/api-base'
 
 const logout = createServerFn({ method: 'POST' }).handler(async () => {
   const request = getRequest()

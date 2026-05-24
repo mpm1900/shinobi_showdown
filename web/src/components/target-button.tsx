@@ -1,14 +1,14 @@
 import type { Action } from '#/lib/game/action'
 import { type Actor } from '#/lib/game/actor'
 import type { Context } from '#/lib/game/context'
+import { getEffectiveness } from '#/lib/game/nature'
 import { addHoverTarget, removeHoverTarget } from '#/lib/stores/battle-context'
+import { gameStore } from '#/lib/stores/game'
 import { cn, keys } from '#/lib/utils'
 import { useStore } from '@tanstack/react-store'
+import { memo, useMemo } from 'react'
 import { MiniHealthBar } from './actor-thumbnail'
 import { Button } from './ui/button'
-import { gameStore } from '#/lib/stores/game'
-import { getEffectiveness } from '#/lib/game/nature'
-import { memo, useMemo } from 'react'
 
 const TargetButton = memo(function TargetButton({
   actor,
@@ -75,8 +75,8 @@ const TargetButton = memo(function TargetButton({
             ...context,
             target_position_IDs: includes
               ? (context.target_position_IDs?.filter(
-                (id) => id !== actor.position_ID
-              ) ?? null)
+                  (id) => id !== actor.position_ID
+                ) ?? null)
               : [...(context.target_position_IDs ?? []), actor.position_ID],
           })
         }

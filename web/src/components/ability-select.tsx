@@ -1,3 +1,6 @@
+import { MODIFIER_ICONS } from '#/data/icons'
+import type { Modifier } from '#/lib/game/modifier'
+import { ModifierTooltip } from './modifier-tooltip'
 import { Field, FieldContent, FieldLabel } from './ui/field'
 import {
   Select,
@@ -7,9 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select'
-import type { Modifier } from '#/lib/game/modifier'
-import { ModifierTooltip } from './modifier-tooltip'
-import { MODIFIER_ICONS } from '#/data/icons'
 
 function AbilitySelect({
   value,
@@ -24,7 +24,11 @@ function AbilitySelect({
     <Field>
       <FieldLabel>Ability</FieldLabel>
       <FieldContent>
-        <Select value={value ?? ''} onValueChange={onValueChange} disabled={options.length == 0}>
+        <Select
+          value={value ?? ''}
+          onValueChange={onValueChange}
+          disabled={options.length == 0}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select an Ability " />
           </SelectTrigger>

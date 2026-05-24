@@ -1,14 +1,14 @@
 import {
-  type ActorDef,
   type ActorBaseStat,
-  type ActorStats,
+  type ActorDef,
   type ActorFocus,
+  type ActorStats,
   ACTOR_FOCUS_DETAILS,
 } from '#/lib/game/actor'
 import type { ActorConfig } from '#/lib/stores/socket'
+import { cn } from '#/lib/utils'
 import { useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-import { cn } from '#/lib/utils'
 import { Input } from './ui/input'
 import { Slider } from './ui/slider'
 
@@ -65,7 +65,13 @@ const STAT_NAMES: ActorStats<string> = {
   chakra_defense: 'Chakra Defense',
 }
 
-function TeamBuilderStatGuage({ baseStat, greyscale = false }: { baseStat: number, greyscale?: boolean }) {
+function TeamBuilderStatGuage({
+  baseStat,
+  greyscale = false,
+}: {
+  baseStat: number
+  greyscale?: boolean
+}) {
   const widthPercent =
     (Math.max(0, baseStat) * MAX_BAR_WIDTH_PERCENT) / MAX_COLOR_STAT
   const barColor = getStatBarColor(baseStat)
@@ -144,7 +150,10 @@ function TeamBuilderStat({
         {base?.stats[stat]}
       </td>
       <td>
-        <TeamBuilderStatGuage baseStat={base?.stats[stat] ?? 0} greyscale={stat === 'stamina'} />
+        <TeamBuilderStatGuage
+          baseStat={base?.stats[stat] ?? 0}
+          greyscale={stat === 'stamina'}
+        />
       </td>
       <td className="px-2 w-12">
         <Input

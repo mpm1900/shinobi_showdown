@@ -1,12 +1,12 @@
-import { useEffect, useRef } from 'react'
 import { type GameLog as GameLogType } from '#/lib/game/log'
-import { gameStore } from '#/lib/stores/game'
-import { useStore } from '@tanstack/react-store'
 import { clientsStore } from '#/lib/stores/clients'
+import { gameStore } from '#/lib/stores/game'
 import { cn } from '#/lib/utils'
+import { useStore } from '@tanstack/react-store'
+import { useEffect, useRef } from 'react'
+import { GameChat } from './game-chat'
 import { ScrollArea } from './ui/scroll-area'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
-import { GameChat } from './game-chat'
 
 function GameLogItem({
   item,
@@ -84,7 +84,7 @@ function GameLog() {
   return (
     <div className="bg-stone-950/80 text-sm py-2 px-3 rounded-sm border border-stone-300/30 ring-1 ring-black min-w-96 mt-4">
       <Tabs defaultValue="log">
-        <TabsList className='self-center'>
+        <TabsList className="self-center">
           <TabsTrigger value="log">Log</TabsTrigger>
           <TabsTrigger value="chat">Chat</TabsTrigger>
         </TabsList>
@@ -100,4 +100,4 @@ function GameLog() {
   )
 }
 
-export { GameLogItem, GameLogList, GameLog }
+export { GameLog, GameLogItem, GameLogList }

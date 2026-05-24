@@ -11,4 +11,4 @@ function setBgEnabled(enabled: boolean) {
   uiStore.setState(() => ({ bgEnabled: enabled }))
 }
 
-export { uiStore, toggleBg, setBgEnabled }
+export { setBgEnabled, toggleBg, uiStore }

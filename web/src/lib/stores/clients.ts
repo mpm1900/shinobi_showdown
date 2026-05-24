@@ -14,5 +14,5 @@ const clientsStore = new Store<ClientStore>({
   clients: [],
 })
 
-export type { Client, ClientStore }
 export { clientsStore }
+export type { Client, ClientStore }

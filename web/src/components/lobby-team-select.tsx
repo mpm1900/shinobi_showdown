@@ -1,5 +1,12 @@
+import { NULL_CONTEXT } from '#/lib/game/context'
 import { teamsQuery, type Team } from '#/lib/queries/teams'
+import { clientsStore } from '#/lib/stores/clients'
+import { sendContextMessage } from '#/lib/stores/socket'
 import { useQuery } from '@tanstack/react-query'
+import { useStore } from '@tanstack/react-store'
+import { ChevronsUpDown } from 'lucide-react'
+import { useState } from 'react'
+import { Button } from './ui/button'
 import {
   Combobox,
   ComboboxContent,
@@ -10,13 +17,6 @@ import {
   ComboboxTrigger,
   ComboboxValue,
 } from './ui/combobox'
-import { Button } from './ui/button'
-import { useState } from 'react'
-import { sendContextMessage } from '#/lib/stores/socket'
-import { NULL_CONTEXT } from '#/lib/game/context'
-import { useStore } from '@tanstack/react-store'
-import { clientsStore } from '#/lib/stores/clients'
-import { ChevronsUpDown } from 'lucide-react'
 
 function LobbyTeamSelect({
   onValueChange,

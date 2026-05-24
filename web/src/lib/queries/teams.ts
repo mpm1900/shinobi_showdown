@@ -1,8 +1,8 @@
+import { getApiBaseUrl } from '#/lib/server/api-base'
+import { queryOptions } from '@tanstack/react-query'
 import { createServerFn } from '@tanstack/react-start'
 import { getRequest } from '@tanstack/react-start/server'
-import { queryOptions } from '@tanstack/react-query'
 import type { TeamConfig } from '../stores/config'
-import { getApiBaseUrl } from '#/lib/server/api-base'
 
 type Team = {
   id: string | null
@@ -37,5 +37,5 @@ const teamsQuery = queryOptions({
   gcTime: 60000,
 })
 
+export { getTeams, teamsQuery }
 export type { Team }
-export { teamsQuery, getTeams }

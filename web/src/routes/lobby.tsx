@@ -1,23 +1,23 @@
-import { useStore } from '@tanstack/react-store'
+import { AppHeader } from '#/components/app-header'
+import { LobbyActorsList } from '#/components/lobby-actors-list'
+import { LobbyTeamSelect } from '#/components/lobby-team-select'
+import { LobbyThumbnails } from '#/components/lobby-thumbnails'
+import { PromptController } from '#/components/prompt-controller'
+import { Button } from '#/components/ui/button'
+import { CardDescription, CardTitle } from '#/components/ui/card'
+import { NULL_CONTEXT } from '#/lib/game/context'
+import { clientsStore } from '#/lib/stores/clients'
+import { gameStore } from '#/lib/stores/game'
+import { sendContextMessage } from '#/lib/stores/socket'
 import {
   ClientOnly,
   createFileRoute,
   Link,
   redirect,
 } from '@tanstack/react-router'
-import { gameStore } from '#/lib/stores/game'
-import { clientsStore } from '#/lib/stores/clients'
-import { PromptController } from '#/components/prompt-controller'
-import { AppHeader } from '#/components/app-header'
-import { CardDescription, CardTitle } from '#/components/ui/card'
-import { sendContextMessage } from '#/lib/stores/socket'
-import { NULL_CONTEXT } from '#/lib/game/context'
-import { Button } from '#/components/ui/button'
-import { useEffect, useState } from 'react'
-import { LobbyThumbnails } from '#/components/lobby-thumbnails'
-import { LobbyActorsList } from '#/components/lobby-actors-list'
+import { useStore } from '@tanstack/react-store'
 import { Check, Loader2, Swords } from 'lucide-react'
-import { LobbyTeamSelect } from '#/components/lobby-team-select'
+import { useEffect, useState } from 'react'
 
 export const Route = createFileRoute('/lobby')({
   beforeLoad: ({ context }) => {

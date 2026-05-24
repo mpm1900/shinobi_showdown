@@ -4,7 +4,7 @@ type AppEnv = {
 
 declare global {
   namespace NodeJS {
-    interface ProcessEnv extends AppEnv { }
+    interface ProcessEnv extends AppEnv {}
   }
 }
 

@@ -1,6 +1,6 @@
+import { getApiBaseUrl } from '#/lib/server/api-base'
 import { queryOptions } from '@tanstack/react-query'
 import { createServerFn } from '@tanstack/react-start'
-import { getApiBaseUrl } from '#/lib/server/api-base'
 
 type Instance = {
   ID: string
@@ -17,4 +17,4 @@ const instancesQuery = queryOptions({
   queryFn: () => getInstances(),
 })
 
-export { instancesQuery, getInstances }
+export { getInstances, instancesQuery }

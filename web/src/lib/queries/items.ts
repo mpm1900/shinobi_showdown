@@ -1,7 +1,7 @@
-import { createServerFn } from '@tanstack/react-start'
-import { queryOptions } from '@tanstack/react-query'
-import type { Modifier } from '../game/modifier'
 import { getApiBaseUrl } from '#/lib/server/api-base'
+import { queryOptions } from '@tanstack/react-query'
+import { createServerFn } from '@tanstack/react-start'
+import type { Modifier } from '../game/modifier'
 
 const getItems = createServerFn().handler(async () => {
   const response = await fetch(`${getApiBaseUrl()}/api/items`)
@@ -17,4 +17,4 @@ const itemsQuery = queryOptions({
   gcTime: 60000,
 })
 
-export { itemsQuery, getItems }
+export { getItems, itemsQuery }

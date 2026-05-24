@@ -1,10 +1,10 @@
-import { createServerFn } from '@tanstack/react-start'
-import z from 'zod'
-import { TeamSchema } from '../stores/config'
-import { mutationOptions, useMutation } from '@tanstack/react-query'
-import { getRequest } from '@tanstack/react-start/server'
-import type { Team } from '../queries/teams'
 import { getApiBaseUrl } from '#/lib/server/api-base'
+import { mutationOptions, useMutation } from '@tanstack/react-query'
+import { createServerFn } from '@tanstack/react-start'
+import { getRequest } from '@tanstack/react-start/server'
+import z from 'zod'
+import type { Team } from '../queries/teams'
+import { TeamSchema } from '../stores/config'
 
 const upsertTeamSchema = z.object({
   id: z.string().nullable(),

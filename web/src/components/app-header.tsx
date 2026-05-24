@@ -1,8 +1,12 @@
-import { useStore } from '@tanstack/react-store'
-import { InstanceCombobox } from './instance-combobox'
-import { sendContextMessage, socketStore } from '#/lib/stores/socket'
+import { NULL_CONTEXT } from '#/lib/game/context'
+import { useLogout } from '#/lib/mutations/logout'
+import { useUser } from '#/lib/queries/auth'
+import { connect } from '#/lib/socket/connect'
 import { clientsStore } from '#/lib/stores/clients'
 import { gameStore } from '#/lib/stores/game'
+import { sendContextMessage, socketStore } from '#/lib/stores/socket'
+import { Link, useRouterState } from '@tanstack/react-router'
+import { useStore } from '@tanstack/react-store'
 import {
   ChevronRight,
   Loader,
@@ -11,21 +15,16 @@ import {
   TriangleAlert,
   Unplug,
 } from 'lucide-react'
-import { Tabs, TabsList, TabsTrigger } from './ui/tabs'
-import { Link, useRouterState } from '@tanstack/react-router'
-import { NULL_CONTEXT } from '#/lib/game/context'
-import { Button } from './ui/button'
-import { GiSharpShuriken } from 'react-icons/gi'
-import { useLogout } from '#/lib/mutations/logout'
-import { useUser } from '#/lib/queries/auth'
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
-import { GiWhirlpoolShuriken } from 'react-icons/gi'
+import { GiSharpShuriken, GiWhirlpoolShuriken } from 'react-icons/gi'
 import {
   TbHexagonNumber1Filled,
   TbHexagonNumber2Filled,
   TbHexagonNumber3Filled,
 } from 'react-icons/tb'
-import { connect } from '#/lib/socket/connect'
+import { InstanceCombobox } from './instance-combobox'
+import { Button } from './ui/button'
+import { Tabs, TabsList, TabsTrigger } from './ui/tabs'
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
 function getActiveTable(pathname: string) {
   switch (pathname) {

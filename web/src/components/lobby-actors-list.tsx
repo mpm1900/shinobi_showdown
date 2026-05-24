@@ -1,7 +1,7 @@
+import type { Player } from '#/lib/game/player'
+import { gameStore } from '#/lib/stores/game'
 import { useStore } from '@tanstack/react-store'
 import { LobbyActorDetails } from './lobby-actor-details'
-import { gameStore } from '#/lib/stores/game'
-import type { Player } from '#/lib/game/player'
 
 function LobbyActorsList({
   player,

@@ -1,4 +1,6 @@
+import { SHINOBI_ICONS } from '#/data/icons'
 import { getTotalBaseStats, type ActorDef } from '#/lib/game/actor'
+import { natureIndexes, type NatureSet } from '#/lib/game/nature'
 import {
   createColumnHelper,
   flexRender,
@@ -9,6 +11,12 @@ import {
   type Row,
   type SortingState,
 } from '@tanstack/react-table'
+import { ChevronDown, ChevronLeft } from 'lucide-react'
+import { Fragment, useState, type ReactNode } from 'react'
+import { ActorStatBase } from './actor-stat'
+import { NatureBadge } from './nature-badge'
+import { StatBadge } from './stat-badge'
+import { Button } from './ui/button'
 import {
   Table,
   TableBody,
@@ -17,14 +25,6 @@ import {
   TableHeader,
   TableRow,
 } from './ui/table'
-import { ActorStatBase } from './actor-stat'
-import { Button } from './ui/button'
-import { ChevronDown, ChevronLeft } from 'lucide-react'
-import { Fragment, useState, type ReactNode } from 'react'
-import { natureIndexes, type NatureSet } from '#/lib/game/nature'
-import { NatureBadge } from './nature-badge'
-import { SHINOBI_ICONS } from '#/data/icons'
-import { StatBadge } from './stat-badge'
 
 const helper = createColumnHelper<ActorDef>()
 const columns = [

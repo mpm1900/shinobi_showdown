@@ -1,3 +1,10 @@
+import { teamsQuery, type Team } from '#/lib/queries/teams'
+import { cloneTeamConfig } from '#/lib/team-storage'
+import { useQuery } from '@tanstack/react-query'
+import { useNavigate, useSearch } from '@tanstack/react-router'
+import { Loader2, Plus, Trash } from 'lucide-react'
+import { useEffect } from 'react'
+import { Button } from './ui/button'
 import {
   Sidebar,
   SidebarContent,
@@ -9,13 +16,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from './ui/sidebar'
-import { cloneTeamConfig } from '#/lib/team-storage'
-import { teamsQuery, type Team } from '#/lib/queries/teams'
-import { Button } from './ui/button'
-import { Loader2, Plus, Trash } from 'lucide-react'
-import { useQuery } from '@tanstack/react-query'
-import { useNavigate, useSearch } from '@tanstack/react-router'
-import { useEffect } from 'react'
 
 function TeamBuilderSidebar({
   onLoadTeam,
@@ -112,7 +112,7 @@ function TeamBuilderSidebar({
                       className="justify-between group"
                       onClick={() => loadSavedTeam(team)}
                     >
-                      <div className='cursor-pointer'>
+                      <div className="cursor-pointer">
                         <span>{team.team_config.name}</span>
                         <Button
                           size="icon-xs"

@@ -194,14 +194,14 @@ function getEffectiveness(action: NatureSet, target_ns: NatureSet[]): number {
   return base
 }
 
-export type { Nature, NatureSet }
 export {
-  natureNames,
-  natureIndexes,
-  natureSetMap,
-  natureEffectiveness,
-  getWeakness,
-  getResistance,
   getEffectiveness,
+  getResistance,
+  getWeakness,
+  natureEffectiveness,
+  natureIndexes,
+  natureNames,
   NATURES,
+  natureSetMap,
 }
+export type { Nature, NatureSet }

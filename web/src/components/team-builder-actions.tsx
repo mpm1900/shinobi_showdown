@@ -1,14 +1,15 @@
 import type { TeamBuilderForm } from '#/hooks/use-team-builder-form'
-import { ChevronRight, Loader2, Save, Swords } from 'lucide-react'
+import { useUpsertTeam } from '#/lib/mutations/upsert-team'
+import { teamsQuery } from '#/lib/queries/teams'
+import { clientsStore } from '#/lib/stores/clients'
+import { type TeamConfig } from '#/lib/stores/config'
+import { useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
+import { useStore } from '@tanstack/react-store'
+import { ChevronRight, Import, Loader2, Save } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
-import { clientsStore } from '#/lib/stores/clients'
-import { useStore } from '@tanstack/react-store'
-import { useUpsertTeam } from '#/lib/mutations/upsert-team'
-import type { TeamConfig } from '#/lib/stores/config'
-import { useQueryClient } from '@tanstack/react-query'
-import { teamsQuery } from '#/lib/queries/teams'
-import { useNavigate } from '@tanstack/react-router'
 
 function TeamBuilderActions({
   id,
@@ -40,7 +41,13 @@ function TeamBuilderActions({
                   />
                 )}
               </form.Field>
-
+              <Button
+                variant="secondary"
+                size="icon"
+                onClick={() => toast('test')}
+              >
+                <Import />
+              </Button>
               <Button
                 size="icon"
                 variant="secondary"

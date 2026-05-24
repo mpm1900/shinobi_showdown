@@ -1,10 +1,10 @@
 import { MODIFIER_ICONS, SHINOBI_ICONS } from '#/data/icons'
 import type { Actor } from '#/lib/game/actor'
 import { natureIndexes } from '#/lib/game/nature'
+import { clientsStore } from '#/lib/stores/clients'
 import { cn, keys } from '#/lib/utils'
 import { useStore } from '@tanstack/react-store'
 import { NatureBadge } from './nature-badge'
-import { clientsStore } from '#/lib/stores/clients'
 
 function LobbyActorDetails({
   actor,
@@ -52,8 +52,12 @@ function LobbyActorDetails({
         className={cn(
           'p-2 flex justify-between items-center z-10 border-b border-black',
           client?.ID === actor.player_ID
-            ? enabled ? 'bg-slate-800' : 'bg-slate-950 cursor-pointer'
-            : enabled ? 'bg-mauve-800' : 'bg-mauve-950'
+            ? enabled
+              ? 'bg-slate-800'
+              : 'bg-slate-950 cursor-pointer'
+            : enabled
+              ? 'bg-mauve-800'
+              : 'bg-mauve-950'
         )}
       >
         <div
@@ -81,9 +85,7 @@ function LobbyActorDetails({
             {actor.actions
               .filter((a) => !a.config.switch)
               .map((a) => (
-                <tr
-                  key={a.ID}
-                >
+                <tr key={a.ID}>
                   <td className="w-6">
                     {a.config.nature && (
                       <NatureBadge nature={a.config.nature} />

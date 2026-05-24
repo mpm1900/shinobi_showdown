@@ -1,5 +1,9 @@
 import { instancesQuery } from '#/lib/queries/instances'
+import { cn } from '#/lib/utils'
 import { useQuery } from '@tanstack/react-query'
+import type { ReactNode } from 'react'
+import { v4 } from 'uuid'
+import { Button } from './ui/button'
 import {
   Combobox,
   ComboboxContent,
@@ -10,10 +14,6 @@ import {
   ComboboxTrigger,
   ComboboxValue,
 } from './ui/combobox'
-import { Button } from './ui/button'
-import type { ReactNode } from 'react'
-import { v4 } from 'uuid'
-import { cn } from '#/lib/utils'
 
 const CREATE_INSTANCE_VALUE = '__create_instance__'
 
@@ -78,7 +78,9 @@ function InstanceCombobox({
                 "[slot='combobox-item-indicator']:hidden": !value,
               })}
             >
-              {item.ID === CREATE_INSTANCE_VALUE ? 'Create Instance' : `${item.ID} (${Object.keys(item.clients ?? {}).length})`}
+              {item.ID === CREATE_INSTANCE_VALUE
+                ? 'Create Instance'
+                : `${item.ID} (${Object.keys(item.clients ?? {}).length})`}
             </ComboboxItem>
           )}
         </ComboboxList>

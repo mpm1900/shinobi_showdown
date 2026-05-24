@@ -1,10 +1,10 @@
+import { ArrowRight } from 'lucide-react'
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
 } from './ui/input-group'
-import { ArrowRight } from 'lucide-react'
 
 function GameChat() {
   return (

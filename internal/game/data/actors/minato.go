@@ -49,5 +49,6 @@ var Minato = game.ActorDef{
 		actions.WindSlash.ID,
 		actions.PowerBoost.ID,
 		actions.TradeOffer.ID,
+		actions.ShinigamiCurse.ID,
 	}, GlobalActions...),
 }

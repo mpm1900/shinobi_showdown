@@ -1,3 +1,6 @@
+import type { User } from '#/lib/queries/auth'
+import { getApiBaseUrl } from '#/lib/server/api-base'
+import { setResponseCookie } from '#/utils/set-cookie'
 import {
   mutationOptions,
   useMutation,
@@ -5,9 +8,6 @@ import {
 } from '@tanstack/react-query'
 import { createServerFn } from '@tanstack/react-start'
 import z from 'zod'
-import type { User } from '#/lib/queries/auth'
-import { setResponseCookie } from '#/utils/set-cookie'
-import { getApiBaseUrl } from '#/lib/server/api-base'
 
 const requestSchema = z.object({
   email: z.string(),

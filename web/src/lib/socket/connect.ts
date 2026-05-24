@@ -256,4 +256,4 @@ if (typeof window !== 'undefined') {
   }
 }
 
-export { getSocketUrl, connect, disconnect, subscribe }
+export { connect, disconnect, getSocketUrl, subscribe }

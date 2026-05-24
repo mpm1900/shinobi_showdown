@@ -174,21 +174,21 @@ function getVitals(actor: Actor) {
   }
 }
 
-export type {
-  ActorDef,
-  Actor,
-  ActorFocus,
-  ActorAttackStat,
-  ActorDefenseStat,
-  ActorBaseStat,
-  ActorStats,
-  ActorNatureStat,
-  NatureStats,
-}
 export {
+  ACTOR_FOCUS_DETAILS,
+  actorFocuses,
   checkActorStat,
   getTotalBaseStats,
-  actorFocuses,
-  ACTOR_FOCUS_DETAILS,
   getVitals,
+}
+export type {
+  Actor,
+  ActorAttackStat,
+  ActorBaseStat,
+  ActorDef,
+  ActorDefenseStat,
+  ActorFocus,
+  ActorNatureStat,
+  ActorStats,
+  NatureStats,
 }

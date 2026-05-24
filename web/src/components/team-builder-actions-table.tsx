@@ -1,9 +1,9 @@
 import type { TeamBuilderForm } from '#/hooks/use-team-builder-form'
+import type { ActorDef } from '#/lib/game/actor'
 import { actionsQuery } from '#/lib/queries/actions'
+import { keys } from '#/lib/utils'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { ActionsTable } from './actions-table'
-import type { ActorDef } from '#/lib/game/actor'
-import { keys } from '#/lib/utils'
 
 function TeamBuilderActionsTable({
   def,

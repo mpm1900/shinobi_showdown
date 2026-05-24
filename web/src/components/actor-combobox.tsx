@@ -1,6 +1,11 @@
 import type { ActorDef } from '#/lib/game/actor'
+import { natureIndexes, type NatureSet } from '#/lib/game/nature'
 import { actorsQuery } from '#/lib/queries/actors'
+import { cn } from '#/lib/utils'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { Plus } from 'lucide-react'
+import { NatureBadge } from './nature-badge'
+import { buttonVariants } from './ui/button'
 import {
   Combobox,
   ComboboxContent,
@@ -11,11 +16,6 @@ import {
   ComboboxTrigger,
   ComboboxValue,
 } from './ui/combobox'
-import { Plus } from 'lucide-react'
-import { natureIndexes, type NatureSet } from '#/lib/game/nature'
-import { NatureBadge } from './nature-badge'
-import { buttonVariants } from './ui/button'
-import { cn } from '#/lib/utils'
 import { Separator } from './ui/separator'
 
 function ActorCombobox({

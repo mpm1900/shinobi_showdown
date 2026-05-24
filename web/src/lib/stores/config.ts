@@ -57,4 +57,4 @@ type TeamConfig = z.output<typeof TeamSchema>
 type TeamActor = z.output<typeof TeamActorSchema>
 
 export { ActorConfigSchema, TeamActorSchema, TeamSchema }
-export type { ActorConfig, TeamConfig, TeamActor }
+export type { ActorConfig, TeamActor, TeamConfig }

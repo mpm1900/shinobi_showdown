@@ -1,6 +1,15 @@
+import { useGetTargets } from '#/hooks/use-get-targets'
+import { useValidateContext } from '#/hooks/use-validate-context'
+import type { ActionTransaction } from '#/lib/game/action'
+import type { Context } from '#/lib/game/context'
 import { clientsStore } from '#/lib/stores/clients'
 import { gameStore } from '#/lib/stores/game'
+import { sendContextMessage } from '#/lib/stores/socket'
 import { useStore } from '@tanstack/react-store'
+import { ChevronRight, Loader2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useDebounce } from 'use-debounce'
+import { TargetButton } from './target-button'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,16 +19,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from './ui/alert-dialog'
-import type { Context } from '#/lib/game/context'
-import { sendContextMessage } from '#/lib/stores/socket'
-import { TargetButton } from './target-button'
 import { Button } from './ui/button'
-import { useEffect, useState } from 'react'
-import type { ActionTransaction } from '#/lib/game/action'
-import { useValidateContext } from '#/hooks/use-validate-context'
-import { useGetTargets } from '#/hooks/use-get-targets'
-import { ChevronRight, Loader2 } from 'lucide-react'
-import { useDebounce } from 'use-debounce'
 
 function PromptControl({
   loading = false,

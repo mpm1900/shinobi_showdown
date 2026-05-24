@@ -64,6 +64,7 @@ var ACTIONS map[uuid.UUID]game.Action = map[uuid.UUID]game.Action{
 	actions.NoEscape.ID:         actions.NoEscape,
 	actions.TradeOffer.ID:       actions.TradeOffer,
 	actions.Command.ID:          actions.Command,
+	actions.ShinigamiCurse.ID:   actions.ShinigamiCurse,
 
 	actions.OneHundredHealingsStatus.ID: actions.OneHundredHealingsStatus,
 

@@ -1,4 +1,5 @@
 import type { Action } from '#/lib/game/action'
+import { cn } from '#/lib/utils'
 import {
   createColumnHelper,
   flexRender,
@@ -9,6 +10,13 @@ import {
   type Row,
   type RowSelectionState,
 } from '@tanstack/react-table'
+import { useState } from 'react'
+import { ActionCard } from './action-card'
+import { NatureBadge } from './nature-badge'
+import { StatBadge } from './stat-badge'
+import { Button } from './ui/button'
+import { Checkbox } from './ui/checkbox'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from './ui/hover-card'
 import {
   Table,
   TableBody,
@@ -17,14 +25,6 @@ import {
   TableHeader,
   TableRow,
 } from './ui/table'
-import { NatureBadge } from './nature-badge'
-import { useState } from 'react'
-import { StatBadge } from './stat-badge'
-import { Checkbox } from './ui/checkbox'
-import { Button } from './ui/button'
-import { cn } from '#/lib/utils'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from './ui/hover-card'
-import { ActionCard } from './action-card'
 
 const helper = createColumnHelper<Action>()
 const columns = [
@@ -40,7 +40,7 @@ const columns = [
           (row.original.state.locked ||
             !row.getCanSelect() ||
             (table.options.meta as any).total ==
-            table.getSelectedRowModel().rows.length)
+              table.getSelectedRowModel().rows.length)
         }
       />
     ),

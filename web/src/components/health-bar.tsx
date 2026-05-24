@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef } from 'react'
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
 import { getVitals, type Actor } from '#/lib/game/actor'
-import { useStore } from '@tanstack/react-store'
 import { gameStore } from '#/lib/stores/game'
+import { useStore } from '@tanstack/react-store'
+import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
+import { useEffect, useMemo, useRef } from 'react'
 import { HealthDeltaBurst } from './health-delta-burst'
 
 function HealthBar({
@@ -129,7 +129,10 @@ function HealthBar({
         </div>
       </div>
 
-      <HealthDeltaBurst hpRatio={vitals.hp.ratio} direction={percentage ? 'down' : 'up'} />
+      <HealthDeltaBurst
+        hpRatio={vitals.hp.ratio}
+        direction={percentage ? 'down' : 'up'}
+      />
     </div>
   )
 }

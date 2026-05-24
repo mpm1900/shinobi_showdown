@@ -8,10 +8,11 @@ import TanStackQueryProvider from '../integrations/tanstack-query/root-provider'
 
 import styles from '../styles.css?url'
 
-import type { QueryClient } from '@tanstack/react-query'
 import { TooltipProvider } from '#/components/ui/tooltip'
-import type { User } from '#/lib/queries/auth'
 import { VantaBackground } from '#/components/vanta-background'
+import type { User } from '#/lib/queries/auth'
+import { Toaster } from '@/components/ui/sonner'
+import type { QueryClient } from '@tanstack/react-query'
 
 interface RouterContext {
   queryClient: QueryClient
@@ -23,8 +24,8 @@ interface RouterContext {
 // const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='auto')?stored:'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='auto'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);if(mode==='auto'){root.removeAttribute('data-theme')}else{root.setAttribute('data-theme',mode)}root.style.colorScheme=resolved;}catch(e){}})();`
 
 import { meQuery } from '#/lib/queries/auth'
-import { useStore } from '@tanstack/react-store'
 import { uiStore } from '#/lib/stores/ui'
+import { useStore } from '@tanstack/react-store'
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   beforeLoad: async ({ context, location }) => {
@@ -95,6 +96,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <TanStackQueryProvider>
           <TooltipProvider>{children}</TooltipProvider>
         </TanStackQueryProvider>
+        <Toaster position="bottom-center" />
         <Scripts />
       </body>
     </html>

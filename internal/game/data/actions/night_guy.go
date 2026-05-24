@@ -2,6 +2,7 @@ package actions
 
 import (
 	"shinobi_showdown/internal/game"
+	"shinobi_showdown/internal/game/data/mutations"
 
 	"github.com/google/uuid"
 )
@@ -52,7 +53,7 @@ func MakeNightGuy() game.Action {
 					transactions = append(transactions, targetTx)
 				}
 
-				hp_loss := game.RatioDamage(1.0)
+				hp_loss := mutations.KillSource()
 				sourceTx := game.MakeTransaction(hp_loss, context.WithTargetIDs([]uuid.UUID{source.ID}))
 				transactions = append(transactions, sourceTx)
 

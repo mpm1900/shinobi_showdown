@@ -17,7 +17,7 @@ export function getApiBaseUrl(): string {
   const req = getRequest()
   if (!req) {
     throw new Error(
-      'API base URL: no request context. Set API_URL (e.g. https://your.domain) on the web container.',
+      'API base URL: no request context. Set API_URL (e.g. https://your.domain) on the web container.'
     )
   }
 
@@ -51,6 +51,6 @@ export function getApiBaseUrl(): string {
   }
 
   throw new Error(
-    'API base URL: set API_URL (public https origin, no trailing slash) on the web container.',
+    'API base URL: set API_URL (public https origin, no trailing slash) on the web container.'
   )
 }

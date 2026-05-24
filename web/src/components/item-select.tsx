@@ -1,5 +1,7 @@
+import { MODIFIER_ICONS } from '#/data/icons'
 import { itemsQuery } from '#/lib/queries/items'
 import { useQuery } from '@tanstack/react-query'
+import { ModifierTooltip } from './modifier-tooltip'
 import { Field, FieldContent, FieldLabel } from './ui/field'
 import {
   Select,
@@ -9,8 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select'
-import { ModifierTooltip } from './modifier-tooltip'
-import { MODIFIER_ICONS } from '#/data/icons'
 
 function ItemSelect({
   otherItemIDs,
@@ -41,10 +41,7 @@ function ItemSelect({
                     modifier={item}
                     contentProps={{ side: 'right' }}
                   >
-                    <SelectItem
-                      value={item.ID}
-                      disabled={used}
-                    >
+                    <SelectItem value={item.ID} disabled={used}>
                       {Icon && <Icon />}
                       {item.name}
                     </SelectItem>

@@ -2,8 +2,8 @@ import { type ActorNatureStat } from '#/lib/game/actor'
 import { cn } from '#/lib/utils'
 import { cva } from 'class-variance-authority'
 import type { ClassValue } from 'class-variance-authority/types'
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import type { ComponentProps } from 'react'
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
 type t = Record<string, Partial<Record<ActorNatureStat | 'none', ClassValue>>>
 const variants = cva<t>(
