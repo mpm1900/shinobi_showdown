@@ -15,7 +15,7 @@ func MakeShikigamiDance() game.Action {
 		Name:        "Shikigami Dance",
 		Nature:      game.Ptr(game.NsWind),
 		Jutsu:       game.Taijutsu,
-		Description: "Raises the user's Chakra Defense by 2 stages.",
+		Description: "Raises the user's Chakra Defense by 2 stages. User dies.",
 	})
 
 	return game.Action{
