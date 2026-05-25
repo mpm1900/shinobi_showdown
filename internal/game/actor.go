@@ -282,7 +282,9 @@ const (
 	MutPriorityMapBaseStats    = -10
 	MutPriorityPostBaseStats   = -9
 	MutPriorityDefault         = 0
-	MutPriorityPreStagedStats  = 9
+	MutPriorityPreStagedStats  = 7
+	MutPriorityStagedSet       = 8
+	MutPriorityStagedZero      = 9
 	MutPriorityMapStagedStats  = 10
 	MutPriorityPostStagedStats = 11
 	MutPriorityZero            = 19

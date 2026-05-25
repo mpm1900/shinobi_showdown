@@ -20,7 +20,7 @@ var PowerNullification = game.Modifier{
 		{
 			ModifierGroupID: &powerNullificationID,
 			Mutation: game.Mutation[game.Game, game.Actor, game.Actor]{
-				Priority: game.MutPriorityPreStagedStats,
+				Priority: game.MutPriorityStagedZero,
 				Filter:   game.ActiveTransactionFilter,
 				Delta: func(p game.Game, a game.Actor, c game.Context) game.Actor {
 					a.Stages[game.StatAccuracy] = 0

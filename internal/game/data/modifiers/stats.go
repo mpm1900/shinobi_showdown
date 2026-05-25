@@ -223,7 +223,7 @@ var Haze game.Modifier = game.Modifier{
 	ActorMutations: []game.ActorMutation{
 		game.MakeActorMutation(
 			&hazeID,
-			game.MutPriorityPreStagedStats,
+			game.MutPriorityStagedZero,
 			game.ActiveFilter,
 			func(g game.Game, actor game.Actor, context game.Context) game.Actor {
 				actor.Stages[game.StatAccuracy] = 0
