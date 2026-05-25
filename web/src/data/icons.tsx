@@ -83,6 +83,7 @@ import {
   PiPlantBold,
   PiSpiralFill,
   PiWindFill,
+  PiSyringeFill,
 } from 'react-icons/pi'
 import { RiFileCopyFill } from 'react-icons/ri'
 import { SiComma, SiRazorpay } from 'react-icons/si'
@@ -268,6 +269,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   haze: HiScale,
   healing_tactics: GiHealing,
   ichiraku_ramen: GiNoodles,
+  immune: PiSyringeFill,
   inner_focus: TbScanEye,
   intimidate: GiBeastEye,
   insomnia: BsMoonFill,

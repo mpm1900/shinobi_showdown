@@ -36,6 +36,9 @@ var Sasori = game.ActorDef{
 	Abilities: []game.Modifier{
 		modifiers.PoisonInfused,
 	},
+	DefaultModifiers: []game.Modifier{
+		modifiers.Immune,
+	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
 		actions.DragonStance.ID,

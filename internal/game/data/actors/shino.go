@@ -3,6 +3,7 @@ package actors
 import (
 	"shinobi_showdown/internal/game"
 	"shinobi_showdown/internal/game/data/actions"
+	"shinobi_showdown/internal/game/data/modifiers"
 
 	"github.com/google/uuid"
 )
@@ -31,7 +32,10 @@ var Shino = game.ActorDef{
 		game.NsEarth,
 		game.NsYang,
 	}),
-	Abilities:   []game.Modifier{},
+	Abilities: []game.Modifier{},
+	DefaultModifiers: []game.Modifier{
+		modifiers.Immune,
+	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
 		actions.DragonStance.ID,
