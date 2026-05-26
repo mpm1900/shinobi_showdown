@@ -129,7 +129,7 @@ function RunningContext({ context }: { context: Context }) {
   const source_action =
     active_action ?? source?.actions.find((a) => a.ID === context.action_ID)
 
-  if (!source || !source_action) return null
+  if (!source || !source_action || !source_action.config.name) return null
 
   const is_friendly_source = client_ID === source.player_ID
 
