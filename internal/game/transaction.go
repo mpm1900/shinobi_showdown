@@ -8,7 +8,6 @@ type Transaction[M any] struct {
 	ID       uuid.UUID `json:"ID"`
 	Ready    bool      `json:"ready"`
 	Context  Context   `json:"context"`
-	Priority int       `json:"priority"`
 	Mutation M         `json:"mutation"`
 }
 

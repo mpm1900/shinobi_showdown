@@ -52,22 +52,21 @@ type ActionConfig struct {
 	Recoil         *float64         `json:"-"`
 	Stat           *ActorStat       `json:"stat,omitempty"`
 	TargetCount    *int             `json:"-"`
-	TargetType     ActionTargetType `json:"target_type"`
+	TargetType     ActionTargetType `json:"-"`
 	Jutsu          ActionJutsu      `json:"jutsu"`
 	Description    string           `json:"description"`
 	LogSuccess     *string          `json:"log_success"`
-	LogFailure     *string          `json:"-"`
+	LogFailure     *string          `json:"log_failure"`
 	IgnoreRedirect bool             `json:"-"`
 	SubPriority    int              `json:"-"`
 	Summon         bool             `json:"summon"`
 	Switch         bool             `json:"switch"`
-	Struggle       bool             `json:"struggle"`
+	Struggle       bool             `json:"-"`
 }
 
 type ActionMutation Mutation[Game, Game, []Transaction[GameMutation]]
 
 type ActionState struct {
-	Locked   bool `json:"locked"`
 	Disabled bool `json:"disabled"`
 	Cooldown *int `json:"cooldown"`
 }
@@ -183,6 +182,11 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 }
 
 func GetAccuracy(game Game, source ResolvedActor, target ResolvedActor, ignoreModifiers bool) float64 {
+	if ignoreModifiers {
+		ratio := float64(source.UnmodifiedStats[StatAccuracy]) / float64(target.UnmodifiedStats[StatEvasion])
+		return ratio
+	}
+
 	ratio := float64(source.Stats[StatAccuracy]) / float64(target.Stats[StatEvasion])
 	return ratio
 }

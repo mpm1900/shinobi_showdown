@@ -19,10 +19,8 @@ type Action = {
     target_type: 'target-actor-id' | 'target-position-type'
     summon: boolean
     switch: boolean
-    struggle: boolean
   }
   state: {
-    locked: boolean
     cooldown: number | null
     disabled: boolean
   }

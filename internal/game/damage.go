@@ -24,7 +24,6 @@ type DamageTerms struct {
 func RandomDamageFactor() float64 {
 	roll := rand.IntN(15) + 89
 	value := float64(roll) / 100.0
-	fmt.Println("random: ", value)
 	return value
 }
 
@@ -101,8 +100,15 @@ func GetDamage(
 	}
 
 	a_base := float64(source.Stats[attack])
+	if ignoreModifiers {
+		// only ignore mods if attack is weakened
+		if HasDebuff(source, AttackStat(attack)) {
+			a_base = float64(source.UnmodifiedStats[attack])
+		}
+	}
 	a_mod := 1.0
 	attack_value := Round(a_base * a_mod)
+
 	targets_mod := 1.0
 	if targetsCount > 1 {
 		targets_mod = 0.75
@@ -110,18 +116,10 @@ func GetDamage(
 
 	for i, target := range targets {
 		d_base := float64(target.Stats[defense])
-		/**
-		 * This piece is important. Critical hits ignore target stat changes.
-		 */
-		if critical > 1.0 {
-			ignoreModifiers = true
-		}
 		if ignoreModifiers {
+			// only ignore mods if defense is strengthened
 			if HasBuff(target, AttackStat(attack), DefenseStat(defense)) {
-				d_base = float64(target.UnmodifiedStats[ActorStat(defense)])
-			}
-			if HasDebuff(source, AttackStat(attack)) {
-				a_base = float64(source.UnmodifiedStats[ActorStat(attack)])
+				d_base = float64(target.UnmodifiedStats[defense])
 			}
 		}
 		d_mod := 1.0
@@ -156,5 +154,6 @@ func GetDamage(
 			Targets:  targets_mod,
 		})
 	}
+
 	return damages
 }

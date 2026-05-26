@@ -114,9 +114,6 @@ var Switch = Action{
 		TargetType:  TargetActorID,
 		Switch:      true,
 	},
-	State: ActionState{
-		Locked: true,
-	},
 	TargetPredicate: ComposeAF(TeamFilter, InactiveFilter, AliveFilter, SwitchFilter),
 	ContextValidate: TargetLengthFilter(1),
 	ActionMutation: ActionMutation{
@@ -143,9 +140,6 @@ func SwitchIn(count int) Action {
 			Name:       "Switch In",
 			TargetType: TargetActorID,
 			Switch:     true,
-		},
-		State: ActionState{
-			Locked: true,
 		},
 		TargetPredicate: ComposeAF(TeamFilter, InactiveFilter, AliveFilter, SwitchFilter),
 		ContextValidate: TargetLengthFilter(count),

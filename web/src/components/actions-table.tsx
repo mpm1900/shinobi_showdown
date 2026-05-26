@@ -37,8 +37,7 @@ const columns = [
         checked={row.getIsSelected()}
         disabled={
           !row.getIsSelected() &&
-          (row.original.state.locked ||
-            !row.getCanSelect() ||
+          (!row.getCanSelect() ||
             (table.options.meta as any).total ==
               table.getSelectedRowModel().rows.length)
         }
