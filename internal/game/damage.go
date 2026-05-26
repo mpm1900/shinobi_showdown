@@ -100,11 +100,9 @@ func GetDamage(
 	}
 
 	a_base := float64(source.Stats[attack])
-	if ignoreModifiers {
-		// only ignore mods if attack is weakened
-		if HasDebuff(source, AttackStat(attack)) {
-			a_base = float64(source.UnmodifiedStats[attack])
-		}
+	// only ignore mods if attack is weakened
+	if ignoreModifiers && HasDebuff(source, AttackStat(attack)) {
+		a_base = float64(source.UnmodifiedStats[attack])
 	}
 	a_mod := 1.0
 	attack_value := Round(a_base * a_mod)
@@ -116,11 +114,9 @@ func GetDamage(
 
 	for i, target := range targets {
 		d_base := float64(target.Stats[defense])
-		if ignoreModifiers {
-			// only ignore mods if defense is strengthened
-			if HasBuff(target, AttackStat(attack), DefenseStat(defense)) {
-				d_base = float64(target.UnmodifiedStats[defense])
-			}
+		// only ignore mods if defense is strengthened
+		if ignoreModifiers && HasBuff(target, AttackStat(attack), DefenseStat(defense)) {
+			d_base = float64(target.UnmodifiedStats[defense])
 		}
 		d_mod := 1.0
 		defense_value := Round(d_base * d_mod)
