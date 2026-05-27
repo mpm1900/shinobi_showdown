@@ -516,7 +516,11 @@ func (g *Game) ActorSwitchOutSideEffects(actor Actor) {
 
 	context := NewContext()
 	context.SourceActorID = &actor.ID
-	g.PushLog(NewLogContext("$source$ left the battle.", context))
+	if actor.Alive {
+		g.PushLog(NewLogContext("$source$ left the battle.", context))
+	} else {
+		g.PushLog(NewLogContext("$source$ died.", context))
+	}
 	t_context := Context{
 		ParentActorID:  &actor.ID,
 		SourceActorID:  &actor.ID,

@@ -215,7 +215,7 @@ func (dc *DamageCore) ResolveResults(game *Game) []GameTransaction {
 
 					damage_mut := GameMutation{
 						Delta: func(p Game, g Game, context Context) Game {
-							ApplyDamage(&g, &dc.Source.ID, target, hit.Damage)
+							ApplyDamage(&g, &dc.Source.Actor, target, hit.Damage)
 							if hit.Damage > 0 {
 								g.On(OnDamageReceive, &context)
 								g.UpdateActor(target.ID, func(a Actor) Actor {
@@ -297,7 +297,7 @@ func (dc *DamageCore) ResolveSideEffects(game *Game) []GameTransaction {
 					}
 
 					if target.Reflect > 0.0 {
-						reflectDamage := int(target.Reflect * float64(hit.Damage))
+						reflectDamage := Round(target.Reflect * float64(hit.Damage))
 						reflectTx := MakeTransaction(PureDamage(reflectDamage, false), source_context)
 						transactions = append(transactions, reflectTx)
 					}

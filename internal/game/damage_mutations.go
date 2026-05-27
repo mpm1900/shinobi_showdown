@@ -48,7 +48,7 @@ func SetDamage(damage int) GameMutation {
 }
 
 // returns if target is still alive after
-func ApplyDamageWith(g *Game, source_ID *uuid.UUID, target ResolvedActor, damage int, updater func(Actor) Actor) bool {
+func ApplyDamageWith(g *Game, source *Actor, target ResolvedActor, damage int, updater func(Actor) Actor) bool {
 	alive := target.Alive
 	if !target.Alive {
 		return alive
@@ -68,10 +68,10 @@ func ApplyDamageWith(g *Game, source_ID *uuid.UUID, target ResolvedActor, damage
 			g.PushLog(MakeGameLog("$source$'s summon took the attack.", logCtx, 1))
 		} else {
 			a.Damage += damage
-			if source_ID != nil {
-				a.LastReceivedDamage[*source_ID] = clampDamage(damage)
+			if source != nil {
+				a.LastReceivedDamage[source.ID] = clampDamage(damage)
 			}
-			ratio := min(int(float64(damage)*100/float64(hp)), 100)
+			ratio := min(Round(float64(damage)*100/float64(hp)), 100)
 			if ratio >= 0 {
 				g.PushLog(MakeGameLog(fmt.Sprintf("$source$ lost %d%% HP.", ratio), logCtx, 1))
 			} else {
@@ -97,8 +97,8 @@ func ApplyDamageWith(g *Game, source_ID *uuid.UUID, target ResolvedActor, damage
 	if !alive {
 		deathContext := NewContext().WithSource(target.ID)
 		g.On(OnDeath, &deathContext)
-		if source_ID != nil {
-			killContext := NewContext().WithSource(*source_ID).WithTargetIDs([]uuid.UUID{target.ID})
+		if source != nil {
+			killContext := MakeTargetContext(*source, target.Actor)
 			g.On(OnKill, &killContext)
 		}
 	}
@@ -107,18 +107,23 @@ func ApplyDamageWith(g *Game, source_ID *uuid.UUID, target ResolvedActor, damage
 }
 
 // returns if target is still alive after
-func ApplyDamage(g *Game, source_ID *uuid.UUID, target ResolvedActor, damage int) bool {
-	return ApplyDamageWith(g, source_ID, target, damage, nil)
+func ApplyDamage(g *Game, source *Actor, target ResolvedActor, damage int) bool {
+	return ApplyDamageWith(g, source, target, damage, nil)
 }
 
 func PureDamageWith(damage int, trigger bool, updater func(Actor) Actor) GameMutation {
 	return GameMutation{
 		Filter: TargetsAreOneAlive,
 		Delta: func(p Game, g Game, context Context) Game {
+			source, ok := g.GetSource(context)
+			if !ok {
+				return g
+			}
+
 			targets := g.GetTargets(context)
 			for _, t := range targets {
 				target := t.Resolve(g)
-				ApplyDamageWith(&g, context.SourceActorID, target, damage, updater)
+				ApplyDamageWith(&g, &source, target, damage, updater)
 				if trigger && damage > 0 {
 					g.On(OnDamageReceive, &context)
 				}
@@ -135,11 +140,15 @@ func PureDamage(damage int, trigger bool) GameMutation {
 func RatioDamageWith(ratio float64, updater func(Actor) Actor) GameMutation {
 	return GameMutation{
 		Delta: func(p Game, g Game, context Context) Game {
+			source, ok := g.GetSource(context)
+			if !ok {
+				return g
+			}
 			targets := g.GetTargets(context)
 			for _, t := range targets {
 				target := t.Resolve(g)
 				damage := Round(float64(target.Stats[StatHP]) * ratio)
-				ApplyDamageWith(&g, context.SourceActorID, target, damage, updater)
+				ApplyDamageWith(&g, &source, target, damage, updater)
 			}
 			return g
 		},
@@ -175,7 +184,7 @@ func ApplyHealRawWith(g *Game, targetID uuid.UUID, amount int, updater func(Acto
 	target := t.Resolve(*g)
 	hp := target.Stats[StatHP]
 	logCtx := MakeContextForActor(target.Actor)
-	ratio := int(float64(amount) * 100 / float64(hp))
+	ratio := Round(float64(amount) * 100 / float64(hp))
 	g.PushLog(MakeGameLog(fmt.Sprintf("$source$ gained %d%% HP.", ratio), logCtx, 1))
 
 	return amount
@@ -251,7 +260,7 @@ func SetHpSourceToTargets() GameMutation {
 				if diff > 0 {
 					ApplyHealRaw(&g, target.ID, diff)
 				} else {
-					ApplyDamage(&g, &source.ID, target, diff*-1)
+					ApplyDamage(&g, &source.Actor, target, diff*-1)
 				}
 			}
 

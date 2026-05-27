@@ -32,6 +32,15 @@ func MakeContextForActor(actor Actor) Context {
 		TargetPositionIDs: []uuid.UUID{},
 	}
 }
+func MakeTargetContext(source Actor, target Actor) Context {
+	return Context{
+		SourcePlayerID:    &source.PlayerID,
+		SourceActorID:     &source.ID,
+		ParentActorID:     &source.ID,
+		TargetActorIDs:    []uuid.UUID{target.ID},
+		TargetPositionIDs: []uuid.UUID{},
+	}
+}
 func (c *Context) SetMeta(key string, value int) {
 	if c.Meta == nil {
 		c.Meta = map[string]int{}
