@@ -57,8 +57,8 @@ func MakeCurse() game.Action {
 					})
 					damage := game.PureDamage(amount, false)
 
-					sourceTx := game.MakeTransaction(hp_loss, context.WithTargetIDs([]uuid.UUID{source.ID}))
-					targetTx := game.MakeTransaction(damage, context.WithTargetIDs([]uuid.UUID{target.ID}))
+					sourceTx := game.MakeTransaction(hp_loss, game.NewContext().WithSource(source.ID).WithTargetIDs([]uuid.UUID{source.ID}))
+					targetTx := game.MakeTransaction(damage, game.NewContext().WithSource(source.ID).WithTargetIDs([]uuid.UUID{target.ID}))
 
 					transactions = append(transactions, sourceTx, targetTx)
 				}
