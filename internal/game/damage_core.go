@@ -58,26 +58,22 @@ func NewDamageCore(actionConfig ActionConfig, damageConfig DamageCoreConfig, gam
 		return nil
 	}
 	source := s.Resolve(game)
+	targets := game.GetTargets(context)
 
 	core := &DamageCore{
 		ActionConfig: actionConfig,
 		DamageConfig: damageConfig,
 		Source:       source,
-		Targets:      make([]ResolvedActor, 0),
+		Targets:      make([]ResolvedActor, len(targets)),
 		Context:      context,
 		Results:      make(map[uuid.UUID]DamageResult),
 	}
 
-	for _, t := range game.GetTargets(context) {
-		target := t.Resolve(game)
-		core.AddTarget(target)
+	for i, t := range targets {
+		core.Targets[i] = t.Resolve(game)
 	}
 
 	return core
-}
-
-func (dc *DamageCore) AddTarget(target ResolvedActor) {
-	dc.Targets = append(dc.Targets, target)
 }
 
 func (dc *DamageCore) buildTargetHit(game Game, target ResolvedActor, result *DamageResult) {
