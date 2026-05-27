@@ -22,7 +22,7 @@ type DamageTerms struct {
 }
 
 func RandomDamageFactor() float64 {
-	roll := rand.IntN(15) + 89
+	roll := rand.IntN(15) + 86
 	value := float64(roll) / 100.0
 	return value
 }

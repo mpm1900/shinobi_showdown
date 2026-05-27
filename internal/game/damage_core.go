@@ -240,7 +240,10 @@ func (dc *DamageCore) ResolveResults(game *Game) []GameTransaction {
 					transactions = append(transactions, MakeTransaction(damage_mut, target_context))
 
 					if len(result.Hits) > 1 {
-						repeat_log := log(fmt.Sprintf("$action$ hit %d time(s).", index+1), dc.Context)
+						repeat_log := log(fmt.Sprintf("$action$ hit %d time.", index+1), dc.Context)
+						if len(result.Hits) > 2 {
+							repeat_log = log(fmt.Sprintf("$action$ hit %d times.", index+1), dc.Context)
+						}
 						repeat_log.Mutation.Filter = TargetsAreOneAlive
 						transactions = append(transactions, repeat_log)
 					}
@@ -286,13 +289,12 @@ func (dc *DamageCore) ResolveSideEffects(game *Game) []GameTransaction {
 
 					if dc.ActionConfig.Recoil != nil {
 						recoil := *dc.ActionConfig.Recoil * dc.Source.RecoilMultiplier
+						amount := Round(recoil * float64(hit.Damage))
 						if recoil > 0.0 {
-							amount := Round(recoil * float64(hit.Damage))
 							recoilTx := MakeTransaction(PureDamage(amount, false), source_context)
 							transactions = append(transactions, recoilTx)
 						}
 						if recoil < 0.0 {
-							amount := Round(recoil * float64(hit.Damage))
 							recoilTx := MakeTransaction(PureHeal(amount*-1), source_context)
 							transactions = append(transactions, recoilTx)
 						}
