@@ -49,12 +49,14 @@ func MakeNightGuy() game.Action {
 					hp := source.Stats[game.StatHP]
 					amount := hp - source.Damage
 					damage := game.PureDamage(amount, true)
-					targetTx := game.MakeTransaction(damage, context.WithTargetIDs([]uuid.UUID{target.ID}))
+					t_context := game.MakeContextForActor(t).WithSource(source.ID)
+					targetTx := game.MakeTransaction(damage, t_context)
 					transactions = append(transactions, targetTx)
 				}
 
 				hp_loss := mutations.KillSource()
-				sourceTx := game.MakeTransaction(hp_loss, context.WithTargetIDs([]uuid.UUID{source.ID}))
+				s_context := game.MakeContextForActor(s)
+				sourceTx := game.MakeTransaction(hp_loss, s_context)
 				transactions = append(transactions, sourceTx)
 
 				return transactions
