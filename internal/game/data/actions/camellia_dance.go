@@ -1,7 +1,6 @@
 package actions
 
 import (
-	"fmt"
 	"shinobi_showdown/internal/game"
 	"shinobi_showdown/internal/game/data/modifiers"
 
@@ -35,20 +34,13 @@ func MakeCamelliaDance() game.Action {
 			Filter:   game.SourceIsAlive,
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
-				source, ok := g.GetSource(context)
-				if !ok {
-					return transactions
-				}
 
 				conf, _ := game.GetActiveActionConfig(g, config)
-				resolved := source.Resolve(g)
-				crit_result := game.MakeCriticalCheck(conf, resolved)
-				fmt.Printf("%+v\n", crit_result)
-				damage_config := game.NewDamageConfig(crit_result.Ratio, game.RandomDamageFactor())
+				damage_config := game.NewDamageConfig(game.RandomDamageFactor())
 				damage_config.Repeat = true
 				damage_config.RepeatMax = 3
 				damage_config.IgnoreProtect = true
-				damages := game.NewDamage(conf, damage_config)
+				damages := game.DamageCoreMutation(conf, damage_config)
 				transactions = append(
 					transactions,
 					game.MakeDamageTransactions(context, damages)...,

@@ -35,14 +35,8 @@ func MakeGraft() game.Action {
 			),
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
-				source, ok := g.GetSource(context)
-				if !ok {
-					return transactions
-				}
 
 				conf, _ := game.GetActiveActionConfig(g, config)
-				resolved := source.Resolve(g)
-				crit_result := game.MakeCriticalCheck(conf, resolved)
 
 				for _, target := range g.GetTargets(context) {
 					isTeam := context.SourcePlayerID != nil && target.PlayerID == *context.SourcePlayerID
@@ -55,7 +49,7 @@ func MakeGraft() game.Action {
 							game.MakeDamageTransactions(ctx, heals)...,
 						)
 					} else {
-						damages := game.NewDamage(conf, game.NewDamageConfig(crit_result.Ratio, game.RandomDamageFactor()))
+						damages := game.DamageCoreMutation(conf, game.NewDamageConfig(game.RandomDamageFactor()))
 						transactions = append(
 							transactions,
 							game.MakeDamageTransactions(ctx, damages)...,

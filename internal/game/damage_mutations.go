@@ -150,23 +150,6 @@ func RatioDamage(ratio float64) GameMutation {
 	return RatioDamageWith(ratio, nil)
 }
 
-func NewDamage(action ActionConfig, config DamageConfig) GameMutation {
-	return GameMutation{
-		Delta: func(p Game, g Game, context Context) Game {
-			s, ok := g.GetSource(context)
-			if !ok || action.Stat == nil || action.Power == nil {
-				return g
-			}
-
-			source := s.Resolve(g)
-			exec := newDamageHandler(g, action, config, context, source)
-			exec.run(&g)
-
-			return g
-		},
-	}
-}
-
 func MakeDamageTransactions(context Context, damages ...GameMutation) []GameTransaction {
 	var transactions []GameTransaction
 	for _, damage := range damages {

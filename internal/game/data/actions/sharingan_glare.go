@@ -11,7 +11,7 @@ import (
 var SharinganGlare = MakeSharinganGlare()
 
 func MakeSharinganGlare() game.Action {
-	config := makeAttackConfig(game.ActionConfig{
+	config := makeSpreadAttackConfig(game.ActionConfig{
 		Name:        "Sharingan: Glare",
 		Description: "Hits all enemy shinobi. Lowers targets' speed.",
 		Nature:      game.Ptr(game.NsYin),
@@ -35,15 +35,11 @@ func MakeSharinganGlare() game.Action {
 		},
 		OnSuccess: func(g game.Game, context, tcontext game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
-			targets := g.GetTargets(context)
-			for _, target := range targets {
-				ctx := game.MakeContextForActor(target)
-				ctx.SourceActorID = context.SourceActorID
-				mod := modifiers.SpeedDownTarget
-				mutation := mutations.AddModifiers(false, mod)
-				transaction := game.MakeTransaction(mutation, ctx)
-				transactions = append(transactions, transaction)
-			}
+			tcontext.SourceActorID = context.SourceActorID
+			mod := modifiers.SpeedDownTarget
+			mutation := mutations.AddModifiers(false, mod)
+			transaction := game.MakeTransaction(mutation, tcontext)
+			transactions = append(transactions, transaction)
 
 			return transactions
 		},

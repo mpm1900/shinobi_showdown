@@ -52,7 +52,7 @@ type ActionConfig struct {
 	Recoil         *float64         `json:"-"`
 	Stat           *ActorStat       `json:"stat,omitempty"`
 	TargetCount    *int             `json:"-"`
-	TargetType     ActionTargetType `json:"-"`
+	TargetType     ActionTargetType `json:"target_type"`
 	Jutsu          ActionJutsu      `json:"jutsu"`
 	Description    string           `json:"description"`
 	LogSuccess     *string          `json:"log_success"`

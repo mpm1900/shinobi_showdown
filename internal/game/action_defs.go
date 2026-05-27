@@ -179,15 +179,9 @@ func makeAttack(
 			),
 			Delta: func(p Game, g Game, context Context) []GameTransaction {
 				transactions := []GameTransaction{}
-				source, ok := g.GetSource(context)
-				if !ok {
-					return transactions
-				}
 
 				conf, _ := GetActiveActionConfig(g, config)
-				resolved := source.Resolve(g)
-				crit_result := MakeCriticalCheck(conf, resolved)
-				damages := NewDamage(conf, NewDamageConfig(crit_result.Ratio, RandomDamageFactor()))
+				damages := DamageCoreMutation(conf, NewDamageConfig(RandomDamageFactor()))
 				transactions = append(
 					transactions,
 					MakeDamageTransactions(context, damages)...,

@@ -82,21 +82,20 @@ func HasBuff(r ResolvedActor, attack AttackStat, defense DefenseStat) bool {
 		r.Stages[StatEvasion] > 0
 }
 
-func GetDamage(
+func GetTargetDamage(
 	source ResolvedActor,
-	targets []ResolvedActor,
+	target ResolvedActor,
 	ignoreModifiers bool,
-	targetsCount int,
+	totalTargets int,
 	attack ActorStat,
 	defense ActorStat,
 	power int,
 	critical float64,
 	nature *NatureSet,
 	random float64,
-) []int {
-	damages := make([]int, len(targets))
+) int {
 	if power == 0 {
-		return damages
+		return 0
 	}
 
 	a_base := float64(source.Stats[attack])
@@ -108,48 +107,44 @@ func GetDamage(
 	attack_value := Round(a_base * a_mod)
 
 	targets_mod := 1.0
-	if targetsCount > 1 {
+	if totalTargets > 1 {
 		targets_mod = 0.75
 	}
 
-	for i, target := range targets {
-		d_base := float64(target.Stats[defense])
-		// only ignore mods if defense is strengthened
-		if ignoreModifiers && HasBuff(target, AttackStat(attack), DefenseStat(defense)) {
-			d_base = float64(target.UnmodifiedStats[defense])
-		}
-		d_mod := 1.0
-		defense_value := Round(d_base * d_mod)
+	d_base := float64(target.Stats[defense])
+	// only ignore mods if defense is strengthened
+	if ignoreModifiers && HasBuff(target, AttackStat(attack), DefenseStat(defense)) {
+		d_base = float64(target.UnmodifiedStats[defense])
+	}
+	d_mod := 1.0
+	defense_value := Round(d_base * d_mod)
 
-		var natures []Nature
-		if nature != nil {
-			natures = NATURES[*nature]
-		}
-		nature_mod := ResolveNatures(natures, source.NatureDamage, target.NatureResistance, target.Natures)
-		stab_mod := GetStabModifier(source, nature)
-		damage_mult, ok := source.DamageMultipliers[AttackStat(attack)]
-		if !ok {
-			damage_mult = 1
-		}
-		damage_reduction, ok := target.DamageReduction[AttackStat(attack)]
-		if !ok {
-			damage_reduction = 1
-		}
-
-		damages[i] = DamageEquation(DamageTerms{
-			Attack:   attack_value,
-			Critical: critical,
-			Defense:  defense_value,
-			Level:    source.Level,
-			Nature:   nature_mod,
-			Offset:   0,
-			Other:    damage_mult * damage_reduction,
-			Power:    Round(float64(power) * source.PowerMultiplier),
-			Random:   random,
-			STAB:     stab_mod,
-			Targets:  targets_mod,
-		})
+	var natures []Nature
+	if nature != nil {
+		natures = NATURES[*nature]
+	}
+	nature_mod := ResolveNatures(natures, source.NatureDamage, target.NatureResistance, target.Natures)
+	stab_mod := GetStabModifier(source, nature)
+	damage_mult, ok := source.DamageMultipliers[AttackStat(attack)]
+	if !ok {
+		damage_mult = 1
+	}
+	damage_reduction, ok := target.DamageReduction[AttackStat(attack)]
+	if !ok {
+		damage_reduction = 1
 	}
 
-	return damages
+	return DamageEquation(DamageTerms{
+		Attack:   attack_value,
+		Critical: critical,
+		Defense:  defense_value,
+		Level:    source.Level,
+		Nature:   nature_mod,
+		Offset:   0,
+		Other:    damage_mult * damage_reduction,
+		Power:    Round(float64(power) * source.PowerMultiplier),
+		Random:   random,
+		STAB:     stab_mod,
+		Targets:  targets_mod,
+	})
 }

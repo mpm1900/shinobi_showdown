@@ -71,10 +71,6 @@ func makeAttack(config AttackConfig) game.Action {
 			),
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
-				source, ok := g.GetSource(context)
-				if !ok {
-					return transactions
-				}
 
 				if config.BeforeAttack != nil {
 					transactions = append(transactions, config.BeforeAttack(g, context)...)
@@ -85,16 +81,14 @@ func makeAttack(config AttackConfig) game.Action {
 					action_config = config.MapConfig(g, context, action_config)
 				}
 
-				resolved_source := source.Resolve(g)
-				crit_result := game.MakeCriticalCheck(action_config, resolved_source)
-				dmg_config := game.NewDamageConfig(crit_result.Ratio, game.RandomDamageFactor())
+				dmg_config := game.NewDamageConfig(game.RandomDamageFactor())
 				if config.OnSuccess != nil {
 					dmg_config.OnSuccess = config.OnSuccess
 				}
 				if config.OnFailure != nil {
 					dmg_config.OnFailure = config.OnFailure
 				}
-				damages := game.NewDamage(action_config, dmg_config)
+				damages := game.DamageCoreMutation(action_config, dmg_config)
 				transactions = append(
 					transactions,
 					game.MakeDamageTransactions(context, damages)...,
@@ -170,7 +164,7 @@ func checkPlayerHasModifier(g game.Game, context game.Context, modifierID uuid.U
 	return false
 }
 
-func MakeRepeats(config game.DamageConfig, min int, max int, g game.Game, context game.Context) game.DamageConfig {
+func MakeRepeats(config game.DamageCoreConfig, min int, max int, g game.Game, context game.Context) game.DamageCoreConfig {
 	source, ok := g.GetSource(context)
 	if !ok {
 		return config
