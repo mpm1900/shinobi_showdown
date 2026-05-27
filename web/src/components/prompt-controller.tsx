@@ -38,7 +38,6 @@ function PromptControl({
 
   const client = useStore(clientsStore, (c) => c.me!)
   const { context: t_context } = useGetTargets(context, prompt?.ID)
-  console.log(action)
 
   return (
     <>
