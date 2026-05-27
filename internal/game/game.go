@@ -739,6 +739,11 @@ func (g *Game) JumpTransaction(transaction Transaction[GameMutation]) {
 	next := Queue[GameTransaction]{transaction}
 	g.Transactions = append(next, g.Transactions...)
 }
+func (g *Game) JumpTransactions(transactions []GameTransaction) {
+	next := Queue[GameTransaction]{}
+	next = append(next, transactions...)
+	g.Transactions = append(next, g.Transactions...)
+}
 
 func (g *Game) PushLog(log GameLog) {
 	g.Log = append(g.Log, log)

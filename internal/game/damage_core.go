@@ -330,10 +330,7 @@ func DamageCoreMutation(actionConfig ActionConfig, damageConfig DamageCoreConfig
 		Delta: func(p Game, g Game, context Context) Game {
 			core := NewDamageCore(actionConfig, damageConfig, g, context)
 			transactions := core.Run(&g)
-
-			for i := len(transactions) - 1; i >= 0; i-- {
-				g.JumpTransaction(transactions[i])
-			}
+			g.JumpTransactions(transactions)
 
 			return g
 		},
