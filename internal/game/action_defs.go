@@ -180,11 +180,11 @@ func makeAttack(
 			Delta: func(p Game, g Game, context Context) []GameTransaction {
 				transactions := []GameTransaction{}
 
-				conf, _ := GetActiveActionConfig(g, config)
-				damages := DamageCoreMutation(conf, NewDamageConfig(RandomDamageFactor()))
+				action_config, _ := GetActiveActionConfig(g, config)
+				damage := DamageCoreMutation(action_config, NewDamageConfig(RandomDamageFactor()))
 				transactions = append(
 					transactions,
-					MakeDamageTransactions(context, damages)...,
+					MakeTransaction(damage, context),
 				)
 
 				return with(g, context, transactions)
@@ -222,7 +222,7 @@ func MakeStruggle() Action {
 			recoilContext := MakeContextForActor(source)
 			transactions = append(
 				transactions,
-				MakeDamageTransactions(recoilContext, recoilDamage)...,
+				MakeTransaction(recoilDamage, recoilContext),
 			)
 
 			return transactions

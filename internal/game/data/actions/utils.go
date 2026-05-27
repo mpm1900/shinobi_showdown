@@ -88,12 +88,8 @@ func makeAttack(config AttackConfig) game.Action {
 				if config.OnFailure != nil {
 					dmg_config.OnFailure = config.OnFailure
 				}
-				damages := game.DamageCoreMutation(action_config, dmg_config)
-				transactions = append(
-					transactions,
-					game.MakeDamageTransactions(context, damages)...,
-				)
-
+				damage := game.DamageCoreMutation(action_config, dmg_config)
+				transactions = append(transactions, game.MakeTransaction(damage, context))
 				if config.AfterAttack != nil {
 					transactions = append(transactions, config.AfterAttack(g, context)...)
 				}

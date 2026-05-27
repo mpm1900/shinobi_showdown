@@ -34,14 +34,14 @@ func MakePhoenixFlower() game.Action {
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
 
-				conf, _ := game.GetActiveActionConfig(g, config)
+				action_config, _ := game.GetActiveActionConfig(g, config)
 				damage_config := game.NewDamageConfig(game.RandomDamageFactor())
 				damage_config.Repeat = true
 				damage_config.RepeatMax = 6
-				damages := game.DamageCoreMutation(conf, damage_config)
+				damage := game.DamageCoreMutation(action_config, damage_config)
 				transactions = append(
 					transactions,
-					game.MakeDamageTransactions(context, damages)...,
+					game.MakeTransaction(damage, context),
 				)
 
 				return transactions

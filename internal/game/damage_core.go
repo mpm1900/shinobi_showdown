@@ -241,7 +241,7 @@ func (dc *DamageCore) ResolveResults(game *Game) []GameTransaction {
 
 					if len(result.Hits) > 1 {
 						repeat_log := log(fmt.Sprintf("$action$ hit %d time.", index+1), dc.Context)
-						if len(result.Hits) > 2 {
+						if index > 0 {
 							repeat_log = log(fmt.Sprintf("$action$ hit %d times.", index+1), dc.Context)
 						}
 						repeat_log.Mutation.Filter = TargetsAreOneAlive

@@ -45,11 +45,11 @@ func MakeLightningLigerBomb() game.Action {
 				action_config, _ := game.GetActiveActionConfig(g, config)
 				power := game.Round(float64(*action_config.Power) * ratio)
 				action_config.Power = game.Ptr(power)
-				dmg_config := game.NewDamageConfig(game.RandomDamageFactor())
-				damages := game.DamageCoreMutation(action_config, dmg_config)
+				damage_config := game.NewDamageConfig(game.RandomDamageFactor())
+				damage := game.DamageCoreMutation(action_config, damage_config)
 				transactions = append(
 					transactions,
-					game.MakeDamageTransactions(context, damages)...,
+					game.MakeTransaction(damage, context),
 				)
 
 				return transactions

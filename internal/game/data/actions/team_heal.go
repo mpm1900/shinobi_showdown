@@ -37,9 +37,9 @@ func MakeTeamHeal() game.Action {
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
 
-				conf, _ := game.GetActiveActionConfig(g, config)
+				action_config, _ := game.GetActiveActionConfig(g, config)
 				for _, target := range g.GetTargets(context) {
-					heal := game.NewHeal(conf, 0.25)
+					heal := game.NewHeal(action_config, 0.25)
 					transactions = append(
 						transactions,
 						game.MakeTransaction(heal, game.MakeContextForActor(target)),

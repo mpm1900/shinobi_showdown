@@ -35,6 +35,7 @@ func MakeSharinganGlare() game.Action {
 		},
 		OnSuccess: func(g game.Game, context, tcontext game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
+
 			tcontext.SourceActorID = context.SourceActorID
 			mod := modifiers.SpeedDownTarget
 			mutation := mutations.AddModifiers(false, mod)

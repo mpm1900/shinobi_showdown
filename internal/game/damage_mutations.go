@@ -150,20 +150,6 @@ func RatioDamage(ratio float64) GameMutation {
 	return RatioDamageWith(ratio, nil)
 }
 
-func MakeDamageTransactions(context Context, damages ...GameMutation) []GameTransaction {
-	var transactions []GameTransaction
-	for _, damage := range damages {
-		transactions = append(
-			transactions,
-			MakeTransaction(
-				damage,
-				context,
-			),
-		)
-	}
-	return transactions
-}
-
 func ApplyHealRawWith(g *Game, targetID uuid.UUID, amount int, updater func(Actor) Actor) int {
 	g.UpdateActor(targetID, func(a Actor) Actor {
 		if !a.Alive {
