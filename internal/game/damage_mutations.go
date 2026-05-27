@@ -72,7 +72,7 @@ func ApplyDamageWith(g *Game, source_ID *uuid.UUID, target ResolvedActor, damage
 				a.LastReceivedDamage[*source_ID] = clampDamage(damage)
 			}
 			ratio := min(int(float64(damage)*100/float64(hp)), 100)
-			if ratio > 0 {
+			if ratio >= 0 {
 				g.PushLog(MakeGameLog(fmt.Sprintf("$source$ lost %d%% HP.", ratio), logCtx, 1))
 			} else {
 				g.PushLog(MakeGameLog(fmt.Sprintf("$source$ gained %d%% HP.", ratio*-1), logCtx, 1))

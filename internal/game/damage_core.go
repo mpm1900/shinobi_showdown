@@ -22,7 +22,7 @@ type DamageResult struct {
 	Hits            []DamageHit
 }
 
-type DamageCoreConfig struct {
+type DamageConfig struct {
 	Random          float64
 	IgnoreProtect   bool
 	IgnoreModifiers bool
@@ -34,7 +34,7 @@ type DamageCoreConfig struct {
 
 type DamageCore struct {
 	ActionConfig ActionConfig
-	DamageConfig DamageCoreConfig
+	DamageConfig DamageConfig
 
 	Source  ResolvedActor
 	Targets []ResolvedActor
@@ -42,8 +42,8 @@ type DamageCore struct {
 	Results map[uuid.UUID]DamageResult
 }
 
-func NewDamageConfig(random float64) DamageCoreConfig {
-	return DamageCoreConfig{
+func NewDamageConfig(random float64) DamageConfig {
+	return DamageConfig{
 		Random:          random,
 		IgnoreModifiers: false,
 		IgnoreProtect:   false,
@@ -52,7 +52,7 @@ func NewDamageConfig(random float64) DamageCoreConfig {
 	}
 }
 
-func NewDamageCore(actionConfig ActionConfig, damageConfig DamageCoreConfig, game Game, context Context) *DamageCore {
+func NewDamageCore(actionConfig ActionConfig, damageConfig DamageConfig, game Game, context Context) *DamageCore {
 	s, ok := game.GetSource(context)
 	if !ok {
 		return nil
@@ -321,7 +321,7 @@ func (dc *DamageCore) Run(game *Game) []GameTransaction {
 	return transactions
 }
 
-func DamageCoreMutation(actionConfig ActionConfig, damageConfig DamageCoreConfig) GameMutation {
+func DamageCoreMutation(actionConfig ActionConfig, damageConfig DamageConfig) GameMutation {
 	return GameMutation{
 		Delta: func(p Game, g Game, context Context) Game {
 			core := NewDamageCore(actionConfig, damageConfig, g, context)

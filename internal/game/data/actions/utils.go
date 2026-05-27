@@ -160,7 +160,7 @@ func checkPlayerHasModifier(g game.Game, context game.Context, modifierID uuid.U
 	return false
 }
 
-func MakeRepeats(config game.DamageCoreConfig, min int, max int, g game.Game, context game.Context) game.DamageCoreConfig {
+func MakeRepeats(config game.DamageConfig, min int, max int, g game.Game, context game.Context) game.DamageConfig {
 	source, ok := g.GetSource(context)
 	if !ok {
 		return config
