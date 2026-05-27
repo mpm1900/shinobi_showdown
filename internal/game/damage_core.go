@@ -326,12 +326,8 @@ func (dc *DamageCore) Run(game *Game) []GameTransaction {
 func DamageCoreMutation(actionConfig ActionConfig, damageConfig DamageCoreConfig) GameMutation {
 	return GameMutation{
 		Delta: func(p Game, g Game, context Context) Game {
-			var transactions []GameTransaction
-
 			core := NewDamageCore(actionConfig, damageConfig, g, context)
-			core.BuildResults(g)
-			transactions = append(transactions, core.ResolveResults(&g)...)
-			transactions = append(transactions, core.ResolveSideEffects(&g)...)
+			transactions := core.Run(&g)
 
 			for i := len(transactions) - 1; i >= 0; i-- {
 				g.JumpTransaction(transactions[i])
