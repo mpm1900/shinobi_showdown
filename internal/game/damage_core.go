@@ -229,8 +229,6 @@ func (dc *DamageCore) resolveSuccessResult(game Game, result DamageResult, targe
 
 	target_context := MakeContextForActor(target.Actor).WithSource(dc.Source.ID).WithPlayer(dc.Source.PlayerID)
 	for index, hit := range result.Hits {
-		transactions = append(transactions, dc.logHit(hit, target)...)
-
 		if hit.Damage == 0 {
 			continue
 		}
@@ -266,6 +264,8 @@ func (dc *DamageCore) resolveSuccessResult(game Game, result DamageResult, targe
 			repeat_log.Mutation.Filter = TargetsAreOneAlive
 			transactions = append(transactions, repeat_log)
 		}
+
+		transactions = append(transactions, dc.logHit(hit, target)...)
 
 		source_context := MakeContextForActor(dc.Source.Actor)
 		if dc.ActionConfig.LifeSteal != nil && *dc.ActionConfig.LifeSteal > 0.0 {
