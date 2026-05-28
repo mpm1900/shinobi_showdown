@@ -11,7 +11,7 @@ import (
 )
 
 func RemoveModifierSource(id uuid.UUID, actor game.Actor) []game.GameTransaction {
-	transactions := []game.GameTransaction{}
+	transactions := game.NewTransactionBuilder()
 
 	ctx := game.MakeContextForActor(actor)
 	ctx.ModifierID = &id
@@ -30,29 +30,29 @@ func RemoveModifierSource(id uuid.UUID, actor game.Actor) []game.GameTransaction
 		return false
 	})
 	mod_tx := game.MakeTransaction(mod, ctx)
-	transactions = append(transactions, mod_tx)
+	transactions.PushOne(mod_tx)
 
-	return transactions
+	return transactions.Build()
 }
 func applyModifier(checkWarded bool, config game.ActionConfig, context game.Context, actor game.Actor, modifier game.Modifier) []game.GameTransaction {
-	transactions := []game.GameTransaction{}
+	transactions := game.NewTransactionBuilder()
 
 	if mutations.CheckJutsuImmunity(config, actor) {
 		log_ctx := game.MakeContextForActor(actor)
 		log := game.MakeGameLog(fmt.Sprintf("$source$ was immune to %s.", config.Jutsu), log_ctx, 1)
 		tx := game.AddLogs(log)
-		transactions = append(transactions, game.MakeTransaction(tx, log_ctx))
+		transactions.PushOne(game.MakeTransaction(tx, log_ctx))
 
-		return transactions
+		return transactions.Build()
 	}
 
 	ctx := game.MakeContextForActor(actor)
 	ctx.ModifierID = modifier.GroupID
 	mod := mutations.AddModifiers(checkWarded, modifier)
 	mod_tx := game.MakeTransaction(mod, ctx)
-	transactions = append(transactions, mod_tx)
+	transactions.PushOne(mod_tx)
 
-	return transactions
+	return transactions.Build()
 }
 func ApplyModifier(config game.ActionConfig, context game.Context, actor game.Actor, modifier game.Modifier) []game.GameTransaction {
 	return applyModifier(true, config, context, actor, modifier)
@@ -92,33 +92,40 @@ func ChanceModifier(config game.ActionConfig, g game.Game, context game.Context,
 }
 
 func applyStatus(checkWarded bool, config game.ActionConfig, g game.Game, actor game.Actor, modifier game.Modifier, mutation game.GameMutation, actionCtx game.Context) []game.GameTransaction {
-	transactions := []game.GameTransaction{}
+	transactions := game.NewTransactionBuilder()
 
 	resolved := actor.Resolve(g)
 	if resolved.Safeguarded {
 		log_ctx := game.MakeContextForActor(actor)
 		log := game.MakeGameLog("$source$ was safeguarded.", log_ctx, 1)
 		tx := game.AddLogs(log)
-		transactions = append(transactions, game.MakeTransaction(tx, log_ctx))
+		transactions.PushOne(game.MakeTransaction(tx, log_ctx))
 
-		return transactions
+		return transactions.Build()
 	}
-
 	if mutations.CheckJutsuImmunity(config, actor) {
 		log_ctx := game.MakeContextForActor(actor)
 		log := game.MakeGameLog(fmt.Sprintf("$source$ was immune to %s.", config.Jutsu), log_ctx, 1)
 		tx := game.AddLogs(log)
-		transactions = append(transactions, game.MakeTransaction(tx, log_ctx))
+		transactions.PushOne(game.MakeTransaction(tx, log_ctx))
 
-		return transactions
+		return transactions.Build()
 	}
 	if mutations.CheckImmunity(modifier.ID, actor) {
 		log_ctx := game.MakeContextForActor(actor)
 		log := game.MakeGameLog("$source$ was immune.", log_ctx, 1)
 		tx := game.AddLogs(log)
-		transactions = append(transactions, game.MakeTransaction(tx, log_ctx))
+		transactions.PushOne(game.MakeTransaction(tx, log_ctx))
 
-		return transactions
+		return transactions.Build()
+	}
+	if resolved.Statused && config.Name != "" {
+		log_ctx := game.MakeContextForActor(actor)
+		log := game.MakeGameLog(fmt.Sprintf("%s failed.", config.Name), log_ctx, 1)
+		tx := game.AddLogs(log)
+		transactions.PushOne(game.MakeTransaction(tx, log_ctx))
+
+		return transactions.Build()
 	}
 
 	ctx := game.NewContext()
@@ -132,9 +139,10 @@ func applyStatus(checkWarded bool, config game.ActionConfig, g game.Game, actor 
 	mod_tx := game.MakeTransaction(mod, ctx)
 
 	mut_tx := game.MakeTransaction(mutation, ctx)
-	transactions = append(transactions, mod_tx, mut_tx)
+	transactions.PushOne(mod_tx)
+	transactions.PushOne(mut_tx)
 
-	return transactions
+	return transactions.Build()
 }
 func ApplyStatus(config game.ActionConfig, g game.Game, actor game.Actor, modifier game.Modifier, mutation game.GameMutation, actionCtx game.Context) []game.GameTransaction {
 	return applyStatus(true, config, g, actor, modifier, mutation, actionCtx)
@@ -143,7 +151,7 @@ func ApplyStatusBypass(config game.ActionConfig, g game.Game, actor game.Actor, 
 	return applyStatus(false, config, g, actor, modifier, mutation, actionCtx)
 }
 func ClearStatus(g game.Game, actor game.Actor) []game.GameTransaction {
-	transactions := []game.GameTransaction{}
+	transactions := game.NewTransactionBuilder()
 
 	rmod_mut := mutations.RemoveModifierWhere(func(t game.Transaction[game.Modifier]) bool {
 		targets := g.GetTargets(t.Context)
@@ -158,7 +166,7 @@ func ClearStatus(g game.Game, actor game.Actor) []game.GameTransaction {
 		return remove && t.Mutation.Status
 	})
 	rmod_tx := game.MakeTransaction(rmod_mut, game.MakeContextForActor(actor))
-	transactions = append(transactions, rmod_tx)
+	transactions.PushOne(rmod_tx)
 
 	rmut_mut := game.GameMutation{
 		Delta: func(p, g game.Game, context game.Context) game.Game {
@@ -174,9 +182,9 @@ func ClearStatus(g game.Game, actor game.Actor) []game.GameTransaction {
 		},
 	}
 	rmut_tx := game.MakeTransaction(rmut_mut, game.MakeContextForActor(actor))
-	transactions = append(transactions, rmut_tx)
+	transactions.PushOne(rmut_tx)
 
-	return transactions
+	return transactions.Build()
 }
 
 func ApplyBurn(config game.ActionConfig, g game.Game, actor game.Actor, actionCtx game.Context) []game.GameTransaction {
@@ -268,23 +276,20 @@ func ApplyImmunity(modifier_id uuid.UUID, immunity_id uuid.UUID) game.ActorMutat
 		})
 }
 func applyWeather(g game.Game, context game.Context, weather game.GameWeather, mod game.Modifier, duration int) []game.GameTransaction {
-	transactions := []game.GameTransaction{}
+	transactions := game.NewTransactionBuilder()
 
 	state, _ := g.GetState(context)
 	if state.Weather == weather {
-		return transactions
+		return transactions.Build()
 	}
 
-	filter := FilterWeather()
-	transactions = append(transactions, filter)
+	transactions.PushOne(FilterWeather())
 
 	mod.Duration = duration
-
 	mut := mutations.AddModifiers(false, mod)
-	transaction := game.MakeTransaction(mut, game.NewContext())
-	transactions = append(transactions, transaction)
+	transactions.PushOne(game.MakeTransaction(mut, game.NewContext()))
 
-	return transactions
+	return transactions.Build()
 }
 
 func ApplyRain(g game.Game, context game.Context) []game.GameTransaction {
