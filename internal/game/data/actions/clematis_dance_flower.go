@@ -25,18 +25,18 @@ func MakeClematisDanceFlower() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("8af50cf3-49f3-4529-94f7-465ffa144f53"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 			source, ok := g.GetSource(context)
 			if !ok {
-				return transactions
+				return transactions.Build()
 			}
 
 			mutation := mutations.AddModifiers(false, modifiers.DefenseDownSource, modifiers.ChakraDefenseDownSource)
 			transaction := game.MakeTransaction(mutation, game.MakeContextForActor(source))
-			transactions = append(transactions, transaction)
+			transactions.PushOne(transaction)
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

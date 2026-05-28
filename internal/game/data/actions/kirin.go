@@ -25,14 +25,14 @@ func MakeKirin() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("d55c8221-fc03-4ae0-9737-cb5c7db88f73"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ChanceParalysis(config, g, context, target, 30)...)
+				transactions.Push(modifiers.ChanceParalysis(action_config, g, context, target, 30))
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

@@ -24,14 +24,14 @@ func MakeAmaterasu() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("d103e605-9381-52fd-9cb8-450b7315a9f9"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ApplyBurn(config, g, target, context)...)
+				transactions.Push(modifiers.ApplyBurn(action_config, g, target, context))
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

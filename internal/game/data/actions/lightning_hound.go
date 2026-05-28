@@ -24,14 +24,14 @@ func MakeLightningHound() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("5a35a0b0-160a-4b73-9b81-bb301e7c8f7e"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ChanceParalysis(config, g, context, target, 10)...)
+				transactions.Push(modifiers.ChanceParalysis(action_config, g, context, target, 10))
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

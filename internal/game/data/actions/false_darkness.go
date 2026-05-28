@@ -25,7 +25,7 @@ func MakeFalseDarkness() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("99338b50-de10-4747-9e41-847677db4ca0"),
 		Config: config,
-		BeforeAttack: func(g game.Game, context game.Context) []game.GameTransaction {
+		BeforeAttack: func(g game.Game, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			var transactions = []game.GameTransaction{}
 			add_mut := mutations.AddModifiers(false, modifiers.AddNature(game.NsLightning, 0))
 			add_tx := game.MakeTransaction(add_mut, context)

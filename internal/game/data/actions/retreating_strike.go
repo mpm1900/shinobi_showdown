@@ -23,7 +23,7 @@ func MakeRetreatingStrike() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("a6c3bd65-c750-4260-bfc2-bcada542c663"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 			switch_mux := game.RemovePositions
 			switch_ctx := game.NewContext()

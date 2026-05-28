@@ -36,37 +36,37 @@ func MakeBurningAsh() game.Action {
 			}
 			return context
 		},
-		BeforeAttack: func(g game.Game, ctx game.Context) []game.GameTransaction {
+		BeforeAttack: func(g game.Game, ctx game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			done = false
 			return []game.GameTransaction{}
 		},
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ChanceBurn(config, g, context, target, 20)...)
+				transactions.Push(modifiers.ChanceBurn(action_config, g, context, target, 20))
 			}
 
 			if done {
-				return transactions
+				return transactions.Build()
 			}
 
 			state, _ := g.GetState(context)
 			if state.Terrain == game.GameTerrainFlamable {
-				return transactions
+				return transactions.Build()
 			}
 
 			filter := modifiers.FilterTerrain()
-			transactions = append(transactions, filter)
+			transactions.PushOne(filter)
 
 			mod := modifiers.FlamableTerrain()
 			mod.Duration = 4
 			mut := mutations.AddModifiers(false, mod)
 			terrain_tx := game.MakeTransaction(mut, game.NewContext().WithSource(*context.SourceActorID))
-			transactions = append(transactions, terrain_tx)
+			transactions.PushOne(terrain_tx)
 
 			done = true
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

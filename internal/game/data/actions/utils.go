@@ -49,10 +49,10 @@ type AttackConfig struct {
 	MapConfig       func(game.Game, game.Context, game.ActionConfig) game.ActionConfig
 	TargetPredicate func(game.Game, game.Actor, game.Context) bool
 	Priority        *int
-	BeforeAttack    func(game.Game, game.Context) []game.GameTransaction
-	OnSuccess       func(game.Game, game.Context, game.Context) []game.GameTransaction
-	OnFailure       func(game.Game, game.Context, game.Context) []game.GameTransaction
-	AfterAttack     func(game.Game, game.Context) []game.GameTransaction
+	BeforeAttack    func(game.Game, game.Context, game.ActionConfig) []game.GameTransaction
+	OnSuccess       func(game.Game, game.Context, game.Context, game.ActionConfig) []game.GameTransaction
+	OnFailure       func(game.Game, game.Context, game.Context, game.ActionConfig) []game.GameTransaction
+	AfterAttack     func(game.Game, game.Context, game.ActionConfig) []game.GameTransaction
 }
 
 func (ac AttackConfig) actionConfig(g game.Game, context game.Context) game.ActionConfig {
@@ -67,10 +67,14 @@ func (ac AttackConfig) actionConfig(g game.Game, context game.Context) game.Acti
 func (ac AttackConfig) damageConfig() game.DamageConfig {
 	dmg_config := game.NewDamageConfig(game.RandomDamageFactor())
 	if ac.OnSuccess != nil {
-		dmg_config.OnSuccess = ac.OnSuccess
+		dmg_config.OnSuccess = func(g game.Game, ctx, tctx game.Context) []game.GameTransaction {
+			return ac.OnSuccess(g, ctx, tctx, ac.actionConfig(g, ctx))
+		}
 	}
 	if ac.OnFailure != nil {
-		dmg_config.OnFailure = ac.OnFailure
+		dmg_config.OnFailure = func(g game.Game, ctx, tctx game.Context) []game.GameTransaction {
+			return ac.OnFailure(g, ctx, tctx, ac.actionConfig(g, ctx))
+		}
 	}
 	return dmg_config
 }
@@ -97,11 +101,11 @@ func makeAttack(config AttackConfig) game.Action {
 				transactions := game.NewTransactionBuilder()
 
 				if config.BeforeAttack != nil {
-					transactions.Push(config.BeforeAttack(g, context))
+					transactions.Push(config.BeforeAttack(g, context, config.actionConfig(g, context)))
 				}
 				transactions.Push(ResolveAttack(config, g, context))
 				if config.AfterAttack != nil {
-					transactions.Push(config.AfterAttack(g, context))
+					transactions.Push(config.AfterAttack(g, context, config.actionConfig(g, context)))
 				}
 
 				return transactions.Build()

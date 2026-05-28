@@ -23,7 +23,7 @@ func MakeReverseLotus() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("ca6c2a81-46bc-4c68-a986-39146bd5a52c"),
 		Config: config,
-		OnFailure: func(g game.Game, context, _ game.Context) []game.GameTransaction {
+		OnFailure: func(g game.Game, context, _ game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 
 			source, ok := g.GetSource(context)

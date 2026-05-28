@@ -33,7 +33,7 @@ func MakeSharinganGlare() game.Action {
 			}
 			return context
 		},
-		OnSuccess: func(g game.Game, context, tcontext game.Context) []game.GameTransaction {
+		OnSuccess: func(g game.Game, context, tcontext game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 
 			tcontext.SourceActorID = context.SourceActorID

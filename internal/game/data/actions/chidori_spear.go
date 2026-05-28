@@ -24,14 +24,14 @@ func MakeChidoriSpear() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("f89e4aba-35c8-4ddf-ab0b-bb809d5deb69"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ChanceParalysis(config, g, context, target, 20)...)
+				transactions.Push(modifiers.ChanceParalysis(action_config, g, context, target, 20))
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

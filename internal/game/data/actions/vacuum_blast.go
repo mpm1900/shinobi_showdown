@@ -34,7 +34,7 @@ func MakeVacuumBlast() game.Action {
 			}
 			return context
 		},
-		OnSuccess: func(g game.Game, context, tcontext game.Context) []game.GameTransaction {
+		OnSuccess: func(g game.Game, context, tcontext game.Context, _ game.ActionConfig) []game.GameTransaction {
 			return modifiers.ClearWeather()
 		},
 	})

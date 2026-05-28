@@ -23,7 +23,7 @@ func MakeBodyFlicker() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("f052f07c-bb06-4f44-8b26-ec2f17401446"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 			switch_mux := game.RemovePositions
 			switch_ctx := game.NewContext()

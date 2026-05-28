@@ -25,7 +25,7 @@ func MakeRasenshuriken() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("6b3df363-7052-47fc-af99-7e8eafdc9ee2"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 			source, ok := g.GetSource(context)
 			if !ok {

@@ -32,14 +32,14 @@ func MakeDarkSwamp() game.Action {
 			}
 			return context
 		},
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ChanceModifier(config, g, context, target, modifiers.Stunned, 30)...)
+				transactions.Push(modifiers.ChanceModifier(action_config, g, context, target, modifiers.Stunned, 30))
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

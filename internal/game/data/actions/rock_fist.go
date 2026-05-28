@@ -24,14 +24,14 @@ func MakeRockFist() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("6e015595-18df-4f2b-b4da-cf97863a3f4e"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ChanceParalysis(config, g, context, target, 30)...)
+				transactions.Push(modifiers.ChanceParalysis(action_config, g, context, target, 30))
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

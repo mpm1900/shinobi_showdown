@@ -25,7 +25,7 @@ func MakeHirudora() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("36c88bee-1eb0-4c55-bdc6-b704221ea846"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 			source, ok := g.GetSource(context)
 			if !ok {

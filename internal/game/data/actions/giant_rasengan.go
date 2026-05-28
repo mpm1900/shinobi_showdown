@@ -25,7 +25,7 @@ func MakeGiantRasengan() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("e0874a45-2f62-5544-a4a2-f440644407db"),
 		Config: config,
-		OnSuccess: func(g game.Game, context, _ game.Context) []game.GameTransaction {
+		OnSuccess: func(g game.Game, context, _ game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 			recharge := mutations.QueueAction(RasenganRecharge.ID, context)
 			transactions = append(transactions, game.MakeTransaction(recharge, context))

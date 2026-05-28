@@ -25,7 +25,7 @@ func MakeEarthDomePrison() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("c0066f1e-7b7e-40ca-a06b-ade3ad06d19b"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 			targets := g.GetTargets(context)
 			for _, target := range targets {

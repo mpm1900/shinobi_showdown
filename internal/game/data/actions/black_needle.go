@@ -25,7 +25,7 @@ func MakeBlackNeedle() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("74cecc3b-3297-4f79-be1a-6be167e34ac0"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 			targets := g.GetTargets(context)
 			for _, target := range targets {

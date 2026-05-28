@@ -33,7 +33,7 @@ func MakePressureDamage() game.Action {
 			}
 			return context
 		},
-		BeforeAttack: func(g game.Game, context game.Context) []game.GameTransaction {
+		BeforeAttack: func(g game.Game, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			var transactions = []game.GameTransaction{}
 			add_mut := mutations.AddModifiers(false, modifiers.AddNature(game.NsWind, 0))
 			add_tx := game.MakeTransaction(add_mut, context)

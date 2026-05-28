@@ -24,14 +24,14 @@ func MakeGalePalm() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("0cd6cb29-5a23-41ef-94a1-348ae5c33b30"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ChanceModifier(config, g, context, target, modifiers.Stunned, 10)...)
+				transactions.Push(modifiers.ChanceModifier(action_config, g, context, target, modifiers.Stunned, 10))
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

@@ -32,14 +32,14 @@ func MakeGreatFireAnnihilation() game.Action {
 			}
 			return context
 		},
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ChanceBurn(config, g, context, target, 20)...)
+				transactions.Push(modifiers.ChanceBurn(action_config, g, context, target, 20))
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

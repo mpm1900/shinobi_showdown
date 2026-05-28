@@ -25,14 +25,14 @@ func MakeWindSlash() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("deae75a9-2943-4934-bd67-f1b773e7035f"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ChanceModifier(config, g, context, target, modifiers.Stunned, 20)...)
+				transactions.Push(modifiers.ChanceModifier(action_config, g, context, target, modifiers.Stunned, 20))
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

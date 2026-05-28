@@ -24,14 +24,14 @@ func MakeMajesticFlame() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("19c9f58e-9012-417f-af58-1c09d448f0dc"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ChanceBurn(config, g, context, target, 40)...)
+				transactions.Push(modifiers.ChanceBurn(action_config, g, context, target, 40))
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

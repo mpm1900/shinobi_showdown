@@ -32,7 +32,7 @@ func MakeC0UltimateArt() game.Action {
 			}
 			return context
 		},
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 			source, ok := g.GetSource(context)
 			if !ok {

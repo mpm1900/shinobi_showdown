@@ -24,14 +24,14 @@ func MakeGreatFireball() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("57ddb3d7-0853-4a64-885b-18d93286c806"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ChanceBurn(config, g, context, target, 20)...)
+				transactions.Push(modifiers.ChanceBurn(action_config, g, context, target, 20))
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

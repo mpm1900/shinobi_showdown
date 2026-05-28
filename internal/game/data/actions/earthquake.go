@@ -33,24 +33,21 @@ func MakeEarthquake() game.Action {
 			}
 			return context
 		},
-		BeforeAttack: func(g game.Game, ctx game.Context) []game.GameTransaction {
+		BeforeAttack: func(g game.Game, ctx game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			done = false
 			return []game.GameTransaction{}
 		},
-		OnSuccess: func(g game.Game, context, tctx game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, context, tctx game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 
 			if done {
-				return transactions
+				return transactions.Build()
 			}
 
-			transactions = append(
-				transactions,
-				modifiers.ApplyTerrain(g, context, game.GameTerrainRocky, modifiers.RockyTerrain())...,
-			)
+			transactions.Push(modifiers.ApplyTerrain(g, context, game.GameTerrainRocky, modifiers.RockyTerrain()))
 
 			done = true
-			return transactions
+			return transactions.Build()
 		},
 	})
 

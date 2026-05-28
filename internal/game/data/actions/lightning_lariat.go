@@ -26,18 +26,18 @@ func MakeLightningLariat() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("75a444bf-cb42-4a10-8f92-6bc7de709f26"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 
 			mod := modifiers.Stunned
 			mod.Duration = 0
 
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ChanceModifier(config, g, context, target, mod, 10)...)
+				transactions.Push(modifiers.ChanceModifier(action_config, g, context, target, mod, 10))
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

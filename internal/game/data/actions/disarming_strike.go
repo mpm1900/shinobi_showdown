@@ -24,7 +24,7 @@ func MakeDisarmingStrike() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("bfeccb7c-4d50-4575-8a95-f3357d6f81ae"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 			targets := g.GetTargets(context)
 			for _, target := range targets {

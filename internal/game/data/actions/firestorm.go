@@ -25,20 +25,19 @@ func MakeFirestorm() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("5756b76d-dd39-460c-b5fa-431b80200f3b"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions = append(transactions, modifiers.ChanceBurn(config, g, context, target, 10)...)
+				transactions.Push(modifiers.ChanceBurn(action_config, g, context, target, 10))
 			}
 
 			mod := modifiers.ChakraAttackDown2Source
 			mut := mutations.AddModifiers(false, mod)
-			chakraDownTx := game.MakeTransaction(mut, context)
-			transactions = append(transactions, chakraDownTx)
+			transactions.PushOne(game.MakeTransaction(mut, context))
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }

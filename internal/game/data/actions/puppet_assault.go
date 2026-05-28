@@ -25,7 +25,7 @@ func MakePuppetAssault() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     uuid.MustParse("9c79987a-6cc3-44eb-a3fa-f1691c989490"),
 		Config: config,
-		OnSuccess: func(g game.Game, _, context game.Context) []game.GameTransaction {
+		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 			source, ok := g.GetSource(context)
 			if !ok {

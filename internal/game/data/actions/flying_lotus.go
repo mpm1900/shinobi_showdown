@@ -25,8 +25,8 @@ func MakeFlyingLotus() game.Action {
 	return makeAttack(AttackConfig{
 		ID:     flyingLotusID,
 		Config: config,
-		OnSuccess: func(g game.Game, context game.Context, _ game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+		OnSuccess: func(g game.Game, context game.Context, _ game.Context, action_config game.ActionConfig) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 
 			key := "repeats"
 			repeats, ok := context.GetMeta(key)
@@ -37,10 +37,10 @@ func MakeFlyingLotus() game.Action {
 			context.SetMeta(key, repeats+1)
 			if repeats < 2 {
 				recharge := mutations.QueueAction(flyingLotusID, context)
-				transactions = append(transactions, game.MakeTransaction(recharge, context))
+				transactions.PushOne(game.MakeTransaction(recharge, context))
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }
