@@ -22,7 +22,8 @@ var END_OF_TURN_TRIGGER Trigger = Trigger{
 	Check: Match__True,
 	ActionMutation: ActionMutation{
 		Delta: func(parent Game, input Game, context Context) []Transaction[GameMutation] {
-			var transactions []Transaction[GameMutation]
+			transactions := NewTransactionBuilder()
+
 			mut := GameMutation{
 				Delta: func(p Game, g Game, c Context) Game {
 					t := g.Turn.Count
@@ -50,10 +51,9 @@ var END_OF_TURN_TRIGGER Trigger = Trigger{
 				},
 			}
 
-			tx := MakeTransaction(mut, context)
-			transactions = append(transactions, tx)
+			transactions.PushOne(MakeTransaction(mut, context))
 
-			return transactions
+			return transactions.Build()
 		},
 	},
 }

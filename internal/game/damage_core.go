@@ -158,51 +158,49 @@ func log(str string, context Context) GameTransaction {
 	return MakeTransaction(mut, context)
 }
 func (dc *DamageCore) logFailedResult(result DamageResult, target ResolvedActor) []GameTransaction {
-	var transactions []GameTransaction
+	transactions := NewTransactionBuilder()
 
 	target_context := MakeContextForActor(target.Actor)
 	if result.Failed {
 		if result.Immune {
-			transactions = append(transactions, log(fmt.Sprintf("$source$ was immune to %s", dc.ActionConfig.Jutsu), target_context))
+			transactions.PushOne(log(fmt.Sprintf("$source$ was immune to %s", dc.ActionConfig.Jutsu), target_context))
 		}
 		if result.Protected {
-			transactions = append(transactions, log("$source$ was protected.", target_context))
+			transactions.PushOne(log("$source$ was protected.", target_context))
 		}
 
 		if result.Missed {
-			transactions = append(transactions, log(fmt.Sprintf("%s missed!", dc.ActionConfig.Name), target_context))
+			transactions.PushOne(log(fmt.Sprintf("%s missed!", dc.ActionConfig.Name), target_context))
 		}
 	}
 
-	return transactions
+	return transactions.Build()
 }
 func (dc *DamageCore) logHit(hit DamageHit, target ResolvedActor) []GameTransaction {
-	var transactions []GameTransaction
+	transactions := NewTransactionBuilder()
 	target_context := MakeContextForActor(target.Actor)
 
 	if hit.Critical {
-		transactions = append(transactions, log(fmt.Sprintf("Critical Hit! (x%f)", hit.CiritcalMult), target_context))
+		transactions.PushOne(log(fmt.Sprintf("Critical Hit! (x%f)", hit.CiritcalMult), target_context))
 	}
 
-	var natures []Nature
 	if dc.ActionConfig.Nature != nil {
-		natures = NATURES[*dc.ActionConfig.Nature]
-	}
-	natureResult := ResolveNatures(natures, dc.Source.NatureDamage, target.NatureResistance, target.Natures)
-	if natureResult.Average >= NATURE_WEAKNESS_FULL {
-		transactions = append(transactions, log("Super effective!", target_context))
-	}
-	if natureResult.Result <= NATURE_RESISTANCE_FULL {
-		transactions = append(transactions, log("Not very effective!", target_context))
+		natureResult := ResolveNatures(dc.ActionConfig.Nature.GetNatures(), dc.Source.NatureDamage, target.NatureResistance, target.Natures)
+		if natureResult.Average >= NATURE_WEAKNESS_FULL {
+			transactions.PushOne(log("Super effective!", target_context))
+		}
+		if natureResult.Result <= NATURE_RESISTANCE_FULL {
+			transactions.PushOne(log("Not very effective!", target_context))
+		}
 	}
 
-	return transactions
+	return transactions.Build()
 }
 
 func (dc *DamageCore) resolveFailedResult(game Game, result DamageResult, target ResolvedActor) []GameTransaction {
-	var transactions []GameTransaction
+	transactions := NewTransactionBuilder()
 
-	transactions = append(transactions, dc.logFailedResult(result, target)...)
+	transactions.Push(dc.logFailedResult(result, target))
 	triggers := GameMutation{
 		Delta: func(p Game, g Game, context Context) Game {
 			if result.Protected {
@@ -215,17 +213,17 @@ func (dc *DamageCore) resolveFailedResult(game Game, result DamageResult, target
 		},
 	}
 	target_context := MakeContextForActor(target.Actor).WithSource(dc.Source.ID).WithPlayer(dc.Source.PlayerID)
-	transactions = append(transactions, MakeTransaction(triggers, target_context))
+	transactions.PushOne(MakeTransaction(triggers, target_context))
 
 	if dc.DamageConfig.OnFailure != nil {
-		transactions = append(transactions, dc.DamageConfig.OnFailure(game, dc.Context, target_context)...)
+		transactions.Push(dc.DamageConfig.OnFailure(game, dc.Context, target_context))
 	}
 
-	return transactions
+	return transactions.Build()
 }
 
 func (dc *DamageCore) resolveSuccessResult(game Game, result DamageResult, target ResolvedActor) []GameTransaction {
-	var transactions []GameTransaction
+	transactions := NewTransactionBuilder()
 
 	target_context := MakeContextForActor(target.Actor).WithSource(dc.Source.ID).WithPlayer(dc.Source.PlayerID)
 	for index, hit := range result.Hits {
@@ -254,7 +252,7 @@ func (dc *DamageCore) resolveSuccessResult(game Game, result DamageResult, targe
 			},
 		}
 
-		transactions = append(transactions, MakeTransaction(damage_mut, target_context))
+		transactions.PushOne(MakeTransaction(damage_mut, target_context))
 
 		if len(result.Hits) > 1 {
 			repeat_log := log(fmt.Sprintf("$action$ hit %d time.", index+1), dc.Context)
@@ -262,16 +260,16 @@ func (dc *DamageCore) resolveSuccessResult(game Game, result DamageResult, targe
 				repeat_log = log(fmt.Sprintf("$action$ hit %d times.", index+1), dc.Context)
 			}
 			repeat_log.Mutation.Filter = TargetsAreOneAlive
-			transactions = append(transactions, repeat_log)
+			transactions.PushOne(repeat_log)
 		}
 
-		transactions = append(transactions, dc.logHit(hit, target)...)
+		transactions.Push(dc.logHit(hit, target))
 
 		source_context := MakeContextForActor(dc.Source.Actor)
 		if dc.ActionConfig.LifeSteal != nil && *dc.ActionConfig.LifeSteal > 0.0 {
 			amount := Round(*dc.ActionConfig.LifeSteal * float64(hit.Damage))
 			healTx := MakeTransaction(PureHeal(amount), source_context)
-			transactions = append(transactions, healTx)
+			transactions.PushOne(healTx)
 		}
 
 		if dc.ActionConfig.Recoil != nil {
@@ -279,44 +277,44 @@ func (dc *DamageCore) resolveSuccessResult(game Game, result DamageResult, targe
 			amount := Round(recoil * float64(hit.Damage))
 			if recoil > 0.0 {
 				recoilTx := MakeTransaction(PureDamage(amount, false), source_context)
-				transactions = append(transactions, recoilTx)
+				transactions.PushOne(recoilTx)
 			}
 			if recoil < 0.0 {
 				recoilTx := MakeTransaction(PureHeal(amount*-1), source_context)
-				transactions = append(transactions, recoilTx)
+				transactions.PushOne(recoilTx)
 			}
 		}
 
 		if target.Reflect > 0.0 {
 			reflectDamage := Round(target.Reflect * float64(hit.Damage))
 			reflectTx := MakeTransaction(PureDamage(reflectDamage, false), source_context)
-			transactions = append(transactions, reflectTx)
+			transactions.PushOne(reflectTx)
 		}
 	}
 
 	if dc.DamageConfig.OnSuccess != nil {
-		transactions = append(transactions, dc.DamageConfig.OnSuccess(game, dc.Context, target_context)...)
+		transactions.Push(dc.DamageConfig.OnSuccess(game, dc.Context, target_context))
 	}
 
-	return transactions
+	return transactions.Build()
 }
 
 func (dc *DamageCore) ResolveResults(game Game) []GameTransaction {
-	var transactions []GameTransaction
+	transactions := NewTransactionBuilder()
 
 	for _, target := range dc.Targets {
 		if result, ok := dc.Results[target.ID]; ok {
 			if result.Failed {
-				transactions = append(transactions, dc.resolveFailedResult(game, result, target)...)
+				transactions.Push(dc.resolveFailedResult(game, result, target))
 			}
 
 			if !result.Failed {
-				transactions = append(transactions, dc.resolveSuccessResult(game, result, target)...)
+				transactions.Push(dc.resolveSuccessResult(game, result, target))
 			}
 		}
 	}
 
-	return transactions
+	return transactions.Build()
 }
 
 func (dc *DamageCore) Run(game Game) []GameTransaction {

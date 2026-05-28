@@ -112,6 +112,14 @@ var NATURE_EFFECTIVENESS = map[Nature]NatureSetValue{
 	},
 }
 
+func (ns *NatureSet) GetNatures() []Nature {
+	var natures []Nature
+	if ns != nil {
+		natures = NATURES[*ns]
+	}
+	return natures
+}
+
 func GetEffectiveRatio(action Nature, target []Nature) float64 {
 	set_value := NATURE_EFFECTIVENESS[action]
 	total := 1.0

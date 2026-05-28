@@ -55,6 +55,30 @@ type AttackConfig struct {
 	AfterAttack     func(game.Game, game.Context) []game.GameTransaction
 }
 
+func (ac AttackConfig) actionConfig(g game.Game, context game.Context) game.ActionConfig {
+	action_config, _ := game.GetActiveActionConfig(g, ac.Config)
+	if ac.MapConfig != nil {
+		action_config = ac.MapConfig(g, context, action_config)
+	}
+
+	return action_config
+}
+
+func (ac AttackConfig) damageConfig() game.DamageConfig {
+	dmg_config := game.NewDamageConfig(game.RandomDamageFactor())
+	if ac.OnSuccess != nil {
+		dmg_config.OnSuccess = ac.OnSuccess
+	}
+	if ac.OnFailure != nil {
+		dmg_config.OnFailure = ac.OnFailure
+	}
+	return dmg_config
+}
+
+func ResolveAttack(config AttackConfig, g game.Game, context game.Context) []game.GameTransaction {
+	return game.ResolveDamageCore(config.actionConfig(g, context), config.damageConfig(), g, context)
+}
+
 func makeAttack(config AttackConfig) game.Action {
 	action := game.Action{
 		ID:              config.ID,
@@ -70,31 +94,17 @@ func makeAttack(config AttackConfig) game.Action {
 				game.SourceIsActionOffCooldown,
 			),
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
+				transactions := game.NewTransactionBuilder()
 
 				if config.BeforeAttack != nil {
-					transactions = append(transactions, config.BeforeAttack(g, context)...)
+					transactions.Push(config.BeforeAttack(g, context))
 				}
-
-				action_config, _ := game.GetActiveActionConfig(g, config.Config)
-				if config.MapConfig != nil {
-					action_config = config.MapConfig(g, context, action_config)
-				}
-
-				dmg_config := game.NewDamageConfig(game.RandomDamageFactor())
-				if config.OnSuccess != nil {
-					dmg_config.OnSuccess = config.OnSuccess
-				}
-				if config.OnFailure != nil {
-					dmg_config.OnFailure = config.OnFailure
-				}
-
-				transactions = append(transactions, game.ResolveDamageCore(action_config, dmg_config, g, context)...)
+				transactions.Push(ResolveAttack(config, g, context))
 				if config.AfterAttack != nil {
-					transactions = append(transactions, config.AfterAttack(g, context)...)
+					transactions.Push(config.AfterAttack(g, context))
 				}
 
-				return transactions
+				return transactions.Build()
 			},
 		},
 	}
@@ -111,7 +121,7 @@ func makeAttack(config AttackConfig) game.Action {
 }
 
 func applySummon(context game.Context, def game.ActorDef, actions []game.Action) []game.GameTransaction {
-	transactions := []game.GameTransaction{}
+	transactions := game.NewTransactionBuilder()
 
 	mut := game.GameMutation{
 		Delta: func(mp, mg game.Game, mc game.Context) game.Game {
@@ -137,12 +147,8 @@ func applySummon(context game.Context, def game.ActorDef, actions []game.Action)
 		},
 	}
 
-	transactions = append(
-		transactions,
-		game.MakeTransaction(mut, context),
-	)
-
-	return transactions
+	transactions.PushOne(game.MakeTransaction(mut, context))
+	return transactions.Build()
 }
 
 func checkPlayerHasModifier(g game.Game, context game.Context, modifierID uuid.UUID) bool {
