@@ -124,8 +124,8 @@ func applySummon(context game.Context, def game.ActorDef, actions []game.Action)
 	transactions := game.NewTransactionBuilder()
 
 	mut := game.GameMutation{
-		Delta: func(mp, mg game.Game, mc game.Context) game.Game {
-			mg.UpdateActor(*mc.SourceActorID, func(a game.Actor) game.Actor {
+		Delta: func(mp, g game.Game, m_ctx game.Context) game.Game {
+			g.UpdateActor(*m_ctx.SourceActorID, func(a game.Actor) game.Actor {
 				summon := game.MakeActor(
 					def,
 					a.PlayerID,
@@ -139,11 +139,11 @@ func applySummon(context game.Context, def game.ActorDef, actions []game.Action)
 				a.SetSummonFromActor(&summon, false)
 				return a
 			})
-			mg.UpdatePlayer(*mc.SourcePlayerID, func(p game.Player) game.Player {
+			g.UpdatePlayer(*m_ctx.SourcePlayerID, func(p game.Player) game.Player {
 				p.UsedSummon = true
 				return p
 			})
-			return mg
+			return g
 		},
 	}
 
