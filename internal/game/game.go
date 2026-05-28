@@ -502,11 +502,7 @@ func (g *Game) ActorSwitchInSideEffects(actor Actor) {
 	context := NewContext()
 	context.SourceActorID = &actor.ID
 	g.PushLog(NewLogContext("$source$ joined the battle.", context))
-	t_context := Context{
-		ParentActorID:  &actor.ID,
-		SourceActorID:  &actor.ID,
-		SourcePlayerID: &actor.PlayerID,
-	}
+	t_context := MakeContextForActor(actor)
 	g.On(OnActorEnter, &t_context)
 }
 
@@ -521,11 +517,7 @@ func (g *Game) ActorSwitchOutSideEffects(actor Actor) {
 	} else {
 		g.PushLog(NewLogContext("$source$ died.", context))
 	}
-	t_context := Context{
-		ParentActorID:  &actor.ID,
-		SourceActorID:  &actor.ID,
-		SourcePlayerID: &actor.PlayerID,
-	}
+	t_context := MakeContextForActor(actor)
 	g.On(OnActorLeave, &t_context)
 }
 

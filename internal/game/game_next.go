@@ -95,11 +95,11 @@ func (g *Game) NextAction() bool {
 }
 func (g *Game) NextPrompt() bool {
 	transaction, err := g.Prompts.Dequeue()
-	g.ActiveTransaction = MakeGameActiveTransaction(transaction)
 	if err != nil {
 		return false
 	}
 
+	g.ActiveTransaction = MakeGameActiveTransaction(transaction)
 	g.RunPrompt(transaction)
 	return true
 }
@@ -107,12 +107,13 @@ func (g *Game) NextPrompt() bool {
 func (g *Game) NextTrigger() bool {
 	g.SortTriggers()
 	transaction, err := g.Triggers.Dequeue()
-	a_tx := Transaction[Action]{}
-	a_tx.Context = transaction.Context
-	g.ActiveTransaction = MakeGameActiveTransaction(a_tx)
 	if err != nil {
 		return false
 	}
+
+	a_tx := Transaction[Action]{}
+	a_tx.Context = transaction.Context
+	g.ActiveTransaction = MakeGameActiveTransaction(a_tx)
 
 	g.RunTrigger(transaction)
 	return true
@@ -125,29 +126,15 @@ func (g Game) GetBaseTick() time.Duration {
 	return time.Second / 2
 }
 
+func (g *Game) TryNextPrompt() bool {
+	return g.AllPromptsReady() && g.NextPrompt()
+}
+
 func (g *Game) Next() bool {
 	g.Tick = g.GetBaseTick()
-	if g.NextTransaction() {
+
+	if g.NextTransaction() || g.TryNextPrompt() || g.NextTrigger() || g.TryNextPrompt() {
 		return true
-	}
-
-	g.Tick = g.GetBaseTick()
-	if g.AllPromptsReady() {
-		if g.NextPrompt() {
-			return true
-		}
-	}
-
-	g.Tick = g.GetBaseTick()
-	if g.NextTrigger() {
-		return true
-	}
-
-	g.Tick = g.GetBaseTick()
-	if g.AllPromptsReady() {
-		if g.NextPrompt() {
-			return true
-		}
 	}
 
 	if !g.Validate() {
@@ -157,6 +144,7 @@ func (g *Game) Next() bool {
 	if g.PreAction() {
 		return true
 	}
+
 	g.Tick = time.Second * 2
 	if g.NextAction() {
 		return true
@@ -166,7 +154,7 @@ func (g *Game) Next() bool {
 	if !g.Validate() {
 		return false
 	}
-	g.NextPhase()
 
+	g.NextPhase()
 	return false
 }
