@@ -80,7 +80,6 @@ func makeAttack(config AttackConfig) game.Action {
 				if config.MapConfig != nil {
 					action_config = config.MapConfig(g, context, action_config)
 				}
-
 				dmg_config := game.NewDamageConfig(game.RandomDamageFactor())
 				if config.OnSuccess != nil {
 					dmg_config.OnSuccess = config.OnSuccess
@@ -88,8 +87,8 @@ func makeAttack(config AttackConfig) game.Action {
 				if config.OnFailure != nil {
 					dmg_config.OnFailure = config.OnFailure
 				}
-				damage := game.DamageCoreMutation(action_config, dmg_config)
-				transactions = append(transactions, game.MakeTransaction(damage, context))
+				transactions = append(transactions, game.ResolveDamageCore(action_config, dmg_config, g, context)...)
+
 				if config.AfterAttack != nil {
 					transactions = append(transactions, config.AfterAttack(g, context)...)
 				}

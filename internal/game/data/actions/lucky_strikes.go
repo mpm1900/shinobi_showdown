@@ -35,7 +35,7 @@ func MakeLuckyStrikes() game.Action {
 				action_config, _ := game.GetActiveActionConfig(g, config)
 				damage_config := game.NewDamageConfig(game.RandomDamageFactor())
 				damage_config.Repeat = true
-				damage_config.RepeatMax = 999
+				damage_config.RepeatMax = 21
 				damage := game.DamageCoreMutation(action_config, damage_config)
 				transactions = append(
 					transactions,
