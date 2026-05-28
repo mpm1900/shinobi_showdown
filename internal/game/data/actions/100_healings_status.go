@@ -26,17 +26,17 @@ func MakeOneHundredHealingsStatus() game.Action {
 			Priority: game.ActionPriorityDefault,
 			Filter:   game.SourceIsAlive,
 			Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
-				transactions := []game.GameTransaction{}
+				transactions := game.NewTransactionBuilder()
 
 				party := g.GetActorsFilters(context, game.TeamFilter)
 				for _, actor := range party {
 					if !actor.Statused {
 						continue
 					}
-					transactions = append(transactions, modifiers.ClearStatus(g, actor)...)
+					transactions.Push(modifiers.ClearStatus(g, actor))
 				}
 
-				return transactions
+				return transactions.Build()
 			},
 		},
 	}

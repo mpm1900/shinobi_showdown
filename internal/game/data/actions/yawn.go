@@ -33,16 +33,16 @@ var SleepyModifier = game.Modifier{
 				Priority: game.ActionPriorityDefault,
 				Filter:   game.TrueGameFilter,
 				Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
-					transactions := []game.GameTransaction{}
+					transactions := game.NewTransactionBuilder()
 					parent, ok := g.GetParent(context)
 					if !ok {
-						return transactions
+						return transactions.Build()
 					}
 
-					transactions = append(transactions, modifiers.RemoveModifierSource(sleepyModifierID, parent)...)
-					transactions = append(transactions, modifiers.ApplySleep(game.ActionConfig{}, g, parent, game.NewContext())...)
+					transactions.Push(modifiers.RemoveModifierSource(sleepyModifierID, parent))
+					transactions.Push(modifiers.ApplySleep(game.ActionConfig{}, g, parent, game.NewContext()))
 
-					return transactions
+					return transactions.Build()
 				},
 			},
 		},

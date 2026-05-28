@@ -33,18 +33,14 @@ func MakeOneThousandNeedles() game.Action {
 			Priority: game.ActionPriorityDefault,
 			Filter:   game.SourceIsAlive,
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
+				transactions := game.NewTransactionBuilder()
 
 				action_config, _ := game.GetActiveActionConfig(g, config)
 				damage_config := game.NewDamageConfig(game.RandomDamageFactor())
 				damage_config = MakeRepeats(damage_config, 2, 5, g, context)
-				damage := game.DamageCoreMutation(action_config, damage_config)
-				transactions = append(
-					transactions,
-					game.MakeTransaction(damage, context),
-				)
+				transactions.Push(game.ResolveDamageCore(action_config, damage_config, g, context))
 
-				return transactions
+				return transactions.Build()
 			},
 		},
 	}

@@ -26,8 +26,8 @@ func MakeAmaterasu() game.Action {
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := game.NewTransactionBuilder()
-			targets := g.GetTargets(context)
-			for _, target := range targets {
+
+			for _, target := range g.GetTargets(context) {
 				transactions.Push(modifiers.ApplyBurn(action_config, g, target, context))
 			}
 

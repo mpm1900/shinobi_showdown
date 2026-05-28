@@ -16,11 +16,11 @@ var StatusSyncTrigger = game.Trigger{
 		Priority: game.ActionPriorityDefault,
 		Filter:   game.TrueGameFilter,
 		Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+			transactions := game.NewTransactionBuilder()
 
 			source, ok := g.GetSource(context)
 			if !ok {
-				return transactions
+				return transactions.Build()
 			}
 
 			targets := g.GetTargets(context)
@@ -32,21 +32,21 @@ var StatusSyncTrigger = game.Trigger{
 					break
 				}
 				if target.Burned {
-					transactions = append(transactions, ApplyBurn(game.ActionConfig{}, g, source, game.NewContext())...)
+					transactions.Push(ApplyBurn(game.ActionConfig{}, g, source, game.NewContext()))
 				}
 				if target.Paralyzed {
-					transactions = append(transactions, ApplyParalysis(game.ActionConfig{}, g, source, game.NewContext())...)
+					transactions.Push(ApplyParalysis(game.ActionConfig{}, g, source, game.NewContext()))
 				}
 				if target.Poisoned {
-					transactions = append(transactions, ApplyPoison(game.ActionConfig{}, g, source, game.NewContext())...)
+					transactions.Push(ApplyPoison(game.ActionConfig{}, g, source, game.NewContext()))
 				}
 				if target.Sleeping {
-					transactions = append(transactions, ApplySleep(game.ActionConfig{}, g, source, game.NewContext())...)
+					transactions.Push(ApplySleep(game.ActionConfig{}, g, source, game.NewContext()))
 				}
 				break
 			}
 
-			return transactions
+			return transactions.Build()
 		},
 	},
 }

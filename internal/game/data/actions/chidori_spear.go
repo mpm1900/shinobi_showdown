@@ -26,6 +26,7 @@ func MakeChidoriSpear() game.Action {
 		Config: config,
 		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := game.NewTransactionBuilder()
+
 			targets := g.GetTargets(context)
 			for _, target := range targets {
 				transactions.Push(modifiers.ChanceParalysis(action_config, g, context, target, 20))

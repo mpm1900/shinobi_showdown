@@ -31,14 +31,13 @@ func MakeTempleOfNirvana() game.Action {
 				game.SourceIsAlive,
 			),
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
+				transactions := game.NewTransactionBuilder()
 
-				targets := g.GetTargets(context)
-				for _, target := range targets {
-					transactions = append(transactions, modifiers.ApplySleep(config, g, target, context)...)
+				for _, target := range g.GetTargets(context) {
+					transactions.Push(modifiers.ApplySleep(config, g, target, context))
 				}
 
-				return transactions
+				return transactions.Build()
 			},
 		},
 	}
