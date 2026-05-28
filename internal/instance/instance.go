@@ -68,7 +68,6 @@ func (i *Instance) UnregisterClient(client *Client) bool {
 }
 
 func (i *Instance) BroadcastGame() {
-	// fmt.Printf("BROADCAST STATE %#v\n", game)
 	for _, client := range i.Clients {
 		if !client.TryWriteResponse(NewGameMessage(client, &i.Game)) {
 			// If we can't send, it's usually better to just log it for now
@@ -122,7 +121,8 @@ func (i *Instance) Run() {
 	for {
 		select {
 		case client := <-i.Register:
-			if len(i.Game.Players) >= 2 {
+			_, isExisting := i.Game.GetPlayerByID(client.ID)
+			if !isExisting && len(i.Game.Players) >= 2 {
 				continue
 			}
 

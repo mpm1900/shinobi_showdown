@@ -548,15 +548,15 @@ func (g *Game) RemoveActor(actorID uuid.UUID) {
 		return a.ID == actorID
 	})
 }
-func (g *Game) SetPlayerActors(playerID uuid.UUID, actors []Actor) {
+func (g *Game) SetPlayerActors(playerID uuid.UUID, newActors []Actor) {
 	result := make([]Actor, 0)
 	for _, a := range g.Actors {
 		if a.PlayerID != playerID {
-			actors = append(actors, a)
+			result = append(result, a)
 		}
 	}
 
-	result = append(result, actors...)
+	result = append(result, newActors...)
 	g.Actors = result
 }
 func (g *Game) EnableActors(playerID uuid.UUID, ids []uuid.UUID) {

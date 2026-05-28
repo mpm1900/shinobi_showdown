@@ -1,7 +1,7 @@
 import { Store } from '@tanstack/store'
 import type { Game } from '../game/game'
 
-const gameStore = new Store<Game>({
+const INITIAL_GAME: Game = {
   status: 'init',
   turn: {
     count: 0,
@@ -20,6 +20,8 @@ const gameStore = new Store<Game>({
     terrain: 'none',
     weather: 'none',
   },
-})
+}
+
+const gameStore = new Store<Game>(INITIAL_GAME)
 
 export { gameStore }

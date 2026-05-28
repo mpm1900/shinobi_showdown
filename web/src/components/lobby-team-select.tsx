@@ -1,11 +1,9 @@
 import { NULL_CONTEXT } from '#/lib/game/context'
 import { teamsQuery, type Team } from '#/lib/queries/teams'
 import { clientsStore } from '#/lib/stores/clients'
-import { sendContextMessage } from '#/lib/stores/socket'
+import { sendContextMessage, socketStore } from '#/lib/stores/socket'
 import { useQuery } from '@tanstack/react-query'
 import { useStore } from '@tanstack/react-store'
-import { ChevronsUpDown } from 'lucide-react'
-import { useState } from 'react'
 import { Button } from './ui/button'
 import {
   Combobox,
@@ -19,38 +17,46 @@ import {
 } from './ui/combobox'
 
 function LobbyTeamSelect({
+  value,
   onValueChange,
 }: {
+  value?: Team
   onValueChange?: (team: Team | undefined) => void
 }) {
-  const client = useStore(clientsStore, (s) => s.me!)
+  const client = useStore(clientsStore, (s) => s.me)
+  const status = useStore(socketStore, (s) => s.status)
   const teams = useQuery(teamsQuery)
-  const [team, setTeam] = useState<Team>()
 
   return (
     <Combobox
-      items={teams.data}
-      value={team?.id}
+      key={value?.id ?? 'none'}
+      disabled={status !== 'open'}
+      items={teams.data ?? []}
+      value={value?.id ?? null}
       onValueChange={(id) => {
         const new_team = teams.data?.find((t) => t.id === id)
-        if (!new_team) return
-        setTeam(new_team)
+        if (!new_team) {
+          onValueChange?.(undefined)
+          return
+        }
         onValueChange?.(new_team)
-        sendContextMessage({
-          type: 'set-team',
-          client_ID: client.ID,
-          team_config: new_team.team_config,
-          context: NULL_CONTEXT,
-        })
+
+        if (client) {
+          sendContextMessage({
+            type: 'set-team',
+            client_ID: client.ID,
+            team_config: new_team.team_config,
+            context: NULL_CONTEXT,
+          })
+        }
       }}
     >
       <ComboboxTrigger
         render={
           <Button variant="outline" className="justify-between min-w-40">
             <ComboboxValue placeholder="Load Team">
-              {team?.team_config.name}
+              {value?.team_config.name}
             </ComboboxValue>
-            <ChevronsUpDown />
           </Button>
         }
       />

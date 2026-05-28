@@ -6,6 +6,7 @@ import { PromptController } from '#/components/prompt-controller'
 import { Button } from '#/components/ui/button'
 import { CardDescription, CardTitle } from '#/components/ui/card'
 import { NULL_CONTEXT } from '#/lib/game/context'
+import type { Team } from '#/lib/queries/teams'
 import { clientsStore } from '#/lib/stores/clients'
 import { gameStore } from '#/lib/stores/game'
 import { sendContextMessage } from '#/lib/stores/socket'
@@ -41,10 +42,10 @@ function App() {
   const default_enabled = game.actors.filter(
     (a) => pids.includes(a.player_ID) && a.enabled
   )
+  const [team, setTeam] = useState<Team>()
   const [enabled, setEnabled] = useState<string[]>(
     default_enabled.map((a) => a.ID)
   )
-
   useEffect(() => {
     if (game.status === 'running') {
       nav({ to: '/battle' })
@@ -73,7 +74,7 @@ function App() {
                       onClick={() => {
                         sendContextMessage({
                           type: 'start-battle',
-                          client_ID: client!.ID,
+                          client_ID: client.ID,
                           context: NULL_CONTEXT,
                         })
                       }}
@@ -86,7 +87,7 @@ function App() {
                     onClick={() => {
                       sendContextMessage({
                         type: 'reset',
-                        client_ID: client!.ID,
+                        client_ID: client.ID,
                         context: NULL_CONTEXT,
                       })
                     }}
@@ -94,7 +95,7 @@ function App() {
                     Reset
                   </Button>
                 ))}
-              {game.turn.phase === 'init' && !player?.ready && (
+              {game.turn.phase === 'init' && player && !player.ready && (
                 <Button
                   disabled={enabled.length !== 4}
                   onClick={() => {
@@ -111,13 +112,13 @@ function App() {
                   Ready Team ({enabled.length}/4)
                 </Button>
               )}
-              {game.turn.phase === 'init' && player?.ready && (
+              {game.turn.phase === 'init' && player?.ready && client && (
                 <Button
                   variant="destructive"
                   onClick={() => {
                     sendContextMessage({
                       type: 'cancel-team',
-                      client_ID: client!.ID,
+                      client_ID: client.ID,
                       context: NULL_CONTEXT,
                     })
                   }}
@@ -126,7 +127,9 @@ function App() {
                 </Button>
               )}
               <LobbyTeamSelect
-                onValueChange={() => {
+                value={team}
+                onValueChange={(v) => {
+                  setTeam(v)
                   setEnabled([])
                 }}
               />

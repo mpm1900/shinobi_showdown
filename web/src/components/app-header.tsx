@@ -47,7 +47,6 @@ function AppHeader() {
   const client = useStore(clientsStore, (c) => c.me)
   const game_status = useStore(gameStore, (g) => g.status)
   const game_phase = useStore(gameStore, (g) => g.turn.phase)
-  const actions = useStore(gameStore, (g) => g.actions)
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   })
