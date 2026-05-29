@@ -213,16 +213,6 @@ func (g Game) GetActorsFilters(context Context, filters ...ActorFilter) []Actor 
 	})
 }
 
-func (g Game) GetResolvedActors() map[uuid.UUID]ResolvedActor {
-	actors := make(map[uuid.UUID]ResolvedActor, len(g.Actors))
-	for _, a := range g.Actors {
-		resolvedActor := a.Resolve(g)
-		actors[a.ID] = resolvedActor
-	}
-
-	return actors
-}
-
 func (g Game) GetTriggers(on TriggerOn, context *Context) []Transaction[Trigger] {
 	ctx := NewContext()
 	if context != nil {
@@ -244,7 +234,7 @@ func (g Game) GetTriggers(on TriggerOn, context *Context) []Transaction[Trigger]
 	if on == OnActorLeave && context != nil && context.SourceActorID != nil {
 		source, ok := g.GetActorByID(*context.SourceActorID)
 		if ok {
-			source_ctx := newActorContext(source)
+			source_ctx := newActorContext(&source)
 			for _, mod := range source.GetModifiers() {
 				modifiers = append(modifiers, MakeTransaction(mod, source_ctx))
 			}
@@ -796,10 +786,9 @@ func getLastN[T any](s []T, n int) []T {
 	return s[len(s)-n:]
 }
 func (g Game) ToJSON(playerID *uuid.UUID) GameJSON {
-	resolvedMap := g.GetResolvedActors()
-	resolved := make([]ResolvedActor, 0, len(g.Actors))
-	for _, a := range g.Actors {
-		resolved = append(resolved, resolvedMap[a.ID])
+	resolved := make([]ResolvedActor, len(g.Actors))
+	for i, a := range g.Actors {
+		resolved[i] = a.Resolve(g)
 	}
 
 	var prompt *Transaction[Action]

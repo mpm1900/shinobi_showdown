@@ -24,7 +24,7 @@ func (actor *Actor) MapResource(stat ActorStat) {
 	actor.Stats[stat] = MapResourceStat(actor.Stats[stat], actor.Level, 1.0, actor.AuxStats[stat])
 }
 
-func MapBaseStats(actor Actor) Actor {
+func (actor *Actor) MapBaseStats() {
 	actor.MapResource(StatHP)
 	actor.MapResource(StatStamina)
 
@@ -33,8 +33,6 @@ func MapBaseStats(actor Actor) Actor {
 	actor.MapBase(StatChakraAttack)
 	actor.MapBase(StatChakraDefense)
 	actor.MapBase(StatSpeed)
-
-	return actor
 }
 
 func MapStagedStat(stat, stage, mod int) int {
@@ -54,7 +52,7 @@ func (actor *Actor) MapStaged(stat ActorStat, mod int) {
 	actor.Stats[stat] = MapStagedStat(actor.Stats[stat], actor.Stages[stat], mod)
 }
 
-func MapStagedStats(actor Actor) Actor {
+func (actor *Actor) MapStagedStats() {
 	actor.MapStaged(StatAttack, 2)
 	actor.MapStaged(StatDefense, 2)
 	actor.MapStaged(StatChakraAttack, 2)
@@ -62,29 +60,29 @@ func MapStagedStats(actor Actor) Actor {
 	actor.MapStaged(StatSpeed, 2)
 	actor.MapStaged(StatEvasion, 3)
 	actor.MapStaged(StatAccuracy, 3)
-	return actor
 }
 
-func newActorContext(actor Actor) Context {
-	context := MakeContextForActor(actor)
-	context.TargetActorIDs = []uuid.UUID{}
-	return context
+func newActorContext(actor *Actor) Context {
+	return Context{
+		SourcePlayerID:    &actor.PlayerID,
+		SourceActorID:     &actor.ID,
+		ParentActorID:     &actor.ID,
+		TargetActorIDs:    []uuid.UUID{},
+		TargetPositionIDs: []uuid.UUID{},
+	}
 }
 
 func GetActorModifiers(game Game) []Transaction[Modifier] {
-	var modifiers []Transaction[Modifier]
-	activeActors := game.GetActorsFilters(
-		Context{},
-		ActiveFilter,
-	)
+	activeActors := game.GetActiveActors()
+	modifiers := make([]Transaction[Modifier], 0, len(activeActors)*2)
 
-	for _, actor := range activeActors {
+	for i := range activeActors {
+		actor := &activeActors[i]
 		context := newActorContext(actor)
 		a_modifiers := actor.GetModifiers()
 
-		for _, mod := range a_modifiers {
-			transaction := MakeTransaction(mod, context)
-			modifiers = append(modifiers, transaction)
+		for j := range a_modifiers {
+			modifiers = append(modifiers, MakeTransaction(a_modifiers[j], context))
 		}
 	}
 
@@ -97,7 +95,8 @@ var specialMutations = []ActorMutation{
 		MutPriorityMapBaseStats,
 		AllFilter,
 		func(g Game, input Actor, context Context) Actor {
-			return MapBaseStats(input)
+			input.MapBaseStats()
+			return input
 		},
 	),
 	MakeActorMutation(
@@ -105,31 +104,20 @@ var specialMutations = []ActorMutation{
 		MutPriorityMapStagedStats,
 		AllFilter,
 		func(g Game, input Actor, context Context) Actor {
-			return MapStagedStats(input)
+			input.MapStagedStats()
+			return input
 		},
 	),
 }
 
-func getContext(actor Actor, transactions []Transaction[Modifier], mutation ActorMutation) Context {
+func getContext(actor *Actor, transactions []Transaction[Modifier], mutation ActorMutation) Context {
 	context := newActorContext(actor)
 	return ResolveModifierTransactionContext(context, transactions, mutation.TransactionID)
 }
 
-func resolveActor(actor Actor, g Game, bypassModifiers bool) ResolvedActor {
+func resolveActor(actor Actor, g Game, bypassModifiers bool, actions func(*ResolvedActor)) ResolvedActor {
 	handler := newActorResolveHandler(actor, g, bypassModifiers)
-
-	resolved := handler.resolveMutations()
-	handler.resolveNatures(&resolved)
-	handler.resolveActions(&resolved)
-	return resolved
-}
-
-func resolveActorStats(actor Actor, g Game, bypassModifiers bool) ResolvedActor {
-	handler := newActorResolveHandler(actor, g, bypassModifiers)
-
-	resolved := handler.resolveMutations()
-	handler.resolveNatures(&resolved)
-	return resolved
+	return handler.resolve(actions)
 }
 
 func (a Actor) getActor() Actor {
@@ -143,38 +131,47 @@ func (a Actor) getActor() Actor {
 	return actor
 }
 
-func (a Actor) ResolveStats(g Game) ResolvedActor {
-	return resolveActorStats(a.getActor(), g, false)
-}
 func (a Actor) Resolve(g Game) ResolvedActor {
 	actor := a.getActor()
-	resolved := resolveActor(actor, g, false)
-	unmodified := resolveActorStats(actor, g, true)
-	resolved.UnmodifiedStats = maps.Clone(unmodified.Stats)
+	resolved := resolveActor(actor, g, false, func(ra *ResolvedActor) {
+		resolveActions(g, ra)
+	})
+
+	unmodified := actor.Clone()
+	unmodified.MapBaseStats()
+	unmodified.MapStagedStats()
+
+	resolved.UnmodifiedStats = unmodified.Stats
 	resolved.Ability = actor.GetAbility()
+
+	return resolved
+}
+func (a Actor) ResolveShallow(g Game) ResolvedActor {
+	actor := a.getActor()
+	resolved := resolveActor(actor, g, false, nil)
 
 	return resolved
 }
 
 type actorResolveHandler struct {
-	pre              Actor
-	actor            Actor
-	bypass_modifiers bool
-	game             Game
-	mutations        []ActorMutation
-	transactions     []Transaction[Modifier]
+	actor           Actor
+	baseStats       map[ActorStat]int
+	bypassModifiers bool
+	game            Game
+	mutations       []ActorMutation
+	transactions    []Transaction[Modifier]
 }
 
-func newActorResolveHandler(actor Actor, g Game, bypass_modifiers bool) actorResolveHandler {
-	mutations, transactions := GetAllActorMutations(g, bypass_modifiers)
+func newActorResolveHandler(actor Actor, g Game, bypassModifiers bool) actorResolveHandler {
+	mutations, transactions := GetAllActorMutations(g, bypassModifiers)
 	clone := actor.Clone()
 	return actorResolveHandler{
-		actor:            clone,
-		pre:              clone,
-		game:             g,
-		bypass_modifiers: bypass_modifiers,
-		mutations:        mutations,
-		transactions:     transactions,
+		actor:           clone,
+		baseStats:       maps.Clone(clone.Stats),
+		game:            g,
+		bypassModifiers: bypassModifiers,
+		mutations:       mutations,
+		transactions:    transactions,
 	}
 }
 
@@ -182,7 +179,7 @@ func (ah *actorResolveHandler) applyModifierMutation(mutation ActorMutation) (Ac
 	if mutation.ModifierGroupID != nil && ah.actor.HasImmunity(*mutation.ModifierGroupID) {
 		return ah.actor, false
 	}
-	context := getContext(ah.actor, ah.transactions, mutation)
+	context := getContext(&ah.actor, ah.transactions, mutation)
 	g := ah.game.WithActor(ah.actor)
 
 	tx := MakeTransaction(mutation.Mutation, context)
@@ -209,12 +206,22 @@ func (ah *actorResolveHandler) applyModifierMutation(mutation ActorMutation) (Ac
 	return next, true
 }
 
-func toResolved(actor Actor, pre Actor) ResolvedActor {
+func toResolved(actor Actor, baseStats map[ActorStat]int) ResolvedActor {
 	return ResolvedActor{
 		Actor:     actor,
-		BaseStats: maps.Clone(pre.Stats),
+		BaseStats: baseStats,
 	}
 }
+
+func (ah *actorResolveHandler) resolve(actions func(*ResolvedActor)) ResolvedActor {
+	resolved := ah.resolveMutations()
+	ah.resolveNatures(&resolved)
+	if actions != nil {
+		actions(&resolved)
+	}
+	return resolved
+}
+
 func (ah *actorResolveHandler) resolveMutations() ResolvedActor {
 	for _, mutation := range ah.mutations {
 		next, did_apply := ah.applyModifierMutation(mutation)
@@ -225,7 +232,7 @@ func (ah *actorResolveHandler) resolveMutations() ResolvedActor {
 		ah.actor = next
 	}
 
-	return toResolved(ah.actor, ah.pre)
+	return toResolved(ah.actor, ah.baseStats)
 }
 
 func (ah *actorResolveHandler) resolveNatures(resolved *ResolvedActor) {
@@ -251,59 +258,62 @@ func (ah *actorResolveHandler) resolveNatures(resolved *ResolvedActor) {
 	}
 }
 
-func (ah *actorResolveHandler) resolveActions(resolved *ResolvedActor) {
-	if ah.actor.PositionID == nil {
+func resolveActions(game Game, resolved *ResolvedActor) {
+	if resolved.PositionID == nil {
 		return
 	}
 
+	player, _ := game.GetPlayerByID(resolved.PlayerID)
+	_, hasQueuedSummon := game.FindQueuedAction(func(t Transaction[Action]) bool {
+		if t.Context.SourcePlayerID == nil {
+			return false
+		}
+		return *t.Context.SourcePlayerID == resolved.PlayerID && t.Mutation.Config.Summon
+	})
+
+	filterGame := game.WithActor(resolved.Actor).WithoutActionFilterEval()
 	allDisabled := true
-	for i, a := range resolved.Actions {
+	context := newActorContext(&resolved.Actor)
+
+	for i := range resolved.Actions {
+		action := &resolved.Actions[i]
+		if action.State.Disabled {
+			continue
+		}
+
 		// static cooldown offset
 		baseCooldown := 0
-		if a.Config.Cooldown != nil {
-			baseCooldown = *a.Config.Cooldown
+		if action.Config.Cooldown != nil {
+			baseCooldown = *action.Config.Cooldown
 		}
-		resolved.Actions[i].Config.Cooldown = Ptr(baseCooldown + resolved.CooldownOffset)
+		action.Config.Cooldown = Ptr(baseCooldown + resolved.CooldownOffset)
 
 		// set dynamic disabled state
-		if !a.State.Disabled {
-			context := MakeContextForActor(ah.actor)
-			context.ActionID = &a.ID
+		context.ActionID = &action.ID
 
-			if resolved.ActionLocked && resolved.LastUsedActionTX != nil {
-				if resolved.LastUsedActionTX.Mutation.ID != a.ID && !a.Config.Switch {
-					resolved.Actions[i].State.Disabled = true
-				}
+		if resolved.ActionLocked && resolved.LastUsedActionTX != nil {
+			if resolved.LastUsedActionTX.Mutation.ID != action.ID && !action.Config.Switch {
+				action.State.Disabled = true
 			}
-			if resolved.SwitchLocked && a.Config.Switch {
-				resolved.Actions[i].State.Disabled = true
-			}
+		}
+		if resolved.SwitchLocked && action.Config.Switch {
+			action.State.Disabled = true
+		}
 
-			filterGame := ah.game.WithActor(ah.actor).WithoutActionFilterEval()
-			if !ah.game.disableActionFilterEval && !a.Filter(ah.game, filterGame, context) {
-				resolved.Actions[i].State.Disabled = true
-			}
+		if !game.disableActionFilterEval && !action.Filter(game, filterGame, context) {
+			action.State.Disabled = true
+		}
 
-			player, ok := ah.game.GetPlayerByID(resolved.PlayerID)
-			if ok && player.UsedSummon && a.Config.Summon {
-				resolved.Actions[i].State.Disabled = true
-			}
+		if player.UsedSummon && action.Config.Summon {
+			action.State.Disabled = true
+		}
 
-			_, ok = ah.game.FindQueuedAction(func(t Transaction[Action]) bool {
-				if t.Context.SourcePlayerID == nil {
-					return false
-				}
-				is_player := *t.Context.SourcePlayerID == resolved.PlayerID
-				return is_player && t.Mutation.Config.Summon
-			})
+		if hasQueuedSummon && action.Config.Summon {
+			action.State.Disabled = true
+		}
 
-			if ok && a.Config.Summon {
-				resolved.Actions[i].State.Disabled = true
-			}
-
-			if !a.Config.Switch && !resolved.Actions[i].State.Disabled {
-				allDisabled = false
-			}
+		if !action.Config.Switch && !action.State.Disabled {
+			allDisabled = false
 		}
 	}
 

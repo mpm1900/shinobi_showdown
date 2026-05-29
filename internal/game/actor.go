@@ -243,35 +243,38 @@ type Summon struct {
 }
 
 type Actor struct {
-	ActorDef
-	ActorState
-	ID         uuid.UUID  `json:"ID"`
-	PlayerID   uuid.UUID  `json:"player_ID"`
-	Level      int        `json:"level"`
-	Experience int        `json:"experience"`
-	Focus      ActorFocus `json:"focus"`
-	Ability    *Modifier  `json:"ability"`
-	Enabled    bool       `json:"enabled"`
-	// [AuxAbility]
-	// - take priority over Ability
-	// - set to nil on switch-out
-	AuxAbility        *Modifier              `json:"-"`
-	Item              *Modifier              `json:"item"`
-	Summon            *Summon                `json:"summon,omitempty"`
-	Stages            map[ActorStat]int      `json:"staged_stats"`
-	AuxStats          map[ActorStat]int      `json:"aux_stats"`
-	DamageMultipliers map[AttackStat]float64 `json:"-"`
-	DamageReduction   map[AttackStat]float64 `json:"-"`
-	Actions           []Action               `json:"actions"`
-	AppliedModifiers  map[uuid.UUID]int      `json:"applied_modifiers"`
+	*ActorDef         `json:",inline"`
+	ActorState        `json:",inline"`
+	ID                uuid.UUID                `json:"ID"`
+	PlayerID          uuid.UUID                `json:"player_ID"`
+	Level             int                      `json:"level"`
+	Experience        int                      `json:"experience"`
+	Focus             ActorFocus               `json:"focus"`
+	Ability           *Modifier                `json:"ability"`
+	Enabled           bool                     `json:"enabled"`
+	AuxAbility        *Modifier                `json:"-"`
+	Item              *Modifier                `json:"item"`
+	Summon            *Summon                  `json:"summon,omitempty"`
+	Stats             map[ActorStat]int        `json:"stats"`
+	Stages            map[ActorStat]int        `json:"staged_stats"`
+	AuxStats          map[ActorStat]int        `json:"aux_stats,omitempty"`
+	NatureDamage      map[Nature]float64       `json:"nature_damage,omitempty"`
+	NatureResistance  map[Nature]float64       `json:"nature_resistance,omitempty"`
+	Natures           map[NatureSet][]Nature   `json:"natures,omitempty"`
+	Immunities        map[uuid.UUID]struct{}   `json:"-"`
+	JutsuImmunities   map[ActionJutsu]struct{} `json:"-"`
+	DamageMultipliers map[AttackStat]float64   `json:"-"`
+	DamageReduction   map[AttackStat]float64   `json:"-"`
+	Actions           []Action                 `json:"actions"`
+	AppliedModifiers  map[uuid.UUID]int        `json:"applied_modifiers,omitempty"`
 }
 
 type ResolvedActor struct {
 	Actor
-	BaseStats                map[ActorStat]int  `json:"base_stats"`
-	UnmodifiedStats          map[ActorStat]int  `json:"unmodified_stats"`
-	ResolvedNatureResistance map[Nature]float64 `json:"resolved_nature_resistance"`
-	ResolvedNatureDamage     map[Nature]float64 `json:"resolved_nature_damage"`
+	BaseStats                map[ActorStat]int  `json:"base_stats,omitempty"`
+	UnmodifiedStats          map[ActorStat]int  `json:"unmodified_stats,omitempty"`
+	ResolvedNatureResistance map[Nature]float64 `json:"resolved_nature_resistance,omitempty"`
+	ResolvedNatureDamage     map[Nature]float64 `json:"resolved_nature_damage,omitempty"`
 }
 
 const (
@@ -416,10 +419,9 @@ func MakeActor(
 	focus ActorFocus,
 	auxStats map[ActorStat]int,
 ) Actor {
-	clonedDef := def.Clone()
 	actions = append(actions, Switch)
 	return Actor{
-		ActorDef:   clonedDef,
+		ActorDef:   &def,
 		ID:         uuid.New(),
 		PlayerID:   playerID,
 		Enabled:    false,
@@ -429,14 +431,7 @@ func MakeActor(
 		Item:       item,
 		Ability:    ability,
 		ActorState: MakeActorState(),
-		DamageMultipliers: map[AttackStat]float64{
-			Attack:       1.0,
-			ChakraAttack: 1.0,
-		},
-		DamageReduction: map[AttackStat]float64{
-			Attack:       1.0,
-			ChakraAttack: 1.0,
-		},
+		Stats:      maps.Clone(def.Stats),
 		Stages: map[ActorStat]int{
 			StatHP:            0,
 			StatStamina:       0,
@@ -449,21 +444,34 @@ func MakeActor(
 			StatAccuracy:      0,
 			StatCritical:      0,
 		},
-		AuxStats:         maps.Clone(auxStats),
-		AppliedModifiers: map[uuid.UUID]int{},
-		Actions:          actions,
-		Summon:           nil,
+		AuxStats:          maps.Clone(auxStats),
+		NatureDamage:      maps.Clone(def.NatureDamage),
+		NatureResistance:  maps.Clone(def.NatureResistance),
+		Natures:           maps.Clone(def.Natures),
+		Immunities:        maps.Clone(def.Immunities),
+		JutsuImmunities:   maps.Clone(def.JutsuImmunities),
+		DamageMultipliers: map[AttackStat]float64{Attack: 1.0, ChakraAttack: 1.0},
+		DamageReduction:   map[AttackStat]float64{Attack: 1.0, ChakraAttack: 1.0},
+		AppliedModifiers:  map[uuid.UUID]int{},
+		Actions:           actions,
+		Summon:            nil,
 	}
 }
 
 func (a *Actor) Transform(def ActorDef) {
-	clone := def.Clone()
-	a.ActorDef = clone
+	a.ActorDef = &def
 	a.Summon = nil
 	a.Ability = nil
 	if len(a.ActorDef.Abilities) > 0 {
 		a.Ability = &a.ActorDef.Abilities[0]
 	}
+
+	a.Stats = maps.Clone(def.Stats)
+	a.NatureDamage = maps.Clone(def.NatureDamage)
+	a.NatureResistance = maps.Clone(def.NatureResistance)
+	a.Natures = maps.Clone(def.Natures)
+	a.Immunities = maps.Clone(def.Immunities)
+	a.JutsuImmunities = maps.Clone(def.JutsuImmunities)
 }
 
 func (a *Actor) Reset() {
@@ -545,7 +553,7 @@ func (a *Actor) DecrementCooldowns() {
 	}
 }
 func (a *Actor) RecoverStamina(g Game, ratio float64) {
-	resolved := a.ResolveStats(g)
+	resolved := a.ResolveShallow(g)
 	amount := Round(float64(resolved.Stats[StatStamina]) * ratio)
 	a.StaminaDamage = max(a.StaminaDamage-amount, 0)
 }
@@ -601,7 +609,13 @@ func (a Actor) Clone() Actor {
 	b.DamageMultipliers = maps.Clone(a.DamageMultipliers)
 	b.DamageReduction = maps.Clone(a.DamageReduction)
 
-	b.Natures = maps.Clone(a.Natures)
+	if a.Natures != nil {
+		b.Natures = make(map[NatureSet][]Nature, len(a.Natures))
+		for k, v := range a.Natures {
+			b.Natures[k] = slices.Clone(v)
+		}
+	}
+
 	b.Actions = slices.Clone(a.Actions)
 
 	b.Immunities = maps.Clone(a.Immunities)

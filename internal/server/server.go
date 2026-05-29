@@ -50,7 +50,6 @@ func NewServer(ctx context.Context, queries *db.Queries) *Server {
 	mux.Handle("/api/", http.StripPrefix("/api", api))
 	mux.Handle("/socket/", http.StripPrefix("/socket", auth.WithSession(instancesHandler.ServeHTTP, queries)))
 
-	// CORS and other global middleware
 	handler := http.Handler(mux)
 	handler = withCORS(handler)
 
