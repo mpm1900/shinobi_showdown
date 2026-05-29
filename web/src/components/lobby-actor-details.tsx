@@ -30,10 +30,11 @@ function LobbyActorDetails({
         className
       )}
     >
+      <div className='top-0 bottom-0 left-0 w-1/2 absolute bg-gradient-to-r from-black to-transparent' />
       <img
         src={actor.sprite_url}
         draggable={false}
-        className={cn('absolute left-0 bottom-0 opacity-40')}
+        className={cn('absolute left-50 bottom-0 opacity-40')}
         style={{
           imageRendering: 'pixelated',
         }}
