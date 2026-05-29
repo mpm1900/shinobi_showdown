@@ -73,6 +73,22 @@ func SourceIsAlive(parent Game, game Game, context Context) bool {
 
 	return source.Alive
 }
+func SourceIsFullHealth(parent Game, game Game, context Context) bool {
+	source, ok := game.GetSource(context)
+	if !ok {
+		return false
+	}
+
+	return source.Damage == 0
+}
+func SourceIsNotFullHealth(parent Game, game Game, context Context) bool {
+	source, ok := game.GetSource(context)
+	if !ok {
+		return false
+	}
+
+	return source.Damage != 0
+}
 func SourceIsActionOffCooldown(parent Game, game Game, context Context) bool {
 	if context.ActionID == nil {
 		return false

@@ -7,8 +7,7 @@ import (
 
 var Sleep = game.GameMutation{
 	Delta: func(p, g game.Game, context game.Context) game.Game {
-		targets := g.GetTargets(context)
-		for _, target := range targets {
+		for _, target := range g.GetTargets(context) {
 			resolved := target.Resolve(g)
 			if resolved.Statused {
 				continue
@@ -34,8 +33,7 @@ var Sleep = game.GameMutation{
 
 var Burn = game.GameMutation{
 	Delta: func(p, g game.Game, context game.Context) game.Game {
-		targets := g.GetTargets(context)
-		for _, target := range targets {
+		for _, target := range g.GetTargets(context) {
 			resolved := target.Resolve(g)
 			if resolved.Statused {
 				continue
