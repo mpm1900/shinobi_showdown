@@ -8,78 +8,52 @@ import (
 	"github.com/google/uuid"
 )
 
+func findAction(instance *Instance, request Request) (game.Action, bool) {
+	if request.PromptID != nil {
+		tx, ok := instance.Game.GetPromptTxByID(*request.PromptID)
+		if ok {
+			return tx.Mutation, true
+		}
+		return game.Action{}, false
+	}
+
+	if request.Context.ActionID == nil {
+		return game.Action{}, false
+	}
+
+	actor, ok := instance.Game.GetSource(request.Context)
+	if !ok {
+		return game.Action{}, false
+	}
+
+	action, ok := actor.GetActionByID(instance.Game, *request.Context.ActionID)
+	if !ok {
+		action, ok = data.ACTIONS[*request.Context.ActionID]
+	}
+
+	return action, ok
+}
+
 func getTargets(instance *Instance, request Request) int {
-	if request.Context.ActionID == nil && request.PromptID == nil {
+	action, ok := findAction(instance, request)
+	if !ok {
 		instance.TargetIDsResponse(request.ClientID, request.Context, nil)
 		return none
 	}
 
-	var action = game.Action{}
-	if request.PromptID != nil {
-		tx, ok := instance.Game.GetPromptTxByID(*request.PromptID)
-		if !ok {
-			instance.TargetIDsResponse(request.ClientID, request.Context, nil)
-			return none
+	targetIDs := make([]uuid.UUID, 0, len(instance.Game.Actors))
+	for i := range instance.Game.Actors {
+		if action.TargetPredicate(instance.Game, instance.Game.Actors[i], request.Context) {
+			targetIDs = append(targetIDs, instance.Game.Actors[i].ID)
 		}
-		action = tx.Mutation
-	} else {
-		actor, ok := instance.Game.GetSource(request.Context)
-		if !ok {
-			instance.ValidateContextResponse(request.ClientID, request.Context, false)
-			return none
-		}
-
-		a, ok := actor.GetActionByID(instance.Game, *request.Context.ActionID)
-		if !ok {
-			// if it's not on the source, do a root look up
-			// this is probably due to something like recharing or a
-			// non-stored, special action
-			a, ok = data.ACTIONS[*request.Context.ActionID]
-			if !ok {
-				instance.TargetIDsResponse(request.ClientID, request.Context, nil)
-				return none
-			}
-		}
-
-		action = a
-	}
-
-	targets := instance.Game.GetActors(func(a game.Actor) bool {
-		return action.TargetPredicate(instance.Game, a, request.Context)
-	})
-	targetIDs := make([]uuid.UUID, 0, len(targets))
-	for _, a := range targets {
-		targetIDs = append(targetIDs, a.ID)
 	}
 
 	instance.TargetIDsResponse(request.ClientID, request.Context, targetIDs)
 	return none
 }
+
 func validateContext(instance *Instance, request Request) int {
-	if request.Context.ActionID == nil && request.PromptID == nil {
-		instance.ValidateContextResponse(request.ClientID, request.Context, false)
-		return none
-	}
-
-	if request.PromptID != nil {
-		action, ok := instance.Game.GetPromptTxByID(*request.PromptID)
-		if !ok {
-			instance.ValidateContextResponse(request.ClientID, request.Context, false)
-			return none
-		}
-
-		valid := action.Mutation.ContextValidate(request.Context)
-		instance.ValidateContextResponse(request.ClientID, request.Context, valid)
-		return none
-	}
-
-	actor, ok := instance.Game.GetSource(request.Context)
-	if !ok {
-		instance.ValidateContextResponse(request.ClientID, request.Context, false)
-		return none
-	}
-
-	action, ok := actor.GetActionByID(instance.Game, *request.Context.ActionID)
+	action, ok := findAction(instance, request)
 	if !ok {
 		instance.ValidateContextResponse(request.ClientID, request.Context, false)
 		return none
