@@ -266,15 +266,16 @@ func (dc *DamageCore) resolveSuccessResult(game Game, result DamageResult, targe
 		transactions.Push(dc.logHit(hit, target))
 
 		source_context := MakeContextForActor(dc.Source.Actor)
+		damage_amount := min(float64(hit.Damage), float64(target.Stats[StatHP]))
 		if dc.ActionConfig.LifeSteal != nil && *dc.ActionConfig.LifeSteal > 0.0 {
-			amount := Round(*dc.ActionConfig.LifeSteal * float64(hit.Damage))
+			amount := Round(*dc.ActionConfig.LifeSteal * damage_amount)
 			healTx := MakeTransaction(PureHeal(amount), source_context)
 			transactions.PushOne(healTx)
 		}
 
 		if dc.ActionConfig.Recoil != nil {
 			recoil := *dc.ActionConfig.Recoil * dc.Source.RecoilMultiplier
-			amount := Round(recoil * float64(hit.Damage))
+			amount := Round(recoil * damage_amount)
 			if recoil > 0.0 {
 				recoilTx := MakeTransaction(PureDamage(amount, false), source_context)
 				transactions.PushOne(recoilTx)
@@ -286,7 +287,7 @@ func (dc *DamageCore) resolveSuccessResult(game Game, result DamageResult, targe
 		}
 
 		if target.Reflect > 0.0 {
-			reflectDamage := Round(target.Reflect * float64(hit.Damage))
+			reflectDamage := Round(target.Reflect * damage_amount)
 			reflectTx := MakeTransaction(PureDamage(reflectDamage, false), source_context)
 			transactions.PushOne(reflectTx)
 		}
