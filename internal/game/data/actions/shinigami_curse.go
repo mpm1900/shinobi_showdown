@@ -15,7 +15,7 @@ func MakeShinigamiCurse() game.Action {
 		Name:        "Shinigami Curse",
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Fuinjutsu,
-		Description: "Lowers the target's Attack and Chakra Attack by 2 stages.",
+		Description: "Lowers the target's Attack and Chakra Attack by 2 stages. User dies.",
 		Cost:        game.Ptr(0),
 	})
 
