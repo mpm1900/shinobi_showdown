@@ -7,6 +7,7 @@ import (
 )
 
 type Message struct {
+	ID        uuid.UUID `json:"ID,omitempty"`
 	ClientID  uuid.UUID `json:"client_ID"`
 	Text      string    `json:"text"`
 	Timestamp time.Time `json:"timestamp"`

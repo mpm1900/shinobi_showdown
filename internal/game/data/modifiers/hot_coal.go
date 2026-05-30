@@ -16,14 +16,14 @@ var HotCoalTrigger = game.Trigger{
 		Priority: game.ActionPriorityDefault,
 		Filter:   game.TrueGameFilter,
 		Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
-			transactions := []game.GameTransaction{}
+			transactions := game.NewTransactionBuilder()
 			source, ok := g.GetSource(context)
 			if !ok {
-				return transactions
+				return transactions.Build()
 			}
 
-			transactions = append(transactions, ApplyBurn(game.ActionConfig{}, g, source, game.NewContext())...)
-			return transactions
+			transactions.Push(ApplyBurn(game.ActionConfig{}, g, source, game.NewContext()))
+			return transactions.Build()
 		},
 	},
 }

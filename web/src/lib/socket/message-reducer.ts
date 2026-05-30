@@ -1,4 +1,5 @@
 import { setContextPlayer } from '../stores/battle-context'
+import { pushChatMessage } from '../stores/chat'
 import { clientsStore } from '../stores/clients'
 import { gameStore } from '../stores/game'
 import type { SocketResponse } from './request'
@@ -29,6 +30,11 @@ function messageReducer(message: SocketResponse | null) {
       }))
       setContextPlayer(message.clients![0].ID)
       return
+    }
+    case 'new-chat': {
+      if (message.chat_message) {
+        pushChatMessage(message.chat_message)
+      }
     }
   }
 }

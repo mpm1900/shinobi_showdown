@@ -3,6 +3,7 @@ package instance
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 	"shinobi_showdown/internal/game"
 	"shinobi_showdown/internal/security"
@@ -114,17 +115,6 @@ func (c *Client) TryWriteResponse(response Response) bool {
 	}
 }
 
-func (c *Client) listenForRequest(request *Request) error {
-	_, raw, err := c.conn.ReadMessage()
-	if err != nil {
-		return err
-	}
-	if err := json.Unmarshal(raw, request); err != nil {
-		return err
-	}
-	return nil
-}
-
 func (c *Client) listenIn() {
 	defer c.Close()
 
@@ -138,8 +128,13 @@ func (c *Client) listenIn() {
 
 	for {
 		var request Request
-		if err := c.listenForRequest(&request); err != nil {
+		_, raw, err := c.conn.ReadMessage()
+		if err != nil {
 			break
+		}
+		if err := json.Unmarshal(raw, &request); err != nil {
+			log.Printf("error unmarshaling request: %v", err)
+			continue
 		}
 
 		select {

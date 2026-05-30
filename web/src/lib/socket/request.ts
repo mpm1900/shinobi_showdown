@@ -17,6 +17,14 @@ type SocketRequestType =
   | 'get-targets'
   | 'send-chat'
 
+type ChatMessage = {
+  ID?: string
+  client_ID: string
+  text: string
+  timestamp: string
+  username: string
+}
+
 type SocketRequest = {
   type: SocketRequestType
   prompt_ID?: string
@@ -24,13 +32,7 @@ type SocketRequest = {
   context: Context
   actor_config?: Partial<ActorConfig>
   team_config?: TeamConfig
-}
-
-type ChatMessage = {
-  client_ID: string
-  text: string
-  timestamp: string
-  username: string
+  chat_message?: ChatMessage
 }
 
 type SocketResponse = {
@@ -54,6 +56,7 @@ type SocketMessageSubscriber = (
 ) => void
 
 export type {
+  ChatMessage,
   SocketMessageSubscriber,
   SocketRequest,
   SocketRequestType,

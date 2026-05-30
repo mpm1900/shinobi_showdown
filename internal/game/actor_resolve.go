@@ -246,13 +246,12 @@ func (ah *actorResolveHandler) resolveNatures(resolved *ResolvedActor) {
 			resolved.Natures,
 		)
 
-		incomingMultiplier := natureResult.Result
-		if incomingMultiplier == 0 {
+		if natureResult.Result == 0 {
 			resolved.ResolvedNatureResistance[nature] = 0
 			continue
 		}
 
-		resolved.ResolvedNatureResistance[nature] = 1.0 / incomingMultiplier
+		resolved.ResolvedNatureResistance[nature] = 1.0 / natureResult.Result
 		ns := NatureSet(nature)
 		resolved.ResolvedNatureDamage[nature] = GetStabModifier(*resolved, &ns)
 	}

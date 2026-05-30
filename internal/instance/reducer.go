@@ -219,6 +219,7 @@ func Reducer(instance *Instance, request Request) int {
 			return none
 		}
 
+		request.ChatMessage.ID = uuid.New()
 		instance.BroadcastChatMessage(*request.ChatMessage)
 		return none
 
