@@ -3,8 +3,8 @@ import { type NatureSet } from '#/lib/game/nature'
 import { actorsQuery } from '#/lib/queries/actors'
 import { cn } from '#/lib/utils'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { Loader2, Plus } from 'lucide-react'
-import { useEffect, useMemo, useState, useTransition } from 'react'
+import { Plus } from 'lucide-react'
+import { startTransition, useMemo, useState } from 'react'
 import { NatureBadge } from './nature-badge'
 import { buttonVariants } from './ui/button'
 import {
@@ -36,11 +36,6 @@ function ActorCombobox({
 }) {
   const actors = useSuspenseQuery(actorsQuery)
   const [open, setOpen] = useState(false)
-  const [showOpenDetails, setShowOpenDetails] = useState(false)
-  const [optimisticActorId, setOptimisticActorId] = useState<string | null>(
-    null
-  )
-  const [isPending, startTransition] = useTransition()
   const sortedActors = useMemo(
     () => [...actors.data].sort((a, b) => a.name.localeCompare(b.name)),
     [actors.data]
@@ -50,9 +45,7 @@ function ActorCombobox({
     [actors.data]
   )
   const selectedSet = useMemo(() => new Set(selected), [selected])
-  const effectiveValueId = optimisticActorId ?? value ?? null
-  const actor =
-    (effectiveValueId ? actorById.get(effectiveValueId) : null) ?? null
+  const actor = (value ? actorById.get(value) : null) ?? null
   const is_active = !!actor && active === actor.actor_ID
   const selected_actors = selected.map((id) => actorById.get(id))
   const has_restricted = selected_actors.some((a) => a?.restricted)
@@ -71,24 +64,9 @@ function ActorCombobox({
     [sortedActors, selectedSet, showRestrictedDisabled]
   )
 
-  useEffect(() => {
-    setOptimisticActorId(null)
-  }, [value])
-
-  useEffect(() => {
-    if (!open) {
-      setShowOpenDetails(false)
-      return
-    }
-
-    const raf = requestAnimationFrame(() => setShowOpenDetails(true))
-    return () => cancelAnimationFrame(raf)
-  }, [open])
-
   const handleValueChange = (actor: ActorDef | null) => {
     if (!actor?.actor_ID) return
     setOpen(false)
-    setOptimisticActorId(actor.actor_ID)
     startTransition(() => {
       onValueChange?.(actor)
     })
@@ -111,7 +89,6 @@ function ActorCombobox({
             'bg-accent! border-stone-300/50!': is_active,
             'border border-amber-400/40!': actor?.restricted,
             'border border-amber-400!': actor?.restricted && is_active,
-            'opacity-80': isPending,
           },
           className
         )}
@@ -168,14 +145,7 @@ function ActorCombobox({
                   )}
                   {actor && (
                     <span className="ml-2 shrink-0 text-xs font-black text-stone-300/30">
-                      {isPending ? (
-                        <span className="inline-flex items-center gap-1 text-stone-300/60">
-                          <Loader2 className="size-3 animate-spin" />
-                          Updating...
-                        </span>
-                      ) : (
-                        'Lv.100'
-                      )}
+                      Lv.100
                     </span>
                   )}
                 </div>
@@ -216,21 +186,17 @@ function ActorCombobox({
                   showCheck={false}
                 >
                   <div className="truncate">{a.name}</div>
-                  {showOpenDetails ? (
-                    <div className="flex">
-                      {(Object.keys(a.natures) as Array<NatureSet>).map(
-                        (nature) => (
-                          <NatureBadge
-                            key={nature}
-                            nature={nature}
-                            className="text-xs"
-                          />
-                        )
-                      )}
-                    </div>
-                  ) : (
-                    <div className="h-5" />
-                  )}
+                  <div className="flex">
+                    {(Object.keys(a.natures) as Array<NatureSet>).map(
+                      (nature) => (
+                        <NatureBadge
+                          key={nature}
+                          nature={nature}
+                          className="text-xs"
+                        />
+                      )
+                    )}
+                  </div>
                 </ComboboxItem>
               )}
             </ComboboxList>

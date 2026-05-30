@@ -54,6 +54,7 @@ function TeamBuilderList({
               ))}
               {selected.length < 6 && (
                 <ActorCombobox
+                  key={`actor-add-${selected.length}`}
                   active={active}
                   selected={selected}
                   value={undefined}

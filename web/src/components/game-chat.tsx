@@ -93,7 +93,7 @@ function GameChat() {
                 <InputGroupAddon align="inline-end">
                   <InputGroupButton
                     variant="default"
-                    disabled={!field.form.state.canSubmit}
+                    disabled={!field.form.state.canSubmit || field.form.state.isPristine}
                     type="submit"
                   >
                     <ArrowRight />
