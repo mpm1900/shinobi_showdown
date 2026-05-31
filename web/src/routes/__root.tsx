@@ -47,7 +47,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
+        content: 'width=device-width, initial-scale=0.8',
       },
       {
         title: 'Shinobi Showdown',
@@ -101,16 +101,5 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
-  )
-}
-
-function RootErrorComponent({ error }: { error: unknown }) {
-  const message = error instanceof Error ? error.message : 'Unknown route error'
-
-  return (
-    <main className="p-6 space-y-4">
-      <h1 className="text-xl font-semibold">Something went wrong</h1>
-      <p className="text-sm text-muted-foreground">{message}</p>
-    </main>
   )
 }

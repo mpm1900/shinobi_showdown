@@ -7,6 +7,7 @@ import { useEffect, useRef } from 'react'
 import { GameChat } from './game-chat'
 import { ScrollArea } from './ui/scroll-area'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
+import { useIsMobile } from '#/hooks/use-mobile'
 
 function GameLogItem({
   item,
@@ -63,6 +64,9 @@ function GameLogList() {
     endRef.current?.scrollIntoView({ block: 'end' })
   }, [lastLogID])
 
+  const isMobile = useIsMobile()
+  if (isMobile) return null
+
   return (
     <ScrollArea className="h-40">
       <ul>
@@ -82,7 +86,7 @@ function GameLogList() {
 
 function GameLog() {
   return (
-    <div className="bg-stone-950/80 text-sm py-2 px-3 rounded-sm border border-stone-300/30 ring-1 ring-black min-w-96 mt-4">
+    <div className="hidden lg:block bg-stone-950/80 text-sm py-2 px-3 rounded-sm border border-stone-300/30 ring-1 ring-black min-w-96 mt-4">
       <Tabs defaultValue="log">
         <TabsList className="self-center">
           <TabsTrigger value="log">Log</TabsTrigger>

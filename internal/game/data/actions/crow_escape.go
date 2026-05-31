@@ -13,7 +13,7 @@ var MirageCrow = MakeMirageCrow()
 func MakeMirageCrow() game.Action {
 	config := makeStatusConfig(game.ActionConfig{
 		Name:        "Crow Escape",
-		Description: "Lowers the target's Chakra Attack by 2 stages. User then switches out.",
+		Description: "Lowers the target's Attack and Chakra Attack. User then switches out.",
 		Nature:      game.Ptr(game.NsYin),
 		Cost:        game.Ptr(30),
 		Jutsu:       game.Genjutsu,
@@ -36,7 +36,7 @@ func MakeMirageCrow() game.Action {
 				targets := g.GetTargets(context)
 				for _, target := range targets {
 					mut_ctx := game.MakeContextForActor(target).WithSource(*context.SourceActorID)
-					mutation := mutations.AddModifiers(false, modifiers.ChakraAttackDown2Target)
+					mutation := mutations.AddModifiers(false, modifiers.ChakraAttackDownTarget, modifiers.AttackDownTarget)
 					transaction := game.MakeTransaction(mutation, mut_ctx)
 					transactions = append(transactions, transaction)
 				}
