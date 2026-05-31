@@ -15,7 +15,7 @@ function TeamBuilderStats({
   onConfigChange: (config: ActorConfig) => void
 }) {
   return (
-    <table className="flex-1">
+    <table className="flex-1 border-separate border-spacing-y-1">
       <tbody>
         <tr>
           <td colSpan={1}>Stats</td>
@@ -27,7 +27,7 @@ function TeamBuilderStats({
           </td>
           <td
             colSpan={3}
-            className={cn('text-end', total > 66 ? 'text-destructive' : '')}
+            className={cn('text-end px-2', total > 66 ? 'text-destructive' : '')}
           >
             {total}
             /66

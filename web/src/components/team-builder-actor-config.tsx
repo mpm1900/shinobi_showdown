@@ -35,34 +35,36 @@ function TeamBuilderActorConfig({
     >
       {({ actor, selected_index, total, items }) => (
         <div>
-          <div className="flex my-2">
-            {def && (
-              <img src={def.sprite_url} className="object-cover size-16" />
-            )}
-            <div className="flex flex-col px-2">
-              <div className="flex gap-6 justify-between overflow-hidden truncate">
-                <div className="flex-1">{def?.name}</div>
-                <div className="flex items-start">
-                  {keys(def?.natures ?? [])
-                    .sort((a, b) => natureIndexes[a] - natureIndexes[b])
-                    .map((nature) => (
-                      <NatureBadge
-                        key={nature}
-                        nature={nature}
-                        className="text-xs"
-                      />
-                    ))}
+
+          <div className="flex gap-4 items-start">
+            <div className="flex flex-col gap-2 min-w-1/4 overflow-hidden">
+              <div className="flex my-2">
+                {def && (
+                  <img src={def.sprite_url} className="object-cover size-16" />
+                )}
+                <div className="flex flex-col px-2">
+                  <div className="flex gap-6 justify-between overflow-hidden truncate">
+                    <div className="flex-1">{def?.name}</div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {def?.restricted && (
+                      <span className="text-amber-300">Restricted</span>
+                    )}
+                  </div>
+                  <div className="flex items-start">
+                    {keys(def?.natures ?? [])
+                      .sort((a, b) => natureIndexes[a] - natureIndexes[b])
+                      .map((nature) => (
+                        <NatureBadge
+                          key={nature}
+                          nature={nature}
+                          className="text-xs"
+                        />
+                      ))}
+                  </div>
                 </div>
               </div>
-              <div className="text-xs text-muted-foreground">
-                {def?.restricted && (
-                  <span className="text-amber-300">Restricted</span>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <div className="flex flex-col gap-2 min-w-1/4 overflow-hidden">
+              <NastureSetDetails natures={keys(def?.natures ?? [])} />
               <TeamBuilderActorAttributes
                 def={def}
                 otherItemIDs={items}
@@ -88,7 +90,6 @@ function TeamBuilderActorConfig({
                   )
                 }}
               />
-              <NastureSetDetails natures={keys(def?.natures ?? [])} />
             </div>
 
             <TeamBuilderStats
