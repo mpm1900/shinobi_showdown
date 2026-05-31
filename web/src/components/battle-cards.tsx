@@ -34,7 +34,7 @@ function BattleCards({ actor }: { actor: Actor }) {
     (tx) => tx.context.source_actor_ID === actor.ID
   )
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-12 z-0 flex justify-center">
+    <div className="pointer-events-none fixed inset-x-0 -bottom-4 xl:bottom-12 z-0 flex justify-center">
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={actor.ID}

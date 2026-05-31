@@ -10,7 +10,7 @@ function PlayerThumbnails({ player_ID }: { player_ID: string }) {
   const actors = useStore(gameStore, (g) => g.actors)
   const is_player = client?.ID == player_ID
   return (
-    <div className="hidden lg:flex gap-2">
+    <div className="hidden xl:flex gap-2">
       {actors
         .filter((a) => a.player_ID === player_ID)
         .map((a, i) => (
