@@ -2,7 +2,6 @@ import { AppHeader } from '#/components/app-header'
 import { LobbyActorsList } from '#/components/lobby-actors-list'
 import { LobbyTeamSelect } from '#/components/lobby-team-select'
 import { LobbyThumbnails } from '#/components/lobby-thumbnails'
-import { PromptController } from '#/components/prompt-controller'
 import { Button } from '#/components/ui/button'
 import { CardDescription, CardTitle } from '#/components/ui/card'
 import { NULL_CONTEXT } from '#/lib/game/context'
@@ -13,7 +12,6 @@ import { sendContextMessage } from '#/lib/stores/socket'
 import {
   ClientOnly,
   createFileRoute,
-  Link,
   redirect,
 } from '@tanstack/react-router'
 import { useStore } from '@tanstack/react-store'
@@ -54,7 +52,6 @@ function App() {
 
   return (
     <ClientOnly>
-      <PromptController />
       <main className="min-w-0 overflow-x-hidden flex-1 flex flex-col">
         <AppHeader />
         <div className="flex min-w-0 flex-1 mt-14 p-4">
