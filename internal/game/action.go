@@ -64,6 +64,11 @@ type ActionConfig struct {
 	Struggle       bool             `json:"-"`
 }
 
+func (ac ActionConfig) With(f func(*ActionConfig)) ActionConfig {
+	f(&ac)
+	return ac
+}
+
 type ActionMutation Mutation[Game, Game, []Transaction[GameMutation]]
 
 type ActionState struct {

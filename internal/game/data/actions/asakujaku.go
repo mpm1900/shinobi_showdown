@@ -20,14 +20,13 @@ func MakeAsakujaku() game.Action {
 			Power:       game.Ptr(120),
 			Stat:        game.Ptr(game.StatAttack),
 			Recoil:      game.Ptr(0.3),
-			Cost:        game.Ptr(0),
 			Jutsu:       game.Taijutsu,
+			CritStage:   game.Ptr(1),
 		}),
 		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := game.NewTransactionBuilder()
 
-			targets := g.GetTargets(context)
-			for _, target := range targets {
+			for _, target := range g.GetTargets(context) {
 				transactions.Push(modifiers.ChanceBurn(action_config, g, context, target, 10))
 			}
 

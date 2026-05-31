@@ -9,21 +9,37 @@ import (
 )
 
 func makeAttackConfig(base game.ActionConfig) game.ActionConfig {
-	base.Cost = game.Ptr(0)
-	base.Cooldown = game.Ptr(0)
-	base.CritStage = game.Ptr(0)
+	if base.Cost == nil {
+		base.Cost = game.Ptr(0)
+	}
+	if base.Cooldown == nil {
+		base.Cooldown = game.Ptr(0)
+	}
+	if base.CritStage == nil {
+		base.CritStage = game.Ptr(0)
+	}
 	base.CritMod = 1.5
-	base.TargetCount = game.Ptr(1)
+	if base.TargetCount == nil {
+		base.TargetCount = game.Ptr(1)
+	}
 	base.TargetType = game.TargetPositionID
 	return base
 }
 
 func makeSpreadAttackConfig(base game.ActionConfig) game.ActionConfig {
-	base.Cost = game.Ptr(0)
-	base.Cooldown = game.Ptr(0)
-	base.CritStage = game.Ptr(0)
+	if base.Cost == nil {
+		base.Cost = game.Ptr(0)
+	}
+	if base.Cooldown == nil {
+		base.Cooldown = game.Ptr(0)
+	}
+	if base.CritStage == nil {
+		base.CritStage = game.Ptr(0)
+	}
 	base.CritMod = 1.5
-	base.TargetCount = game.Ptr(0)
+	if base.TargetCount == nil {
+		base.TargetCount = game.Ptr(0)
+	}
 	base.TargetType = game.TargetPositionID
 	return base
 }
@@ -36,8 +52,12 @@ func makeNoTargetStatusConfig(base game.ActionConfig) game.ActionConfig {
 }
 
 func makeStatusConfig(base game.ActionConfig) game.ActionConfig {
-	base.Cooldown = game.Ptr(0)
-	base.TargetCount = game.Ptr(1)
+	if base.Cooldown == nil {
+		base.Cooldown = game.Ptr(0)
+	}
+	if base.TargetCount == nil {
+		base.TargetCount = game.Ptr(1)
+	}
 	base.TargetType = game.TargetPositionID
 	return base
 }
