@@ -15,8 +15,8 @@ import {
 
 function FocusSelectItem({ focus }: { focus: (typeof actorFocuses)[number] }) {
   const obj = ACTOR_FOCUS_DETAILS[focus]
-  const up = obj.up?.replaceAll('_', ' ')
-  const down = obj.down?.replaceAll('_', ' ')
+  const up = obj.up?.replaceAll('_', ' ').replaceAll('chakra', 'c.')
+  const down = obj.down?.replaceAll('_', ' ').replaceAll('chakra', 'c.')
   return (
     <SelectItem value={focus}>
       <span className="capitalize">{focus}</span>{' '}
