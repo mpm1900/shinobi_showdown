@@ -9,6 +9,7 @@ import { cn } from '#/lib/utils'
 import { useForm } from '@tanstack/react-form'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { GiSharpShuriken } from 'react-icons/gi'
+import { toast } from 'sonner'
 import z from 'zod'
 
 const authSchema = z.object({
@@ -53,6 +54,7 @@ export function Login() {
         }
       } catch (e) {
         console.error(e)
+        toast.error(String(e))
       }
     },
   })
