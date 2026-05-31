@@ -24,10 +24,10 @@ export const Route = createFileRoute('/login')({
       throw redirect({ to: '/team-builder' })
     }
   },
-  component: RouteComponent,
+  component: Login,
 })
 
-function RouteComponent() {
+export function Login() {
   const signup = useSignup()
   const login = useLogin()
   const navigate = Route.useNavigate()

@@ -78,16 +78,6 @@ func TargetableFilter(game Game, actor Actor, context Context) bool {
 	return ComposeAF(
 		AliveFilter,
 		ActiveFilter,
-		func(game Game, actor Actor, context Context) bool {
-			/*
-				resolved := actor.Resolve(game)
-
-				if resolved.State == ActorStateIncorporeal {
-					return false
-				}
-			*/
-			return true
-		},
 	)(game, actor, context)
 }
 func TargetFilter(game Game, actor Actor, context Context) bool {

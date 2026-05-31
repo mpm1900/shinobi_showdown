@@ -26,6 +26,7 @@ interface RouterContext {
 import { meQuery } from '#/lib/queries/auth'
 import { uiStore } from '#/lib/stores/ui'
 import { useStore } from '@tanstack/react-store'
+import { Login } from './login'
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   beforeLoad: async ({ context, location }) => {
@@ -74,7 +75,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     scripts: [{ src: '/scripts/three.js' }, { src: '/scripts/fog.js' }],
   }),
   shellComponent: RootDocument,
-  errorComponent: RootErrorComponent,
+  errorComponent: Login,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {

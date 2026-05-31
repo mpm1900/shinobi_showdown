@@ -34,14 +34,13 @@ func DamageEquation(terms DamageTerms) int {
 	mods := terms.Critical * terms.Nature.Result * terms.STAB * terms.Targets * terms.Random * terms.Other
 	raw := (base * mods)
 	fmt.Println("DAMAGE REPORT:")
-	fmt.Printf("A/D POW: %d * %d / %d  = %f\n", terms.Power, terms.Attack, terms.Defense, pow_ad)
-	fmt.Printf("LEVEL: \t (2 * %d / 5) + 2 = %f\n", terms.Level, level_mod)
-	fmt.Printf("BASE: \t (%f * %f) / 50 + 2 = %f\n", pow_ad, level_mod, base)
-	fmt.Printf("MODS: \t %f = crit=%f, nature=%f, nature_base=%f stab=%f, targets=%f, random=%f, other=%f\n", mods, terms.Critical, terms.Nature.Result, terms.Nature.Average, terms.STAB, terms.Targets, terms.Random, terms.Other)
-	fmt.Println("")
+	fmt.Printf("A/D POW = %f\n \t%d * %d / %d\n", pow_ad, terms.Power, terms.Attack, terms.Defense)
+	fmt.Printf("LEVEL = %f\n \t(2 * %d / 5) + 2\n", level_mod, terms.Level)
+	fmt.Printf("BASE = %f\n \t(%f * %f) / 50 + 2\n", base, pow_ad, level_mod)
+	fmt.Printf("MODS = %f\n \tcrit=%f\n \tnature=%f\n \tnature_base=%f\n \tstab=%f\n \ttargets=%f\n \trandom=%f\n \tother=%f\n", mods, terms.Critical, terms.Nature.Result, terms.Nature.Average, terms.STAB, terms.Targets, terms.Random, terms.Other)
 	fmt.Printf(
-		"(((%d * %d / %d) * ((2 * %d / 5) + 2) / 50 + 2) * (%f * %f * %f * %f * %f * %f)  = %f \n",
-		terms.Power, terms.Attack, terms.Defense, terms.Level, terms.Critical, terms.Nature.Result, terms.STAB, terms.Targets, terms.Random, terms.Other, raw,
+		"TOTAL = %f\n \t([%d * %d / %d] * [(2 * %d / 5) + 2] / 50 + 2) * (%f * %f * %f * %f * %f * %f) = %f \n",
+		raw, terms.Power, terms.Attack, terms.Defense, terms.Level, terms.Critical, terms.Nature.Result, terms.STAB, terms.Targets, terms.Random, terms.Other, raw,
 	)
 	return Round(raw) + terms.Offset
 }
