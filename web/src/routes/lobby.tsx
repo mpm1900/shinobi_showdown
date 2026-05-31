@@ -9,11 +9,7 @@ import type { Team } from '#/lib/queries/teams'
 import { clientsStore } from '#/lib/stores/clients'
 import { gameStore } from '#/lib/stores/game'
 import { sendContextMessage } from '#/lib/stores/socket'
-import {
-  ClientOnly,
-  createFileRoute,
-  redirect,
-} from '@tanstack/react-router'
+import { ClientOnly, createFileRoute, redirect } from '@tanstack/react-router'
 import { useStore } from '@tanstack/react-store'
 import { Check, Loader2, Swords } from 'lucide-react'
 import { useEffect, useState } from 'react'

@@ -71,8 +71,8 @@ function RouteComponent() {
       <main className="flex min-h-screen flex-col">
         <AppHeader />
 
-        <section className="flex flex-1 p-4 md:p-6 mt-9">
-          <SidebarProvider className="min-h-full overflow-hidden w-full rounded-xl border border-stone-300/30 ring ring-black bg-stone-950 shadow-sm">
+        <section className="flex flex-1 p-0 lg:p-6 mt-11">
+          <SidebarProvider className="min-h-full overflow-hidden w-full lg:rounded-xl lg:border border-stone-300/30 ring ring-black bg-stone-950 shadow-sm">
             <TeamBuilderSidebar
               onLoadTeam={loadSavedTeam}
               onDeleteTeam={(t) => {
