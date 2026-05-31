@@ -2,6 +2,7 @@ import {
   ACTOR_FOCUS_DETAILS,
   actorFocuses,
   type ActorFocus,
+  type ActorNatureStat,
 } from '#/lib/game/actor'
 import { Field, FieldContent, FieldLabel } from './ui/field'
 import {
@@ -13,10 +14,20 @@ import {
   SelectValue,
 } from './ui/select'
 
+function parse(stat: ActorNatureStat | undefined | null): string {
+  if (!stat) return ''
+  return stat
+    .replaceAll('_', ' ')
+    .replaceAll('chakra', 'c.')
+    .replace('attack', 'atk')
+    .replace('defense', 'def')
+    .replace('speed', 'spd')
+}
+
 function FocusSelectItem({ focus }: { focus: (typeof actorFocuses)[number] }) {
   const obj = ACTOR_FOCUS_DETAILS[focus]
-  const up = obj.up?.replaceAll('_', ' ').replaceAll('chakra', 'c.')
-  const down = obj.down?.replaceAll('_', ' ').replaceAll('chakra', 'c.')
+  const up = parse(obj.up)
+  const down = parse(obj.down)
   return (
     <SelectItem value={focus}>
       <span className="capitalize">{focus}</span>{' '}

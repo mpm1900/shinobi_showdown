@@ -138,13 +138,11 @@ function TeamBuilderStat({
     <tr>
       <td
         className={cn('w-24 text-muted-foreground whitespace-nowrap text-xs', {
-          'text-green-300': up,
-          'text-red-300': down,
+          'text-green-300 font-bold': up,
+          'text-red-300 font-bold': down,
         })}
       >
         {STAT_NAMES[stat]}
-        {up && ' ( + )'}
-        {down && ' ( - )'}
       </td>
       <td className="w-8 text-right p-2 py-1 whitespace-nowrap font-black">
         {base?.stats[stat]}
