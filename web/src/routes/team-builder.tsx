@@ -86,7 +86,7 @@ function RouteComponent() {
 
             <SidebarInset className="min-h-0 bg-stone-950">
               <form.AppForm>
-                <div className="flex min-h-0 flex-row-reverse items-stretch p-4 gap-8">
+                <div className="flex min-h-0 flex-row-reverse items-stretch p-4 gap-3 lg:gap-6">
                   <div className="w-70">
                     <TeamBuilderActions
                       id={team?.id ?? null}
