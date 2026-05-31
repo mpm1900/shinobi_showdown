@@ -73,6 +73,7 @@ const columns = [
       ),
   }),
   helper.accessor('config.stat', {
+    id: 'stat',
     header: ({ column }) => (
       <Button
         className="-ml-4"
@@ -93,6 +94,7 @@ const columns = [
       ),
   }),
   helper.accessor('config.power', {
+    id: 'power',
     header: ({ column }) => (
       <Button
         className="-ml-4"
@@ -105,6 +107,7 @@ const columns = [
     cell: ({ row }) => row.original.config.power ?? '-',
   }),
   helper.accessor('config.accuracy', {
+    id: 'accuracy',
     header: ({ column }) => (
       <Button
         className="-ml-4"
@@ -178,9 +181,15 @@ function ActionsTable({
           {row.getVisibleCells().map((cell) => (
             <TableCell
               key={cell.id}
-              className={
-                cell.column.id === 'description' ? 'w-full max-w-0' : ''
-              }
+              className={cn(
+                cell.column.id === 'description' && 'w-full max-w-0',
+                {
+                  'hidden lg:table-cell':
+                    cell.column.id === 'stat' ||
+                    cell.column.id === 'accuracy' ||
+                    cell.column.id === 'description',
+                }
+              )}
             >
               {flexRender(cell.column.columnDef.cell, cell.getContext())}
             </TableCell>
@@ -209,7 +218,13 @@ function ActionsTable({
                 colSpan={header.colSpan}
                 className={cn(
                   'sticky top-0 z-10 bg-stone-900',
-                  header.column.id === 'description' ? 'w-full' : ''
+                  header.column.id === 'description' && 'w-full',
+                  {
+                    'hidden lg:table-cell':
+                      header.column.id === 'stat' ||
+                      header.column.id === 'accuracy' ||
+                      header.column.id === 'description',
+                  }
                 )}
               >
                 {flexRender(

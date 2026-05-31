@@ -134,7 +134,7 @@ function AppHeader() {
             <div className="flex items-center gap-2">
               <Tooltip>
                 <TooltipTrigger>
-                  <span>{user.email}</span>
+                  <span className="hidden lg:inline">{user.email}</span>
                 </TooltipTrigger>
                 <TooltipContent>{user.id}</TooltipContent>
               </Tooltip>

@@ -149,7 +149,7 @@ function TeamBuilderStat({
       <td className="w-8 text-right p-2 py-1 whitespace-nowrap font-black">
         {base?.stats[stat]}
       </td>
-      <td>
+      <td className="hidden lg:flex">
         <TeamBuilderStatGuage
           baseStat={base?.stats[stat] ?? 0}
           greyscale={stat === 'stamina'}
@@ -168,7 +168,7 @@ function TeamBuilderStat({
           }}
         />
       </td>
-      <td>
+      <td className="hidden xl:flex">
         <Slider
           value={[localAux]}
           max={PER_STAT_MAX}
