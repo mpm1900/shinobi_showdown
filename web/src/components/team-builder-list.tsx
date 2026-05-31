@@ -1,12 +1,8 @@
 import type { TeamBuilderForm } from '#/hooks/use-team-builder-form'
-import { getEffectiveness, NATURES } from '#/lib/game/nature'
 import { makeConfigFromDef } from '#/lib/game/team'
 import { formatDistanceToNow } from 'date-fns'
-import { Fragment } from 'react/jsx-runtime'
 import { ActorCombobox } from './actor-combobox'
-import { NatureBadge } from './nature-badge'
-
-const typeNatures = NATURES
+import { NatureEffectivenessTable } from './nature-effectiveness-table'
 
 function TeamBuilderList({
   form,
@@ -18,102 +14,74 @@ function TeamBuilderList({
   id: string | null
 }) {
   return (
-    <form.Field name="actors" mode="array">
-      {(field) => (
-        <form.Subscribe
-          selector={(state) => ({
-            selected: state.values.actors.map((a) => a.actor_ID!),
-            active: state.values.actors[state.values.selected_index]?.actor_ID,
-          })}
-        >
-          {({ selected, active }) => (
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center justify-between">
-                <div>Team: {selected.length}/6</div>
-                {created_at && (
-                  <div className="text-xs">
-                    {formatDistanceToNow(new Date(created_at))}
-                  </div>
-                )}
-              </div>
-              {field.state.value.map((_, i) => (
-                <form.Field key={i} name={`actors[${i}]`}>
-                  {(actorID) => (
+    <div className="flex flex-col gap-1">
+      <div className="flex items-center justify-between">
+        <form.Subscribe selector={(state) => state.values.actors.length}>
+          {(count) => <div>Team: {count}/6</div>}
+        </form.Subscribe>
+        {created_at && (
+          <div className="text-xs">
+            {formatDistanceToNow(new Date(created_at))}
+          </div>
+        )}
+      </div>
+
+      <form.Field name="actors" mode="array">
+        {(field) => (
+          <form.Subscribe
+            selector={(state) => ({
+              selected: state.values.actors.map((a) => a.actor_ID!).join(','),
+              active:
+                state.values.actors[state.values.selected_index]?.actor_ID,
+            })}
+          >
+            {({ selected, active }) => {
+              const selectedArray = selected ? selected.split(',') : []
+              return (
+                <>
+                  {field.state.value.map((_, i) => (
+                    <form.Field key={i} name={`actors[${i}]`}>
+                      {(actorField) => (
+                        <ActorCombobox
+                          active={active}
+                          selected={selectedArray}
+                          value={actorField.state.value?.actor_ID}
+                          onValueChange={(actor) => {
+                            actorField.handleChange(makeConfigFromDef(actor))
+                            form.setFieldValue('selected_index', i)
+                          }}
+                          onClick={() =>
+                            form.setFieldValue('selected_index', i)
+                          }
+                        />
+                      )}
+                    </form.Field>
+                  ))}
+                  {selectedArray.length < 6 && (
                     <ActorCombobox
+                      key={`actor-add-${selectedArray.length}`}
                       active={active}
-                      selected={selected}
-                      value={actorID.state.value?.actor_ID}
+                      selected={selectedArray}
+                      value={undefined}
                       onValueChange={(actor) => {
-                        actorID.handleChange(makeConfigFromDef(actor))
-                        form.setFieldValue('selected_index', i)
+                        form.pushFieldValue('actors', makeConfigFromDef(actor))
+                        form.setFieldValue(
+                          'selected_index',
+                          selectedArray.length
+                        )
                       }}
-                      onClick={() => form.setFieldValue('selected_index', i)}
                     />
                   )}
-                </form.Field>
-              ))}
-              {selected.length < 6 && (
-                <ActorCombobox
-                  key={`actor-add-${selected.length}`}
-                  active={active}
-                  selected={selected}
-                  value={undefined}
-                  onValueChange={(actor) => {
-                    form.pushFieldValue('actors', makeConfigFromDef(actor))
-                    form.setFieldValue('selected_index', selected.length)
-                  }}
-                />
-              )}
-              <div className="text-xs text-muted-foreground text-center">
-                {id}
-              </div>
-              <div className="grid grid-cols-10 gap-1 pt-4">
-                <div />
-                {typeNatures.map((n) => (
-                  <div key={n} className="grid grid-cols-1 place-items-center">
-                    <NatureBadge nature={n} />
-                  </div>
-                ))}
-                {typeNatures.map((a) => (
-                  <Fragment key={a}>
-                    <div className="grid grid-cols-1 place-items-center">
-                      <NatureBadge nature={a} />
-                    </div>
-                    {typeNatures.map((b) => {
-                      const eff = getEffectiveness(a, [b])
-                      return (
-                        <div
-                          key={b}
-                          className="grid grid-cols-1 place-items-center"
-                        >
-                          <>
-                            {eff === 2 && (
-                              <div className="rounded-full size-3 bg-green-600" />
-                            )}
-                            {eff === 1.25 && (
-                              <div className="rounded-full size-2 bg-green-300" />
-                            )}
-                            {eff === 1 && (
-                              <div className="rounded-full size-2 bg-stone-600" />
-                            )}
-                            {eff === 0.8 && (
-                              <div className="rounded-full size-2 bg-red-300" />
-                            )}
-                            {eff === 0.5 && (
-                              <div className="rounded-full size-3 bg-red-400" />
-                            )}
-                          </>
-                        </div>
-                      )
-                    })}
-                  </Fragment>
-                ))}
-              </div>
-            </div>
-          )}
-        </form.Subscribe>
-      )}
-    </form.Field>
+                </>
+              )
+            }}
+          </form.Subscribe>
+        )}
+      </form.Field>
+
+      <div className="text-xs text-muted-foreground text-center">{id}</div>
+      <NatureEffectivenessTable />
+    </div>
   )
 }
 

@@ -49,9 +49,7 @@ function DebouncedInput({
   }, [debounced])
 
   React.useEffect(() => {
-    if (text !== value) {
-      setText(value)
-    }
+    setText(value)
   }, [value])
 
   return (

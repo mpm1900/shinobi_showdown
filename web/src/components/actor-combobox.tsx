@@ -4,7 +4,7 @@ import { actorsQuery } from '#/lib/queries/actors'
 import { cn } from '#/lib/utils'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
-import { startTransition, useMemo, useState } from 'react'
+import { memo, startTransition, useMemo, useState } from 'react'
 import { NatureBadge } from './nature-badge'
 import { buttonVariants } from './ui/button'
 import {
@@ -19,7 +19,7 @@ import {
 } from './ui/combobox'
 import { Separator } from './ui/separator'
 
-function ActorCombobox({
+const ActorCombobox = memo(function ActorCombobox({
   className,
   onClick,
   selected = [],
@@ -205,6 +205,6 @@ function ActorCombobox({
       </div>
     </Combobox>
   )
-}
+})
 
 export { ActorCombobox }

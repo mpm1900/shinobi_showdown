@@ -30,8 +30,7 @@ function TeamBuilderActions({
       <div className="flex gap-2 w-full">
         <form.Field name="name">
           {(field) => (
-            <DebouncedInput
-              delay={200}
+            <Input
               placeholder="Team Name"
               value={field.state.value}
               onValueChange={(v) => field.handleChange(v as string)}

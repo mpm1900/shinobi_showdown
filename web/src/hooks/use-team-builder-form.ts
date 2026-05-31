@@ -12,7 +12,7 @@ function useTeamBuilderForm({
 }) {
   const form = useAppForm({
     defaultValues: {
-      name: 'Team',
+      name: '',
       selected_index: 0,
       actors: [] as TeamActor[],
     },

@@ -113,7 +113,9 @@ function TeamBuilderSidebar({
                       onClick={() => loadSavedTeam(team)}
                     >
                       <div className="cursor-pointer pr-8">
-                        <span className='truncate'>{team.team_config.name}</span>
+                        <span className="truncate">
+                          {team.team_config.name}
+                        </span>
                         <Button
                           size="icon-xs"
                           className="hidden group-hover:flex absolute right-1"
