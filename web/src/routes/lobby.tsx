@@ -65,23 +65,21 @@ function App() {
               {client &&
                 ready &&
                 (unstarted ? (
-                  <Link to="/battle">
-                    <Button
-                      disabled={
-                        players.some((p) => !p.ready) ||
-                        enemies.some((e) => !e.ready)
-                      }
-                      onClick={() => {
-                        sendContextMessage({
-                          type: 'start-battle',
-                          client_ID: client.ID,
-                          context: NULL_CONTEXT,
-                        })
-                      }}
-                    >
-                      <Swords /> Start Battle
-                    </Button>
-                  </Link>
+                  <Button
+                    disabled={
+                      players.some((p) => !p.ready) ||
+                      enemies.some((e) => !e.ready)
+                    }
+                    onClick={() => {
+                      sendContextMessage({
+                        type: 'start-battle',
+                        client_ID: client.ID,
+                        context: NULL_CONTEXT,
+                      })
+                    }}
+                  >
+                    <Swords /> Start Battle
+                  </Button>
                 ) : (
                   <Button
                     onClick={() => {
