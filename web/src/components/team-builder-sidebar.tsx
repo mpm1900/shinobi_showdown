@@ -112,11 +112,11 @@ function TeamBuilderSidebar({
                       className="justify-between group"
                       onClick={() => loadSavedTeam(team)}
                     >
-                      <div className="cursor-pointer">
-                        <span>{team.team_config.name}</span>
+                      <div className="cursor-pointer pr-8">
+                        <span className='truncate'>{team.team_config.name}</span>
                         <Button
                           size="icon-xs"
-                          className="hidden group-hover:flex"
+                          className="hidden group-hover:flex absolute right-1"
                           variant="ghost"
                           onClick={(e) => {
                             e.stopPropagation()
