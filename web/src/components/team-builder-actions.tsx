@@ -41,13 +41,13 @@ function TeamBuilderActions({
                   />
                 )}
               </form.Field>
-              <Button
+              {/*<Button
                 variant="secondary"
                 size="icon"
                 onClick={() => toast('test')}
               >
                 <Import />
-              </Button>
+                </Button>*/}
               <Button
                 size="icon"
                 variant="secondary"
@@ -85,8 +85,8 @@ function TeamBuilderActions({
                 disabled={!isValid || isSubmitting || isValidating || !client}
                 onClick={form.handleSubmit}
                 className="cursor-pointer"
+                size='icon'
               >
-                Load
                 <ChevronRight />
               </Button>
             </div>
