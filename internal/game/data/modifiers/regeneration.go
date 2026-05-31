@@ -11,7 +11,9 @@ var RegenerationTrigger game.Trigger = game.Trigger{
 	ID:         uuid.New(),
 	ModifierID: regenerationID,
 	On:         game.OnActorEnter,
-	Check:      game.Match__SourceActor_SourceActor,
+	Check: func(p, g game.Game, context game.Context, t game.Transaction[game.Modifier]) bool {
+		return game.Match__SourceActor_SourceActor(p, g, context, t) && game.SourceIsNotFullHealth(p, g, context)
+	},
 	ActionMutation: game.ActionMutation{
 		Priority: game.ActionPriorityP1,
 		Filter:   game.TrueGameFilter,
