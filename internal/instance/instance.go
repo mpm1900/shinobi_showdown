@@ -167,54 +167,53 @@ func (i *Instance) FlushGame() bool {
 		time.Sleep(i.Game.Tick)
 	}
 
-	if len(i.Game.Prompts) > 0 {
-		return true
-	}
-
-	return false
+	return len(i.Game.Prompts) > 0
 }
 
 func (i *Instance) RunGameActions() {
-	go func() {
-		i.Game.Status = game.GameStatusRunning
-		i.BroadcastGame()
+	if i.Game.Status == game.GameStatusRunning {
+		return
+	}
 
-	resolveStep:
-		for {
+	i.Game.Status = game.GameStatusRunning
+	i.BroadcastGame()
+	defer func() {
+		i.Game.Status = game.GameStatusIdle
+		i.BroadcastGame()
+	}()
+
+resolveStep:
+	for {
+		if i.FlushGame() {
+			break resolveStep
+		}
+
+		switch i.Game.Turn.Phase {
+		case game.TurnMain:
+			i.Game.NextPhase()
+			i.BroadcastGame()
+			continue
+
+		case game.TurnEnd:
+			i.Game.EndTurn()
+
 			if i.FlushGame() {
 				break resolveStep
 			}
 
-			switch i.Game.Turn.Phase {
-			case game.TurnMain:
-				i.Game.NextPhase()
-				i.BroadcastGame()
-				continue
+			i.Game.NextPhase()
+			i.BroadcastGame()
+			continue
 
-			case game.TurnEnd:
-				i.Game.EndTurn()
+		case game.TurnCleanup:
+			time.Sleep(i.Game.Tick)
+			i.Game.NextTurn()
+			i.BroadcastGame()
+			break resolveStep
 
-				if i.FlushGame() {
-					break resolveStep
-				}
-
-				i.Game.NextPhase()
-				i.BroadcastGame()
-				continue
-
-			case game.TurnCleanup:
-				time.Sleep(i.Game.Tick)
-				i.Game.NextTurn()
-				i.BroadcastGame()
-				break resolveStep
-
-			default:
-				i.Game.NextPhase()
-				i.BroadcastGame()
-			}
+		default:
+			i.Game.NextPhase()
+			i.BroadcastGame()
 		}
-
-		i.Game.Status = game.GameStatusIdle
-		i.BroadcastGame()
-	}()
+	}
 }
