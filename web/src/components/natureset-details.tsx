@@ -9,17 +9,12 @@ import { NatureBadge } from './nature-badge'
 function NastureSetDetails({ natures }: { natures: Array<NatureSet> }) {
   const weaknesses = getWeakness(...natures)
   const resistances = getResistance(...natures)
+  if (weaknesses.length === 0 && resistances.length === 0) return null
   return (
-    <div>
-      <div className="flex justify-between items-center">
-        {natures
-          .sort((a, b) => natureIndexes[a] - natureIndexes[b])
-          .map((nature) => (
-            <NatureBadge key={nature} nature={nature} />
-          ))}
-        <div className="text-muted-foreground text-xs flex-1 text-center">
-          {' '}
-          is weak to{' '}
+    <div className="flex justify-between items-center gap-4">
+      <div className="flex items-center gap-1">
+        <div className="text-muted-foreground text-xs flex-1 text-center text-nowrap">
+          is weak to
         </div>
         {weaknesses
           .filter((w) => !resistances.includes(w))
@@ -28,15 +23,9 @@ function NastureSetDetails({ natures }: { natures: Array<NatureSet> }) {
             <NatureBadge key={nature} nature={nature} />
           ))}
       </div>
-      <div className="flex justify-between items-center">
-        {natures
-          .sort((a, b) => natureIndexes[a] - natureIndexes[b])
-          .map((nature) => (
-            <NatureBadge key={nature} nature={nature} />
-          ))}
-        <div className="text-muted-foreground text-xs flex-1 text-center">
-          {' '}
-          resists{' '}
+      <div className="flex items-center gap-1">
+        <div className="text-muted-foreground text-xs flex-1 text-center text-nowrap">
+          resists
         </div>
         {resistances
           .filter((r) => !weaknesses.includes(r))

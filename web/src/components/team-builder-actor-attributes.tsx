@@ -37,14 +37,16 @@ function TeamBuilderActorAttributes({
         value={itemID ?? null}
         onValueChange={onItemIDChange}
       />
-      <Field>
-        <FieldLabel>Default Modifiers:</FieldLabel>
-        <FieldContent className="flex items-start">
-          {def?.default_modifiers?.map((mod) => (
-            <Modifier key={mod.ID} count={0} modifier={mod} />
-          )) ?? <span className="text-xs">None</span>}
-        </FieldContent>
-      </Field>
+      {def?.default_modifiers?.length && (
+        <Field>
+          <FieldLabel>Default Modifiers</FieldLabel>
+          <FieldContent className="flex items-start">
+            {def?.default_modifiers?.map((mod) => (
+              <Modifier key={mod.ID} count={0} modifier={mod} />
+            )) ?? <span className="text-xs">None</span>}
+          </FieldContent>
+        </Field>
+      )}
     </div>
   )
 }

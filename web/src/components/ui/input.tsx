@@ -48,6 +48,12 @@ function DebouncedInput({
     onValueChange(debounced)
   }, [debounced])
 
+  React.useEffect(() => {
+    if (text !== value) {
+      setText(value)
+    }
+  }, [value])
+
   return (
     <Input
       {...props}

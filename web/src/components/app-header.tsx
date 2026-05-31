@@ -9,9 +9,9 @@ import { Link, useRouterState } from '@tanstack/react-router'
 import { useStore } from '@tanstack/react-store'
 import {
   ChevronRight,
-  Loader,
+  Globe,
+  Loader2,
   LogOut,
-  Signal,
   TriangleAlert,
   Unplug,
 } from 'lucide-react'
@@ -64,9 +64,9 @@ function AppHeader() {
               <>
                 {status === 'idle' && <Unplug />}
                 {(status === 'connecting' || status === 'reconnecting') && (
-                  <Loader className="animate-spin" />
+                  <Loader2 className="animate-spin" />
                 )}
-                {status === 'open' && <Signal />}
+                {status === 'open' && <Globe />}
                 {(status === 'closed' || status === 'error') && (
                   <TriangleAlert className="text-destructive" />
                 )}
