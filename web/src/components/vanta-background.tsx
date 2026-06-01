@@ -1,4 +1,5 @@
 import { gameStore } from '#/lib/stores/game'
+import { useLocation } from '@tanstack/react-router'
 import { useStore } from '@tanstack/react-store'
 import { useEffect, useRef } from 'react'
 
@@ -12,6 +13,7 @@ export const VantaBackground = () => {
   const vantaRef = useRef<HTMLDivElement>(null)
   const vantaEffectRef = useRef<any>(null)
   const g_state = useStore(gameStore, (g) => g.state)
+  const location = useLocation()
   const weather = g_state.weather
 
   useEffect(() => {
@@ -86,7 +88,7 @@ export const VantaBackground = () => {
         vantaEffectRef.current = null
       }
     }
-  }, [weather])
+  }, [weather, location.pathname])
 
   return (
     <>
