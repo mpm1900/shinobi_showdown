@@ -93,7 +93,7 @@ function RouteComponent() {
                   )}
               </div>
             )}
-            <div className="fixed bottom-4 xl:bottom-8 left-4 xl:left-8 flex z-40">
+            <div className="fixed bottom-4 xl:bottom-8 left-8 flex z-40">
               {players.map((player) => (
                 <PlayerPositions
                   key={player.ID}
