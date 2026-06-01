@@ -4,7 +4,7 @@ import { actorsQuery } from '#/lib/queries/actors'
 import { cn } from '#/lib/utils'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
-import { memo, startTransition, useMemo, useState } from 'react'
+import { memo, startTransition, useMemo, useRef, useState } from 'react'
 import { NatureBadge } from './nature-badge'
 import { buttonVariants } from './ui/button'
 import {
@@ -36,6 +36,7 @@ const ActorCombobox = memo(function ActorCombobox({
 }) {
   const actors = useSuspenseQuery(actorsQuery)
   const [open, setOpen] = useState(false)
+  const triggerRef = useRef<HTMLButtonElement>(null)
   const sortedActors = useMemo(
     () => [...actors.data].sort((a, b) => a.name.localeCompare(b.name)),
     [actors.data]
@@ -92,6 +93,12 @@ const ActorCombobox = memo(function ActorCombobox({
           },
           className
         )}
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          if (actor) return
+          triggerRef.current?.click()
+        }}
       >
         {actor ? (
           <img
@@ -111,9 +118,12 @@ const ActorCombobox = memo(function ActorCombobox({
             }}
           />
         ) : (
-          <Plus className="text-muted-foreground/60 size-8 m-2 mr-0" />
+          <Plus
+            className="text-muted-foreground/60 size-8 m-2 mr-0 cursor-pointer"
+          />
         )}
         <ComboboxTrigger
+          ref={triggerRef}
           className={cn(
             'relative mr-2 flex min-w-0 flex-1 items-center justify-between gap-4',
             actor?.restricted && '*:text-amber-400!'
