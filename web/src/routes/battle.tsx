@@ -42,18 +42,20 @@ function RouteComponent() {
     <ClientOnly>
       <PromptController />
       <BattleContextController />
-      <main className="flex flex-col h-screen">
-        <AppHeader />
+      <main className="flex flex-col h-dvh overflow-hidden">
+        <div className="hidden lg:block">
+          <AppHeader />
+        </div>
         <div
           ref={vfxContainerRef}
-          className="flex flex-col flex-1 relative overflow-auto"
+          className="flex flex-col flex-1 relative overflow-hidden"
         >
           <BattleTargetingVfx
             containerRef={vfxContainerRef}
             runningContext={runningContext}
           />
           <div>
-            <div className="fixed top-17 px-4 flex flex-col items-end right-4 z-10">
+            <div className="fixed top-2 lg:top-17 px-4 flex flex-col items-end right-4 z-10">
               <div>
                 {enemies.map((player) => (
                   <PlayerPositions key={player.ID} flip player_ID={player.ID} />

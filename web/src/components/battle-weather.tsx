@@ -11,7 +11,11 @@ function BattleWeather() {
   )
   return (
     <div className="space-y-2 mt-4">
-      <Switch checked={ui.bgEnabled} onCheckedChange={setBgEnabled} />
+      <Switch
+        className="hidden lg:block"
+        checked={ui.bgEnabled}
+        onCheckedChange={setBgEnabled}
+      />
       <div>
         {modifiers.map((tx) => (
           <Modifier key={tx.ID} modifier={tx.mutation} count={1} />
