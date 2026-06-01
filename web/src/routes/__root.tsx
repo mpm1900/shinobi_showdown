@@ -49,7 +49,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       {
         name: 'viewport',
         content:
-          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover',
+          'width=device-width, initial-scale=0.90, maximum-scale=1.0, user-scalable=no, viewport-fit=cover',
       },
       {
         name: 'apple-mobile-web-app-capable',
@@ -93,11 +93,7 @@ function ScaleWrapper({ children }: { children: React.ReactNode }) {
   const isScaledRoute = ['/battle', '/lobby'].includes(location.pathname)
 
   if (!isScaledRoute) {
-    return (
-      <TanStackQueryProvider>
-        <TooltipProvider>{children}</TooltipProvider>
-      </TanStackQueryProvider>
-    )
+    return <>{children}</>
   }
 
   return (
@@ -109,9 +105,7 @@ function ScaleWrapper({ children }: { children: React.ReactNode }) {
         transform: 'scale(var(--app-scale))',
       }}
     >
-      <TanStackQueryProvider>
-        <TooltipProvider>{children}</TooltipProvider>
-      </TanStackQueryProvider>
+      {children}
     </div>
   )
 }
@@ -132,7 +126,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <VantaBackground />
           </ClientOnly>
         )}
-        <ScaleWrapper>{children}</ScaleWrapper>
+        <TanStackQueryProvider>
+          <TooltipProvider>
+            <ScaleWrapper>{children}</ScaleWrapper>
+          </TooltipProvider>
+        </TanStackQueryProvider>
         <Toaster position="bottom-center" />
         <Scripts />
       </body>
