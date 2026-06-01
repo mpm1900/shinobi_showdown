@@ -24,15 +24,6 @@ export const Route = createFileRoute('/battle')({
     }
   },
   component: RouteComponent,
-  head: () => ({
-    meta: [
-      {
-        name: 'viewport',
-        content:
-          'width=device-width, initial-scale=0.75, maximum-scale=1.0, viewport-fit=cover',
-      },
-    ],
-  }),
 })
 
 function RouteComponent() {
