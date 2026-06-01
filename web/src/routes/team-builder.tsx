@@ -77,7 +77,7 @@ function RouteComponent() {
 
   return (
     <ClientOnly>
-      <main className="flex min-h-screen flex-col">
+      <main className="flex min-h-full flex-col">
         <AppHeader />
 
         <section className="flex flex-1 p-0 lg:p-6 mt-11">

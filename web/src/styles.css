@@ -116,13 +116,25 @@
 }
 
 @layer base {
+  :root {
+    --app-scale: 1;
+    --app-size: 100%;
+  }
+
+  @media (max-width: 1023px) {
+    :root {
+      --app-scale: 0.75;
+      --app-size: 133.333333%;
+    }
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
 
   html,
   body {
-    @apply m-0 min-h-screen w-full;
+    @apply m-0 h-full w-full;
   }
 
   body {

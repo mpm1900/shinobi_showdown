@@ -125,6 +125,9 @@ function BattleTargetingVfx({
     if (!container || beamContexts.length === 0) return []
 
     const containerRect = container.getBoundingClientRect()
+    // Calculate the scale factor by comparing the bounding rect width (scaled) to the actual offset width (unscaled)
+    const scale = containerRect.width / container.offsetWidth || 1
+
     return beamContexts.flatMap((beam) => {
       if (!beam.context.source_actor_ID) return []
       const sourceActor = game.actors.find(
@@ -138,8 +141,8 @@ function BattleTargetingVfx({
       if (!sourceViewport) return []
 
       const source = {
-        x: sourceViewport.x - containerRect.left,
-        y: sourceViewport.y - containerRect.top,
+        x: (sourceViewport.x - containerRect.left) / scale,
+        y: (sourceViewport.y - containerRect.top) / scale,
       }
 
       const targetIDs = toTargetActorIDs(beam.context, positionToActor)
@@ -168,8 +171,8 @@ function BattleTargetingVfx({
             sourceOutDir,
             targetInDir,
             target: {
-              x: targetViewport.x - containerRect.left,
-              y: targetViewport.y - containerRect.top,
+              x: (targetViewport.x - containerRect.left) / scale,
+              y: (targetViewport.y - containerRect.top) / scale,
             },
           }
         })

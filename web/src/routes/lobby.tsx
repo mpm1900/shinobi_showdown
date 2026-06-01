@@ -53,7 +53,7 @@ function App() {
 
   return (
     <ClientOnly>
-      <main className="min-w-0 overflow-x-hidden flex-1 flex flex-col">
+      <main className="min-w-0 overflow-x-hidden flex-1 flex flex-col h-full">
         <AppHeader />
         <div className="flex min-w-0 flex-1 mt-14 p-4">
           <div className="min-w-0 space-y-2 flex-1 overflow-auto">

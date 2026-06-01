@@ -8,14 +8,13 @@ import { PlayerPositions } from '#/components/player-positions'
 import { PlayerThumbnails } from '#/components/player-thumbnails'
 import { PromptController } from '#/components/prompt-controller'
 import { RunningContext } from '#/components/running-context'
-import { refreshVanta } from '#/components/vanta-background'
 import { useActiveActor } from '#/hooks/use-active-actor'
 import { battleContext, setContextSource } from '#/lib/stores/battle-context'
 import { clientsStore } from '#/lib/stores/clients'
 import { gameStore } from '#/lib/stores/game'
 import { ClientOnly, createFileRoute, redirect } from '@tanstack/react-router'
 import { useStore } from '@tanstack/react-store'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 
 export const Route = createFileRoute('/battle')({
   beforeLoad: ({ context }) => {
@@ -43,14 +42,13 @@ function RouteComponent() {
     <ClientOnly>
       <PromptController />
       <BattleContextController />
-      <main className="flex flex-col h-dvh overflow-hidden">
+      <main className="flex flex-col h-full overflow-hidden">
         <div className="hidden xl:block">
           <AppHeader />
         </div>
-        {/* Scale wrapper for mobile landscape to fit more on screen without breaking viewport */}
         <div
           ref={vfxContainerRef}
-          className="flex flex-col flex-1 relative overflow-hidden transform-gpu origin-center transition-transform duration-300 [@media(max-height:450px)]:scale-[0.85] [@media(max-height:400px)]:scale-[0.8]"
+          className="flex flex-col flex-1 relative overflow-hidden"
         >
           <BattleTargetingVfx
             containerRef={vfxContainerRef}
@@ -81,7 +79,7 @@ function RouteComponent() {
                 )}
             </div>
           )}
-          <div className="fixed bottom-4 xl:bottom-8 left-8 flex z-40">
+          <div className="fixed bottom-4 xl:bottom-8 left-4 xl:left-8 flex z-40">
             {players.map((player) => (
               <PlayerPositions
                 key={player.ID}

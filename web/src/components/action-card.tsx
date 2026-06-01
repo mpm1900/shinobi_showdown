@@ -26,7 +26,7 @@ function ActionCard({
       disabled={disabled}
       className={cn(
         'group',
-        'flex flex-col w-[230px] h-[200px] rounded-lg border-2 border-stone-900 hover:border-stone-700 text-left relative',
+        'flex flex-col w-[230px] h-[200px] [@media(max-height:500px)]:h-[160px] rounded-lg border-2 border-stone-900 hover:border-stone-700 text-left relative',
         `bg-black text-foreground`,
         'transition-all duration-200',
         'hover:-translate-y-0.5',

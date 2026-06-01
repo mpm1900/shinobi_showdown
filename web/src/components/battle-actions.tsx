@@ -30,7 +30,7 @@ const BattleActions = memo(function BattleActions({ actor }: { actor: Actor }) {
 
   return (
     <LayoutGroup id="battle-actions">
-      <div className="pointer-events-none relative flex w-full flex-col items-center gap-4 pb-8">
+      <div className="pointer-events-none relative flex w-full flex-col items-center gap-2 [@media(min-height:600px)]:gap-4 pb-8">
         <div className="pointer-events-auto">
           <AnimatePresence mode="wait" initial={false}>
             {action && idle && (
@@ -47,7 +47,7 @@ const BattleActions = memo(function BattleActions({ actor }: { actor: Actor }) {
                 }}
               >
                 {!staged && (
-                  <div className="grid place-items-center mb-6 nanum-brush-script-regular text-5xl text-shadow-[2px_2px_0px_#000000]">
+                  <div className="grid place-items-center mb-2 [@media(min-height:600px)]:mb-6 nanum-brush-script-regular text-4xl [@media(min-height:600px)]:text-5xl text-shadow-[2px_2px_0px_#000000]">
                     <div>
                       {action ? action.config.name : 'Choose an Action'}
                     </div>

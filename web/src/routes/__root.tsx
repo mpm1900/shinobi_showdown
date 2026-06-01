@@ -3,6 +3,7 @@ import {
   HeadContent,
   Scripts,
   createRootRouteWithContext,
+  useLocation,
 } from '@tanstack/react-router'
 import TanStackQueryProvider from '../integrations/tanstack-query/root-provider'
 
@@ -48,7 +49,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       {
         name: 'viewport',
         content:
-          'width=device-width, initial-scale=0.75, maximum-scale=1.0, user-scalable=no, viewport-fit=cover',
+          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover',
       },
       {
         name: 'apple-mobile-web-app-capable',
@@ -87,6 +88,34 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   errorComponent: Login,
 })
 
+function ScaleWrapper({ children }: { children: React.ReactNode }) {
+  const location = useLocation()
+  const isScaledRoute = ['/battle', '/lobby'].includes(location.pathname)
+
+  if (!isScaledRoute) {
+    return (
+      <TanStackQueryProvider>
+        <TooltipProvider>{children}</TooltipProvider>
+      </TanStackQueryProvider>
+    )
+  }
+
+  return (
+    <div
+      className="fixed top-0 left-0 origin-top-left transform-gpu overflow-hidden flex flex-col"
+      style={{
+        width: 'var(--app-size)',
+        height: 'var(--app-size)',
+        transform: 'scale(var(--app-scale))',
+      }}
+    >
+      <TanStackQueryProvider>
+        <TooltipProvider>{children}</TooltipProvider>
+      </TanStackQueryProvider>
+    </div>
+  )
+}
+
 function RootDocument({ children }: { children: React.ReactNode }) {
   const bgEnabled = useStore(uiStore, (s) => s.bgEnabled)
 
@@ -97,15 +126,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
         <HeadContent />
       </head>
-      <body className="font-sans antialiased wrap-anywhere overflow-x-hidden flex flex-col bg-stone-800">
+      <body className="font-sans antialiased wrap-anywhere overflow-hidden flex flex-col bg-stone-800 h-full w-full">
         {bgEnabled && (
           <ClientOnly>
             <VantaBackground />
           </ClientOnly>
         )}
-        <TanStackQueryProvider>
-          <TooltipProvider>{children}</TooltipProvider>
-        </TanStackQueryProvider>
+        <ScaleWrapper>{children}</ScaleWrapper>
         <Toaster position="bottom-center" />
         <Scripts />
       </body>
