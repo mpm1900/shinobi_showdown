@@ -12,7 +12,7 @@ function BattleWeather() {
   return (
     <div className="space-y-2 mt-4">
       <Switch
-        className="hidden lg:block"
+        className="hidden xl:block"
         checked={ui.bgEnabled}
         onCheckedChange={setBgEnabled}
       />

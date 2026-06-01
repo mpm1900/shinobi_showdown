@@ -23,6 +23,15 @@ export const Route = createFileRoute('/battle')({
     }
   },
   component: RouteComponent,
+  head: () => ({
+    meta: [
+      {
+        name: 'viewport',
+        content:
+          'width=device-width, initial-scale=0.75, maximum-scale=1.0, viewport-fit=cover',
+      },
+    ],
+  }),
 })
 
 function RouteComponent() {
@@ -43,7 +52,7 @@ function RouteComponent() {
       <PromptController />
       <BattleContextController />
       <main className="flex flex-col h-dvh overflow-hidden">
-        <div className="hidden lg:block">
+        <div className="hidden xl:block">
           <AppHeader />
         </div>
         <div
@@ -55,7 +64,7 @@ function RouteComponent() {
             runningContext={runningContext}
           />
           <div>
-            <div className="fixed top-2 lg:top-17 px-4 flex flex-col items-end right-4 z-10">
+            <div className="fixed top-2 xl:top-17 px-4 flex flex-col items-end right-4 z-30">
               <div>
                 {enemies.map((player) => (
                   <PlayerPositions key={player.ID} flip player_ID={player.ID} />
@@ -79,7 +88,7 @@ function RouteComponent() {
                 )}
             </div>
           )}
-          <div className="fixed bottom-8 left-8 flex z-10">
+          <div className="fixed bottom-4 xl:bottom-8 left-8 flex z-40">
             {players.map((player) => (
               <PlayerPositions
                 key={player.ID}
@@ -92,7 +101,7 @@ function RouteComponent() {
               />
             ))}
           </div>
-          <div className="fixed bottom-0 px-4 py-4 flex flex-col items-end right-0 z-10">
+          <div className="fixed bottom-0 px-4 py-4 flex flex-col items-end right-0 z-30">
             {players.map((player) => (
               <PlayerThumbnails key={player.ID} player_ID={player.ID} />
             ))}

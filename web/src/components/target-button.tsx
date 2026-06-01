@@ -75,8 +75,8 @@ const TargetButton = memo(function TargetButton({
             ...context,
             target_position_IDs: includes
               ? (context.target_position_IDs?.filter(
-                (id) => id !== actor.position_ID
-              ) ?? null)
+                  (id) => id !== actor.position_ID
+                ) ?? null)
               : [...(context.target_position_IDs ?? []), actor.position_ID],
           })
         }
@@ -84,7 +84,7 @@ const TargetButton = memo(function TargetButton({
     >
       <div
         className={cn(
-          'flex items-end w-full justify-between gap-4 relative z-10',
+          'flex items-end w-full justify-between gap-4 relative z-1',
           !includes && 'text-shadow-[1px_1px_0px_#000000]'
         )}
       >
