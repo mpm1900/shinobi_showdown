@@ -8,13 +8,14 @@ import { PlayerPositions } from '#/components/player-positions'
 import { PlayerThumbnails } from '#/components/player-thumbnails'
 import { PromptController } from '#/components/prompt-controller'
 import { RunningContext } from '#/components/running-context'
+import { refreshVanta } from '#/components/vanta-background'
 import { useActiveActor } from '#/hooks/use-active-actor'
 import { battleContext, setContextSource } from '#/lib/stores/battle-context'
 import { clientsStore } from '#/lib/stores/clients'
 import { gameStore } from '#/lib/stores/game'
 import { ClientOnly, createFileRoute, redirect } from '@tanstack/react-router'
 import { useStore } from '@tanstack/react-store'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 export const Route = createFileRoute('/battle')({
   beforeLoad: ({ context }) => {
@@ -46,6 +47,10 @@ function RouteComponent() {
     game.status === 'running'
       ? (game.active_transaction?.context ?? null)
       : null
+
+  useEffect(() => {
+    setTimeout(() => refreshVanta(), 100)
+  }, [])
 
   return (
     <ClientOnly>

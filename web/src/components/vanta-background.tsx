@@ -1,7 +1,7 @@
 import { gameStore } from '#/lib/stores/game'
-import { useLocation } from '@tanstack/react-router'
-import { useStore } from '@tanstack/react-store'
+import { Store, useStore } from '@tanstack/react-store'
 import { useEffect, useRef } from 'react'
+import { v4 } from 'uuid'
 
 declare global {
   interface Window {
@@ -9,11 +9,15 @@ declare global {
   }
 }
 
+const vantaStore = new Store(v4())
+export function refreshVanta() {
+  vantaStore.setState(() => v4())
+}
+
 export const VantaBackground = () => {
   const vantaRef = useRef<HTMLDivElement>(null)
   const vantaEffectRef = useRef<any>(null)
   const g_state = useStore(gameStore, (g) => g.state)
-  const location = useLocation()
   const weather = g_state.weather
 
   useEffect(() => {
@@ -68,16 +72,15 @@ export const VantaBackground = () => {
       }
     }
 
-    const timeout = setTimeout(initVanta, 300)
+    initVanta()
 
     return () => {
-      clearTimeout(timeout)
       if (vantaEffectRef.current) {
         vantaEffectRef.current.destroy()
         vantaEffectRef.current = null
       }
     }
-  }, [weather, location.pathname])
+  }, [weather, vantaStore.get()])
 
   return (
     <>

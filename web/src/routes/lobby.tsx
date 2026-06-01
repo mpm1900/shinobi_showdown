@@ -4,6 +4,7 @@ import { LobbyTeamSelect } from '#/components/lobby-team-select'
 import { LobbyThumbnails } from '#/components/lobby-thumbnails'
 import { Button } from '#/components/ui/button'
 import { CardDescription, CardTitle } from '#/components/ui/card'
+import { refreshVanta } from '#/components/vanta-background'
 import { NULL_CONTEXT } from '#/lib/game/context'
 import type { Team } from '#/lib/queries/teams'
 import { clientsStore } from '#/lib/stores/clients'
@@ -54,6 +55,10 @@ function App() {
       nav({ to: '/battle' })
     }
   }, [game.status])
+
+  useEffect(() => {
+    setTimeout(() => refreshVanta(), 100)
+  }, [])
 
   return (
     <ClientOnly>
