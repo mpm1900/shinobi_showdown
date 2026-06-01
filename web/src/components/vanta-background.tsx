@@ -68,21 +68,10 @@ export const VantaBackground = () => {
       }
     }
 
-    // Check every 100ms if VANTA is available, up to 50 times (5 seconds)
-    let attempts = 0
-    const interval = setInterval(() => {
-      if (window.VANTA && window.VANTA.FOG) {
-        initVanta()
-        clearInterval(interval)
-      }
-      attempts++
-      if (attempts > 50) {
-        clearInterval(interval)
-      }
-    }, 100)
+    const timeout = setTimeout(initVanta, 300)
 
     return () => {
-      clearInterval(interval)
+      clearTimeout(timeout)
       if (vantaEffectRef.current) {
         vantaEffectRef.current.destroy()
         vantaEffectRef.current = null
