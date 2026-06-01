@@ -39,10 +39,6 @@ function RouteComponent() {
       ? (game.active_transaction?.context ?? null)
       : null
 
-  useEffect(() => {
-    setTimeout(() => refreshVanta(), 100)
-  }, [])
-
   return (
     <ClientOnly>
       <PromptController />
@@ -51,9 +47,10 @@ function RouteComponent() {
         <div className="hidden xl:block">
           <AppHeader />
         </div>
+        {/* Scale wrapper for mobile landscape to fit more on screen without breaking viewport */}
         <div
           ref={vfxContainerRef}
-          className="flex flex-col flex-1 relative overflow-hidden"
+          className="flex flex-col flex-1 relative overflow-hidden transform-gpu origin-center transition-transform duration-300 [@media(max-height:450px)]:scale-[0.85] [@media(max-height:400px)]:scale-[0.8]"
         >
           <BattleTargetingVfx
             containerRef={vfxContainerRef}
