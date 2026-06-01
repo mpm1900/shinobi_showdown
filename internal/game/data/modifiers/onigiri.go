@@ -16,7 +16,7 @@ var OnigiriIDTrigger game.Trigger = game.Trigger{
 	ActionMutation: game.ActionMutation{
 		Priority: 0,
 		Filter:   game.TrueGameFilter,
-		Delta: func(p game.Game, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+		Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 
 			targets := g.GetTargets(context)

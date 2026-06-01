@@ -149,7 +149,7 @@ var kcmTransformed = game.Modifier{
 			ActionMutation: game.ActionMutation{
 				Priority: game.ActionPriorityDefault,
 				Filter:   game.TrueGameFilter,
-				Delta: func(p game.Game, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+				Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 					return modifiers.ApplyTerrain(g, context, game.GameTerrainChakra, modifiers.ChakraTerrain())
 				},
 			},

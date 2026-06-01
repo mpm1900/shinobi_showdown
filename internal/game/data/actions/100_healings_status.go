@@ -25,7 +25,7 @@ func MakeOneHundredHealingsStatus() game.Action {
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
 			Filter:   game.SourceIsAlive,
-			Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+			Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := game.NewTransactionBuilder()
 
 				party := g.GetActorsFilters(context, game.TeamFilter)

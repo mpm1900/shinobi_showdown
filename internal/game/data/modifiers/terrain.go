@@ -179,14 +179,14 @@ func ChakraTerrain() game.Modifier {
 			ActionMutation: game.ActionMutation{
 				Priority: game.ActionPriorityDefault,
 				Filter:   game.HasWeather(game.GameWeatherSandstorm),
-				Delta: func(p game.Game, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+				Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 					mut := game.RatioHeal(0.0625)
 					mut_ctx := context
 					mut_ctx.TargetActorIDs = []uuid.UUID{}
 					for _, target := range g.GetActiveActors() {
 						mut_ctx.TargetActorIDs = append(mut_ctx.TargetActorIDs, target.ID)
 					}
-					return []game.Transaction[game.GameMutation]{
+					return []game.GameTransaction{
 						game.MakeTransaction(mut, mut_ctx),
 					}
 				},

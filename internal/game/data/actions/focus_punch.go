@@ -32,7 +32,7 @@ var Focusing = game.Modifier{
 			ActionMutation: game.ActionMutation{
 				Priority: game.ActionPriorityDefault,
 				Filter:   game.TrueGameFilter,
-				Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+				Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
 					transactions := []game.GameTransaction{}
 
 					mod_mut := mutations.RemoveModifierWhere(func(tx game.Transaction[game.Modifier]) bool {
@@ -84,7 +84,7 @@ func MakeFocusPunch() game.Action {
 			Filter: game.ComposeGF(
 				game.SourceIsAlive,
 			),
-			Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+			Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
 
 				mod_mut := mutations.AddModifiers(false, Focusing)
@@ -109,7 +109,7 @@ func MakeFocusPunchAttack() game.Action {
 	})
 
 	delta := action.Delta
-	action.Delta = func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+	action.Delta = func(p, g game.Game, context game.Context) []game.GameTransaction {
 		source, ok := g.GetSource(context)
 		if !ok {
 			return []game.GameTransaction{}

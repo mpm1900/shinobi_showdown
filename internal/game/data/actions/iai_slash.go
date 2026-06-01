@@ -27,7 +27,7 @@ func MakeIaiSlash() game.Action {
 		Priority: game.Ptr(game.ActionPriorityP1),
 	})
 	delta := action.Delta
-	action.Delta = func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+	action.Delta = func(p, g game.Game, context game.Context) []game.GameTransaction {
 		transactions := []game.GameTransaction{}
 
 		// loop through every taerget and every action to see if they have a pending attack, if not, this attack fails

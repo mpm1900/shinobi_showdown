@@ -27,7 +27,7 @@ func MakeReaperDeathSeal() game.Action {
 			Filter: game.ComposeGF(
 				game.SourceIsAlive,
 			),
-			Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+			Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
 
 				source, ok := g.GetSource(context)
@@ -78,7 +78,7 @@ var SourceBonded game.Modifier = game.Modifier{
 			ActionMutation: game.ActionMutation{
 				Priority: game.ActionPriorityDefault,
 				Filter:   game.TrueGameFilter,
-				Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+				Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
 					transactions := []game.GameTransaction{}
 					if context.SourceActorID == nil {
 						return transactions
@@ -114,7 +114,7 @@ var SourceBonded game.Modifier = game.Modifier{
 			ActionMutation: game.ActionMutation{
 				Priority: game.ActionPriorityDefault,
 				Filter:   game.TrueGameFilter,
-				Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+				Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
 					transactions := []game.GameTransaction{}
 					if context.SourceActorID == nil {
 						return transactions
@@ -160,7 +160,7 @@ var TargetBonded game.Modifier = game.Modifier{
 			ActionMutation: game.ActionMutation{
 				Priority: game.ActionPriorityDefault,
 				Filter:   game.TrueGameFilter,
-				Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+				Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
 					transactions := []game.GameTransaction{}
 					if context.SourceActorID == nil {
 						return transactions
@@ -196,8 +196,8 @@ var TargetBonded game.Modifier = game.Modifier{
 			ActionMutation: game.ActionMutation{
 				Priority: game.ActionPriorityDefault,
 				Filter:   game.TrueGameFilter,
-				Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
-					transactions := []game.Transaction[game.GameMutation]{}
+				Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
+					transactions := []game.GameTransaction{}
 					if context.SourceActorID == nil {
 						return transactions
 					}

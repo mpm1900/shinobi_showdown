@@ -20,7 +20,7 @@ var c4KaruraTrigger = game.Trigger{
 	ActionMutation: game.ActionMutation{
 		Priority: game.ActionPriorityDefault,
 		Filter:   game.TrueGameFilter,
-		Delta: func(p game.Game, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+		Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 			transactions := []game.GameTransaction{}
 
 			if context.SourceActorID == nil {

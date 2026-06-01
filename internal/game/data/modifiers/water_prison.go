@@ -39,9 +39,9 @@ var WaterPrison = game.Modifier{
 			ActionMutation: game.ActionMutation{
 				Priority: game.ActionPriorityDefault,
 				Filter:   game.TrueGameFilter,
-				Delta: func(p game.Game, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+				Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction{
 					mut := game.RatioDamage(0.125)
-					return []game.Transaction[game.GameMutation]{
+					return []game.GameTransaction{
 						game.MakeTransaction(mut, context),
 					}
 				},

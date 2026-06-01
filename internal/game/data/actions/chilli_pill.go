@@ -26,7 +26,7 @@ func MakeChilliPill() game.Action {
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
 			Filter:   game.ComposeGF(game.SourceIsAlive, game.SourceHasHpRatio(0.5)),
-			Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+			Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
 				source, ok := g.GetSource(context)
 				if !ok {

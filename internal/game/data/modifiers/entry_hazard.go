@@ -15,7 +15,7 @@ var EntryHazardTrigger = game.Trigger{
 	ActionMutation: game.ActionMutation{
 		Priority: game.ActionPriorityDefault,
 		Filter:   game.TrueGameFilter,
-		Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+		Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
 			source, ok := g.GetSource(context)
 			if !ok {
 				return []game.GameTransaction{}
@@ -23,7 +23,7 @@ var EntryHazardTrigger = game.Trigger{
 
 			mut_ctx := game.MakeContextForActor(source)
 			mut := game.RatioDamage(0.0625)
-			return []game.Transaction[game.GameMutation]{
+			return []game.GameTransaction{
 				game.MakeTransaction(mut, mut_ctx),
 			}
 		},

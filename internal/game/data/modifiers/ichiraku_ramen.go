@@ -18,11 +18,11 @@ var IchirakuRamenTrigger game.Trigger = game.Trigger{
 	ActionMutation: game.ActionMutation{
 		Priority: game.ActionPriorityDefault,
 		Filter:   game.TrueGameFilter,
-		Delta: func(p game.Game, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+		Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 			context.TargetPositionIDs = []uuid.UUID{}
 			context.TargetActorIDs = []uuid.UUID{*context.SourceActorID}
 			mut := game.RatioHeal(0.0625)
-			return []game.Transaction[game.GameMutation]{
+			return []game.GameTransaction{
 				game.MakeTransaction(mut, context),
 			}
 		},

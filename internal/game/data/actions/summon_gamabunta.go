@@ -51,7 +51,7 @@ func MakeSummonGamabunta() game.Action {
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
 			Filter:   game.ComposeGF(game.SourceIsAlive, game.SourceHasHpRatio(0.25)),
-			Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+			Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
 
 				transactions = append(

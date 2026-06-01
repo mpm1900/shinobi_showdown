@@ -28,7 +28,7 @@ func MakeNoEscape() game.Action {
 			Filter: game.ComposeGF(
 				game.SourceIsAlive,
 			),
-			Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+			Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
 
 				for _, target := range g.GetTargets(context) {

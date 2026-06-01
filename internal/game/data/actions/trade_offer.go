@@ -27,7 +27,7 @@ func MakeTradeOffer() game.Action {
 			Filter: game.ComposeGF(
 				game.SourceIsAlive,
 			),
-			Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+			Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
 
 				tx := game.MakeTransaction(mutations.ExchangeItems, context)

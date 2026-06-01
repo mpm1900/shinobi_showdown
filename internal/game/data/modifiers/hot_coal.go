@@ -15,7 +15,7 @@ var HotCoalTrigger = game.Trigger{
 	ActionMutation: game.ActionMutation{
 		Priority: game.ActionPriorityDefault,
 		Filter:   game.TrueGameFilter,
-		Delta: func(p, g game.Game, context game.Context) []game.Transaction[game.GameMutation] {
+		Delta: func(p, g game.Game, context game.Context) []game.GameTransaction{
 			transactions := game.NewTransactionBuilder()
 			source, ok := g.GetSource(context)
 			if !ok {
