@@ -97,7 +97,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
         <HeadContent />
       </head>
-      <body className="font-sans antialiased wrap-anywhere overflow-hidden flex flex-col bg-stone-800 h-full w-full">
+      <body className="font-sans antialiased wrap-anywhere flex flex-col bg-stone-800 h-full w-full">
         {bgEnabled && (
           <ClientOnly>
             <VantaBackground />
