@@ -18,7 +18,9 @@ function TeamBuilderStats({
     <table className="flex-1 border-separate border-spacing-y-1">
       <tbody>
         <tr>
-          <td colSpan={1}>Stats</td>
+          <td colSpan={1}>
+            <span className="hidden lg:inline">Stats</span>
+          </td>
           <td
             colSpan={1}
             className="text-end w-8 p-2 whitespace-nowrap font-black"
@@ -27,7 +29,10 @@ function TeamBuilderStats({
           </td>
           <td
             colSpan={3}
-            className={cn('text-end px-2', total > 66 ? 'text-destructive' : '')}
+            className={cn(
+              'text-end px-2',
+              total > 66 ? 'text-destructive' : ''
+            )}
           >
             {total}
             /66

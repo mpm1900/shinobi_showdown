@@ -55,14 +55,14 @@ function getStatBarColor(baseStat: number) {
 
 const STAT_NAMES: ActorStats<string> = {
   hp: 'HP',
-  stamina: 'Stamina',
+  stamina: 'Stam',
   speed: 'Speed',
-  accuracy: 'Accuracy',
-  evasion: 'Evasion',
+  accuracy: 'Acc',
+  evasion: 'Eva',
   attack: 'Attack',
   defense: 'Defense',
-  chakra_attack: 'Chakra Attack',
-  chakra_defense: 'Chakra Defense',
+  chakra_attack: 'C.Atk',
+  chakra_defense: 'C.Def',
 }
 
 function TeamBuilderStatGuage({
