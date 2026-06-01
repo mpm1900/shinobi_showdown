@@ -40,65 +40,82 @@ function RouteComponent() {
 
   return (
     <ClientOnly>
-      <PromptController />
-      <BattleContextController />
-      <main className="flex flex-col h-full overflow-hidden">
-        <div className="hidden xl:block">
-          <AppHeader />
-        </div>
-        <div
-          ref={vfxContainerRef}
-          className="flex flex-col flex-1 relative overflow-hidden"
-        >
-          <BattleTargetingVfx
-            containerRef={vfxContainerRef}
-            runningContext={runningContext}
-          />
-          <div>
-            <div className="fixed top-2 xl:top-17 px-4 flex flex-col items-end right-4 z-30">
-              <div>
-                {enemies.map((player) => (
-                  <PlayerPositions key={player.ID} flip player_ID={player.ID} />
-                ))}
+      <div
+        className="fixed top-0 left-0 origin-top-left transform-gpu overflow-hidden flex flex-col"
+        style={{
+          width: 'var(--app-size)',
+          height: 'var(--app-size)',
+          transform: 'scale(var(--app-scale))',
+        }}
+      >
+        <PromptController />
+        <BattleContextController />
+        <main className="flex flex-col h-full overflow-hidden">
+          <div className="hidden xl:block">
+            <AppHeader />
+          </div>
+          <div
+            ref={vfxContainerRef}
+            className="flex flex-col flex-1 relative overflow-hidden"
+          >
+            <BattleTargetingVfx
+              containerRef={vfxContainerRef}
+              runningContext={runningContext}
+            />
+            <div>
+              <div className="fixed top-2 xl:top-17 px-4 flex flex-col items-end right-4 z-30">
+                <div>
+                  {enemies.map((player) => (
+                    <PlayerPositions
+                      key={player.ID}
+                      flip
+                      player_ID={player.ID}
+                    />
+                  ))}
+                </div>
+                <GameLog />
               </div>
-              <GameLog />
+              <div className="fixed top-12 px-4 py-4 left-0 z-10">
+                {enemies.map((player) => (
+                  <PlayerThumbnails key={player.ID} player_ID={player.ID} />
+                ))}
+                <BattleWeather />
+              </div>
             </div>
-            <div className="fixed top-12 px-4 py-4 left-0 z-10">
-              {enemies.map((player) => (
+            {game.turn.phase !== 'init' && (
+              <div className="flex-1 grid place-items-center overflow-hidden relative">
+                {actor && <BattleActions actor={actor} />}
+                {game.status === 'running' &&
+                  game.active_transaction?.context && (
+                    <RunningContext
+                      context={game.active_transaction?.context}
+                    />
+                  )}
+              </div>
+            )}
+            <div className="fixed bottom-4 xl:bottom-8 left-4 xl:left-8 flex z-40">
+              {players.map((player) => (
+                <PlayerPositions
+                  key={player.ID}
+                  flip={false}
+                  player_ID={player.ID}
+                  selected={
+                    game.status === 'idle' ? (source_actor_ID ?? '') : ''
+                  }
+                  onSelectedChange={(actor_ID) =>
+                    setContextSource(actor_ID, game)
+                  }
+                />
+              ))}
+            </div>
+            <div className="fixed bottom-0 px-4 py-4 flex flex-col items-end right-0 z-30">
+              {players.map((player) => (
                 <PlayerThumbnails key={player.ID} player_ID={player.ID} />
               ))}
-              <BattleWeather />
             </div>
           </div>
-          {game.turn.phase !== 'init' && (
-            <div className="flex-1 grid place-items-center overflow-hidden relative">
-              {actor && <BattleActions actor={actor} />}
-              {game.status === 'running' &&
-                game.active_transaction?.context && (
-                  <RunningContext context={game.active_transaction?.context} />
-                )}
-            </div>
-          )}
-          <div className="fixed bottom-4 xl:bottom-8 left-4 xl:left-8 flex z-40">
-            {players.map((player) => (
-              <PlayerPositions
-                key={player.ID}
-                flip={false}
-                player_ID={player.ID}
-                selected={game.status === 'idle' ? (source_actor_ID ?? '') : ''}
-                onSelectedChange={(actor_ID) =>
-                  setContextSource(actor_ID, game)
-                }
-              />
-            ))}
-          </div>
-          <div className="fixed bottom-0 px-4 py-4 flex flex-col items-end right-0 z-30">
-            {players.map((player) => (
-              <PlayerThumbnails key={player.ID} player_ID={player.ID} />
-            ))}
-          </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </ClientOnly>
   )
 }
