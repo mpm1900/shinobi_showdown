@@ -93,35 +93,37 @@ const ActorCombobox = memo(function ActorCombobox({
           },
           className
         )}
-        onClick={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          if (actor) return
-          triggerRef.current?.click()
-        }}
       >
-        {actor ? (
-          <img
-            src={actor.sprite_url}
-            className={cn(
-              'size-15 p-0.5 mr-0 bg-stone-300/40 border border-stone-950 rounded cursor-pointer select-none',
-              is_active && 'bg-stone-300'
-            )}
-            onPointerDown={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-            }}
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              onClick?.()
-            }}
-          />
-        ) : (
-          <Plus
-            className="text-muted-foreground/60 size-8 m-2 mr-0 cursor-pointer"
-          />
-        )}
+        <div
+          className="size-15 grid place-items-center"
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            if (actor) return
+            triggerRef.current?.click()
+          }}
+        >
+          {actor ? (
+            <img
+              src={actor.sprite_url}
+              className={cn(
+                'size-15 p-0.5 mr-0 bg-stone-300/40 border border-stone-950 rounded cursor-pointer select-none',
+                is_active && 'bg-stone-300'
+              )}
+              onPointerDown={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                onClick?.()
+              }}
+            />
+          ) : (
+            <Plus className="text-muted-foreground/60 size-8 m-2 mr-0 cursor-pointer" />
+          )}
+        </div>
         <ComboboxTrigger
           ref={triggerRef}
           className={cn(
