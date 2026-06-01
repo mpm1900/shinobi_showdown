@@ -31,7 +31,7 @@ import { Login } from './login'
 export const Route = createRootRouteWithContext<RouterContext>()({
   beforeLoad: async ({ context, location }) => {
     if (location.pathname === '/up') {
-      return { auth: { user: null } }
+      return { auth: { user: null } } as any
     }
     const user = await context.queryClient.fetchQuery(meQuery)
     return {
@@ -48,7 +48,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       {
         name: 'viewport',
         content:
-          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover',
+          'width=device-width, initial-scale=0.95, maximum-scale=1.0, user-scalable=no, viewport-fit=cover',
       },
       {
         name: 'apple-mobile-web-app-capable',
