@@ -39,7 +39,7 @@ const columns = [
           !row.getIsSelected() &&
           (!row.getCanSelect() ||
             (table.options.meta as any).total ==
-              table.getSelectedRowModel().rows.length)
+            table.getSelectedRowModel().rows.length)
         }
       />
     ),
@@ -185,7 +185,6 @@ function ActionsTable({
                 cell.column.id === 'description' && 'w-full max-w-0',
                 {
                   'hidden lg:table-cell':
-                    cell.column.id === 'stat' ||
                     cell.column.id === 'accuracy' ||
                     cell.column.id === 'description',
                 }
@@ -221,7 +220,6 @@ function ActionsTable({
                   header.column.id === 'description' && 'w-full',
                   {
                     'hidden lg:table-cell':
-                      header.column.id === 'stat' ||
                       header.column.id === 'accuracy' ||
                       header.column.id === 'description',
                   }

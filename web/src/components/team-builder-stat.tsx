@@ -61,8 +61,8 @@ const STAT_NAMES: ActorStats<string> = {
   evasion: 'Eva',
   attack: 'Attack',
   defense: 'Defense',
-  chakra_attack: 'C.Atk',
-  chakra_defense: 'C.Def',
+  chakra_attack: 'C.Attack',
+  chakra_defense: 'C.Defense',
 }
 
 function TeamBuilderStatGuage({

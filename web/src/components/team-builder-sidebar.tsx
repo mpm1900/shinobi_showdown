@@ -49,7 +49,7 @@ function TeamBuilderSidebar({
   }, [])
 
   return (
-    <Sidebar collapsible="none" className="border-r bg-stone-900 h-auto!">
+    <Sidebar collapsible="none" className="border-r bg-stone-900 h-auto! max-w-40 lg:max-w-none">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="justify-between">
