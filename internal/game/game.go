@@ -588,6 +588,20 @@ func (g *Game) SetActionCooldown(actorID uuid.UUID, actionID uuid.UUID, cooldown
 }
 
 func (g *Game) SortActions() {
+	resolvedCache := make(map[uuid.UUID]ResolvedActor)
+	getResolved := func(actorID uuid.UUID) (ResolvedActor, bool) {
+		if res, ok := resolvedCache[actorID]; ok {
+			return res, true
+		}
+		actor, ok := g.GetActorByID(actorID)
+		if !ok {
+			return ResolvedActor{}, false
+		}
+		res := actor.Resolve(*g)
+		resolvedCache[actorID] = res
+		return res, true
+	}
+
 	slices.SortFunc(g.Actions, func(a, b Transaction[Action]) int {
 		if a.Mutation.Priority != b.Mutation.Priority {
 			return b.Mutation.Priority - a.Mutation.Priority
@@ -597,17 +611,16 @@ func (g *Game) SortActions() {
 			return b.Mutation.Config.SubPriority - a.Mutation.Config.SubPriority
 		}
 
-		a_source, ok := g.GetActorByID(*a.Context.SourceActorID)
-		if !ok {
+		a_res, a_ok := getResolved(*a.Context.SourceActorID)
+		b_res, b_ok := getResolved(*b.Context.SourceActorID)
+
+		if !a_ok {
 			return 1
 		}
-		b_source, ok := g.GetActorByID(*b.Context.SourceActorID)
-		if !ok {
+		if !b_ok {
 			return -1
 		}
 
-		a_res := a_source.Resolve(*g)
-		b_res := b_source.Resolve(*g)
 		return b_res.Stats[StatSpeed] - a_res.Stats[StatSpeed]
 	})
 }
