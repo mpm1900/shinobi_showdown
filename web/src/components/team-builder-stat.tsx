@@ -55,7 +55,7 @@ function getStatBarColor(baseStat: number) {
 
 const STAT_NAMES: ActorStats<string> = {
   hp: 'HP',
-  stamina: 'Stam',
+  stamina: 'Stamina',
   speed: 'Speed',
   accuracy: 'Acc',
   evasion: 'Eva',
