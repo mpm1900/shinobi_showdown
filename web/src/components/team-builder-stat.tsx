@@ -146,7 +146,9 @@ function TeamBuilderStat({
       >
         {STAT_NAMES[stat]}
       </td>
-      <td className="w-8 text-right p-2 py-1 whitespace-nowrap font-black">
+      <td className={cn("w-8 text-right p-2 py-1 whitespace-nowrap font-black")} style={{
+        color: base?.stats[stat] && stat !== 'stamina' ? getStatBarColor(base?.stats[stat]) : undefined,
+      }}>
         {base?.stats[stat]}
       </td>
       <td className="hidden lg:flex place-items-center py-1.5">
@@ -155,33 +157,37 @@ function TeamBuilderStat({
           greyscale={stat === 'stamina'}
         />
       </td>
-      {!disabled && (
-        <td className="px-2 w-12">
-          <Input
-            className="w-16"
-            value={localAux}
-            type="number"
-            onChange={(e) => {
-              const v = parseInt(e.target.value)
-              if (!isNaN(v)) {
-                handleConfigChange(v)
-              }
-            }}
-          />
-        </td>
-      )}
-      {!disabled && (
-        <td className="hidden xl:flex">
-          <Slider
-            value={[localAux]}
-            max={PER_STAT_MAX}
-            step={1}
-            className="min-w-40"
-            onValueChange={(v) => handleConfigChange(v[0])}
-          />
-        </td>
-      )}
-    </tr>
+      {
+        !disabled && (
+          <td className="px-2 w-12">
+            <Input
+              className="w-16"
+              value={localAux}
+              type="number"
+              onChange={(e) => {
+                const v = parseInt(e.target.value)
+                if (!isNaN(v)) {
+                  handleConfigChange(v)
+                }
+              }}
+            />
+          </td>
+        )
+      }
+      {
+        !disabled && (
+          <td className="hidden xl:flex">
+            <Slider
+              value={[localAux]}
+              max={PER_STAT_MAX}
+              step={1}
+              className="min-w-40"
+              onValueChange={(v) => handleConfigChange(v[0])}
+            />
+          </td>
+        )
+      }
+    </tr >
   )
 }
 

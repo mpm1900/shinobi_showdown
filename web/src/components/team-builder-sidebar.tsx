@@ -50,21 +50,6 @@ function TeamBuilderSidebar({
 
   return (
     <Sidebar collapsible="none" className="border-r bg-stone-900 h-auto!">
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">Team Builder</span>
-                  <span className="text-xs text-muted-foreground">v1.0.0</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="justify-between">

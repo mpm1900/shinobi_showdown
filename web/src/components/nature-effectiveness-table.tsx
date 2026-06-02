@@ -17,12 +17,10 @@ const EFFECTIVENESS_DATA: Record<
 const NatureEffectivenessTable = memo(function NatureEffectivenessTable() {
   return (
     <div className="flex flex-col gap-4 pt-4">
-      <div className="grid grid-cols-10 gap-1">
+      <div className="grid grid-cols-10 gap-px">
         <div />
         {NATURES.map((n) => (
-          <div key={n} className="grid place-items-center">
-            <NatureBadge nature={n} />
-          </div>
+          <NatureBadge key={n} nature={n} />
         ))}
         {NATURES.map((a) => (
           <div key={a} className="grid grid-cols-10 col-span-10 gap-1">
