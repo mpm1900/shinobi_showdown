@@ -39,6 +39,7 @@ function TeamBuilderStats({
           </td>
         </tr>
         <TeamBuilderStat
+          disabled
           total={total}
           base={def}
           stat="stamina"

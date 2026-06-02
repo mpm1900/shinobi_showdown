@@ -96,7 +96,9 @@ function TeamBuilderStat({
   stat,
   config,
   onConfigChange,
+  disabled,
 }: {
+  disabled?: boolean
   total: number
   base: ActorDef | undefined
   stat: ActorBaseStat
@@ -153,28 +155,32 @@ function TeamBuilderStat({
           greyscale={stat === 'stamina'}
         />
       </td>
-      <td className="px-2 w-12">
-        <Input
-          className="w-16"
-          value={localAux}
-          type="number"
-          onChange={(e) => {
-            const v = parseInt(e.target.value)
-            if (!isNaN(v)) {
-              handleConfigChange(v)
-            }
-          }}
-        />
-      </td>
-      <td className="hidden xl:flex">
-        <Slider
-          value={[localAux]}
-          max={PER_STAT_MAX}
-          step={1}
-          className="min-w-40"
-          onValueChange={(v) => handleConfigChange(v[0])}
-        />
-      </td>
+      {!disabled && (
+        <td className="px-2 w-12">
+          <Input
+            className="w-16"
+            value={localAux}
+            type="number"
+            onChange={(e) => {
+              const v = parseInt(e.target.value)
+              if (!isNaN(v)) {
+                handleConfigChange(v)
+              }
+            }}
+          />
+        </td>
+      )}
+      {!disabled && (
+        <td className="hidden xl:flex">
+          <Slider
+            value={[localAux]}
+            max={PER_STAT_MAX}
+            step={1}
+            className="min-w-40"
+            onValueChange={(v) => handleConfigChange(v[0])}
+          />
+        </td>
+      )}
     </tr>
   )
 }
