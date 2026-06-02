@@ -58,6 +58,7 @@ func (actor *Actor) MapStagedStats() {
 	actor.MapStaged(StatChakraAttack, 2)
 	actor.MapStaged(StatChakraDefense, 2)
 	actor.MapStaged(StatSpeed, 2)
+
 	actor.MapStaged(StatEvasion, 3)
 	actor.MapStaged(StatAccuracy, 3)
 }

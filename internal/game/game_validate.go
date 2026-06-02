@@ -33,7 +33,27 @@ func queueSwitchPrompt(g *Game, player Player, missing_pos []uuid.UUID) bool {
 	return false
 }
 
-func validatePlayer(g *Game, player Player, valid *bool) {
+func cleanPlayer(g *Game, player Player) {
+	for _, pos := range player.Positions {
+		if pos.ActorID == nil {
+			continue
+		}
+
+		actor, ok := g.GetActorByID(*pos.ActorID)
+		if !ok || actor.Summon == nil {
+			continue
+		}
+
+		if !actor.Summon.Alive {
+			g.UpdateActor(actor.ID, func(a Actor) Actor {
+				a.SetSummon(nil)
+				return a
+			})
+		}
+	}
+}
+
+func validatePlayer(g *Game, player Player) bool {
 	missing_pos := make([]uuid.UUID, 0)
 	for _, pos := range player.Positions {
 		if pos.ActorID == nil {
@@ -47,15 +67,6 @@ func validatePlayer(g *Game, player Player, valid *bool) {
 			continue
 		}
 
-		if actor.Summon != nil {
-			if !actor.Summon.Alive {
-				g.UpdateActor(actor.ID, func(a Actor) Actor {
-					a.SetSummon(nil)
-					return a
-				})
-			}
-		}
-
 		if !actor.Alive {
 			missing_pos = append(missing_pos, pos.ID)
 			context := NewContext().WithTargetIDs([]uuid.UUID{actor.ID})
@@ -65,15 +76,18 @@ func validatePlayer(g *Game, player Player, valid *bool) {
 	}
 
 	if len(missing_pos) > 0 {
-		*valid = queueSwitchPrompt(g, player, missing_pos)
+		return queueSwitchPrompt(g, player, missing_pos)
 	}
+
+	return true
 }
 
 func (g *Game) Validate() bool {
 	valid := true
 
 	for _, player := range g.Players {
-		validatePlayer(g, player, &valid)
+		cleanPlayer(g, player)
+		valid = valid && validatePlayer(g, player)
 	}
 
 	return valid
