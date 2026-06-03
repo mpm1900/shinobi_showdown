@@ -113,6 +113,10 @@ func (g Game) GetTargets(context Context) []Actor {
 	targets = append(targets, posTargets...)
 	return targets
 }
+func (c Context) HasTarget(actor Actor) bool {
+	return slices.Contains(c.TargetActorIDs, actor.ID) ||
+		(actor.PositionID != nil && slices.Contains(c.TargetPositionIDs, *actor.PositionID))
+}
 
 func (g Game) GetSource(context Context) (Actor, bool) {
 	if context.SourceActorID == nil {

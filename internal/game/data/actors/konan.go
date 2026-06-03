@@ -41,5 +41,5 @@ var Konan = game.ActorDef{
 		actions.ShikigamiDance.ID,
 		actions.PaperBomb.ID,
 		actions.WaterWall.ID,
-	}, GlobalActions...),
+	}, GlobalActionsExcept(actions.Rest.ID)...),
 }

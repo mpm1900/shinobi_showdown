@@ -51,5 +51,5 @@ var Orochimaru = game.ActorDef{
 		actions.Devistation.ID,
 		actions.VacuumBlast.ID,
 		actions.ShinigamiCurse.ID,
-	}, GlobalActions...),
+	}, GlobalActionsExcept(actions.Rest.ID)...),
 }

@@ -664,12 +664,7 @@ func (r ResolvedActor) CanAct(game *Game, context Context) bool {
 			})
 			game.FilterModifiers(func(modifier Transaction[Modifier]) bool {
 				if modifier.Mutation.Status {
-					for _, t := range game.GetTargets(modifier.Context) {
-						if t.ID == r.ID {
-							return false
-						}
-					}
-					return true
+					return !modifier.Context.HasTarget(r.Actor)
 				}
 				if modifier.Context.SourceActorID == nil {
 					return true

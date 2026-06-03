@@ -39,11 +39,10 @@ var Zetsu = game.ActorDef{
 	},
 	ActionCount: 4,
 	ActionIDs: append([]uuid.UUID{
-		actions.Rest.ID,
 		actions.TempleOfNirvana.ID,
 		actions.Redirect.ID,
 		actions.Graft.ID,
 		actions.FlowerBomb.ID,
 		actions.TradeOffer.ID,
-	}, GlobalActions...),
+	}, GlobalActionsExcept(actions.Rest.ID)...),
 }
