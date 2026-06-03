@@ -323,18 +323,6 @@ func (dc *DamageCore) Run(game Game) []GameTransaction {
 	return dc.ResolveResults(game)
 }
 
-func DamageCoreMutation(actionConfig ActionConfig, damageConfig DamageConfig) GameMutation {
-	return GameMutation{
-		Delta: func(p Game, g Game, context Context) Game {
-			core := NewDamageCore(actionConfig, damageConfig, g, context)
-			transactions := core.Run(g)
-			g.JumpTransactions(transactions)
-
-			return g
-		},
-	}
-}
-
 func ResolveDamageCore(actionConfig ActionConfig, damageConfig DamageConfig, game Game, context Context) []GameTransaction {
 	core := NewDamageCore(actionConfig, damageConfig, game, context)
 	return core.Run(game)

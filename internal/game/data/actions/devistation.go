@@ -34,11 +34,11 @@ func MakeDevistation() game.Action {
 				game.SourceIsActionOffCooldown,
 			),
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
+				transactions := game.NewTransactionBuilder()
 
 				source, ok := g.GetSource(context)
 				if !ok {
-					return transactions
+					return transactions.Build()
 				}
 
 				resolved := source.Resolve(g)
@@ -47,13 +47,9 @@ func MakeDevistation() game.Action {
 				action_config, _ := game.GetActiveActionConfig(g, config)
 				action_config.Power = game.Ptr(game.Round(float64(*action_config.Power) * ratio))
 				damage_config := game.NewDamageConfig(game.RandomDamageFactor())
-				damage := game.DamageCoreMutation(action_config, damage_config)
-				transactions = append(
-					transactions,
-					game.MakeTransaction(damage, context),
-				)
+				transactions.Push(game.ResolveDamageCore(action_config, damage_config, g, context))
 
-				return transactions
+				return transactions.Build()
 			},
 		},
 	}

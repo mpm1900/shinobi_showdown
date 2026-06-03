@@ -34,7 +34,7 @@ func MakeLightningLigerBomb() game.Action {
 				game.SourceIsActionOffCooldown,
 			),
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
+				transactions := game.NewTransactionBuilder()
 
 				ratio := 1.0
 				state, _ := g.GetState(context)
@@ -46,13 +46,9 @@ func MakeLightningLigerBomb() game.Action {
 				power := game.Round(float64(*action_config.Power) * ratio)
 				action_config.Power = game.Ptr(power)
 				damage_config := game.NewDamageConfig(game.RandomDamageFactor())
-				damage := game.DamageCoreMutation(action_config, damage_config)
-				transactions = append(
-					transactions,
-					game.MakeTransaction(damage, context),
-				)
+				transactions.Push(game.ResolveDamageCore(action_config, damage_config, g, context))
 
-				return transactions
+				return transactions.Build()
 			},
 		},
 	}

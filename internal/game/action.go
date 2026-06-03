@@ -107,20 +107,21 @@ type Action struct {
 func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransaction {
 	action := transaction.Mutation
 	context := transaction.Context
+	transactions := NewTransactionBuilder()
 
 	if context.SourceActorID != nil {
 		if queue, ok := game.QueuedActions[*context.SourceActorID]; ok {
 			delete(game.QueuedActions, *context.SourceActorID)
 			if queue.Mutation != transaction.Mutation.ID {
 				fmt.Println("ERROR: INVALID ACTION EXECUTED")
-				return []GameTransaction{}
+				return transactions.Build()
 			}
 		}
 	}
 
 	source, ok := game.GetSource(context)
 	if !ok && context.SourceActorID != nil {
-		return []GameTransaction{}
+		return transactions.Build()
 	}
 
 	/**
@@ -129,7 +130,7 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 	if ok && !action.Config.Switch {
 		resolved := source.Resolve(*game)
 		if !resolved.CanAct(game, context) {
-			return []GameTransaction{}
+			return transactions.Build()
 		}
 	}
 
@@ -154,7 +155,7 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 
 		game.PushLog(logStart)
 		game.PushLog(logFail)
-		return []GameTransaction{}
+		return transactions.Build()
 	}
 
 	if action.Config.Cooldown != nil && *action.Config.Cooldown > 0 {
@@ -183,7 +184,8 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 		game.PushLog(log)
 	}
 
-	return action.Delta(*game, *game, context)
+	transactions.Push(action.Delta(*game, *game, context))
+	return transactions.Build()
 }
 
 func GetAccuracy(game Game, source ResolvedActor, target ResolvedActor, ignoreModifiers bool) float64 {
