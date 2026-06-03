@@ -119,45 +119,54 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 		}
 	}
 
-	source, ok := game.GetSource(context)
-	if !ok && context.SourceActorID != nil {
+	source, hasSource := game.GetSource(context)
+	if !hasSource && context.SourceActorID != nil {
 		return transactions.Build()
 	}
 
 	/**
 	 * Source Can-Act Checks
 	 */
-	if ok && !action.Config.Switch {
+	if hasSource && !action.Config.Switch {
 		resolved := source.Resolve(*game)
 		if !resolved.CanAct(game, context) {
 			return transactions.Build()
 		}
 	}
 
-	if transaction.Context.SourceActorID != nil {
-		cost := transaction.Mutation.Cost
-		if cost.Delta != nil {
-			costTx := MakeTransaction(cost, transaction.Context)
-			game.Transactions = append(game.Transactions, costTx)
-		}
+	cost := action.Cost
+	if cost.Delta != nil {
+		costTx := MakeTransaction(cost, transaction.Context)
+		transactions.PushOne(costTx)
+	}
+
+	context.ActionID = &action.ID
+	log := NewLogContext("$source$ used $action$", context)
+	if action.Config.LogSuccess != nil {
+		log = NewLogContext(*action.Config.LogSuccess, context)
 	}
 
 	/**
 	 * Action Can-Act Checks
 	 */
 	if action.State.Disabled || !action.Filter(*game, *game, transaction.Context) {
-		context.ActionID = &action.ID
-		logStart := NewLogContext("$source$ used $action$", context)
 		logFail := NewLogContext("$action$ failed.", context)
 		if action.Config.LogFailure != nil {
 			logFail = NewLogContext(*action.Config.LogFailure, context)
 		}
 
-		game.PushLog(logStart)
-		game.PushLog(logFail)
+		if action.Config.LogSuccess != nil {
+			log = NewLogContext(*action.Config.LogSuccess, context)
+		}
+
+		transactions.PushOne(MakeTransaction(AddLogs(log), context))
+		transactions.PushOne(MakeTransaction(AddLogs(logFail), context))
 		return transactions.Build()
 	}
 
+	if hasSource {
+		transactions.PushOne(MakeTransaction(AddLogs(log), context))
+	}
 	if action.Config.Cooldown != nil && *action.Config.Cooldown > 0 {
 		game.SetActionCooldown(
 			*transaction.Context.SourceActorID,
@@ -170,18 +179,11 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 		context = action.MapContext(*game, context)
 	}
 
-	if ok {
-		if !action.Config.Struggle {
-			game.UpdateActor(source.ID, func(a Actor) Actor {
-				a.LastUsedActionTX = &transaction
-				return a
-			})
-		}
-		log := NewLogContext("$source$ used $action$", context)
-		if action.Config.LogSuccess != nil {
-			log = NewLogContext(*action.Config.LogSuccess, context)
-		}
-		game.PushLog(log)
+	if !action.Config.Struggle {
+		game.UpdateActor(source.ID, func(a Actor) Actor {
+			a.LastUsedActionTX = &transaction
+			return a
+		})
 	}
 
 	transactions.Push(action.Delta(*game, *game, context))
