@@ -68,10 +68,8 @@ func validatePlayer(g *Game, player Player) bool {
 		}
 
 		if !actor.Alive {
+			g.SetPosition(actor, nil)
 			missing_pos = append(missing_pos, pos.ID)
-			context := NewContext().WithTargetIDs([]uuid.UUID{actor.ID})
-			transaction := MakeTransaction(RemovePositions, context)
-			g.JumpTransaction(transaction)
 		}
 	}
 

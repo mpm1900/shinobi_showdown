@@ -734,16 +734,6 @@ func (g *Game) On(on TriggerOn, context *Context) int {
 	return count
 }
 
-func (g *Game) JumpTransaction(transaction Transaction[GameMutation]) {
-	next := Queue[GameTransaction]{transaction}
-	g.Transactions = append(next, g.Transactions...)
-}
-func (g *Game) JumpTransactions(transactions []GameTransaction) {
-	next := Queue[GameTransaction]{}
-	next = append(next, transactions...)
-	g.Transactions = append(next, g.Transactions...)
-}
-
 func (g *Game) PushLog(log GameLog) {
 	g.Log = append(g.Log, log)
 	if len(g.Log) > SERVER_LOG_RETENTION_SIZE {

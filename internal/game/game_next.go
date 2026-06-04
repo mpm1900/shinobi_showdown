@@ -46,23 +46,24 @@ func (g *Game) PreAction() bool {
 		return false
 	}
 
-	if !g.Turn.PreAction {
-		g.Turn.PreAction = true
+	if g.Turn.ActionStatus != ActionStatusPre {
+		g.Turn.ActionStatus = ActionStatusPre
 		g.ActiveTransaction = MakeGameActiveTransaction(transaction)
-		count := g.On(OnActionStart, &transaction.Context)
-		return count > 0
+		new_trigger_count := g.On(OnActionStart, &transaction.Context)
+		return new_trigger_count > 0
 	}
 
 	return false
 }
 
 func (g *Game) PostAction(context Context) {
-	g.Turn.PreAction = false
+	g.Turn.ActionStatus = ActionStatusPost
 	g.On(OnActionEnd, &context)
 }
 
 func (g *Game) NextAction() bool {
 	g.SortActions()
+	g.Turn.ActionStatus = ActionStatusActive
 	transaction, err := g.Actions.Dequeue()
 	if err != nil {
 		g.ActiveTransaction = nil
@@ -120,9 +121,10 @@ func (g *Game) NextTrigger() bool {
 }
 
 func (g Game) GetBaseTick() time.Duration {
-	if g.Turn.PreAction {
+	if g.Turn.ActionStatus == ActionStatusPre {
 		return 0
 	}
+
 	return time.Second / 2
 }
 
