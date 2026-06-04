@@ -127,14 +127,12 @@ func GetEffectiveRatio(action Nature, target []Nature) float64 {
 	if len(target) == 0 {
 		return 1.0
 	}
+
 	for _, t_nature := range target {
 		nature_value, ok := set_value[t_nature]
-		if !ok {
-			total *= 1.0
-			continue
+		if ok {
+			total *= nature_value
 		}
-
-		total *= nature_value
 	}
 
 	return total
