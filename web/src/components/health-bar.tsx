@@ -1,7 +1,13 @@
 import { getVitals, type Actor } from '#/lib/game/actor'
 import { gameStore } from '#/lib/stores/game'
 import { useStore } from '@tanstack/react-store'
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
+import {
+  animate,
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from 'motion/react'
 import { useEffect, useMemo, useRef } from 'react'
 import { HealthDeltaBurst } from './health-delta-burst'
 
@@ -21,11 +27,25 @@ function HealthBar({
   const hpTarget = useMotionValue(vitals.hp.ratio * 100)
   const staminaTarget = useMotionValue(vitals.stamina.ratio * 100)
   const hpGhostTarget = useMotionValue(vitals.hp.ratio * 100)
-
   useEffect(() => {
-    hpTarget.set(vitals.hp.ratio * 100)
+    const nextHp = vitals.hp.ratio * 100
+    const currentHp = hpTarget.get()
+    const delta = Math.abs(currentHp - nextHp)
+    const t = delta / 100
+    const mass = t * 5
+    const stiffness = 250 - t * 100
+
+    animate(hpTarget, nextHp, {
+      type: 'spring',
+      stiffness,
+      damping: 50,
+      mass,
+    })
+
     staminaTarget.set(vitals.stamina.ratio * 100)
   }, [vitals.hp.ratio, vitals.stamina.ratio, hpTarget, staminaTarget])
+
+
 
   useEffect(() => {
     if (prevTurnRef.current !== turn) {
@@ -34,10 +54,7 @@ function HealthBar({
     }
   }, [turn, vitals.hp.ratio, hpGhostTarget])
 
-  const hpWidth = useTransform(
-    useSpring(hpTarget, { stiffness: 280, damping: 30, mass: 0.8 }),
-    (v) => `${v}%`
-  )
+  const hpWidth = useTransform(hpTarget, (v) => `${v}%`)
 
   const hpGhostWidth = useTransform(
     useSpring(hpGhostTarget, { stiffness: 50, damping: 26, mass: 1.2 }),
