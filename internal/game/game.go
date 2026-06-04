@@ -75,7 +75,8 @@ type Game struct {
 	 */
 	ActionRegistry map[uuid.UUID]Action
 
-	disableActionFilterEval bool `json:"-"`
+	disableActionFilterEval  bool `json:"-"`
+	bypassGameStateMutations bool `json:"-"`
 }
 
 func MakeGameActiveTransaction(tx Transaction[Action]) *GameActiveTransaction {
@@ -222,10 +223,7 @@ func (g Game) GetTriggers(on TriggerOn, context *Context) []Transaction[Trigger]
 		MakeTransaction(END_OF_TURN_TRIGGER, ctx),
 	}
 
-	transactions := g.GetModifiers()
-	modifiers := make([]Transaction[Modifier], 0, len(transactions))
-	modifiers = append(modifiers, transactions...)
-	modifiers = append(modifiers, GetActorModifiers(g)...)
+	modifiers := g.GetActiveModifierTransactions()
 
 	/**
 	 * This is so that leaving actos are temporarily considered active
@@ -260,6 +258,20 @@ func (g Game) GetTriggers(on TriggerOn, context *Context) []Transaction[Trigger]
 
 	return triggers
 }
+func (g Game) GetActiveModifierTransactions() []Transaction[Modifier] {
+	actorModifiers := GetActorModifiers(g)
+	transactions := make([]Transaction[Modifier], 0, len(g.Modifiers)+len(actorModifiers))
+
+	for i := range g.Modifiers {
+		if g.Modifiers[i].Mutation.Delay <= 0 {
+			transactions = append(transactions, g.Modifiers[i])
+		}
+	}
+	transactions = append(transactions, actorModifiers...)
+
+	return transactions
+}
+
 func (g Game) GetModifiers() []Transaction[Modifier] {
 	var transactions []Transaction[Modifier] = []Transaction[Modifier]{}
 	for _, tx := range g.Modifiers {
@@ -270,10 +282,16 @@ func (g Game) GetModifiers() []Transaction[Modifier] {
 
 	return transactions
 }
+func (g Game) getAllModifierTransactions() []Transaction[Modifier] {
+	actorModifiers := GetActorModifiers(g)
+	transactions := make([]Transaction[Modifier], 0, len(g.Modifiers)+len(actorModifiers))
+	transactions = append(transactions, g.Modifiers...)
+	transactions = append(transactions, actorModifiers...)
+	return transactions
+}
+
 func (g Game) GetModifierTxByID(txID uuid.UUID) (Transaction[Modifier], bool) {
-	modifiers := make([]Transaction[Modifier], 0, len(g.Modifiers))
-	modifiers = append(modifiers, g.Modifiers...)
-	modifiers = append(modifiers, GetActorModifiers(g)...)
+	modifiers := g.getAllModifierTransactions()
 
 	for _, m := range modifiers {
 		if m.ID == txID {
@@ -283,8 +301,7 @@ func (g Game) GetModifierTxByID(txID uuid.UUID) (Transaction[Modifier], bool) {
 	return Transaction[Modifier]{}, false
 }
 func (g Game) GetModifierByTxID(txID uuid.UUID) (Modifier, bool) {
-	modifiers := g.GetModifiers()
-	modifiers = append(modifiers, GetActorModifiers(g)...)
+	modifiers := g.getAllModifierTransactions()
 
 	for _, m := range modifiers {
 		if m.ID == txID {
@@ -294,8 +311,7 @@ func (g Game) GetModifierByTxID(txID uuid.UUID) (Modifier, bool) {
 	return Modifier{}, false
 }
 func (g Game) GetModifierByID(ID uuid.UUID) (Modifier, bool) {
-	modifiers := g.GetModifiers()
-	modifiers = append(modifiers, GetActorModifiers(g)...)
+	modifiers := g.getAllModifierTransactions()
 
 	for _, m := range modifiers {
 		if m.Mutation.ID == ID || (m.Mutation.GroupID != nil && *m.Mutation.GroupID == ID) {
@@ -339,8 +355,14 @@ func (g Game) GetActiveAction() (Action, bool) {
 	return Action{}, false
 }
 func (g Game) GetState(context Context) (GameState, []uuid.UUID) {
-	applied := make([]uuid.UUID, 0)
+	if g.bypassGameStateMutations {
+		return g.state, []uuid.UUID{}
+	}
 	mutations, transactions := GetAllGameStateMutations(g)
+	return g.GetStateWithMutations(context, mutations, transactions)
+}
+func (g Game) GetStateWithMutations(context Context, mutations []GameStateMutation, transactions []Transaction[Modifier]) (GameState, []uuid.UUID) {
+	applied := make([]uuid.UUID, 0)
 	state := g.state
 	for _, mut := range mutations {
 		mutContext := ResolveModifierTransactionContext(context, transactions, mut.TransactionID)
@@ -588,6 +610,7 @@ func (g *Game) SetActionCooldown(actorID uuid.UUID, actionID uuid.UUID, cooldown
 }
 
 func (g *Game) SortActions() {
+	mutations, transactions := GetAllActorMutations(*g, false)
 	resolvedCache := make(map[uuid.UUID]ResolvedActor)
 	getResolved := func(actorID uuid.UUID) (ResolvedActor, bool) {
 		if res, ok := resolvedCache[actorID]; ok {
@@ -597,7 +620,7 @@ func (g *Game) SortActions() {
 		if !ok {
 			return ResolvedActor{}, false
 		}
-		res := actor.Resolve(*g)
+		res := actor.ResolveWithMutations(*g, mutations, transactions)
 		resolvedCache[actorID] = res
 		return res, true
 	}
@@ -789,9 +812,17 @@ func getLastN[T any](s []T, n int) []T {
 	return s[len(s)-n:]
 }
 func (g Game) ToJSON(playerID *uuid.UUID) GameJSON {
+	a_mutations, a_transactions := GetAllActorMutations(g, false)
+	gs_mutations, gs_transactions := GetAllGameStateMutations(g)
+	state, applied := g.GetStateWithMutations(NewContext(), gs_mutations, gs_transactions)
+
+	g_with_state := g
+	g_with_state.state = state
+	g_with_state.bypassGameStateMutations = true
+
 	resolved := make([]ResolvedActor, len(g.Actors))
 	for i, a := range g.Actors {
-		resolved[i] = a.Resolve(g)
+		resolved[i] = a.ResolveWithMutations(g_with_state, a_mutations, a_transactions)
 	}
 
 	var prompt *Transaction[Action]
@@ -809,7 +840,6 @@ func (g Game) ToJSON(playerID *uuid.UUID) GameJSON {
 		status = GameStatusWaiting
 	}
 
-	state, applied := g.GetState(NewContext())
 	return GameJSON{
 		Status:             status,
 		Turn:               g.Turn,

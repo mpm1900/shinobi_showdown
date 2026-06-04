@@ -75,15 +75,21 @@ func newActorContext(actor *Actor) Context {
 
 func GetActorModifiers(game Game) []Transaction[Modifier] {
 	activeActors := game.GetActiveActors()
-	modifiers := make([]Transaction[Modifier], 0, len(activeActors)*2)
+	modifiers := make([]Transaction[Modifier], 0, len(activeActors)*3)
 
 	for i := range activeActors {
 		actor := &activeActors[i]
 		context := newActorContext(actor)
-		a_modifiers := actor.GetModifiers()
+		ability := actor.GetAbility()
+		if ability != nil {
+			modifiers = append(modifiers, MakeTransaction(*ability, context))
+		}
+		if actor.Item != nil {
+			modifiers = append(modifiers, MakeTransaction(*actor.Item, context))
+		}
 
-		for j := range a_modifiers {
-			modifiers = append(modifiers, MakeTransaction(a_modifiers[j], context))
+		for j := range actor.ActorDef.DefaultModifiers {
+			modifiers = append(modifiers, MakeTransaction(actor.ActorDef.DefaultModifiers[j], context))
 		}
 	}
 
@@ -116,8 +122,14 @@ func getContext(actor *Actor, transactions []Transaction[Modifier], mutation Act
 	return ResolveModifierTransactionContext(context, transactions, mutation.TransactionID)
 }
 
-func resolveActor(actor Actor, g Game, bypassModifiers bool, actions func(*ResolvedActor)) ResolvedActor {
-	handler := newActorResolveHandler(actor, g, bypassModifiers)
+func resolveActor(actor Actor, g Game, mutations []ActorMutation, transactions []Transaction[Modifier], actions func(*ResolvedActor)) ResolvedActor {
+	handler := actorResolveHandler{
+		actor:        actor,
+		baseStats:    maps.Clone(actor.Stats),
+		game:         g,
+		mutations:    mutations,
+		transactions: transactions,
+	}
 	return handler.resolve(actions)
 }
 
@@ -133,8 +145,13 @@ func (a Actor) getActor() Actor {
 }
 
 func (a Actor) Resolve(g Game) ResolvedActor {
+	mutations, transactions := GetAllActorMutations(g, false)
+	return a.ResolveWithMutations(g, mutations, transactions)
+}
+
+func (a Actor) ResolveWithMutations(g Game, mutations []ActorMutation, transactions []Transaction[Modifier]) ResolvedActor {
 	actor := a.getActor()
-	resolved := resolveActor(actor, g, false, func(ra *ResolvedActor) {
+	resolved := resolveActor(actor.Clone(), g, mutations, transactions, func(ra *ResolvedActor) {
 		resolveActions(g, ra)
 	})
 
@@ -147,33 +164,21 @@ func (a Actor) Resolve(g Game) ResolvedActor {
 
 	return resolved
 }
+
 func (a Actor) ResolveShallow(g Game) ResolvedActor {
 	actor := a.getActor()
-	resolved := resolveActor(actor, g, false, nil)
+	mutations, transactions := GetAllActorMutations(g, false)
+	resolved := resolveActor(actor.Clone(), g, mutations, transactions, nil)
 
 	return resolved
 }
 
 type actorResolveHandler struct {
-	actor           Actor
-	baseStats       map[ActorStat]int
-	bypassModifiers bool
-	game            Game
-	mutations       []ActorMutation
-	transactions    []Transaction[Modifier]
-}
-
-func newActorResolveHandler(actor Actor, g Game, bypassModifiers bool) actorResolveHandler {
-	mutations, transactions := GetAllActorMutations(g, bypassModifiers)
-	clone := actor.Clone()
-	return actorResolveHandler{
-		actor:           clone,
-		baseStats:       maps.Clone(clone.Stats),
-		game:            g,
-		bypassModifiers: bypassModifiers,
-		mutations:       mutations,
-		transactions:    transactions,
-	}
+	actor        Actor
+	baseStats    map[ActorStat]int
+	game         Game
+	mutations    []ActorMutation
+	transactions []Transaction[Modifier]
 }
 
 func (ah *actorResolveHandler) applyModifierMutation(mutation ActorMutation) (Actor, bool) {

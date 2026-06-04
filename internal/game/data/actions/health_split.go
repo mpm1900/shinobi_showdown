@@ -25,11 +25,11 @@ func MakeHealthSplit() game.Action {
 			Priority: game.ActionPriorityDefault,
 			Filter:   game.SourceIsAlive,
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
+				transactions := game.NewTransactionBuilder()
 
 				s, ok := g.GetSource(context)
 				if !ok {
-					return transactions
+					return transactions.Build()
 				}
 
 				total_damage := s.Damage
@@ -41,13 +41,13 @@ func MakeHealthSplit() game.Action {
 				avg_damage := game.Round(float64(total_damage) / float64(len(targets)+1))
 
 				s_ctx := game.MakeContextForActor(s)
-				transactions = append(transactions, game.MakeTransaction(game.SetDamage(avg_damage), s_ctx))
+				transactions.PushOne(game.MakeTransaction(game.SetDamage(avg_damage), s_ctx))
 				for _, t := range targets {
 					t_ctx := game.MakeContextForActor(t)
-					transactions = append(transactions, game.MakeTransaction(game.SetDamage(avg_damage), t_ctx))
+					transactions.PushOne(game.MakeTransaction(game.SetDamage(avg_damage), t_ctx))
 				}
 
-				return transactions
+				return transactions.Build()
 			},
 		},
 	}

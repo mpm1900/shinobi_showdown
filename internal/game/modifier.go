@@ -80,14 +80,22 @@ func CheckModifierForActor(tx Transaction[Modifier], game Game, actor Actor) boo
 }
 
 func GetAllActorMutations(g Game, bypassModifiers bool) ([]ActorMutation, []Transaction[Modifier]) {
-	var transactions []Transaction[Modifier] = []Transaction[Modifier]{}
-	if !bypassModifiers {
-		transactions = slices.Concat(g.GetModifiers(), GetActorModifiers(g))
+	if bypassModifiers {
+		mutations := slices.Clone(specialMutations)
+		sort.SliceStable(mutations, func(i, j int) bool {
+			return mutations[i].Priority < mutations[j].Priority
+		})
+		return mutations, nil
 	}
-	mutations := make([]ActorMutation, 0)
-	for _, transaction := range transactions {
-		for _, mut := range transaction.Mutation.ActorMutations {
-			mut.TransactionID = Ptr(transaction.ID)
+
+	transactions := g.GetActiveModifierTransactions()
+	mutations := make([]ActorMutation, 0, (len(transactions)*2)+len(specialMutations))
+
+	for i := range transactions {
+		tx := &transactions[i]
+		for j := range tx.Mutation.ActorMutations {
+			mut := tx.Mutation.ActorMutations[j]
+			mut.TransactionID = &tx.ID
 			mutations = append(mutations, mut)
 		}
 	}
@@ -102,14 +110,18 @@ func GetAllActorMutations(g Game, bypassModifiers bool) ([]ActorMutation, []Tran
 }
 
 func GetAllGameStateMutations(g Game) ([]GameStateMutation, []Transaction[Modifier]) {
-	transactions := slices.Concat(g.GetModifiers(), GetActorModifiers(g))
-	mutations := make([]GameStateMutation, 0)
-	for _, transaction := range transactions {
-		for _, mut := range transaction.Mutation.GameStateMutations {
-			mut.TransactionID = Ptr(transaction.ID)
+	transactions := g.GetActiveModifierTransactions()
+	mutations := make([]GameStateMutation, 0, len(transactions))
+
+	for i := range transactions {
+		tx := &transactions[i]
+		for j := range tx.Mutation.GameStateMutations {
+			mut := tx.Mutation.GameStateMutations[j]
+			mut.TransactionID = &tx.ID
 			mutations = append(mutations, mut)
 		}
 	}
+
 	sort.SliceStable(mutations, func(i, j int) bool {
 		return mutations[i].Priority < mutations[j].Priority
 	})
