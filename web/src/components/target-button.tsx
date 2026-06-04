@@ -75,8 +75,8 @@ const TargetButton = memo(function TargetButton({
             ...context,
             target_position_IDs: includes
               ? (context.target_position_IDs?.filter(
-                  (id) => id !== actor.position_ID
-                ) ?? null)
+                (id) => id !== actor.position_ID
+              ) ?? null)
               : [...(context.target_position_IDs ?? []), actor.position_ID],
           })
         }
