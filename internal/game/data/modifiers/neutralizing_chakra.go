@@ -121,6 +121,7 @@ var NeutralizingChakra game.Modifier = game.Modifier{
 					neutralizers := g.GetActorsFilters(context, game.ComposeAF(
 						game.ActiveFilter,
 						game.AliveFilter,
+						game.OtherFilter,
 						game.HasAppliedModifier(neutralizingChakraID),
 					))
 					for _, neutralizer := range neutralizers {
@@ -169,6 +170,7 @@ var returnAbility = game.Modifier{
 					neutralizers := g.GetActorsFilters(context, game.ComposeAF(
 						game.ActiveFilter,
 						game.AliveFilter,
+						game.OtherFilter,
 						game.HasAppliedModifier(neutralizingChakraID),
 					))
 					if len(neutralizers) > 0 {
