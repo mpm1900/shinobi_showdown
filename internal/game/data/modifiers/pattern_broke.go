@@ -9,7 +9,6 @@ import (
 var patternBrokeID = uuid.MustParse("0ce5b5e0-5865-473b-a9cb-4b574f775ef8")
 
 var PatternBroke = game.Modifier{
-
 	ID:          uuid.New(),
 	Name:        "Pattern Broke",
 	Description: "Cannot repeat actions.",

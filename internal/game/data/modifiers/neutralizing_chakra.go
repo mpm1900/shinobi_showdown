@@ -118,15 +118,19 @@ var NeutralizingChakra game.Modifier = game.Modifier{
 					transaction := game.MakeTransaction(mutation, mut_ctx)
 					transactions = append(transactions, transaction)
 
-					neutralizers := g.GetActorsFilters(context, game.ComposeAF(
-						game.ActiveFilter,
-						game.AliveFilter,
-						game.OtherFilter,
-						game.HasAppliedModifier(neutralizingChakraID),
-					))
-					for _, neutralizer := range neutralizers {
+					neutralizerIDs := map[uuid.UUID]struct{}{}
+					for _, tx := range g.GetActiveModifierTransactions() {
+						if tx.Mutation.ID != neutralizingChakraID || tx.Context.SourceActorID == nil {
+							continue
+						}
+						neutralizerIDs[*tx.Context.SourceActorID] = struct{}{}
+					}
+					for neutralizerID := range neutralizerIDs {
+						if neutralizerID == source.ID {
+							continue
+						}
 						mod_ctx := game.MakeContextForActor(source)
-						mod_ctx.TargetActorIDs = []uuid.UUID{neutralizer.ID}
+						mod_ctx.TargetActorIDs = []uuid.UUID{neutralizerID}
 						mod_tx := game.MakeTransaction(mutations.AddModifiers(false, returnAbility), mod_ctx)
 						transactions = append(transactions, mod_tx)
 					}
@@ -167,13 +171,13 @@ var returnAbility = game.Modifier{
 					})
 					transactions = append(transactions, game.MakeTransaction(remove_mut, context))
 
-					neutralizers := g.GetActorsFilters(context, game.ComposeAF(
-						game.ActiveFilter,
-						game.AliveFilter,
-						game.OtherFilter,
-						game.HasAppliedModifier(neutralizingChakraID),
-					))
-					if len(neutralizers) > 0 {
+					hasOtherNeutralizer := slices.ContainsFunc(g.GetActiveModifierTransactions(), func(tx game.Transaction[game.Modifier]) bool {
+						if tx.Mutation.ID != neutralizingChakraID || tx.Context.SourceActorID == nil {
+							return false
+						}
+						return *tx.Context.SourceActorID != source.ID
+					})
+					if hasOtherNeutralizer {
 						return transactions
 					}
 
