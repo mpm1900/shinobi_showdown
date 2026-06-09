@@ -25,6 +25,7 @@ import {
   GiComa,
   GiCoral,
   GiCurlyWing,
+  GiDesertSkull,
   GiDoubled,
   GiDustCloud,
   GiEcology,
@@ -287,6 +288,7 @@ const MODIFIER_ICONS: Record<string, IconType> = {
   paralyzed: ({ className, ...props }) => (
     <GiLightningTrio className={cn('text-yellow-400', className)} {...props} />
   ),
+  perish: GiDesertSkull,
   poisoned: ({ className, ...props }) => (
     <GiPoisonBottle className={cn('text-lime-500', className)} {...props} />
   ),

@@ -14,6 +14,7 @@ var PerishDeathModifier game.Modifier = game.Modifier{
 	ID:             pdmID,
 	GroupID:        &pdmID,
 	Name:           "Perish",
+	Icon:           "perish",
 	Show:           true,
 	Duration:       game.ModifierDurationInf,
 	Delay:          perishDuration,
@@ -50,7 +51,8 @@ var pimID = uuid.New()
 var PerishInfoModifier game.Modifier = game.Modifier{
 	ID:       pimID,
 	GroupID:  &pimID,
-	Name:     "Perish",
+	Name:     "Marked for Death",
+	Icon:     "perish",
 	Show:     true,
 	Duration: perishDuration,
 	ActorMutations: []game.ActorMutation{
@@ -66,14 +68,14 @@ func MakePerishSong() game.Action {
 		Name:        "Perish Song",
 		Nature:      game.Ptr(game.NsYin),
 		Jutsu:       game.Fuinjutsu,
-		Description: "Kills target after 5 turns.",
+		Description: "Kills all active shinobi after 5 turns. (effect can be canceled by switching)",
 	})
 
 	return game.Action{
 		ID:              uuid.MustParse("ead0d88a-1b00-417d-a45e-c77a7bcaeb74"),
 		Config:          config,
-		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
+		TargetPredicate: game.NoneFilter,
+		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
 			Filter: game.ComposeGF(
@@ -82,7 +84,7 @@ func MakePerishSong() game.Action {
 			Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
 
-				for _, target := range g.GetTargets(context) {
+				for _, target := range g.GetActiveActors() {
 					mut_ctx := game.MakeContextForActor(target)
 					mut := mutations.AddModifiers(true, PerishDeathModifier, PerishInfoModifier)
 					tx := game.MakeTransaction(mut, mut_ctx)
