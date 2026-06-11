@@ -11,7 +11,7 @@ import (
 var DragonStance = MakeDragonStance()
 
 func MakeDragonStance() game.Action {
-	return makeSelfStatus(
+	return makeNoneStatus(
 		uuid.MustParse("435490c1-ede2-5875-9edf-1c36d4917741"),
 		makeNoTargetStatusConfig(game.ActionConfig{
 			Name:        "Dragon Stance",

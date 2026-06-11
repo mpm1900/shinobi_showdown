@@ -10,20 +10,18 @@ import (
 var HeavyPunch = MakeHeavyPunch()
 
 func MakeHeavyPunch() game.Action {
-	config := makeAttackConfig(game.ActionConfig{
-		Name:        "Heavy Punch",
-		Description: "30% chance to paralyze the target.",
-		Nature:      game.Ptr(game.NsTai),
-		Accuracy:    game.Ptr(100),
-		Power:       game.Ptr(80),
-		Stat:        game.Ptr(game.StatAttack),
-		Cost:        game.Ptr(0),
-		Jutsu:       game.Ninjutsu,
-	})
-
 	return makeAttack(AttackConfig{
-		ID:     uuid.MustParse("420bad58-1238-4124-909e-09ef76d743e8"),
-		Config: config,
+		ID: uuid.MustParse("420bad58-1238-4124-909e-09ef76d743e8"),
+		Config: makeAttackConfig(game.ActionConfig{
+			Name:        "Heavy Punch",
+			Description: "30% chance to paralyze the target.",
+			Nature:      game.Ptr(game.NsTai),
+			Accuracy:    game.Ptr(100),
+			Power:       game.Ptr(80),
+			Stat:        game.Ptr(game.StatAttack),
+			Cost:        game.Ptr(0),
+			Jutsu:       game.Ninjutsu,
+		}),
 		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)

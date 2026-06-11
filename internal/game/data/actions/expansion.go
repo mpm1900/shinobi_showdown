@@ -11,7 +11,7 @@ import (
 var Expansion = MakeExpansion()
 
 func MakeExpansion() game.Action {
-	return makeSelfStatus(
+	return makeNoneStatus(
 		uuid.MustParse("94c7641b-c089-4c38-ae4d-56869f3d9ca6"),
 		makeNoTargetStatusConfig(game.ActionConfig{
 			Name:        "Expansion",

@@ -11,7 +11,7 @@ import (
 var SwordsStance = MakeSwordsStance()
 
 func MakeSwordsStance() game.Action {
-	return makeSelfStatus(
+	return makeNoneStatus(
 		uuid.MustParse("cdda818c-edac-4de4-99e8-d0890fcc9214"),
 		makeNoTargetStatusConfig(game.ActionConfig{
 			Name:        "Swords Stance",

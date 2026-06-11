@@ -144,7 +144,7 @@ func makeAttack(config AttackConfig) game.Action {
 	return action
 }
 
-func makeSelfStatus(
+func makeNoneStatus(
 	id uuid.UUID,
 	config game.ActionConfig,
 	delta func(game.Game, game.Game, game.Context) []game.GameTransaction,
