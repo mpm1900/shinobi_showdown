@@ -26,7 +26,7 @@ func MakeHeavyPunch() game.Action {
 			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions.Push(modifiers.ChanceParalysis(action_config, g, context, target, 30))
+				transactions.Concat(modifiers.ChanceParalysis(action_config, g, context, target, 30))
 			}
 
 			return transactions.Build()

@@ -27,7 +27,7 @@ func MakeAsakujaku() game.Action {
 			transactions := game.NewTransactionBuilder()
 
 			for _, target := range g.GetTargets(context) {
-				transactions.Push(modifiers.ChanceBurn(action_config, g, context, target, 10))
+				transactions.Concat(modifiers.ChanceBurn(action_config, g, context, target, 10))
 			}
 
 			return transactions.Build()

@@ -32,16 +32,16 @@ var StatusSyncTrigger = game.Trigger{
 					break
 				}
 				if target.Burned {
-					transactions.Push(ApplyBurn(game.ActionConfig{}, g, source, game.NewContext()))
+					transactions.Concat(ApplyBurn(game.ActionConfig{}, g, source, game.NewContext()))
 				}
 				if target.Paralyzed {
-					transactions.Push(ApplyParalysis(game.ActionConfig{}, g, source, game.NewContext()))
+					transactions.Concat(ApplyParalysis(game.ActionConfig{}, g, source, game.NewContext()))
 				}
 				if target.Poisoned {
-					transactions.Push(ApplyPoison(game.ActionConfig{}, g, source, game.NewContext()))
+					transactions.Concat(ApplyPoison(game.ActionConfig{}, g, source, game.NewContext()))
 				}
 				if target.Sleeping {
-					transactions.Push(ApplySleep(game.ActionConfig{}, g, source, game.NewContext()))
+					transactions.Concat(ApplySleep(game.ActionConfig{}, g, source, game.NewContext()))
 				}
 				break
 			}

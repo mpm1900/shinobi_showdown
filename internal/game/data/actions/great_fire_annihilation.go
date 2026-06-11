@@ -36,7 +36,7 @@ func MakeGreatFireAnnihilation() game.Action {
 			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions.Push(modifiers.ChanceBurn(action_config, g, context, target, 20))
+				transactions.Concat(modifiers.ChanceBurn(action_config, g, context, target, 20))
 			}
 
 			return transactions.Build()

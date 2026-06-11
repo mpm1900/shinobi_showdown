@@ -19,9 +19,8 @@ func MakeCamelliaDance() game.Action {
 		Nature:      game.Ptr(game.NsTai),
 		Cost:        game.Ptr(0),
 		Jutsu:       game.Taijutsu,
+		CritStage:   game.Ptr(4),
 	})
-
-	config.CritStage = game.Ptr(4)
 
 	return game.Action{
 		ID:              uuid.MustParse("c2ff8167-941a-4c2b-844f-e3f5bb7d738b"),
@@ -35,12 +34,12 @@ func MakeCamelliaDance() game.Action {
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := game.NewTransactionBuilder()
 
-				action_config, _ := game.GetActiveActionConfig(g, config)
+				action_config, _ := game.GetActiveActionConfig(g)
 				damage_config := game.NewDamageConfig(game.RandomDamageFactor())
 				damage_config.Repeat = true
 				damage_config.RepeatMax = 3
 				damage_config.IgnoreProtect = true
-				transactions.Push(game.ResolveDamageCore(action_config, damage_config, g, context))
+				transactions.Concat(game.ResolveDamageCore(action_config, damage_config, g, context))
 
 				return transactions.Build()
 			},

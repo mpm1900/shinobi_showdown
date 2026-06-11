@@ -76,7 +76,11 @@ type AttackConfig struct {
 }
 
 func (ac AttackConfig) actionConfig(g game.Game, context game.Context) game.ActionConfig {
-	action_config, _ := game.GetActiveActionConfig(g, ac.Config)
+	action_config, ok := game.GetActiveActionConfig(g)
+	if !ok {
+		action_config = ac.Config
+	}
+
 	if ac.MapConfig != nil {
 		action_config = ac.MapConfig(g, context, action_config)
 	}
@@ -103,35 +107,76 @@ func ResolveAttack(config AttackConfig, g game.Game, context game.Context) []gam
 	return game.ResolveDamageCore(config.actionConfig(g, context), config.damageConfig(), g, context)
 }
 
-func makeAttack(config AttackConfig) game.Action {
-	action := game.Action{
-		ID:              config.ID,
-		Config:          config.Config,
-		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.PositionsLengthFilter(*config.Config.TargetCount),
-		Cost:            modifiers.UseStaminaCost(*config.Config.Cost),
-		MapContext:      config.MapContext,
+func makeNoneAction(
+	id uuid.UUID,
+	config game.ActionConfig,
+	delta func(game.Game, game.Game, game.Context) []game.GameTransaction,
+) game.Action {
+	if config.Cost == nil {
+		config.Cost = game.Ptr(0)
+	}
+	return game.Action{
+		ID:              id,
+		Config:          config,
+		TargetPredicate: game.NoneFilter,
+		ContextValidate: game.TargetLengthFilter(0),
+		Cost:            modifiers.UseStaminaCost(*config.Cost),
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
 			Filter: game.ComposeGF(
 				game.SourceIsAlive,
 				game.SourceIsActionOffCooldown,
 			),
-			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := game.NewTransactionBuilder()
-
-				if config.BeforeAttack != nil {
-					transactions.Push(config.BeforeAttack(g, context, config.actionConfig(g, context)))
-				}
-				transactions.Push(ResolveAttack(config, g, context))
-				if config.AfterAttack != nil {
-					transactions.Push(config.AfterAttack(g, context, config.actionConfig(g, context)))
-				}
-
-				return transactions.Build()
-			},
+			Delta: delta,
 		},
 	}
+}
+
+func makeSingleAction(
+	id uuid.UUID,
+	config game.ActionConfig,
+	delta func(game.Game, game.Game, game.Context) []game.GameTransaction,
+) game.Action {
+	if config.Cost == nil {
+		config.Cost = game.Ptr(0)
+	}
+	return game.Action{
+		ID:              id,
+		Config:          config,
+		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
+		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
+		Cost:            modifiers.UseStaminaCost(*config.Cost),
+		ActionMutation: game.ActionMutation{
+			Priority: game.ActionPriorityDefault,
+			Filter: game.ComposeGF(
+				game.SourceIsAlive,
+				game.SourceIsActionOffCooldown,
+			),
+			Delta: delta,
+		},
+	}
+}
+
+func makeAttack(config AttackConfig) game.Action {
+	action := makeSingleAction(
+		config.ID,
+		config.Config,
+		func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
+
+			if config.BeforeAttack != nil {
+				transactions.Concat(config.BeforeAttack(g, context, config.actionConfig(g, context)))
+			}
+			transactions.Concat(ResolveAttack(config, g, context))
+			if config.AfterAttack != nil {
+				transactions.Concat(config.AfterAttack(g, context, config.actionConfig(g, context)))
+			}
+
+			return transactions.Build()
+		},
+	)
+
+	action.MapContext = config.MapContext
 
 	if config.TargetPredicate != nil {
 		action.TargetPredicate = config.TargetPredicate
@@ -142,48 +187,6 @@ func makeAttack(config AttackConfig) game.Action {
 	}
 
 	return action
-}
-
-func makeNoneStatus(
-	id uuid.UUID,
-	config game.ActionConfig,
-	delta func(game.Game, game.Game, game.Context) []game.GameTransaction,
-) game.Action {
-	return game.Action{
-		ID:              id,
-		Config:          config,
-		TargetPredicate: game.NoneFilter,
-		ContextValidate: game.TargetLengthFilter(0),
-		ActionMutation: game.ActionMutation{
-			Priority: game.ActionPriorityDefault,
-			Filter: game.ComposeGF(
-				game.SourceIsAlive,
-				game.SourceIsActionOffCooldown,
-			),
-			Delta: delta,
-		},
-	}
-}
-
-func makeSingleStatus(
-	id uuid.UUID,
-	config game.ActionConfig,
-	delta func(game.Game, game.Game, game.Context) []game.GameTransaction,
-) game.Action {
-	return game.Action{
-		ID:              id,
-		Config:          config,
-		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
-		ActionMutation: game.ActionMutation{
-			Priority: game.ActionPriorityDefault,
-			Filter: game.ComposeGF(
-				game.SourceIsAlive,
-				game.SourceIsActionOffCooldown,
-			),
-			Delta: delta,
-		},
-	}
 }
 
 func applySummon(context game.Context, def game.ActorDef, actions []game.Action) []game.GameTransaction {
@@ -213,7 +216,7 @@ func applySummon(context game.Context, def game.ActorDef, actions []game.Action)
 		},
 	}
 
-	transactions.PushOne(game.MakeTransaction(mut, context))
+	transactions.Push(game.MakeTransaction(mut, context))
 	return transactions.Build()
 }
 

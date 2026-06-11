@@ -37,7 +37,7 @@ func MakeFlyingLotus() game.Action {
 			context.SetMeta(key, repeats+1)
 			if repeats < 2 {
 				recharge := mutations.QueueAction(flyingLotusID, context)
-				transactions.PushOne(game.MakeTransaction(recharge, context))
+				transactions.Push(game.MakeTransaction(recharge, context))
 			}
 
 			return transactions.Build()

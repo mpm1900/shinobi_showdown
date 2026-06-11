@@ -44,10 +44,10 @@ func MakeDevistation() game.Action {
 				resolved := source.Resolve(g)
 				ratio := resolved.GetHealthRatio()
 
-				action_config, _ := game.GetActiveActionConfig(g, config)
+				action_config, _ := game.GetActiveActionConfig(g)
 				action_config.Power = game.Ptr(game.Round(float64(*action_config.Power) * ratio))
 				damage_config := game.NewDamageConfig(game.RandomDamageFactor())
-				transactions.Push(game.ResolveDamageCore(action_config, damage_config, g, context))
+				transactions.Concat(game.ResolveDamageCore(action_config, damage_config, g, context))
 
 				return transactions.Build()
 			},

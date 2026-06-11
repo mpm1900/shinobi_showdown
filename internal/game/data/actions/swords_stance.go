@@ -11,7 +11,7 @@ import (
 var SwordsStance = MakeSwordsStance()
 
 func MakeSwordsStance() game.Action {
-	return makeNoneStatus(
+	return makeNoneAction(
 		uuid.MustParse("cdda818c-edac-4de4-99e8-d0890fcc9214"),
 		makeNoTargetStatusConfig(game.ActionConfig{
 			Name:        "Swords Stance",
@@ -24,7 +24,7 @@ func MakeSwordsStance() game.Action {
 
 			mutation := mutations.AddModifiers(false, modifiers.AttackUp2Source)
 			transaction := game.MakeTransaction(mutation, context)
-			transactions.PushOne(transaction)
+			transactions.Push(transaction)
 
 			return transactions.Build()
 		},

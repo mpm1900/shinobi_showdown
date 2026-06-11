@@ -11,7 +11,7 @@ import (
 var Flash = MakeBlindingFlash()
 
 func MakeBlindingFlash() game.Action {
-	action := makeSingleStatus(
+	action := makeSingleAction(
 		uuid.MustParse("4cf69985-6785-56a6-b879-e02cb6207960"),
 		makeStatusConfig(game.ActionConfig{
 			Name:        "Flash",
@@ -27,7 +27,7 @@ func MakeBlindingFlash() game.Action {
 
 			mutation := mutations.AddModifiers(false, mod)
 			transaction := game.MakeTransaction(mutation, context)
-			transactions.PushOne(transaction)
+			transactions.Push(transaction)
 
 			return transactions.Build()
 		},

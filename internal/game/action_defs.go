@@ -180,9 +180,9 @@ func makeAttack(
 			Delta: func(p Game, g Game, context Context) []GameTransaction {
 				transactions := NewTransactionBuilder()
 
-				action_config, _ := GetActiveActionConfig(g, config)
+				action_config, _ := GetActiveActionConfig(g)
 				damage_config := NewDamageConfig(RandomDamageFactor())
-				transactions.Push(ResolveDamageCore(action_config, damage_config, g, context))
+				transactions.Concat(ResolveDamageCore(action_config, damage_config, g, context))
 
 				return with(g, context, transactions.Build())
 			},

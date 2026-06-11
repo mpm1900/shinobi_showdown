@@ -39,8 +39,8 @@ var SleepyModifier = game.Modifier{
 						return transactions.Build()
 					}
 
-					transactions.Push(modifiers.RemoveModifierSource(sleepyModifierID, parent))
-					transactions.Push(modifiers.ApplySleep(game.ActionConfig{}, g, parent, game.NewContext()))
+					transactions.Concat(modifiers.RemoveModifierSource(sleepyModifierID, parent))
+					transactions.Concat(modifiers.ApplySleep(game.ActionConfig{}, g, parent, game.NewContext()))
 
 					return transactions.Build()
 				},

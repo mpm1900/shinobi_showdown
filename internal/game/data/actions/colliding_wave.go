@@ -44,7 +44,7 @@ func MakeCollidingWave() game.Action {
 				return transactions.Build()
 			}
 
-			transactions.Push(modifiers.ApplyTerrain(g, context, game.GameTerrainFlooded, modifiers.FloodedTerrain()))
+			transactions.Concat(modifiers.ApplyTerrain(g, context, game.GameTerrainFlooded, modifiers.FloodedTerrain()))
 
 			done = true
 			return transactions.Build()

@@ -12,22 +12,21 @@ var burningAshID = uuid.MustParse("8182c2a7-48ea-4d71-ae05-641988c70993")
 var BurningAsh = MakeBurningAsh()
 
 func MakeBurningAsh() game.Action {
-	config := makeAttackConfig(game.ActionConfig{
-		Name:        "Burning Ash",
-		Nature:      game.Ptr(game.NsFire),
-		Jutsu:       game.Ninjutsu,
-		Description: "Sets Flammable Terrain.",
-		Cost:        game.Ptr(10),
-		Power:       game.Ptr(20),
-		Accuracy:    game.Ptr(100),
-		Stat:        game.Ptr(game.StatChakraAttack),
-	})
 
 	done := false // this closure is really stupid but works to define a "once per attack on success"
 
 	return makeAttack(AttackConfig{
-		ID:              burningAshID,
-		Config:          config,
+		ID: burningAshID,
+		Config: makeAttackConfig(game.ActionConfig{
+			Name:        "Burning Ash",
+			Nature:      game.Ptr(game.NsFire),
+			Jutsu:       game.Ninjutsu,
+			Description: "Sets Flammable Terrain.",
+			Cost:        game.Ptr(10),
+			Power:       game.Ptr(20),
+			Accuracy:    game.Ptr(100),
+			Stat:        game.Ptr(game.StatChakraAttack),
+		}),
 		TargetPredicate: game.NoneFilter,
 		MapContext: func(g game.Game, context game.Context) game.Context {
 			other_actors := g.GetActorsFilters(context, game.ComposeAF(game.ActiveFilter, game.OtherTeamFilter))
@@ -44,7 +43,7 @@ func MakeBurningAsh() game.Action {
 			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions.Push(modifiers.ChanceBurn(action_config, g, context, target, 20))
+				transactions.Concat(modifiers.ChanceBurn(action_config, g, context, target, 20))
 			}
 
 			if done {
@@ -57,13 +56,13 @@ func MakeBurningAsh() game.Action {
 			}
 
 			filter := modifiers.FilterTerrain()
-			transactions.PushOne(filter)
+			transactions.Push(filter)
 
 			mod := modifiers.FlamableTerrain()
 			mod.Duration = 4
 			mut := mutations.AddModifiers(false, mod)
 			terrain_tx := game.MakeTransaction(mut, game.NewContext().WithSource(*context.SourceActorID))
-			transactions.PushOne(terrain_tx)
+			transactions.Push(terrain_tx)
 
 			done = true
 			return transactions.Build()

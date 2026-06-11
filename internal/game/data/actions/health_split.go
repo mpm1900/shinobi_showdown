@@ -41,10 +41,10 @@ func MakeHealthSplit() game.Action {
 				avg_damage := game.Round(float64(total_damage) / float64(len(targets)+1))
 
 				s_ctx := game.MakeContextForActor(s)
-				transactions.PushOne(game.MakeTransaction(game.SetDamage(avg_damage), s_ctx))
+				transactions.Push(game.MakeTransaction(game.SetDamage(avg_damage), s_ctx))
 				for _, t := range targets {
 					t_ctx := game.MakeContextForActor(t)
-					transactions.PushOne(game.MakeTransaction(game.SetDamage(avg_damage), t_ctx))
+					transactions.Push(game.MakeTransaction(game.SetDamage(avg_damage), t_ctx))
 				}
 
 				return transactions.Build()

@@ -10,34 +10,26 @@ import (
 var OneHundredHealingsStatus = MakeOneHundredHealingsStatus()
 
 func MakeOneHundredHealingsStatus() game.Action {
-	config := makeNoTargetStatusConfig(game.ActionConfig{
-		Name:        "100 Healings: Status",
-		Nature:      game.Ptr(game.NsYang),
-		Jutsu:       game.Ninjutsu,
-		Description: "Heals status from user's party.",
-	})
+	return makeNoneAction(
+		uuid.MustParse("cea0796c-df52-466f-8474-9dc06ec9db6f"),
+		makeNoTargetStatusConfig(game.ActionConfig{
+			Name:        "100 Healings: Status",
+			Nature:      game.Ptr(game.NsYang),
+			Jutsu:       game.Ninjutsu,
+			Description: "Heals status from user's party.",
+		}),
+		func(p, g game.Game, context game.Context) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 
-	return game.Action{
-		ID:              uuid.MustParse("cea0796c-df52-466f-8474-9dc06ec9db6f"),
-		Config:          config,
-		TargetPredicate: game.NoneFilter,
-		ContextValidate: game.TargetLengthFilter(0),
-		ActionMutation: game.ActionMutation{
-			Priority: game.ActionPriorityDefault,
-			Filter:   game.SourceIsAlive,
-			Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := game.NewTransactionBuilder()
-
-				party := g.GetActorsFilters(context, game.TeamFilter)
-				for _, actor := range party {
-					if !actor.Statused {
-						continue
-					}
-					transactions.Push(modifiers.ClearStatus(g, actor))
+			party := g.GetActorsFilters(context, game.TeamFilter)
+			for _, actor := range party {
+				if !actor.Statused {
+					continue
 				}
+				transactions.Concat(modifiers.ClearStatus(g, actor))
+			}
 
-				return transactions.Build()
-			},
+			return transactions.Build()
 		},
-	}
+	)
 }

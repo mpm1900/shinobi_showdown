@@ -11,38 +11,32 @@ var actionBoostID = uuid.MustParse("ff9387f1-ee1a-4162-b5a6-ce2b47498bc5")
 var ActionBoost = MakeActionBoost()
 
 func MakeActionBoost() game.Action {
-	config := makeNoTargetStatusConfig(game.ActionConfig{
-		Name:        "Action Boost",
-		Nature:      game.Ptr(game.NsTai),
-		Jutsu:       game.Ninjutsu,
-		Description: "Target acts after this action.",
-		TargetType:  game.TargetActorID,
-	})
+	action := makeSingleAction(
+		actionBoostID,
+		makeNoTargetStatusConfig(game.ActionConfig{
+			Name:        "Action Boost",
+			Nature:      game.Ptr(game.NsTai),
+			Jutsu:       game.Ninjutsu,
+			Description: "Target acts after this action.",
+			TargetType:  game.TargetActorID,
+		}),
+		func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 
-	return game.Action{
-		ID:              actionBoostID,
-		Config:          config,
-		TargetPredicate: game.ComposeAF(game.TeamFilter, game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.TargetLengthFilter(1),
-		ActionMutation: game.ActionMutation{
-			Priority: game.ActionPriorityP5,
-			Filter: game.ComposeGF(
-				game.SourceIsAlive,
-			),
-			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
+			targets := g.GetTargets(context)
+			for _, target := range targets {
+				mutation := mutations.BoostActionPriority(target)
+				transaction := game.MakeTransaction(mutation, context)
+				transactions.Push(transaction)
+			}
 
-				targets := g.GetTargets(context)
-				for _, target := range targets {
-					mutation := mutations.BoostActionPriority(target)
-					transaction := game.MakeTransaction(mutation, context)
-					transactions = append(transactions, transaction)
-				}
-
-				return transactions
-			},
+			return transactions.Build()
 		},
-	}
+	)
+
+	action.TargetPredicate = game.ComposeAF(game.TeamFilter, game.OtherFilter, game.TargetableFilter)
+	action.ActionMutation.Priority = game.ActionPriorityP5
+	return action
 }
 
 // proxies

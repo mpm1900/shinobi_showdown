@@ -36,7 +36,7 @@ func MakeRest() game.Action {
 				}
 
 				source_ctx := game.MakeContextForActor(source)
-				action_config, _ := game.GetActiveActionConfig(g, config)
+				action_config, _ := game.GetActiveActionConfig(g)
 				heal := game.NewHeal(action_config, 1)
 				sleep := modifiers.ApplySleep(config, g, source, context)
 				transactions = append(transactions, sleep...)

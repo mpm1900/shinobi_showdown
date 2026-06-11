@@ -34,7 +34,7 @@ func MakeTempleOfNirvana() game.Action {
 				transactions := game.NewTransactionBuilder()
 
 				for _, target := range g.GetTargets(context) {
-					transactions.Push(modifiers.ApplySleep(config, g, target, context))
+					transactions.Concat(modifiers.ApplySleep(config, g, target, context))
 				}
 
 				return transactions.Build()

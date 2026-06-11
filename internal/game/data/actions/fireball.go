@@ -27,7 +27,7 @@ func MakeFireball() game.Action {
 		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := game.NewTransactionBuilder()
 			for _, target := range g.GetTargets(context) {
-				transactions.Push(modifiers.ChanceBurn(action_config, g, context, target, chance))
+				transactions.Concat(modifiers.ChanceBurn(action_config, g, context, target, chance))
 			}
 
 			return transactions.Build()

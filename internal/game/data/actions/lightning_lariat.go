@@ -31,7 +31,7 @@ func MakeLightningLariat() game.Action {
 
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions.Push(modifiers.ChanceModifier(action_config, g, context, target, mod, 10))
+				transactions.Concat(modifiers.ChanceModifier(action_config, g, context, target, mod, 10))
 			}
 
 			return transactions.Build()

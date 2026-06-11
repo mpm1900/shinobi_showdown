@@ -28,7 +28,7 @@ func MakeFalseDarkness() game.Action {
 
 			add_mut := mutations.AddModifiers(false, modifiers.AddNature(game.NsLightning, 0))
 			add_tx := game.MakeTransaction(add_mut, context)
-			transactions.PushOne(add_tx)
+			transactions.Push(add_tx)
 
 			return transactions.Build()
 		},

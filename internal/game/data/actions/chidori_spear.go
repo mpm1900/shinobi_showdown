@@ -29,7 +29,7 @@ func MakeChidoriSpear() game.Action {
 
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions.Push(modifiers.ChanceParalysis(action_config, g, context, target, 20))
+				transactions.Concat(modifiers.ChanceParalysis(action_config, g, context, target, 20))
 			}
 
 			return transactions.Build()

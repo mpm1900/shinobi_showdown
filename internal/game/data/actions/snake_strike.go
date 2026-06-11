@@ -32,11 +32,11 @@ func MakeSnakeStrike() game.Action {
 				roll := rand.IntN(3)
 				switch roll {
 				case 0:
-					transactions.Push(modifiers.ChanceParalysis(action_config, g, context, target, 30))
+					transactions.Concat(modifiers.ChanceParalysis(action_config, g, context, target, 30))
 				case 1:
-					transactions.Push(modifiers.ChancePoison(action_config, g, context, target, 30))
+					transactions.Concat(modifiers.ChancePoison(action_config, g, context, target, 30))
 				case 2:
-					transactions.Push(modifiers.ChanceSleep(action_config, g, context, target, 30))
+					transactions.Concat(modifiers.ChanceSleep(action_config, g, context, target, 30))
 				}
 			}
 

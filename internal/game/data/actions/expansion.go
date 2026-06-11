@@ -11,7 +11,7 @@ import (
 var Expansion = MakeExpansion()
 
 func MakeExpansion() game.Action {
-	return makeNoneStatus(
+	return makeNoneAction(
 		uuid.MustParse("94c7641b-c089-4c38-ae4d-56869f3d9ca6"),
 		makeNoTargetStatusConfig(game.ActionConfig{
 			Name:        "Expansion",
@@ -24,7 +24,7 @@ func MakeExpansion() game.Action {
 
 			mutation := mutations.AddModifiers(false, modifiers.AttackUpSource, modifiers.ChakraAttackUpSource)
 			transaction := game.MakeTransaction(mutation, context)
-			transactions.PushOne(transaction)
+			transactions.Push(transaction)
 
 			return transactions.Build()
 		},

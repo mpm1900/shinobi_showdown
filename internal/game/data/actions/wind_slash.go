@@ -29,7 +29,7 @@ func MakeWindSlash() game.Action {
 			transactions := game.NewTransactionBuilder()
 			targets := g.GetTargets(context)
 			for _, target := range targets {
-				transactions.Push(modifiers.ChanceModifier(action_config, g, context, target, modifiers.Stunned, 20))
+				transactions.Concat(modifiers.ChanceModifier(action_config, g, context, target, modifiers.Stunned, 20))
 			}
 
 			return transactions.Build()

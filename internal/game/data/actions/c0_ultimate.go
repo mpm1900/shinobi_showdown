@@ -39,7 +39,7 @@ func MakeC0UltimateArt() game.Action {
 
 			self_dmg := mutations.KillSource()
 			self_dmg_ctx := game.MakeContextForActor(source)
-			transactions.PushOne(game.MakeTransaction(self_dmg, self_dmg_ctx))
+			transactions.Push(game.MakeTransaction(self_dmg, self_dmg_ctx))
 
 			return transactions.Build()
 		},

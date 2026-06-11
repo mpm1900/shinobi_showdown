@@ -51,7 +51,7 @@ var END_OF_TURN_TRIGGER Trigger = Trigger{
 				},
 			}
 
-			transactions.PushOne(MakeTransaction(mut, context))
+			transactions.Push(MakeTransaction(mut, context))
 
 			return transactions.Build()
 		},

@@ -11,7 +11,7 @@ import (
 var DragonStance = MakeDragonStance()
 
 func MakeDragonStance() game.Action {
-	return makeNoneStatus(
+	return makeNoneAction(
 		uuid.MustParse("435490c1-ede2-5875-9edf-1c36d4917741"),
 		makeNoTargetStatusConfig(game.ActionConfig{
 			Name:        "Dragon Stance",
@@ -24,7 +24,7 @@ func MakeDragonStance() game.Action {
 
 			mutation := mutations.AddModifiers(false, modifiers.AttackUpSource, modifiers.SpeedUpSource)
 			transaction := game.MakeTransaction(mutation, context)
-			transactions.PushOne(transaction)
+			transactions.Push(transaction)
 
 			return transactions.Build()
 		},

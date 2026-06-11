@@ -44,7 +44,7 @@ func MakeEarthquake() game.Action {
 				return transactions.Build()
 			}
 
-			transactions.Push(modifiers.ApplyTerrain(g, context, game.GameTerrainRocky, modifiers.RockyTerrain()))
+			transactions.Concat(modifiers.ApplyTerrain(g, context, game.GameTerrainRocky, modifiers.RockyTerrain()))
 
 			done = true
 			return transactions.Build()

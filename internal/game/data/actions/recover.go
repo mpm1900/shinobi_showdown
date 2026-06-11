@@ -30,7 +30,7 @@ func MakeRecover() game.Action {
 			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
 				transactions := []game.GameTransaction{}
 
-				action_config, _ := game.GetActiveActionConfig(g, config)
+				action_config, _ := game.GetActiveActionConfig(g)
 				heal := game.NewHeal(action_config, 0.5)
 				transactions = append(
 					transactions,

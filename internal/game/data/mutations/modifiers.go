@@ -8,7 +8,7 @@ import (
 )
 
 func CheckGameJutsuImmunity(g *game.Game, source game.Actor) bool {
-	config, ok := game.GetActiveActionConfig(*g, game.ActionConfig{})
+	config, ok := game.GetActiveActionConfig(*g)
 	if ok {
 		if CheckJutsuImmunity(config, source) {
 			log_ctx := game.MakeContextForActor(source)

@@ -137,7 +137,7 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 	cost := action.Cost
 	if cost.Delta != nil {
 		costTx := MakeTransaction(cost, transaction.Context)
-		transactions.PushOne(costTx)
+		transactions.Push(costTx)
 	}
 
 	context.ActionID = &action.ID
@@ -159,13 +159,13 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 			log = NewLogContext(*action.Config.LogSuccess, context)
 		}
 
-		transactions.PushOne(MakeTransaction(AddLogs(log), context))
-		transactions.PushOne(MakeTransaction(AddLogs(logFail), context))
+		transactions.Push(MakeTransaction(AddLogs(log), context))
+		transactions.Push(MakeTransaction(AddLogs(logFail), context))
 		return transactions.Build()
 	}
 
 	if hasSource {
-		transactions.PushOne(MakeTransaction(AddLogs(log), context))
+		transactions.Push(MakeTransaction(AddLogs(log), context))
 	}
 	if action.Config.Cooldown != nil && *action.Config.Cooldown > 0 {
 		game.SetActionCooldown(
@@ -186,7 +186,7 @@ func ResolveAction(game *Game, transaction Transaction[Action]) []GameTransactio
 		})
 	}
 
-	transactions.Push(action.Delta(*game, *game, context))
+	transactions.Concat(action.Delta(*game, *game, context))
 	return transactions.Build()
 }
 
@@ -282,9 +282,9 @@ func MakeAccuracyCheck(g Game, action ActionConfig, source ResolvedActor, target
 	}
 }
 
-func GetActiveActionConfig(g Game, fallback ActionConfig) (ActionConfig, bool) {
+func GetActiveActionConfig(g Game) (ActionConfig, bool) {
 	if g.ActiveTransaction == nil {
-		return fallback, false
+		return ActionConfig{}, false
 	}
 
 	return g.ActiveTransaction.Mutation.Config, true

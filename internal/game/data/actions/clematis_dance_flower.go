@@ -34,7 +34,7 @@ func MakeClematisDanceFlower() game.Action {
 
 			mutation := mutations.AddModifiers(false, modifiers.DefenseDownSource, modifiers.ChakraDefenseDownSource)
 			transaction := game.MakeTransaction(mutation, game.MakeContextForActor(source))
-			transactions.PushOne(transaction)
+			transactions.Push(transaction)
 
 			return transactions.Build()
 		},
