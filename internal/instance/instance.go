@@ -209,8 +209,12 @@ resolveStep:
 		case game.TurnCleanup:
 			time.Sleep(i.Game.Tick)
 			i.Game.NextTurn()
-			i.BroadcastGame()
-			break resolveStep
+			if len(i.Game.Actions) == len(i.Game.GetActionableActors()) {
+				i.RunGameActions()
+			} else {
+				i.BroadcastGame()
+				break resolveStep
+			}
 
 		default:
 			i.Game.NextPhase()
