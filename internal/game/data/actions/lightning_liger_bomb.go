@@ -2,7 +2,6 @@ package actions
 
 import (
 	"shinobi_showdown/internal/game"
-	"shinobi_showdown/internal/game/data/modifiers"
 
 	"github.com/google/uuid"
 )
@@ -21,35 +20,19 @@ func MakeLightningLigerBomb() game.Action {
 		Jutsu:       game.Ninjutsu,
 	})
 
-	return game.Action{
-		ID:              uuid.MustParse("4b45490f-b1b9-4c76-b15f-0e8d1e5019cd"),
-		Config:          config,
-		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
-		Cost:            modifiers.UseStaminaCost(*config.Cost),
-		ActionMutation: game.ActionMutation{
-			Priority: game.ActionPriorityDefault,
-			Filter: game.ComposeGF(
-				game.SourceIsAlive,
-				game.SourceIsActionOffCooldown,
-			),
-			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := game.NewTransactionBuilder()
+	return makeAttack(AttackConfig{
+		ID:     uuid.MustParse("4b45490f-b1b9-4c76-b15f-0e8d1e5019cd"),
+		Config: config,
+		MapConfig: func(g game.Game, context game.Context, action_config game.ActionConfig) game.ActionConfig {
+			ratio := 1.0
+			state, _ := g.GetState(context)
+			if state.Terrain == game.GameTerrainElectrified {
+				ratio = 2.0
+			}
 
-				ratio := 1.0
-				state, _ := g.GetState(context)
-				if state.Terrain == game.GameTerrainElectrified {
-					ratio = 2.0
-				}
-
-				action_config, _ := game.GetActiveActionConfig(g, config)
-				power := game.Round(float64(*action_config.Power) * ratio)
-				action_config.Power = game.Ptr(power)
-				damage_config := game.NewDamageConfig(game.RandomDamageFactor())
-				transactions.Push(game.ResolveDamageCore(action_config, damage_config, g, context))
-
-				return transactions.Build()
-			},
+			power := game.Round(float64(*action_config.Power) * ratio)
+			action_config.Power = &power
+			return action_config
 		},
-	}
+	})
 }
