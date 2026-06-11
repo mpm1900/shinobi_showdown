@@ -156,8 +156,32 @@ func makeSelfStatus(
 		ContextValidate: game.TargetLengthFilter(0),
 		ActionMutation: game.ActionMutation{
 			Priority: game.ActionPriorityDefault,
-			Filter:   game.SourceIsAlive,
-			Delta:    delta,
+			Filter: game.ComposeGF(
+				game.SourceIsAlive,
+				game.SourceIsActionOffCooldown,
+			),
+			Delta: delta,
+		},
+	}
+}
+
+func makeSingleStatus(
+	id uuid.UUID,
+	config game.ActionConfig,
+	delta func(game.Game, game.Game, game.Context) []game.GameTransaction,
+) game.Action {
+	return game.Action{
+		ID:              id,
+		Config:          config,
+		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
+		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
+		ActionMutation: game.ActionMutation{
+			Priority: game.ActionPriorityDefault,
+			Filter: game.ComposeGF(
+				game.SourceIsAlive,
+				game.SourceIsActionOffCooldown,
+			),
+			Delta: delta,
 		},
 	}
 }

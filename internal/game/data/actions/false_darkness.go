@@ -11,26 +11,26 @@ import (
 var FalseDarkness = MakeFalseDarkness()
 
 func MakeFalseDarkness() game.Action {
-	config := makeAttackConfig(game.ActionConfig{
-		Name:        "False Darkness",
-		Description: "Grants the user Lightning nature until end of turn.",
-		Nature:      game.Ptr(game.NsLightning),
-		Accuracy:    game.Ptr(100),
-		Power:       game.Ptr(95),
-		Stat:        game.Ptr(game.StatChakraAttack),
-		Cost:        game.Ptr(30),
-		Jutsu:       game.Ninjutsu,
-	})
-
 	return makeAttack(AttackConfig{
-		ID:     uuid.MustParse("99338b50-de10-4747-9e41-847677db4ca0"),
-		Config: config,
+		ID: uuid.MustParse("99338b50-de10-4747-9e41-847677db4ca0"),
+		Config: makeAttackConfig(game.ActionConfig{
+			Name:        "False Darkness",
+			Description: "Grants the user Lightning nature until end of turn.",
+			Nature:      game.Ptr(game.NsLightning),
+			Accuracy:    game.Ptr(100),
+			Power:       game.Ptr(95),
+			Stat:        game.Ptr(game.StatChakraAttack),
+			Cost:        game.Ptr(30),
+			Jutsu:       game.Ninjutsu,
+		}),
 		BeforeAttack: func(g game.Game, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
-			var transactions = []game.GameTransaction{}
+			transactions := game.NewTransactionBuilder()
+
 			add_mut := mutations.AddModifiers(false, modifiers.AddNature(game.NsLightning, 0))
 			add_tx := game.MakeTransaction(add_mut, context)
-			transactions = append(transactions, add_tx)
-			return transactions
+			transactions.PushOne(add_tx)
+
+			return transactions.Build()
 		},
 	})
 }

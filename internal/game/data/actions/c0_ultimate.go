@@ -10,20 +10,18 @@ import (
 var C0UltimateArt = MakeC0UltimateArt()
 
 func MakeC0UltimateArt() game.Action {
-	config := makeAttackConfig(game.ActionConfig{
-		Name:        "C0: Ultimate Art",
-		Description: "Hits all other active shinobi. User dies.",
-		Nature:      game.Ptr(game.NsExplosion),
-		Accuracy:    game.Ptr(100),
-		Power:       game.Ptr(250),
-		Stat:        game.Ptr(game.StatChakraAttack),
-		Cost:        game.Ptr(80),
-		Jutsu:       game.Ninjutsu,
-	})
-
 	return makeAttack(AttackConfig{
-		ID:              uuid.MustParse("181d48e6-11d4-45fe-a8a4-09a5fc37c800"),
-		Config:          config,
+		ID: uuid.MustParse("181d48e6-11d4-45fe-a8a4-09a5fc37c800"),
+		Config: makeAttackConfig(game.ActionConfig{
+			Name:        "C0: Ultimate Art",
+			Description: "Hits all other active shinobi. User dies.",
+			Nature:      game.Ptr(game.NsExplosion),
+			Accuracy:    game.Ptr(100),
+			Power:       game.Ptr(250),
+			Stat:        game.Ptr(game.StatChakraAttack),
+			Cost:        game.Ptr(80),
+			Jutsu:       game.Ninjutsu,
+		}),
 		TargetPredicate: game.NoneFilter,
 		MapContext: func(g game.Game, context game.Context) game.Context {
 			other_actors := g.GetActorsFilters(context, game.ComposeAF(game.ActiveFilter, game.OtherFilter))
@@ -33,17 +31,17 @@ func MakeC0UltimateArt() game.Action {
 			return context
 		},
 		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
-			transactions := []game.GameTransaction{}
+			transactions := game.NewTransactionBuilder()
 			source, ok := g.GetSource(context)
 			if !ok {
-				return transactions
+				return transactions.Build()
 			}
 
 			self_dmg := mutations.KillSource()
 			self_dmg_ctx := game.MakeContextForActor(source)
-			transactions = append(transactions, game.MakeTransaction(self_dmg, self_dmg_ctx))
+			transactions.PushOne(game.MakeTransaction(self_dmg, self_dmg_ctx))
 
-			return transactions
+			return transactions.Build()
 		},
 	})
 }
