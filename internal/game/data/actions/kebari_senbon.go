@@ -37,7 +37,7 @@ func MakeKebariSenbon() game.Action {
 
 				action_config, _ := game.GetActiveActionConfig(g, config)
 				damage_config := game.NewDamageConfig(game.RandomDamageFactor())
-				damage_config = MakeRepeats(damage_config, 2, 5, g, context)
+				damage_config = makeRepeats(damage_config, 2, 5, g, context)
 				transactions.Push(game.ResolveDamageCore(action_config, damage_config, g, context))
 
 				return transactions.Build()

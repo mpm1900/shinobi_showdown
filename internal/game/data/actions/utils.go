@@ -144,6 +144,24 @@ func makeAttack(config AttackConfig) game.Action {
 	return action
 }
 
+func makeSelfStatus(
+	id uuid.UUID,
+	config game.ActionConfig,
+	delta func(game.Game, game.Game, game.Context) []game.GameTransaction,
+) game.Action {
+	return game.Action{
+		ID:              id,
+		Config:          config,
+		TargetPredicate: game.NoneFilter,
+		ContextValidate: game.TargetLengthFilter(0),
+		ActionMutation: game.ActionMutation{
+			Priority: game.ActionPriorityDefault,
+			Filter:   game.SourceIsAlive,
+			Delta:    delta,
+		},
+	}
+}
+
 func applySummon(context game.Context, def game.ActorDef, actions []game.Action) []game.GameTransaction {
 	transactions := game.NewTransactionBuilder()
 
@@ -190,7 +208,7 @@ func checkPlayerHasModifier(g game.Game, context game.Context, modifierID uuid.U
 	return false
 }
 
-func MakeRepeats(config game.DamageConfig, min int, max int, g game.Game, context game.Context) game.DamageConfig {
+func makeRepeats(config game.DamageConfig, min int, max int, g game.Game, context game.Context) game.DamageConfig {
 	source, ok := g.GetSource(context)
 	if !ok {
 		return config

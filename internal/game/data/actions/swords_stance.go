@@ -11,31 +11,22 @@ import (
 var SwordsStance = MakeSwordsStance()
 
 func MakeSwordsStance() game.Action {
-	config := makeNoTargetStatusConfig(game.ActionConfig{
-		Name:        "Swords Stance",
-		Nature:      game.Ptr(game.NsTai),
-		Jutsu:       game.Taijutsu,
-		Description: "Raises the user's Physical Attack by 2 stages.",
-	})
+	return makeSelfStatus(
+		uuid.MustParse("cdda818c-edac-4de4-99e8-d0890fcc9214"),
+		makeNoTargetStatusConfig(game.ActionConfig{
+			Name:        "Swords Stance",
+			Nature:      game.Ptr(game.NsTai),
+			Jutsu:       game.Taijutsu,
+			Description: "Raises the user's Physical Attack by 2 stages.",
+		}),
+		func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 
-	return game.Action{
-		ID:              uuid.MustParse("cdda818c-edac-4de4-99e8-d0890fcc9214"),
-		Config:          config,
-		TargetPredicate: game.NoneFilter,
-		ContextValidate: game.TargetLengthFilter(0),
-		ActionMutation: game.ActionMutation{
-			Priority: game.ActionPriorityDefault,
-			Filter:   game.SourceIsAlive,
-			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
+			mutation := mutations.AddModifiers(false, modifiers.AttackUp2Source)
+			transaction := game.MakeTransaction(mutation, context)
+			transactions.PushOne(transaction)
 
-				mod := modifiers.AttackUp2Source
-				mutation := mutations.AddModifiers(false, mod)
-				transaction := game.MakeTransaction(mutation, context)
-				transactions = append(transactions, transaction)
-
-				return transactions
-			},
+			return transactions.Build()
 		},
-	}
+	)
 }
