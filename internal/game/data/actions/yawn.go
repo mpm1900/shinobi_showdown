@@ -52,35 +52,25 @@ var SleepyModifier = game.Modifier{
 var Yawn = MakeYawn()
 
 func MakeYawn() game.Action {
-	config := makeStatusConfig(game.ActionConfig{
-		Name:        "Yawn",
-		Nature:      game.Ptr(game.NsSage),
-		Jutsu:       game.Senjutsu,
-		Description: "Applies sleepy to the target. (Target will fall asleep at the end of the next turn.)",
-	})
+	return makeSingleAction(
+		uuid.MustParse("2ac1ffa2-d197-48fc-a21e-2cca9afe0e19"),
+		makeStatusConfig(game.ActionConfig{
+			Name:        "Yawn",
+			Nature:      game.Ptr(game.NsSage),
+			Jutsu:       game.Senjutsu,
+			Description: "Applies sleepy to the target. (Target will fall asleep at the end of the next turn.)",
+		}),
+		func(p, g game.Game, context game.Context) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 
-	return game.Action{
-		ID:              uuid.MustParse("2ac1ffa2-d197-48fc-a21e-2cca9afe0e19"),
-		Config:          config,
-		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
-		ActionMutation: game.ActionMutation{
-			Priority: game.ActionPriorityDefault,
-			Filter: game.ComposeGF(
-				game.SourceIsAlive,
-			),
-			Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
+			for _, target := range g.GetTargets(context) {
+				mut_ctx := game.MakeContextForActor(target)
+				mut := mutations.AddModifiers(true, SleepyModifier)
+				tx := game.MakeTransaction(mut, mut_ctx)
+				transactions.Push(tx)
+			}
 
-				for _, target := range g.GetTargets(context) {
-					mut_ctx := game.MakeContextForActor(target)
-					mut := mutations.AddModifiers(true, SleepyModifier)
-					tx := game.MakeTransaction(mut, mut_ctx)
-					transactions = append(transactions, tx)
-				}
-
-				return transactions
-			},
+			return transactions.Build()
 		},
-	}
+	)
 }

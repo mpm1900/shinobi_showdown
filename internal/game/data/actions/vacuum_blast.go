@@ -10,22 +10,18 @@ import (
 var VacuumBlast = MakeVacuumBlast()
 
 func MakeVacuumBlast() game.Action {
-	ID := uuid.MustParse("b5048a55-c3f8-4c80-b70f-447b079ab480")
-
-	config := makeSpreadAttackConfig(game.ActionConfig{
-		Name:        "Vacuum Blast",
-		Description: "Hits all enemy shinobi. Clears weather.",
-		Nature:      game.Ptr(game.NsWind),
-		Accuracy:    game.Ptr(100),
-		Power:       game.Ptr(80),
-		Stat:        game.Ptr(game.StatChakraAttack),
-		Cost:        game.Ptr(30),
-		Jutsu:       game.Ninjutsu,
-	})
-
 	return makeAttack(AttackConfig{
-		ID:              ID,
-		Config:          config,
+		ID: uuid.MustParse("b5048a55-c3f8-4c80-b70f-447b079ab480"),
+		Config: makeSpreadAttackConfig(game.ActionConfig{
+			Name:        "Vacuum Blast",
+			Description: "Hits all enemy shinobi. Clears weather.",
+			Nature:      game.Ptr(game.NsWind),
+			Accuracy:    game.Ptr(100),
+			Power:       game.Ptr(80),
+			Stat:        game.Ptr(game.StatChakraAttack),
+			Cost:        game.Ptr(30),
+			Jutsu:       game.Ninjutsu,
+		}),
 		TargetPredicate: game.NoneFilter,
 		MapContext: func(g game.Game, context game.Context) game.Context {
 			other_actors := g.GetActorsFilters(context, game.ComposeAF(game.ActiveFilter, game.OtherTeamFilter))

@@ -11,20 +11,18 @@ import (
 var Firestorm = MakeFirestorm()
 
 func MakeFirestorm() game.Action {
-	config := makeAttackConfig(game.ActionConfig{
-		Name:        "Firestorm",
-		Description: "10% chance to burn target. Lowers user's Chakra attack by 2 stages.",
-		Nature:      game.Ptr(game.NsFire),
-		Accuracy:    game.Ptr(90),
-		Power:       game.Ptr(130),
-		Stat:        game.Ptr(game.StatChakraAttack),
-		Cost:        game.Ptr(100),
-		Jutsu:       game.Ninjutsu,
-	})
-
 	return makeAttack(AttackConfig{
-		ID:     uuid.MustParse("5756b76d-dd39-460c-b5fa-431b80200f3b"),
-		Config: config,
+		ID: uuid.MustParse("5756b76d-dd39-460c-b5fa-431b80200f3b"),
+		Config: makeAttackConfig(game.ActionConfig{
+			Name:        "Firestorm",
+			Description: "10% chance to burn target. Lowers user's Chakra attack by 2 stages.",
+			Nature:      game.Ptr(game.NsFire),
+			Accuracy:    game.Ptr(90),
+			Power:       game.Ptr(130),
+			Stat:        game.Ptr(game.StatChakraAttack),
+			Cost:        game.Ptr(100),
+			Jutsu:       game.Ninjutsu,
+		}),
 		OnSuccess: func(g game.Game, _, context game.Context, action_config game.ActionConfig) []game.GameTransaction {
 			transactions := game.NewTransactionBuilder()
 
