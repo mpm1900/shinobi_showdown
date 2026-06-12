@@ -10,51 +10,41 @@ import (
 var ReaperDeathSeal = MakeReaperDeathSeal()
 
 func MakeReaperDeathSeal() game.Action {
-	config := makeStatusConfig(game.ActionConfig{
-		Name:        "Reaper Death Seal",
-		Description: "Bonds user and target. When either bonded shinobi dies, both die.",
-		Nature:      game.Ptr(game.NsYin),
-		Jutsu:       game.Fuinjutsu,
-	})
+	return makeSingleAction(
+		uuid.MustParse("0cf47657-82bf-4a82-b933-cd7a762e0327"),
+		makeStatusConfig(game.ActionConfig{
+			Name:        "Reaper Death Seal",
+			Description: "Bonds user and target. When either bonded shinobi dies, both die.",
+			Nature:      game.Ptr(game.NsYin),
+			Jutsu:       game.Fuinjutsu,
+		}),
+		func(p, g game.Game, context game.Context) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 
-	return game.Action{
-		ID:              uuid.MustParse("0cf47657-82bf-4a82-b933-cd7a762e0327"),
-		Config:          config,
-		TargetPredicate: game.ComposeAF(game.OtherFilter, game.TargetableFilter),
-		ContextValidate: game.PositionsLengthFilter(*config.TargetCount),
-		ActionMutation: game.ActionMutation{
-			Priority: game.ActionPriorityDefault,
-			Filter: game.ComposeGF(
-				game.SourceIsAlive,
-			),
-			Delta: func(p, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
+			source, ok := g.GetSource(context)
+			if !ok {
+				return transactions.Build()
+			}
 
-				source, ok := g.GetSource(context)
-				if !ok {
-					return transactions
-				}
+			for _, target := range g.GetTargets(context) {
+				source_ctx := game.MakeContextForActor(source)
+				source_ctx.TargetActorIDs = []uuid.UUID{target.ID}
+				source_ctx.ModifierID = &SourceBonded.ID
+				source_mut := mutations.AddModifiers(false, SourceBonded)
+				source_tx := game.MakeTransaction(source_mut, source_ctx)
 
-				for _, target := range g.GetTargets(context) {
-					source_ctx := game.MakeContextForActor(source)
-					source_ctx.TargetActorIDs = []uuid.UUID{target.ID}
-					source_ctx.ModifierID = &SourceBonded.ID
-					source_mut := mutations.AddModifiers(false, SourceBonded)
-					source_tx := game.MakeTransaction(source_mut, source_ctx)
-					transactions = append(transactions, source_tx)
+				target_ctx := game.MakeContextForActor(target)
+				target_ctx.TargetActorIDs = []uuid.UUID{source.ID}
+				target_ctx.ModifierID = &targetBondedID
+				target_mut := mutations.AddModifiers(true, TargetBonded)
+				target_tx := game.MakeTransaction(target_mut, target_ctx)
 
-					target_ctx := game.MakeContextForActor(target)
-					target_ctx.TargetActorIDs = []uuid.UUID{source.ID}
-					target_ctx.ModifierID = &targetBondedID
-					target_mut := mutations.AddModifiers(true, TargetBonded)
-					target_tx := game.MakeTransaction(target_mut, target_ctx)
-					transactions = append(transactions, target_tx)
-				}
+				transactions.Push(source_tx, target_tx)
+			}
 
-				return transactions
-			},
+			return transactions.Build()
 		},
-	}
+	)
 }
 
 var sourceBondedID = uuid.New()

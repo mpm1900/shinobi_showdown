@@ -10,38 +10,30 @@ import (
 var Redirect = MakeRedirect()
 
 func MakeRedirect() game.Action {
-	config := makeNoTargetStatusConfig(game.ActionConfig{
-		Name:        "Redirect",
-		Nature:      game.Ptr(game.NsYin),
-		Jutsu:       game.Genjutsu,
-		Description: "Changes the target of single-target enemy actions.",
-	})
+	action := makeNoneAction(
+		uuid.MustParse("3d0b6e04-f5f0-50db-9eb6-4aede4c11701"),
+		makeNoTargetStatusConfig(game.ActionConfig{
+			Name:        "Redirect",
+			Nature:      game.Ptr(game.NsYin),
+			Jutsu:       game.Genjutsu,
+			Description: "Changes the target of single-target enemy actions.",
+		}),
+		func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 
-	return game.Action{
-		ID:              uuid.MustParse("3d0b6e04-f5f0-50db-9eb6-4aede4c11701"),
-		Config:          config,
-		TargetPredicate: game.NoneFilter,
-		ContextValidate: game.TargetLengthFilter(0),
-		ActionMutation: game.ActionMutation{
-			Priority: game.ActionPriorityP2,
-			Filter: game.ComposeGF(
-				game.SourceIsAlive,
-				game.SourceIsActionOffCooldown,
-			),
-			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
+			source, ok := g.GetSource(context)
+			if !ok {
+				return transactions.Build()
+			}
 
-				source, ok := g.GetSource(context)
-				if !ok {
-					return transactions
-				}
+			mutation := mutations.RedirectSingleTargetEnemyActions(source)
+			transaction := game.MakeTransaction(mutation, context)
+			transactions.Push(transaction)
 
-				mutation := mutations.RedirectSingleTargetEnemyActions(source)
-				transaction := game.MakeTransaction(mutation, context)
-				transactions = append(transactions, transaction)
-
-				return transactions
-			},
+			return transactions.Build()
 		},
-	}
+	)
+
+	action.Priority = game.ActionPriorityP2
+	return action
 }

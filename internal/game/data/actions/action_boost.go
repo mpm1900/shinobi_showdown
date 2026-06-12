@@ -35,7 +35,7 @@ func MakeActionBoost() game.Action {
 	)
 
 	action.TargetPredicate = game.ComposeAF(game.TeamFilter, game.OtherFilter, game.TargetableFilter)
-	action.ActionMutation.Priority = game.ActionPriorityP5
+	// action.ActionMutation.Priority = game.ActionPriorityP5
 	return action
 }
 

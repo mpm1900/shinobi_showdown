@@ -11,36 +11,28 @@ import (
 var Substitution = MakeSubstitution()
 
 func MakeSubstitution() game.Action {
-	config := makeNoTargetStatusConfig(game.ActionConfig{
-		Name:        "Substitution",
-		Nature:      game.Ptr(game.NsYin),
-		Jutsu:       game.Ninjutsu,
-		Description: "Protects the user from actions this turn. +4 priority, 1 turn cooldown.",
-	})
-	config.Cooldown = game.Ptr(1)
+	action := makeNoneAction(
+		uuid.MustParse("d3765608-4b30-5c4c-b5a9-f4132f0bbb7c"),
+		makeNoTargetStatusConfig(game.ActionConfig{
+			Name:        "Substitution",
+			Nature:      game.Ptr(game.NsYin),
+			Jutsu:       game.Ninjutsu,
+			Description: "Protects the user from actions this turn. +4 priority, 1 turn cooldown.",
+			Cooldown:    game.Ptr(1),
+		}),
+		func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
+			transactions := game.NewTransactionBuilder()
 
-	return game.Action{
-		ID:              uuid.MustParse("d3765608-4b30-5c4c-b5a9-f4132f0bbb7c"),
-		Config:          config,
-		TargetPredicate: game.NoneFilter,
-		ContextValidate: game.TargetLengthFilter(0),
-		ActionMutation: game.ActionMutation{
-			Priority: game.ActionPriorityProtect,
-			Filter: game.ComposeGF(
-				game.SourceIsAlive,
-				game.SourceIsActionOffCooldown,
-			),
-			Delta: func(p game.Game, g game.Game, context game.Context) []game.GameTransaction {
-				transactions := []game.GameTransaction{}
+			mutation := mutations.AddModifiers(false, modifiers.Protected)
+			transaction := game.MakeTransaction(mutation, context)
+			transactions.Push(transaction)
 
-				mutation := mutations.AddModifiers(false, modifiers.Protected)
-				transaction := game.MakeTransaction(mutation, context)
-				transactions = append(transactions, transaction)
-
-				return transactions
-			},
+			return transactions.Build()
 		},
-	}
+	)
+
+	action.Priority = game.ActionPriorityProtect
+	return action
 }
 
 // proxies
