@@ -8,9 +8,9 @@ import (
 	"github.com/google/uuid"
 )
 
-func findAction(instance *Instance, request Request) (game.Action, bool) {
+func findAction(g *game.Game, request Request) (game.Action, bool) {
 	if request.PromptID != nil {
-		tx, ok := instance.Game.GetPromptTxByID(*request.PromptID)
+		tx, ok := g.GetPromptTxByID(*request.PromptID)
 		if ok {
 			return tx.Mutation, true
 		}
@@ -21,12 +21,12 @@ func findAction(instance *Instance, request Request) (game.Action, bool) {
 		return game.Action{}, false
 	}
 
-	actor, ok := instance.Game.GetSource(request.Context)
+	actor, ok := g.GetSource(request.Context)
 	if !ok {
 		return game.Action{}, false
 	}
 
-	action, ok := actor.GetActionByID(instance.Game, *request.Context.ActionID)
+	action, ok := actor.GetActionByID(*g, *request.Context.ActionID)
 	if !ok {
 		action, ok = data.ACTIONS[*request.Context.ActionID]
 	}
@@ -35,7 +35,7 @@ func findAction(instance *Instance, request Request) (game.Action, bool) {
 }
 
 func getTargets(instance *Instance, request Request) int {
-	action, ok := findAction(instance, request)
+	action, ok := findAction(&instance.Game, request)
 	if !ok {
 		instance.TargetIDsResponse(request.ClientID, request.Context, nil)
 		return none
@@ -53,7 +53,7 @@ func getTargets(instance *Instance, request Request) int {
 }
 
 func validateContext(instance *Instance, request Request) int {
-	action, ok := findAction(instance, request)
+	action, ok := findAction(&instance.Game, request)
 	if !ok {
 		instance.ValidateContextResponse(request.ClientID, request.Context, false)
 		return none
@@ -180,7 +180,23 @@ func resolvePrompt(instance *Instance, request Request) int {
 	}
 
 	return state
+}
+func runGameActions(instance *Instance) int {
+	if instance.Game.Status == game.GameStatusRunning {
+		return none
+	}
 
+	instance.RunGameActions()
+	return state
+}
+func sendChat(instance *Instance, request Request) int {
+	if request.ChatMessage == nil {
+		return none
+	}
+
+	request.ChatMessage.ID = uuid.New()
+	instance.BroadcastChatMessage(*request.ChatMessage)
+	return none
 }
 
 func Reducer(instance *Instance, request Request) int {
@@ -207,22 +223,9 @@ func Reducer(instance *Instance, request Request) int {
 	case ResolvePrompt:
 		return resolvePrompt(instance, request)
 	case RunGameActions:
-		if instance.Game.Status == game.GameStatusRunning {
-			return none
-		}
-
-		instance.RunGameActions()
-		return state
-
+		return runGameActions(instance)
 	case SendChat:
-		if request.ChatMessage == nil {
-			return none
-		}
-
-		request.ChatMessage.ID = uuid.New()
-		instance.BroadcastChatMessage(*request.ChatMessage)
-		return none
-
+		return sendChat(instance, request)
 	default:
 		return none
 	}
