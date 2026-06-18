@@ -85,7 +85,9 @@ func (g *Game) Validate() bool {
 
 	for _, player := range g.Players {
 		cleanPlayer(g, player)
-		valid = valid && validatePlayer(g, player)
+		if !validatePlayer(g, player) {
+			valid = false
+		}
 	}
 
 	return valid
